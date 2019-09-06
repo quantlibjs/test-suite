@@ -1,5 +1,6 @@
 import { ActualActual, blackFormulaImpliedStdDev1, CompositeQuote, DerivedQuote, Euribor, FlatForward, ForwardValueQuote, Handle, ImpliedStdDevQuote, Option, Period, RelinkableHandle, Settings, SimpleQuote, TARGET, TimeUnit } from '/ql.mjs';
 import { Flag } from '/test-suite/utilities.mjs';
+
 function add10(x) {
     return x + 10;
 }
@@ -18,6 +19,7 @@ function mul(x, y) {
 function sub(x, y) {
     return x - y;
 }
+
 describe('Quote tests', () => {
     it('Testing observability of quotes...', () => {
         const me = new SimpleQuote(0.0);
@@ -105,4 +107,3 @@ describe('Quote tests', () => {
         expect(f.isUp).toBeTruthy();
     });
 });
-//# sourceMappingURL=quotes.js.map

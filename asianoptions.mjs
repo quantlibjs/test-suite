@@ -1,6 +1,8 @@
 import '/test-suite/quantlibtestsuite.mjs';
-import { Actual360, AnalyticContinuousGeometricAveragePriceAsianEngine, AnalyticDiscreteGeometricAveragePriceAsianEngine, AnalyticDiscreteGeometricAverageStrikeAsianEngine, Average, BlackScholesMertonProcess, Comparison, ContinuousArithmeticAsianLevyEngine, ContinuousArithmeticAsianVecerEngine, ContinuousAveragingAsianOption, DateExt, DiscreteAveragingAsianOption, EuropeanExercise, FdBlackScholesAsianEngine, Handle, LowDiscrepancy, MakeMCDiscreteArithmeticAPEngine, MakeMCDiscreteArithmeticASEngine, MakeMCDiscreteGeometricAPEngine, Option, PlainVanillaPayoff, QL_NULL_INTEGER, QL_NULL_REAL, SavedSettings, Settings, SimpleQuote, TimeUnit, first } from '/ql.mjs';
+import { Actual360, AnalyticContinuousGeometricAveragePriceAsianEngine, AnalyticDiscreteGeometricAveragePriceAsianEngine, AnalyticDiscreteGeometricAverageStrikeAsianEngine, Average, BlackScholesMertonProcess, Comparison, ContinuousArithmeticAsianLevyEngine, ContinuousArithmeticAsianVecerEngine, ContinuousAveragingAsianOption, DateExt, DiscreteAveragingAsianOption, EuropeanExercise, FdBlackScholesAsianEngine, Handle, LowDiscrepancy, MakeMCDiscreteArithmeticAPEngine, MakeMCDiscreteArithmeticASEngine, MakeMCDiscreteGeometricAPEngine, Option, PlainVanillaPayoff, QL_NULL_INTEGER, QL_NULL_REAL, SavedSettings, Settings, SimpleQuote, TimeUnit } from '/ql.mjs';
 import { flatRate1, flatRate2, flatRate3, flatVol1, flatVol2, flatVol3, relativeError } from '/test-suite/utilities.mjs';
+
+const first = 0;
 
 class DiscreteAverageData {
     constructor(type, underlying, strike, dividendYield, riskFreeRate, first, length, fixings, volatility, controlVariate, result) {
@@ -17,6 +19,7 @@ class DiscreteAverageData {
         this.result = result;
     }
 }
+
 class ContinuousAverageData {
     constructor(type, spot, currentAverage, strike, dividendYield, riskFreeRate, volatility, length, elapsed, result) {
         this.type = type;
@@ -31,6 +34,7 @@ class ContinuousAverageData {
         this.result = result;
     }
 }
+
 class VecerData {
     constructor(spot, riskFreeRate, volatility, strike, length, result, tolerance) {
         this.spot = spot;
@@ -42,6 +46,7 @@ class VecerData {
         this.tolerance = tolerance;
     }
 }
+
 describe('Asian option tests', () => {
     it('Testing analytic continuous geometric average-price Asians...', () => {
         const dc = new Actual360();

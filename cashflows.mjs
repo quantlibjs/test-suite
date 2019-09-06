@@ -1,13 +1,16 @@
 import '/test-suite/quantlibtestsuite.mjs';
 import { Actual360, Actual365Fixed, ActualActual, BlackIborCouponPricer, BusinessDayConvention, CashFlows, Compounding, ConstantOptionletVolatility, DateExt, FixedRateLeg, FloatingRateCoupon, Frequency, Handle, IborLeg, InterestRate, MakeSchedule, NullCalendar, Period, SavedSettings, Schedule, Settings, SimpleCashFlow, TARGET, TimeUnit, USDLibor } from '/ql.mjs';
 import { flatRate2 } from '/test-suite/utilities.mjs';
+
 function CHECK_INCLUSION(leg, n, today, days, expected) {
     expect(!leg[n].hasOccurred(DateExt.add(today, days))).toEqual(expected);
 }
+
 function CHECK_NPV(leg, r, includeRef, today, expected) {
     const NPV = CashFlows.npv2(leg, r, includeRef, today);
     expect(Math.abs(NPV - expected)).toBeLessThan(1e-6);
 }
+
 describe('Cash flows tests', () => {
     it('Testing cash-flow settings...', () => {
         const backup = new SavedSettings();

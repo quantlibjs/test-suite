@@ -1,4 +1,5 @@
 import { BusinessDayConvention, Calendar, DateExt, DateGeneration, Frequency, Japan, MakeSchedule, Period, Schedule, TARGET, TimeUnit, UnitedStates, WeekendsOnly } from '/ql.mjs';
+
 function check_dates(s, expected) {
     if (s.size() !== expected.length) {
         throw new Error(`expected ${expected.length} dates, found ${s.size()}`);
@@ -7,6 +8,7 @@ function check_dates(s, expected) {
         expect(s.date(i).valueOf()).toEqual(expected[i].valueOf());
     }
 }
+
 describe('Schedule tests', () => {
     it('Testing schedule with daily frequency...', () => {
         const startDate = new Date('17-January-2012');
@@ -218,4 +220,3 @@ describe('Schedule tests', () => {
         }
     });
 });
-//# sourceMappingURL=schedule.js.map

@@ -1,4 +1,5 @@
 import { Cubic, DateExt, ForwardRate, ForwardRateAgreement, FraRateHelper, Handle, Period, PiecewiseYieldCurve, Position, RelinkableHandle, Settings, SimpleQuote, TimeUnit, USDLibor } from '/ql.mjs';
+
 describe('forward rate agreement', () => {
     it('Testing forward rate agreement construction...', () => {
         const spotDate = Settings.evaluationDate.f();
@@ -21,4 +22,3 @@ describe('forward rate agreement', () => {
         expect(Math.abs(rate - 0.0100006)).toBeLessThan(1e-6);
     });
 });
-//# sourceMappingURL=forwardrateagreement.js.map

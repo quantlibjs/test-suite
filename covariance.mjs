@@ -1,4 +1,5 @@
 import { Array1D, Array2D, CovarianceDecomposition, getCovariance, pseudoSqrt, rankReducedSqrt, SalvagingAlgorithm, SequenceStatistics } from '/ql.mjs';
+
 function norm(m) {
     let sum = 0.0;
     for (let i = 0; i < Array2D.rows(m); i++) {
@@ -8,6 +9,7 @@ function norm(m) {
     }
     return Math.sqrt(sum);
 }
+
 describe('Covariance and correlation tests', () => {
     it('Testing matrix rank reduction salvaging algorithms...', () => {
         let expected, calculated;

@@ -1,5 +1,6 @@
 import { Actual360, Actual365Fixed, AnalyticEuropeanEngine, AssetOrNothingPayoff, blackFormulaCashItmProbability1, BlackIborCouponPricer, BlackScholesMertonProcess, BusinessDayConvention, CashOrNothingPayoff, ConstantOptionletVolatility, CumulativeNormalDistribution, DigitalCoupon, DigitalReplication, Euribor6M, EuropeanExercise, Handle, IborCoupon, Option, Period, Position, QL_NULL_REAL, RelinkableHandle, Replication, Settings, SimpleQuote, TimeUnit, VanillaOption } from '/ql.mjs';
 import { flatRate1, flatRate2, flatVol2 } from '/test-suite/utilities.mjs';
+
 class CommonVars {
     constructor() {
         this.termStructure = new RelinkableHandle();
@@ -16,6 +17,7 @@ class CommonVars {
         this.blackTolerance = 1e-10;
     }
 }
+
 describe('Digital coupon tests', () => {
     it('Testing European asset-or-nothing digital coupon...', () => {
         const vars = new CommonVars();

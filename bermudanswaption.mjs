@@ -1,5 +1,6 @@
 import { Actual365Fixed, BermudanExercise, BusinessDayConvention, DateExt, DateGeneration, DiscountingSwapEngine, Euribor6M, FdG2SwaptionEngine, FdHullWhiteSwaptionEngine, Frequency, G2, HullWhite, Period, RelinkableHandle, SavedSettings, Schedule, Settings, Swaption, Thirty360, TimeUnit, TreeSwaptionEngine, VanillaSwap } from '/ql.mjs';
 import { flatRate2 } from '/test-suite/utilities.mjs';
+
 class CommonVars {
     constructor() {
         this.termStructure = new RelinkableHandle();

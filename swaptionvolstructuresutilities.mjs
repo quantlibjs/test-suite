@@ -1,6 +1,8 @@
 import { Actual365Fixed, Array2D, BusinessDayConvention, Handle, Period, SimpleQuote, TARGET, TimeUnit } from '/ql.mjs';
+
 class SwaptionTenors {
 }
+
 export class SwaptionMarketConventions {
     setConventions() {
         this.calendar = new TARGET();
@@ -8,6 +10,7 @@ export class SwaptionMarketConventions {
         this.dayCounter = new Actual365Fixed();
     }
 }
+
 export class AtmVolatility {
     constructor() {
         this.tenors = new SwaptionTenors();
@@ -62,6 +65,7 @@ export class AtmVolatility {
         }
     }
 }
+
 export class VolatilityCube {
     constructor() {
         this.tenors = new SwaptionTenors();
@@ -138,4 +142,3 @@ export class VolatilityCube {
         }
     }
 }
-//# sourceMappingURL=swaptionvolstructuresutilities.js.map

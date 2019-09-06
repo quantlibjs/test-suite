@@ -1,39 +1,48 @@
 import { constant, cube, CumulativeNormalDistribution, fourth_power, GaussChebyshev2ndIntegration, GaussChebyshevIntegration, GaussGegenbauerIntegration, GaussHermiteIntegration, GaussHyperbolicIntegration, GaussLaguerreIntegration, GaussLegendreIntegration, identity, M_PI, NormalDistribution, square, TabulatedGaussLegendre } from '/ql.mjs';
+
 const tolerance = 1.0e-4;
+
 function testSingle(I, tag, f, expected) {
     const calculated = I.f(f);
     expect(Math.abs(calculated - expected)).toBeLessThan(tolerance);
 }
+
 const inv_exp = {
     f: (x) => {
         return Math.exp(-x);
     }
 };
+
 const x_inv_exp = {
     f: (x) => {
         return x * Math.exp(-x);
     }
 };
+
 const x_normaldistribution = {
     f: (x) => {
         return x * (new NormalDistribution().f(x));
     }
 };
+
 const x_x_normaldistribution = {
     f: (x) => {
         return x * x * (new NormalDistribution().f(x));
     }
 };
+
 const inv_cosh = {
     f: (x) => {
         return 1 / Math.cosh(x);
     }
 };
+
 const x_inv_cosh = {
     f: (x) => {
         return x / Math.cosh(x);
     }
 };
+
 function testSingleJacobi(I) {
     testSingle(I, 'f(x) = 1', new constant(1.0), 2.0);
     testSingle(I, 'f(x) = x', new identity(), 0.0);
@@ -43,11 +52,13 @@ function testSingleJacobi(I) {
     testSingle(I, 'f(x) = Gaussian(x)', new NormalDistribution(), new CumulativeNormalDistribution().f(1.0) -
         new CumulativeNormalDistribution().f(-1.0));
 }
+
 function testSingleLaguerre(I) {
     testSingle(I, 'f(x) = exp(-x)', inv_exp, 1.0);
     testSingle(I, 'f(x) = x*exp(-x)', x_inv_exp, 1.0);
     testSingle(I, 'f(x) = Gaussian(x)', new NormalDistribution(), 0.5);
 }
+
 function testSingleTabulated(f, tag, expected, tolerance) {
     const order = [6, 7, 12, 20];
     const quad = new TabulatedGaussLegendre();
@@ -57,6 +68,7 @@ function testSingleTabulated(f, tag, expected, tolerance) {
         expect(Math.abs(realised - expected)).toBeLessThan(tolerance);
     }
 }
+
 describe('Gaussian quadratures tests', () => {
     it('Testing Gauss-Jacobi integration...', () => {
         testSingleJacobi(new GaussLegendreIntegration(16));
@@ -87,10 +99,10 @@ describe('Gaussian quadratures tests', () => {
         testSingleTabulated(new fourth_power(), 'f(x) = x^4', (2.0 / 5.0), 1.0e-13);
     });
 });
+
 describe('Gaussian quadratures experimental tests', () => {
     it('Testing Gauss non-central chi-squared integration...', () => {
     });
     it('Testing Gauss non-central chi-squared sum of notes...', () => {
     });
 });
-//# sourceMappingURL=gaussianquadratures.js.map

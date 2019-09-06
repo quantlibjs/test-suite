@@ -1,5 +1,6 @@
 import { Actual360, BlackScholesMertonProcess, GeometricBrownianMotionProcess, Handle, MultiPathGenerator, OrnsteinUhlenbeckProcess, PathGenerator, PseudoRandom, SavedSettings, Settings, SimpleQuote, SquareRootProcess, StochasticProcessArray, TimeGrid } from '/ql.mjs';
 import { flatRate4, flatVol4 } from '/test-suite/utilities.mjs';
+
 function testSingle(process, tag, brownianBridge, expected, antithetic) {
     const seed = 42;
     const length = 10;
@@ -21,6 +22,7 @@ function testSingle(process, tag, brownianBridge, expected, antithetic) {
     tolerance = 2.0e-7;
     expect(error).toBeLessThanOrEqual(tolerance);
 }
+
 function testMultiple(process, tag, expected, antithetic) {
     const seed = 42;
     const length = 10;
@@ -52,6 +54,7 @@ function testMultiple(process, tag, expected, antithetic) {
         expect(error).toBeLessThanOrEqual(tolerance);
     }
 }
+
 describe('Path generation tests', () => {
     it('Testing 1-D path generation against cached values...', () => {
         const backup = new SavedSettings();
@@ -94,4 +97,3 @@ describe('Path generation tests', () => {
         backup.dispose();
     });
 });
-//# sourceMappingURL=pathgenerator.js.map

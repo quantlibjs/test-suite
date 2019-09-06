@@ -1,9 +1,11 @@
 import { BoundedGrid, TransformedGrid } from '/ql.mjs';
+
 class PlusOne {
     f(x) {
         return x + 1;
     }
 }
+
 describe('transformed grid', () => {
     it('Testing transformed grid construction...', () => {
         const p1 = new PlusOne();
@@ -13,4 +15,3 @@ describe('transformed grid', () => {
         expect(Math.abs(tg.transformedGrid(0) - 1.0)).toBeLessThan(1e-5);
     });
 });
-//# sourceMappingURL=transformedgrid.js.map

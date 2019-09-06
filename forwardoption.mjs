@@ -1,5 +1,8 @@
-import { Actual360, AnalyticEuropeanEngine, BinomialVanillaEngine, BlackScholesMertonProcess, CoxRossRubinstein, DateExt, EuropeanExercise, ForwardPerformanceVanillaEngine, ForwardVanillaEngine, ForwardVanillaOption, Handle, Option, PlainVanillaPayoff, QL_NULL_REAL, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption, first } from '/ql.mjs';
+import { Actual360, AnalyticEuropeanEngine, BinomialVanillaEngine, BlackScholesMertonProcess, CoxRossRubinstein, DateExt, EuropeanExercise, ForwardPerformanceVanillaEngine, ForwardVanillaEngine, ForwardVanillaOption, Handle, Option, PlainVanillaPayoff, QL_NULL_REAL, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption } from '/ql.mjs';
 import { flatRate1, flatRate3, flatVol1, flatVol3, relativeError } from '/test-suite/utilities.mjs';
+
+const first = 0;
+
 class ForwardOptionData {
     constructor(type, moneyness, s, q, r, start, t, v, result, tol) {
         this.type = type;
@@ -14,6 +17,7 @@ class ForwardOptionData {
         this.tol = tol;
     }
 }
+
 function testForwardGreeks(Engine) {
     const calculated = new Map(), expected = new Map(), tolerance = new Map();
     tolerance.set('delta', 1.0e-5);
@@ -127,12 +131,14 @@ function testForwardGreeks(Engine) {
         }
     }
 }
+
 class TestBinomialEngine extends BinomialVanillaEngine {
     constructor(process) {
         super(new CoxRossRubinstein());
         this.bveInit(process, 300);
     }
 }
+
 describe('Forward option tests', () => {
     it('Testing forward option values...', () => {
         const values = [

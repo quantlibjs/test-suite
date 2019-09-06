@@ -1,5 +1,6 @@
-import { inv } from '../../typings/mathjs';
 import { Array1D, Array2D, Factorial, NumericalDifferentiation, QL_EPSILON } from '/ql.mjs';
+import { inv } from '/test-suite/mathjs.mjs';
+
 function isTheSame(a, b) {
     const eps = 500 * QL_EPSILON;
     if (Math.abs(b) < QL_EPSILON) {
@@ -9,14 +10,17 @@ function isTheSame(a, b) {
         return Math.abs((a - b) / b) < eps;
     }
 }
+
 function checkTwoArraysAreTheSame(calculated, expected) {
     const correct = (calculated.length === expected.length) &&
         Array1D.equal(calculated, expected, isTheSame);
     expect(correct).toBeTruthy();
 }
+
 function singleValueTest(comment, calculated, expected, tol) {
     expect(Math.abs(calculated - expected)).toBeLessThan(tol);
 }
+
 function vandermondeCoefficients(order, x, gridPoints) {
     const q = Array1D.subScalar(gridPoints, x);
     const n = gridPoints.length;
@@ -31,6 +35,7 @@ function vandermondeCoefficients(order, x, gridPoints) {
     b[order] = 1.0;
     return Array2D.mulVector(inv(m), b);
 }
+
 describe('NumericalDifferentiation tests', () => {
     it('Testing numerical differentiation using the central scheme...', () => {
         const f = null;
@@ -141,4 +146,3 @@ describe('NumericalDifferentiation tests', () => {
         }
     });
 });
-//# sourceMappingURL=numericaldifferentiation.js.map

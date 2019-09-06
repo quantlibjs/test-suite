@@ -1,4 +1,5 @@
 import { Array1D, Array2D, CreditRiskPlus } from '/ql.mjs';
+
 describe('Credit risk plus tests', () => {
     it('Testing extended credit risk plus model against reference values...', () => {
         const tol = 1E-8;

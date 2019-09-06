@@ -1,4 +1,5 @@
 import { Actual360, Actual365Fixed, ActualActual, Brazil, Business252, BusinessDayConvention, Canada, DateExt, Frequency, MakeSchedule, OneDayCounter, Period, QL_EPSILON, SimpleDayCounter, Thirty360, TimeUnit } from '/ql.mjs';
+
 class SingleCase {
     constructor(convention, start, end, refStart, refEnd, result) {
         this.convention = convention;
@@ -9,6 +10,7 @@ class SingleCase {
         this.result = result;
     }
 }
+
 describe('Day counter tests', () => {
     it('Testing actual/actual day counters...', () => {
         const testCases = [

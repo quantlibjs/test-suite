@@ -1,5 +1,6 @@
 import { Handle, SimpleQuote, Stock } from '/ql.mjs';
 import { Flag } from '/test-suite/utilities.mjs';
+
 describe('LazyObject tests', () => {
     it('Testing that lazy objects discard notifications after the first...', () => {
         const q = new SimpleQuote(0.0);
@@ -17,6 +18,7 @@ describe('LazyObject tests', () => {
         q.setValue(3.0);
         expect(f.isUp()).toEqual(true);
     });
+    
     it('Testing that lazy objects forward all notifications when told...', () => {
         const q = new SimpleQuote(0.0);
         const s = new Stock(new Handle(q));
@@ -31,4 +33,3 @@ describe('LazyObject tests', () => {
         expect(f.isUp()).toEqual(true);
     });
 });
-//# sourceMappingURL=lazyobject.js.map

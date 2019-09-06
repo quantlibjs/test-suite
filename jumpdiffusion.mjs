@@ -1,5 +1,6 @@
 import { Actual360, DateExt, EuropeanExercise, EuropeanOption, Handle, JumpDiffusionEngine, Merton76Process, Option, PlainVanillaPayoff, SimpleQuote } from '/ql.mjs';
 import { flatRate1, flatVol1 } from '/test-suite/utilities.mjs';
+
 class HaugMertonData {
     constructor(type, strike, s, q, r, t, v, jumpIntensity, gamma, result, tol) {
         this.type = type;
@@ -15,6 +16,7 @@ class HaugMertonData {
         this.tol = tol;
     }
 }
+
 describe('Jump-diffusion tests', () => {
     it('Testing Merton 76 jump-diffusion model for European options...', () => {
         const values = [
@@ -195,4 +197,3 @@ describe('Jump-diffusion tests', () => {
         }
     });
 });
-//# sourceMappingURL=jumpdiffusion.js.map

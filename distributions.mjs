@@ -1,16 +1,20 @@
 import { Array1D, BivariateCumulativeNormalDistributionDr78, BivariateCumulativeNormalDistributionWe04DP, BivariateCumulativeStudentDistribution, Comparison, CumulativeNormalDistribution, CumulativePoissonDistribution, InverseCumulativeNormal, InverseCumulativePoisson, M_PI, MaddockInverseCumulativeNormal, NormalDistribution, PoissonDistribution } from '/ql.mjs';
 import { norm } from '/test-suite/utilities.mjs';
+
 const average = 1.0, sigma = 2.0;
+
 function gaussian(x) {
     const normFact = sigma * Math.sqrt(2 * M_PI);
     const dx = x - average;
     return Math.exp(-dx * dx / (2.0 * sigma * sigma)) / normFact;
 }
+
 function gaussianDerivative(x) {
     const normFact = sigma * sigma * sigma * Math.sqrt(2 * M_PI);
     const dx = x - average;
     return -dx * Math.exp(-dx * dx / (2.0 * sigma * sigma)) / normFact;
 }
+
 class BivariateTestData {
     constructor(a, b, rho, result) {
         this.a = a;
@@ -19,6 +23,7 @@ class BivariateTestData {
         this.result = result;
     }
 }
+
 function checkBivariate(tag, dr) {
     const values = [
         new BivariateTestData(0.0, 0.0, 0.0, 0.250000),
@@ -78,6 +83,7 @@ function checkBivariate(tag, dr) {
         expect(Math.abs(value - values[i].result)).toBeLessThan(tolerance);
     }
 }
+
 function checkBivariateAtZero(tag, tolerance, dr) {
     const rho = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.99999];
     const x = 0.0;
@@ -97,6 +103,7 @@ function checkBivariateAtZero(tag, tolerance, dr) {
         }
     }
 }
+
 function checkBivariateTail(tag, tolerance, dr) {
     const x = -6.9;
     let y = 6.9;
@@ -115,6 +122,7 @@ function checkBivariateTail(tag, tolerance, dr) {
         expect(cdf0).toBeLessThanOrEqual(cdf1);
     }
 }
+
 class BivariateStudentTestData {
     constructor(n, rho, x, y, result) {
         this.n = n;
@@ -124,6 +132,7 @@ class BivariateStudentTestData {
         this.result = result;
     }
 }
+
 describe('Distribution tests', () => {
     it('Testing normal distributions...', () => {
         const invCumStandardNormal = new InverseCumulativeNormal();

@@ -1,5 +1,6 @@
 import { Actual360, AmericanExercise, AnalyticDoubleBarrierBinaryEngine, BinomialDoubleBarrierEngine, BlackScholesMertonProcess, CashOrNothingPayoff, CoxRossRubinstein, DateExt, DiscretizedDoubleBarrierOption, DoubleBarrier, DoubleBarrierOption, EuropeanExercise, Handle, Option, SimpleQuote } from '/ql.mjs';
 import { flatRate1, flatVol1 } from '/test-suite/utilities.mjs';
+
 class DoubleBinaryOptionData {
     constructor(barrierType, barrier_lo, barrier_hi, cash, s, q, r, t, v, result, tol) {
         this.barrierType = barrierType;
@@ -15,6 +16,7 @@ class DoubleBinaryOptionData {
         this.tol = tol;
     }
 }
+
 describe('DoubleBinary', () => {
     it('Testing cash-or-nothing double barrier options against Haug\'s values...', () => {
         const values = [
@@ -136,4 +138,3 @@ describe('DoubleBinary', () => {
         }
     });
 });
-//# sourceMappingURL=doublebinaryoption.js.map

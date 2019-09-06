@@ -1,4 +1,5 @@
 import { Comparison, InverseCumulativePoisson, PoissonPseudoRandom, PseudoRandom } from '/ql.mjs';
+
 describe('RNG traits tests', () => {
     it('Testing Gaussian pseudo-random number generation...', () => {
         const rsg = new PseudoRandom().make_sequence_generator(100, 1234);
@@ -34,4 +35,3 @@ describe('RNG traits tests', () => {
         expect(Comparison.close(sum, stored)).toBeTruthy();
     });
 });
-//# sourceMappingURL=rngtraits.js.map

@@ -1,5 +1,6 @@
 import { Actual360, Actual365Fixed, BusinessDayConvention, Comparison, CompositeZeroYieldStructure, Compounding, Currency, DateExt, DepositRateHelper, Discount, FlatForward, ForwardCurve, ForwardSpreadedTermStructure, Frequency, Handle, IborIndex, ImpliedTermStructure, LogLinear, Month, NullCalendar, Period, PiecewiseYieldCurve, RelinkableHandle, SavedSettings, Settings, SimpleQuote, SwapRateHelper, TARGET, Thirty360, TimeUnit, YieldTermStructure, ZeroSpreadedTermStructure } from '/ql.mjs';
 import { Flag } from '/test-suite/utilities.mjs';
+
 class Datum {
     constructor(n, units, rate) {
         this.n = n;
@@ -7,6 +8,7 @@ class Datum {
         this.rate = rate;
     }
 }
+
 class CommonVars {
     constructor() {
         this.backup = new SavedSettings();
@@ -46,6 +48,7 @@ class CommonVars {
         return x - y;
     }
 }
+
 describe('Term structure tests', () => {
     it('Testing term structure against evaluation date change...', () => {
         const vars = new CommonVars();
@@ -280,4 +283,3 @@ describe('Term structure tests', () => {
         backup.dispose();
     });
 });
-//# sourceMappingURL=termstructures.js.map

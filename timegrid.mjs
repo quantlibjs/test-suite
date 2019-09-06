@@ -1,4 +1,5 @@
 import { TimeGrid } from '/ql.mjs';
+
 describe('Timegrid tests', () => {
     it('TimeGrid constructor with additional steps...', () => {
         const test_times = [];
@@ -93,4 +94,3 @@ describe('Timegrid tests', () => {
         }
     });
 });
-//# sourceMappingURL=timegrid.js.map

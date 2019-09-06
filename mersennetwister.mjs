@@ -1,4 +1,5 @@
 import { MersenneTwisterUniformRng } from '/ql.mjs';
+
 describe('Mersenne twister tests', () => {
     it('Testing Mersenne twister...', () => {
         const referenceLongValues = [
@@ -351,4 +352,3 @@ describe('Mersenne twister tests', () => {
         }
     });
 });
-//# sourceMappingURL=mersennetwister.js.map

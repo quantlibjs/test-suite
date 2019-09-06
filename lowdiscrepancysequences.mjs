@@ -1,4 +1,5 @@
 import { DiscrepancyStatistics, FaureRsg, HaltonRsg, LatticeRsg, LatticeRule, MersenneTwisterUniformRng, PPMT_MAX_DIM, PrimitivePolynomials, RandomizedLDS, RandomSequenceGenerator, SeedGenerator, SequenceStatistics, SobolRsg } from '/ql.mjs';
+
 function testRandomizedLatticeRule(name, nameString) {
     const maxDim = 30;
     const N = 1024;
@@ -31,6 +32,7 @@ function testRandomizedLatticeRule(name, nameString) {
         expect(Math.abs(errorInSds[i])).toBeLessThan(tolerance);
     }
 }
+
 const dim002Discr_Sobol = [
     8.33e-004, 4.32e-004, 2.24e-004, 1.12e-004, 5.69e-005, 2.14e-005
 ];
@@ -174,6 +176,7 @@ const dim100Discr__Unit_Sobol = [
 ];
 const dimensionality = [2, 3, 5, 10, 15, 30, 50, 100];
 const discrepancyMeasuresNumber = 1;
+
 class MersenneFactory {
     make(dim, seed) {
         return new RandomSequenceGenerator(new MersenneTwisterUniformRng())
@@ -183,6 +186,7 @@ class MersenneFactory {
         return 'Mersenne Twister';
     }
 }
+
 class SobolFactory {
     constructor(unit) {
         this._unit = unit;
@@ -194,6 +198,7 @@ class SobolFactory {
         return SobolRsg.DirectionIntegers[this._unit];
     }
 }
+
 class HaltonFactory {
     constructor(randomStart, randomShift) {
         this._start = randomStart;
@@ -210,6 +215,7 @@ class HaltonFactory {
         return prefix + 'Halton';
     }
 }
+
 function testGeneratorDiscrepancy(generatorFactory, discrepancy) {
     const tolerance = 1.0e-2;
     let point;
@@ -236,12 +242,14 @@ function testGeneratorDiscrepancy(generatorFactory, discrepancy) {
         }
     }
 }
+
 describe('Low-discrepancy sequence tests', () => {
     it('Testing random-seed generator...', () => {
         expect(SeedGenerator.get()).not.toBeNaN();
         expect(SeedGenerator.get()).not.toBeNull();
         expect(SeedGenerator.get()).not.toBeUndefined();
     });
+
     it(`Testing ${PPMT_MAX_DIM} primitive polynomials modulo two...`, () => {
         const jj = [
             1, 1, 2, 2, 6, 6, 18, 16, 48,
@@ -264,6 +272,7 @@ describe('Low-discrepancy sequence tests', () => {
             ++n;
         }
     });
+
     it('Testing randomized low-discrepancy sequences up to dimension ' +
         `${PPMT_MAX_DIM}...`, () => {
         const rldsg = new RandomizedLDS(new SobolRsg().init(PPMT_MAX_DIM))
@@ -283,12 +292,14 @@ describe('Low-discrepancy sequence tests', () => {
         rldsg3.lastSequence();
         rldsg3.nextRandomizer();
     });
+
     it('Testing randomized lattice sequences...', () => {
         testRandomizedLatticeRule(LatticeRule.type.A, 'A');
         testRandomizedLatticeRule(LatticeRule.type.B, 'B');
         testRandomizedLatticeRule(LatticeRule.type.C, 'C');
         testRandomizedLatticeRule(LatticeRule.type.D, 'D');
     });
+
     it(`Testing Sobol sequences up to dimension ${PPMT_MAX_DIM}...`, () => {
         let point;
         const tolerance = 1.0e-15;
@@ -335,6 +346,7 @@ describe('Low-discrepancy sequence tests', () => {
             expect(error).toBeLessThan(tolerance);
         }
     });
+
     it('Testing Faure sequences...', () => {
         let point;
         const tolerance = 1.0e-15;
@@ -404,6 +416,7 @@ describe('Low-discrepancy sequence tests', () => {
             expect(error).toBeLessThan(tolerance);
         }
     });
+
     it('Testing Halton sequences...', () => {
         let point;
         const tolerance = 1.0e-15;
@@ -503,6 +516,7 @@ describe('Low-discrepancy sequence tests', () => {
             expect(error).toBeLessThan(tolerance);
         }
     });
+
     it('Testing Mersenne-twister discrepancy...', () => {
         const discrepancy = [
             dim002DiscrMersenneTwis, dim003DiscrMersenneTwis, dim005DiscrMersenneTwis,
@@ -511,6 +525,7 @@ describe('Low-discrepancy sequence tests', () => {
         ];
         testGeneratorDiscrepancy(new MersenneFactory(), discrepancy);
     });
+
     it('Testing plain Halton discrepancy...', () => {
         const discrepancy = [
             dim002DiscrPlainHalton, dim003DiscrPlainHalton, dim005DiscrPlainHalton,
@@ -519,6 +534,7 @@ describe('Low-discrepancy sequence tests', () => {
         ];
         testGeneratorDiscrepancy(new HaltonFactory(false, false), discrepancy);
     });
+
     it('Testing random-start Halton discrepancy...', () => {
         const discrepancy = [
             dim002DiscrRStartHalton, dim003DiscrRStartHalton, dim005DiscrRStartHalton,
@@ -527,6 +543,7 @@ describe('Low-discrepancy sequence tests', () => {
         ];
         testGeneratorDiscrepancy(new HaltonFactory(true, false), discrepancy);
     });
+
     it('Testing random-shift Halton discrepancy...', () => {
         const discrepancy = [
             dim002DiscrRShiftHalton, dim003DiscrRShiftHalton, dim005DiscrRShiftHalton,
@@ -535,6 +552,7 @@ describe('Low-discrepancy sequence tests', () => {
         ];
         testGeneratorDiscrepancy(new HaltonFactory(false, true), discrepancy);
     });
+
     it('Testing random-start, random-shift Halton discrepancy...', () => {
         const discrepancy = [
             dim002DiscrRStRShHalton, dim003DiscrRStRShHalton, dim005DiscrRStRShHalton,
@@ -543,6 +561,7 @@ describe('Low-discrepancy sequence tests', () => {
         ];
         testGeneratorDiscrepancy(new HaltonFactory(true, true), discrepancy);
     });
+
     it('Testing Jaeckel-Sobol discrepancy...', () => {
         const discrepancy = [
             dim002Discr_Sobol, dim003Discr_Sobol, dim005Discr_Sobol,
@@ -551,6 +570,7 @@ describe('Low-discrepancy sequence tests', () => {
         ];
         testGeneratorDiscrepancy(new SobolFactory(SobolRsg.DirectionIntegers.Jaeckel), discrepancy);
     });
+
     it('Testing Levitan-Sobol discrepancy...', () => {
         const discrepancy = [
             dim002Discr_Sobol, dim003Discr_Sobol, dim005Discr_Sobol,
@@ -559,6 +579,7 @@ describe('Low-discrepancy sequence tests', () => {
         ];
         testGeneratorDiscrepancy(new SobolFactory(SobolRsg.DirectionIntegers.SobolLevitan), discrepancy);
     });
+
     it('Testing Levitan-Lemieux-Sobol discrepancy...', () => {
         const discrepancy = [
             dim002Discr_Sobol, dim003Discr_Sobol, dim005Discr_Sobol,
@@ -567,6 +588,7 @@ describe('Low-discrepancy sequence tests', () => {
         ];
         testGeneratorDiscrepancy(new SobolFactory(SobolRsg.DirectionIntegers.SobolLevitanLemieux), discrepancy);
     });
+
     it('Testing unit Sobol discrepancy...', () => {
         const discrepancy = [
             dim002Discr__Unit_Sobol, dim003Discr__Unit_Sobol, dim005Discr__Unit_Sobol,
@@ -575,6 +597,7 @@ describe('Low-discrepancy sequence tests', () => {
         ];
         testGeneratorDiscrepancy(new SobolFactory(SobolRsg.DirectionIntegers.Unit), discrepancy);
     });
+
     it('Testing Sobol sequence skipping...', () => {
         const seed = 42;
         const dimensionality = [1, 10, 100, 1000];
@@ -605,4 +628,3 @@ describe('Low-discrepancy sequence tests', () => {
         }
     });
 });
-//# sourceMappingURL=lowdiscrepancysequences.js.map

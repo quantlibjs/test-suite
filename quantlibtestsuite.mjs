@@ -3,4 +3,3 @@ export function configure(evaluationDate = new Date('16-September-2015')) {
     Settings.evaluationDate.set(evaluationDate);
 }
 configure();
-//# sourceMappingURL=quantlibtestsuite.js.map

@@ -1,6 +1,7 @@
 import '/test-suite/quantlibtestsuite.mjs';
 import { Actual360, Actual365Fixed, ActualActual, AnalyticHaganPricer, AssetSwap, BlackIborCouponPricer, Bond, BondFunctions, BusinessDayConvention, CmsLeg, CmsRateBond, Compounding, ConstantSwaptionVolatility, DateGeneration, DiscountingBondEngine, DiscountingSwapEngine, Euribor, FixedRateBond, FixedRateLeg, FloatingRateBond, Frequency, GFunctionFactory, Handle, IborLeg, NullCalendar, Period, RelinkableHandle, SavedSettings, Schedule, setCouponPricer, Settings, SimpleCashFlow, SimpleQuote, SwapIndex, TARGET, Thirty360, TimeUnit, ZeroCouponBond } from '/ql.mjs';
 import { flatRate2, IndexHistoryCleaner } from '/test-suite/utilities.mjs';
+
 class CommonVars {
     constructor() {
         this.termStructure = new RelinkableHandle();

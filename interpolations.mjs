@@ -1,4 +1,5 @@
 import { BackwardFlatInterpolation, CubicInterpolation, EndCriteria, ForwardFlatInterpolation, FritschButlandCubic, LagrangeInterpolation, LevenbergMarquardt, LinearInterpolation, M_PI, QL_EPSILON, QL_NULL_REAL, SABRInterpolation, sabrVolatility, Simplex, SimpsonIntegral } from '/ql.mjs';
+
 function xRange(start, finish, points) {
     const x = new Array(points);
     const dx = (finish - start) / (points - 1);
@@ -8,6 +9,7 @@ function xRange(start, finish, points) {
     x[points - 1] = finish;
     return x;
 }
+
 function gaussian(x) {
     const y = new Array(x.length);
     for (let i = 0; i < x.length; i++) {
@@ -15,6 +17,7 @@ function gaussian(x) {
     }
     return y;
 }
+
 function parabolic(x) {
     const y = new Array(x.length);
     for (let i = 0; i < x.length; i++) {
@@ -22,6 +25,7 @@ function parabolic(x) {
     }
     return y;
 }
+
 function checkValues(cubic, x, xBegin, xEnd, y, yBegin) {
     const tolerance = 2.0e-15;
     for (let i = xBegin; i < xEnd; i++) {
@@ -29,18 +33,21 @@ function checkValues(cubic, x, xBegin, xEnd, y, yBegin) {
         expect(Math.abs(interpolated - y[yBegin + i])).toBeLessThan(tolerance);
     }
 }
+
 function check1stDerivativeValue(cubic, x, value) {
     const tolerance = 1.0e-14;
     const interpolated = cubic.derivative(x);
     const error = Math.abs(interpolated - value);
     expect(error).toBeLessThan(tolerance);
 }
+
 function check2ndDerivativeValue(cubic, x, value) {
     const tolerance = 1.0e-13;
     const interpolated = cubic.secondDerivative(x);
     const error = Math.abs(interpolated - value);
     expect(error).toBeLessThan(tolerance);
 }
+
 function checkNotAKnotCondition(cubic) {
     const tolerance = 1.0e-14;
     const c = cubic.cCoefficients();
@@ -48,6 +55,7 @@ function checkNotAKnotCondition(cubic) {
     const n = c.length;
     expect(Math.abs(c[n - 2] - c[n - 1])).toBeLessThan(tolerance);
 }
+
 function checkSymmetry(cubic, xMin) {
     const tolerance = 1.0e-15;
     for (let x = xMin; x < 0.0; x += 0.1) {
@@ -55,12 +63,15 @@ function checkSymmetry(cubic, xMin) {
         expect(Math.abs(y1 - y2)).toBeLessThan(tolerance);
     }
 }
+
 function sign(y1, y2) {
     return y1 === y2 ? 0 : y1 < y2 ? 1 : -1;
 }
+
 function lagrangeTestFct(x) {
     return Math.abs(x) + 0.5 * x - x * x;
 }
+
 describe('Interpolation tests', () => {
     it('Testing spline approximation on Gaussian data sets...', () => {
         const points = [5, 9, 17, 33];
@@ -645,4 +656,3 @@ describe('Interpolation tests', () => {
     it('Testing B-Splines...', () => {
     });
 });
-//# sourceMappingURL=interpolations.js.map

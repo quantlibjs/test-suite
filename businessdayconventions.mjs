@@ -1,4 +1,5 @@
 import { BusinessDayConvention, Period, SouthAfrica, TimeUnit } from '/ql.mjs';
+
 class SingleCase {
     constructor(calendar, convention, start, period, endOfMonth, result) {
         this.calendar = calendar;
@@ -9,6 +10,7 @@ class SingleCase {
         this.result = result;
     }
 }
+
 describe('Business day convention tests', () => {
     it('Testing business day conventions...', () => {
         const testCases = [

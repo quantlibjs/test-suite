@@ -1,5 +1,6 @@
 import { Actual365Fixed, BusinessDayConvention, DateGeneration, DiscountingSwapEngine, Euribor, Frequency, Period, RelinkableHandle, Schedule, Settings, Thirty360, TimeUnit, VanillaSwap } from '/ql.mjs';
 import { flatRate2 } from '/test-suite/utilities.mjs';
+
 class CommonVars {
     constructor() {
         this.termStructure = new RelinkableHandle();
@@ -27,6 +28,7 @@ class CommonVars {
         return swap;
     }
 }
+
 describe('Swap tests', () => {
     it('Testing vanilla-swap calculation of fair fixed rate...', () => {
         const vars = new CommonVars();
@@ -51,4 +53,3 @@ describe('Swap tests', () => {
     it('Testing vanilla-swap calculation against cached value...', () => {
     });
 });
-//# sourceMappingURL=swap.js.map

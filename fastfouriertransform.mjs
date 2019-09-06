@@ -1,4 +1,6 @@
-import { FastFourierTransform, Complex } from '/ql.mjs';
+import { FastFourierTransform } from '/ql.mjs';
+import { Complex } from '/test-suite/complex.mjs';
+
 describe('fast fourier transform tests', () => {
     it('Testing complex direct FFT...', () => {
         const a = [
@@ -51,4 +53,3 @@ describe('fast fourier transform tests', () => {
         expect(Math.abs(calculated - expected)).toBeLessThan(1.0e-10);
     });
 });
-//# sourceMappingURL=fastfouriertransform.js.map

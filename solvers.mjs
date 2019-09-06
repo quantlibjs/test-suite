@@ -1,4 +1,5 @@
 import { Bisection, Brent, FalsePosition, FiniteDifferenceNewtonSafe, Newton, NewtonSafe, QL_NULL_REAL, Ridder, Secant } from '/ql.mjs';
+
 class F1 {
     f(x) {
         return x * x - 1.0;
@@ -7,6 +8,7 @@ class F1 {
         return 2.0 * x;
     }
 }
+
 class F2 {
     f(x) {
         return 1.0 - x * x;
@@ -15,6 +17,7 @@ class F2 {
         return -2.0 * x;
     }
 }
+
 class F3 {
     f(x) {
         return Math.atan(x - 1);
@@ -23,6 +26,7 @@ class F3 {
         return 1.0 / (1.0 + (x - 1.0) * (x - 1.0));
     }
 }
+
 function test_not_bracketed(solver, name, f, guess) {
     const accuracy = [1.0e-4, 1.0e-6, 1.0e-8];
     const expected = 1.0;
@@ -31,6 +35,7 @@ function test_not_bracketed(solver, name, f, guess) {
         expect(Math.abs(root - expected)).toBeLessThan(accuracy[i]);
     }
 }
+
 function test_bracketed(solver, name, f, guess) {
     const accuracy = [1.0e-4, 1.0e-6, 1.0e-8];
     const expected = 1.0;
@@ -39,6 +44,7 @@ function test_bracketed(solver, name, f, guess) {
         expect(Math.abs(root - expected)).toBeLessThan(accuracy[i]);
     }
 }
+
 class Probe {
     constructor(result, offset) {
         this._result = result;
@@ -53,6 +59,7 @@ class Probe {
         return 2.0 * x;
     }
 }
+
 function test_last_call_with_root(solver, name, bracketed, accuracy) {
     const mins = [3.0, 2.25, 1.5, 1.0];
     const maxs = [7.0, 5.75, 4.5, 3.0];
@@ -71,6 +78,7 @@ function test_last_call_with_root(solver, name, bracketed, accuracy) {
         expect(result).toEqual(byref.result);
     }
 }
+
 function test_solver(solver, name, accuracy) {
     test_not_bracketed(solver, name, new F1(), 0.5);
     test_bracketed(solver, name, new F1(), 0.5);
@@ -86,30 +94,37 @@ function test_solver(solver, name, accuracy) {
         test_last_call_with_root(solver, name, true, accuracy);
     }
 }
+
 describe('1-D solver tests', () => {
     it('Testing Brent solver...', () => {
         test_solver(new Brent(), 'Brent', 1.0e-6);
     });
+
     it('Testing bisection solver...', () => {
         test_solver(new Bisection(), 'Bisection', 1.0e-6);
     });
+    
     it('Testing false-position solver...', () => {
         test_solver(new FalsePosition(), 'FalsePosition', 1.0e-6);
     });
+
     it('Testing Newton solver...', () => {
         test_solver(new Newton(), 'Newton', 1.0e-12);
     });
+
     it('Testing Newton-safe solver...', () => {
         test_solver(new NewtonSafe(), 'NewtonSafe', 1.0e-9);
     });
+
     it('Testing finite-difference Newton-safe solver...', () => {
         test_solver(new FiniteDifferenceNewtonSafe(), 'FiniteDifferenceNewtonSafe', QL_NULL_REAL);
     });
+
     it('Testing Ridder solver...', () => {
         test_solver(new Ridder(), 'Ridder', 1.0e-6);
     });
+
     it('Testing secant solver...', () => {
         test_solver(new Secant(), 'Secant', 1.0e-6);
     });
 });
-//# sourceMappingURL=solvers.js.map

@@ -1,5 +1,6 @@
 import { Actual360, AnalyticHolderExtensibleOptionEngine, AnalyticWriterExtensibleOptionEngine, BlackScholesMertonProcess, DateExt, EuropeanExercise, GeneralizedBlackScholesProcess, Handle, HolderExtensibleOption, Option, PlainVanillaPayoff, Settings, SimpleQuote, WriterExtensibleOption } from '/ql.mjs';
 import { flatRate1, flatVol1 } from '/test-suite/utilities.mjs';
+
 describe('Extensible option tests', () => {
     it('Testing analytic engine for holder-extensible option...', () => {
         const type = Option.Type.Call;
@@ -59,4 +60,3 @@ describe('Extensible option tests', () => {
         expect(error).toBeLessThan(tolerance);
     });
 });
-//# sourceMappingURL=extensibleoptions.js.map

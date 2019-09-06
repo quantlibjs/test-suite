@@ -1,5 +1,7 @@
-import { Actual365Fixed, AnalyticHestonEngine, AndreasenHugeLocalVolAdapter, AndreasenHugeVolatilityAdapter, AndreasenHugeVolatilityInterpl, Barrier, BarrierOption, BFGS, blackFormulaImpliedStdDevLiRS1, DateExt, EuropeanExercise, FdBlackScholesBarrierEngine, FdBlackScholesVanillaEngine, FdmSchemeDesc, GeneralizedBlackScholesProcess, Handle, HestonBlackVolSurface, HestonModel, HestonProcess, LevenbergMarquardt, Option, PlainVanillaPayoff, QL_EPSILON, QL_NULL_REAL, sabrVolatility, SavedSettings, Settings, SimpleQuote, Simplex, TimeUnit, VanillaOption, ZeroCurve, first, second } from '/ql.mjs';
+import { Actual365Fixed, AnalyticHestonEngine, AndreasenHugeLocalVolAdapter, AndreasenHugeVolatilityAdapter, AndreasenHugeVolatilityInterpl, Barrier, BarrierOption, BFGS, blackFormulaImpliedStdDevLiRS1, DateExt, EuropeanExercise, FdBlackScholesBarrierEngine, FdBlackScholesVanillaEngine, FdmSchemeDesc, GeneralizedBlackScholesProcess, Handle, HestonBlackVolSurface, HestonModel, HestonProcess, LevenbergMarquardt, Option, PlainVanillaPayoff, QL_EPSILON, QL_NULL_REAL, sabrVolatility, SavedSettings, Settings, SimpleQuote, Simplex, TimeUnit, VanillaOption, ZeroCurve } from '/ql.mjs';
 import { flatRate2, flatRate4 } from '/test-suite/utilities.mjs';
+
+const first = 0, second = 1;
 
 class CalibrationData {
     constructor(spot, rTS, qTS, calibrationSet) {

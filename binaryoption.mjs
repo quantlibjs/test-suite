@@ -1,5 +1,6 @@
 import { Actual360, AmericanExercise, AnalyticBinaryBarrierEngine, AssetOrNothingPayoff, Barrier, BarrierOption, BlackScholesMertonProcess, CashOrNothingPayoff, DateExt, Handle, Option, SimpleQuote } from '/ql.mjs';
 import { flatRate1, flatVol1 } from '/test-suite/utilities.mjs';
+
 class BinaryOptionData {
     constructor(barrierType, barrier, cash, type, strike, s, q, r, t, v, result, tol) {
         this.barrierType = barrierType;

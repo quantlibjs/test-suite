@@ -1,5 +1,6 @@
 import { Actual365Fixed, Array2D, BlackScholesMertonProcess, BlackVarianceCurve, BlackVarianceSurface, DateExt, Handle, MakeMCVarianceSwapEngine, NullCalendar, Option, Position, PseudoRandom, ReplicatingVarianceSwapEngine, SimpleQuote, VarianceSwap } from '/ql.mjs';
 import { flatRate1 } from '/test-suite/utilities.mjs';
+
 class MCVarianceSwapData {
     constructor(type, varStrike, nominal, s, q, r, t1, t, v1, v, result, tol) {
         this.type = type;
@@ -16,6 +17,7 @@ class MCVarianceSwapData {
         this.tol = tol;
     }
 }
+
 class ReplicatingVarianceSwapData {
     constructor(type, varStrike, nominal, s, q, r, t, v, result, tol) {
         this.type = type;
@@ -30,6 +32,7 @@ class ReplicatingVarianceSwapData {
         this.tol = tol;
     }
 }
+
 class Datum {
     constructor(type, strike, v) {
         this.type = type;
@@ -37,6 +40,7 @@ class Datum {
         this.v = v;
     }
 }
+
 describe('Variance swap tests', () => {
     it('Testing variance swap with replicating cost engine...', () => {
         const values = [
@@ -154,4 +158,3 @@ describe('Variance swap tests', () => {
         }
     });
 });
-//# sourceMappingURL=varianceswaps.js.map

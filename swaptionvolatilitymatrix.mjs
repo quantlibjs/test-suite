@@ -1,5 +1,6 @@
 import { Actual365Fixed, BlackSwaptionEngine, Comparison, DateExt, EuriborSwapIsdaFixA, FlatForward, Handle, MakeSwaption, RelinkableHandle, SavedSettings, Settings, SwaptionVolatilityMatrix, TimeUnit, VolatilityType } from '/ql.mjs';
 import { AtmVolatility, SwaptionMarketConventions } from '/test-suite/swaptionvolstructuresutilities.mjs';
+
 class CommonVars {
     constructor() {
         this.conventions = new SwaptionMarketConventions();
@@ -164,6 +165,7 @@ class CommonVars {
         }
     }
 }
+
 describe('Swaption Volatility Matrix tests', () => {
     it('Testing swaption volatility matrix observability...', () => {
     });
@@ -176,4 +178,3 @@ describe('Swaption Volatility Matrix tests', () => {
         vars.makeCoherenceTest(description, vol);
     });
 });
-//# sourceMappingURL=swaptionvolatilitymatrix.js.map

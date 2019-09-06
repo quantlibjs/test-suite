@@ -1,4 +1,5 @@
 import { Actual360, Actual365Fixed, Array1D, Array2D, BusinessDayConvention, CappedFlooredCmsSpreadCoupon, CmsCoupon, CmsSpreadCoupon, ConstantSwaptionVolatility, DateExt, EuriborSwapIsdaFixA, FlatForward, Handle, IndexManager, InverseCumulativeNormal, LinearTsrPricer, LognormalCmsSpreadPricer, Period, pseudoSqrt, QL_MAX_REAL, QL_NULL_REAL, Settings, SimpleQuote, SobolRsg, SwapSpreadIndex, TARGET, TimeUnit, VolatilityType } from '/ql.mjs';
+
 class TestData {
     constructor() {
         this.refDate = new Date('23-February-2018');
@@ -19,6 +20,7 @@ class TestData {
         this.cmsspPricerN = new LognormalCmsSpreadPricer(this.cmsPricerN, this.correlation, this.yts2, 32);
     }
 }
+
 function mcReferenceValue(cpn1, cpn2, cap, floor, vol, correlation) {
     const samples = 1000000;
     const acc = [];
@@ -63,6 +65,7 @@ function mcReferenceValue(cpn1, cpn2, cap, floor, vol, correlation) {
     }
     return acc.reduce((p, c) => p + c, 0) / acc.length;
 }
+
 describe('Cms tests', () => {
     it('Testing fixings of cms spread indices...', () => {
         const d = new TestData();

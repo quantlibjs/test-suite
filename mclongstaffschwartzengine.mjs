@@ -1,4 +1,5 @@
-import { Actual365Fixed, AmericanExercise, Array2D, BlackConstantVol, CrankNicolson, EarlyExercisePathPricer, FDAmericanEngine, FlatForward, GeneralizedBlackScholesProcess, Handle, LongstaffSchwartzPathPricer, LsmBasisSystem, MakeMCAmericanEngine, MC, MCLongstaffSchwartzEngine, NullCalendar, Option, PlainVanillaPayoff, PseudoRandom, QL_NULL_INTEGER, QL_NULL_REAL, RelinkableHandle, SavedSettings, Settings, SimpleQuote, StochasticProcessArray, VanillaOption, VanillaOptionEngine, std } from '/ql.mjs';
+import { Actual365Fixed, AmericanExercise, Array2D, BlackConstantVol, CrankNicolson, EarlyExercisePathPricer, FDAmericanEngine, FlatForward, GeneralizedBlackScholesProcess, Handle, LongstaffSchwartzPathPricer, LsmBasisSystem, MakeMCAmericanEngine, MC, MCLongstaffSchwartzEngine, NullCalendar, Option, PlainVanillaPayoff, PseudoRandom, QL_NULL_INTEGER, QL_NULL_REAL, RelinkableHandle, SavedSettings, Settings, SimpleQuote, StochasticProcessArray, VanillaOption, VanillaOptionEngine } from '/ql.mjs';
+import { std } from '/test-suite/std.mjs';
 
 class AmericanMaxPathPricer extends EarlyExercisePathPricer {
     constructor(payoff) {
@@ -47,6 +48,7 @@ class MCAmericanMaxEngine extends MCLongstaffSchwartzEngine {
         return new LongstaffSchwartzPathPricer(this.timeGrid(), earlyExercisePathPricer, process.riskFreeRate().currentLink());
     }
 }
+
 describe('Longstaff Schwartz MC engine tests', () => {
     it('Testing Monte-Carlo pricing of American options...', () => {
         const backup = new SavedSettings();
@@ -154,4 +156,3 @@ describe('Longstaff Schwartz MC engine tests', () => {
         backup.dispose();
     });
 });
-//# sourceMappingURL=mclongstaffschwartzengine.js.map

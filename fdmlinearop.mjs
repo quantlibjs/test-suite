@@ -1,5 +1,9 @@
-import { Actual360, Actual365Fixed, AnalyticEuropeanEngine, Array1D, Array2D, BiCGstab, BicubicSpline, BilinearInterpolation, BlackScholesMertonProcess, CashOrNothingPayoff, Concentrating1dMesher, DateExt, DiscreteSimpsonIntegral, DiscreteTrapezoidIntegral, EuropeanExercise, Fdm3DimSolver, FdmAmericanStepCondition, FdmBackwardSolver, FdmBlackScholesMesher, FdmBlackScholesOp, FdmDirichletBoundary, FdmDividendHandler, FdmHestonHullWhiteOp, FdmHestonOp, FdmHestonSolver, FdmHestonVarianceMesher, FdmLinearOpLayout, FdmLogInnerValue, FdmMesherComposite, FdmMesherIntegral, FdmNdimSolver, FdmSchemeDesc, FdmSolverDesc, FdmStepConditionComposite, FiniteDifferenceModel, FirstDerivativeOp, FixedDividend, GeneralizedBlackScholesProcess, GMRES, Handle, HestonProcess, HullWhiteForwardProcess, HullWhiteProcess, HundsdorferScheme, HybridHestonHullWhiteProcess, MakeMCHestonHullWhiteEngine, MersenneTwisterUniformRng, MonotonicCubicNaturalSpline, NumericalDifferentiation, Option, Payoff, PlainVanillaPayoff, PseudoRandom, QL_EPSILON, QL_NULL_REAL, SavedSettings, SecondDerivativeOp, SecondOrderMixedDerivativeOp, Settings, SimpleQuote, SparseILUPreconditioner, StepCondition, TimeUnit, Uniform1dMesher, UniformGridMesher, VanillaOption, ZeroCurve, first, second, std, axpy_prod, compressed_matrix } from '/ql.mjs';
+import { Actual360, Actual365Fixed, AnalyticEuropeanEngine, Array1D, Array2D, BiCGstab, BicubicSpline, BilinearInterpolation, BlackScholesMertonProcess, CashOrNothingPayoff, Concentrating1dMesher, DateExt, DiscreteSimpsonIntegral, DiscreteTrapezoidIntegral, EuropeanExercise, Fdm3DimSolver, FdmAmericanStepCondition, FdmBackwardSolver, FdmBlackScholesMesher, FdmBlackScholesOp, FdmDirichletBoundary, FdmDividendHandler, FdmHestonHullWhiteOp, FdmHestonOp, FdmHestonSolver, FdmHestonVarianceMesher, FdmLinearOpLayout, FdmLogInnerValue, FdmMesherComposite, FdmMesherIntegral, FdmNdimSolver, FdmSchemeDesc, FdmSolverDesc, FdmStepConditionComposite, FiniteDifferenceModel, FirstDerivativeOp, FixedDividend, GeneralizedBlackScholesProcess, GMRES, Handle, HestonProcess, HullWhiteForwardProcess, HullWhiteProcess, HundsdorferScheme, HybridHestonHullWhiteProcess, MakeMCHestonHullWhiteEngine, MersenneTwisterUniformRng, MonotonicCubicNaturalSpline, NumericalDifferentiation, Option, Payoff, PlainVanillaPayoff, PseudoRandom, QL_EPSILON, QL_NULL_REAL, SavedSettings, SecondDerivativeOp, SecondOrderMixedDerivativeOp, Settings, SimpleQuote, SparseILUPreconditioner, StepCondition, TimeUnit, Uniform1dMesher, UniformGridMesher, VanillaOption, ZeroCurve } from '/ql.mjs';
 import { flatRate2, flatRate4, flatVol2 } from '/test-suite/utilities.mjs';
+import { axpy_prod, compressed_matrix } from '/test-suite/boost.mjs';
+
+const first = 0, second = 1;
+
 class FdmHestonExpressCondition extends StepCondition {
     constructor(redemptions, triggerLevels, exerciseTimes, mesher) {
         super();
@@ -103,7 +107,7 @@ function createTestMatrix(n, m, theta) {
 function nrElementsOfSparseMatrix(m) {
     let retVal = 0;
     for (let i1 = m.begin1(); i1 !== m.end1(); ++i1) {
-        retVal += std.distance(m.begin1(), m.end1());
+        retVal += m.end1() - m.begin1();
     }
     return retVal;
 }

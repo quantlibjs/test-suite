@@ -1,5 +1,6 @@
 import '/test-suite/quantlibtestsuite.mjs';
 import { Actual360, ActualActual, ASX, BackwardFlat, BMAIndex, BMASwap, BMASwapRateHelper, BusinessDayConvention, Comparison, Compounding, ConvexMonotone, CubicInterpolation, DateExt, DateGeneration, DepositRateHelper, Discount, DiscountingBondEngine, DiscountingSwapEngine, Euribor, Euribor3M, Euribor6M, FixedRateBond, FixedRateBondHelper, FlatForward, ForwardRate, ForwardRateAgreement, FraRateHelper, Frequency, Futures, FuturesRateHelper, Handle, IMM, IterativeBootstrap, JointCalendar, Linear, LocalBootstrap, LogCubic, LogLinear, MakeSchedule, MakeVanillaSwap, Period, PiecewiseYieldCurve, Position, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, SwapRateHelper, TARGET, Thirty360, TimeUnit, USDLibor, ZeroYield } from '/ql.mjs';
+
 class Datum {
     constructor(n, units, rate) {
         this.n = n;
@@ -7,6 +8,7 @@ class Datum {
         this.rate = rate;
     }
 }
+
 class BondDatum {
     constructor(n, units, length, frequency, coupon, price) {
         this.n = n;
@@ -17,24 +19,29 @@ class BondDatum {
         this.price = price;
     }
 }
+
 const depositData = [
     new Datum(1, TimeUnit.Weeks, 4.559), new Datum(1, TimeUnit.Months, 4.581),
     new Datum(2, TimeUnit.Months, 4.573), new Datum(3, TimeUnit.Months, 4.557),
     new Datum(6, TimeUnit.Months, 4.496), new Datum(9, TimeUnit.Months, 4.490)
 ];
+
 const fraData = [
     new Datum(1, TimeUnit.Months, 4.581), new Datum(2, TimeUnit.Months, 4.573),
     new Datum(3, TimeUnit.Months, 4.557), new Datum(6, TimeUnit.Months, 4.496),
     new Datum(9, TimeUnit.Months, 4.490)
 ];
+
 const immFutData = [
     new Datum(1, TimeUnit.Months, 4.581), new Datum(2, TimeUnit.Months, 4.573),
     new Datum(3, TimeUnit.Months, 4.557)
 ];
+
 const asxFutData = [
     new Datum(1, TimeUnit.Months, 4.581), new Datum(2, TimeUnit.Months, 4.573),
     new Datum(3, TimeUnit.Months, 4.557)
 ];
+
 const swapData = [
     new Datum(1, TimeUnit.Years, 4.54), new Datum(2, TimeUnit.Years, 4.63),
     new Datum(3, TimeUnit.Years, 4.75), new Datum(4, TimeUnit.Years, 4.86),
@@ -45,6 +52,7 @@ const swapData = [
     new Datum(20, TimeUnit.Years, 5.89), new Datum(25, TimeUnit.Years, 5.95),
     new Datum(30, TimeUnit.Years, 5.96)
 ];
+
 const bondData = [
     new BondDatum(6, TimeUnit.Months, 5, Frequency.Semiannual, 4.75, 101.320),
     new BondDatum(1, TimeUnit.Years, 3, Frequency.Semiannual, 2.75, 100.590),
@@ -52,6 +60,7 @@ const bondData = [
     new BondDatum(5, TimeUnit.Years, 11, Frequency.Semiannual, 5.50, 113.610),
     new BondDatum(10, TimeUnit.Years, 11, Frequency.Semiannual, 3.75, 104.070)
 ];
+
 const bmaData = [
     new Datum(1, TimeUnit.Years, 67.56), new Datum(2, TimeUnit.Years, 68.00),
     new Datum(3, TimeUnit.Years, 68.25), new Datum(4, TimeUnit.Years, 68.50),
@@ -59,6 +68,7 @@ const bmaData = [
     new Datum(10, TimeUnit.Years, 70.44), new Datum(15, TimeUnit.Years, 71.69),
     new Datum(20, TimeUnit.Years, 72.69), new Datum(30, TimeUnit.Years, 73.81)
 ];
+
 class CommonVars {
     constructor() {
         this.backup = new SavedSettings();
@@ -165,6 +175,7 @@ class CommonVars {
         }
     }
 }
+
 function testCurveConsistency(vars, traits, interpolator = null, bootstrap = new IterativeBootstrap(traits, interpolator), tolerance = 1.0e-9) {
     vars.termStructure =
         new PiecewiseYieldCurve(traits, interpolator, bootstrap)
@@ -253,6 +264,7 @@ function testCurveConsistency(vars, traits, interpolator = null, bootstrap = new
         expect(Math.abs(expectedRate - estimatedRate)).toBeLessThan(tolerance);
     }
 }
+
 function testBMACurveConsistency(vars, traits, interpolator = null, bootstrap = new IterativeBootstrap(traits, interpolator), tolerance = 1.0e-9) {
     vars.calendar = new JointCalendar(new BMAIndex().fixingCalendar(), new USDLibor(new Period().init1(3, TimeUnit.Months)).fixingCalendar(), null, null, JointCalendar.JointCalendarRule.JoinHolidays);
     vars.today = vars.calendar.adjust(new Date());
@@ -304,6 +316,7 @@ function testBMACurveConsistency(vars, traits, interpolator = null, bootstrap = 
         expect(error).toBeLessThan(tolerance);
     }
 }
+
 function testCurveCopy(vars, traits, interpolator = null) {
     const curve = new PiecewiseYieldCurve(traits, interpolator)
         .pwycInit2(vars.settlement, vars.instruments, new Actual360(), 1.0e-12);
@@ -328,6 +341,7 @@ function testCurveCopy(vars, traits, interpolator = null) {
         throw new Error('failed to break link between original and copied curve');
     }
 }
+
 describe('Piecewise yield curve tests', () => {
     it('Testing consistency of piecewise-log-cubic discount curve...', () => {
         const vars = new CommonVars();
@@ -423,4 +437,3 @@ describe('Piecewise yield curve tests', () => {
     it('Testing bootstrap starting from bad guess...', () => {
     });
 });
-//# sourceMappingURL=piecewiseyieldcurve.js.map

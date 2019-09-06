@@ -1,5 +1,6 @@
 import { Actual365Fixed, ActualActual, Array1D, BatesDetJumpEngine, BatesDetJumpModel, BatesDoubleExpDetJumpEngine, BatesDoubleExpDetJumpModel, BatesDoubleExpEngine, BatesDoubleExpModel, BatesEngine, BatesModel, BatesProcess, BlackCalibrationHelper, blackFormula1, DateExt, EndCriteria, EuropeanExercise, EuropeanOption, FdBatesVanillaEngine, Handle, HestonModelHelper, HestonProcess, JumpDiffusionEngine, LevenbergMarquardt, MakeMCEuropeanHestonEngine, Merton76Process, Option, Period, PlainVanillaPayoff, PseudoRandom, SavedSettings, Settings, SimpleQuote, TARGET, TimeUnit, VanillaOption, ZeroCurve } from '/ql.mjs';
 import { flatRate2, flatRate4, flatVol1 } from '/test-suite/utilities.mjs';
+
 function getCalibrationError(options) {
     let sse = 0;
     for (let i = 0; i < options.length; ++i) {
@@ -8,6 +9,7 @@ function getCalibrationError(options) {
     }
     return sse;
 }
+
 class HestonModelData {
     constructor(name, v0, kappa, theta, sigma, rho, r, q) {
         this.name = name;
@@ -20,12 +22,14 @@ class HestonModelData {
         this.q = q;
     }
 }
+
 const hestonModels = [
     new HestonModelData('\'t Hout case 1', 0.04, 1.5, 0.04, 0.3, -0.9, 0.025, 0.0),
     new HestonModelData('Ikonen-Toivanen', 0.0625, 5, 0.16, 0.9, 0.1, 0.1, 0.0),
     new HestonModelData('Kahl-Jaeckel', 0.16, 1.0, 0.16, 2.0, -0.8, 0.0, 0.0),
     new HestonModelData('Equity case', 0.07, 2.0, 0.04, 0.55, -0.8, 0.03, 0.035),
 ];
+
 describe('Bates model tests', () => {
     it('Testing analytic Bates engine against Black formula...', () => {
         const backup = new SavedSettings();

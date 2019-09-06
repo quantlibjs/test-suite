@@ -1,6 +1,8 @@
 import { Array1D, BFGS, BoundaryConstraint, ConjugateGradient, CostFunction, DifferentialEvolution, EndCriteria, GoldsteinLineSearch, LevenbergMarquardt, MersenneTwisterUniformRng, NoConstraint, Problem, QL_NULL_REAL, Simplex, SteepestDescent } from '/ql.mjs';
+
 class NamedOptimizationMethod {
 }
+
 const costFunctions_ = [];
 const constraints_ = [];
 const initialValues_ = [];
@@ -13,6 +15,7 @@ const endCriterias_ = [];
 const optimizationMethods_ = [];
 const xMinExpected_ = [];
 const yMinExpected_ = [];
+
 class OneDimensionalPolynomialDegreeN extends CostFunction {
     constructor(coefficients) {
         super();
@@ -37,6 +40,7 @@ class OneDimensionalPolynomialDegreeN extends CostFunction {
         return y;
     }
 }
+
 class OptimizationBasedCostFunction extends CostFunction {
     value(x) {
         return 1.0;
@@ -54,6 +58,7 @@ class OptimizationBasedCostFunction extends CostFunction {
         return dummy;
     }
 }
+
 var OptimizationMethodType;
 (function (OptimizationMethodType) {
     OptimizationMethodType[OptimizationMethodType["simplex"] = 0] = "simplex";
@@ -66,6 +71,7 @@ var OptimizationMethodType;
     OptimizationMethodType[OptimizationMethodType["bfgs"] = 7] = "bfgs";
     OptimizationMethodType[OptimizationMethodType["bfgs_goldstein"] = 8] = "bfgs_goldstein";
 })(OptimizationMethodType || (OptimizationMethodType = {}));
+
 function makeOptimizationMethod(optimizationMethodType, simplexLambda, levenbergMarquardtEpsfcn, levenbergMarquardtXtol, levenbergMarquardtGtol) {
     switch (optimizationMethodType) {
         case OptimizationMethodType.simplex:
@@ -90,6 +96,7 @@ function makeOptimizationMethod(optimizationMethodType, simplexLambda, levenberg
             throw new Error('unknown OptimizationMethod type');
     }
 }
+
 function makeOptimizationMethods(optimizationMethodTypes, optimizationMethodNb, simplexLambda, levenbergMarquardtEpsfcn, levenbergMarquardtXtol, levenbergMarquardtGtol) {
     const results = [];
     for (let i = 0; i < optimizationMethodNb; ++i) {
@@ -101,6 +108,7 @@ function makeOptimizationMethods(optimizationMethodTypes, optimizationMethodNb, 
     }
     return results;
 }
+
 function maxDifference(a, b) {
     const diff = Array1D.sub(a, b);
     let maxDiff = 0.0;
@@ -109,6 +117,7 @@ function maxDifference(a, b) {
     }
     return maxDiff;
 }
+
 function setup() {
     const a = 1;
     const b = 1;
@@ -139,6 +148,7 @@ function setup() {
     xMinExpected_.push(xMinExpected);
     yMinExpected_.push(yMinExpected);
 }
+
 class FirstDeJong extends CostFunction {
     values(x) {
         const retVal = Array1D.fromSizeValue(x.length, this.value(x));
@@ -148,6 +158,7 @@ class FirstDeJong extends CostFunction {
         return Array1D.DotProduct(x, x);
     }
 }
+
 class SecondDeJong extends CostFunction {
     values(x) {
         const retVal = Array1D.fromSizeValue(x.length, this.value(x));
@@ -158,6 +169,7 @@ class SecondDeJong extends CostFunction {
             (1.0 - x[0]) * (1.0 - x[0]);
     }
 }
+
 class ModThirdDeJong extends CostFunction {
     values(x) {
         const retVal = Array1D.fromSizeValue(x.length, this.value(x));
@@ -171,6 +183,7 @@ class ModThirdDeJong extends CostFunction {
         return fx;
     }
 }
+
 class ModFourthDeJong extends CostFunction {
     constructor() {
         super(...arguments);
@@ -188,6 +201,7 @@ class ModFourthDeJong extends CostFunction {
         return fx;
     }
 }
+
 class Griewangk extends CostFunction {
     values(x) {
         const retVal = Array1D.fromSizeValue(x.length, this.value(x));
@@ -205,6 +219,7 @@ class Griewangk extends CostFunction {
         return fx - p + 1.0;
     }
 }
+
 describe('Optimizers tests', () => {
     it('Testing optimizers...', () => {
         setup();
@@ -307,4 +322,3 @@ describe('Optimizers tests', () => {
         }
     });
 });
-//# sourceMappingURL=optimizers.js.map

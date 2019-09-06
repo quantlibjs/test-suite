@@ -1,4 +1,5 @@
-import { AdaptiveRungeKutta, Array1D, Array2D, Expm, QL_EPSILON, Complex } from '/ql.mjs';
+import { AdaptiveRungeKutta, Array1D, Array2D, Expm, QL_EPSILON } from '/ql.mjs';
+import { Complex } from '/test-suite/complex.mjs';
 
 class ode1 {
     f1(x, y) {

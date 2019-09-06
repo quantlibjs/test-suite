@@ -1,4 +1,5 @@
 import { Actual360, Actual365Fixed, BackwardFlat, BusinessDayConvention, CreditDefaultSwap, DateExt, DateGeneration, DepositRateHelper, Discount, DiscountCurve, FlatForward, FlatHazardRate, Frequency, Handle, IborIndex, IntegralCdsEngine, InterpolatedHazardRateCurve, IsdaCdsEngine, LogLinear, MakeCreditDefaultSwap, MakeSchedule, MidPointCdsEngine, Period, PiecewiseYieldCurve, Protection, QL_NULL_REAL, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, SwapRateHelper, TARGET, Thirty360, TimeUnit, UnitedStates, USDCurrency, WeekendsOnly } from '/ql.mjs';
+
 describe('Credit-default swap tests', () => {
     it('Testing credit-default swap against cached values...', () => {
         const backup = new SavedSettings();

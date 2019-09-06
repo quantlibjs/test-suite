@@ -1,6 +1,8 @@
-import { first } from '../../std/iterator';
 import { Actual360, Actual365Fixed, AdditiveEQPBinomialTree, AnalyticEuropeanEngine, Array2D, Bicubic, BinomialVanillaEngine, BlackScholesMertonProcess, BlackScholesProcess, BlackVarianceSurface, CoxRossRubinstein, CrankNicolson, DateExt, DividendVanillaOption, EuropeanExercise, EuropeanOption, FdBlackScholesVanillaEngine, FDEuropeanEngine, FdmSchemeDesc, FFTVanillaEngine, ForwardCurve, Handle, IntegralEngine, JarrowRudd, Joshi4, LeisenReimer, LowDiscrepancy, MakeMCEuropeanEngine, Option, PlainVanillaPayoff, PseudoRandom, QL_NULL_INTEGER, SavedSettings, Settings, SimpleQuote, TARGET, Tian, TimeUnit, Trigeorgis, VanillaOption, ZeroCurve } from '/ql.mjs';
 import { Flag, flatRate1, flatRate2, flatVol1, flatVol2, relativeError } from '/test-suite/utilities.mjs';
+
+const first = 0;
+
 class EuropeanOptionData {
     constructor(type, strike, s, q, r, t, v, result, tol) {
         this.type = type;
@@ -14,6 +16,8 @@ class EuropeanOptionData {
         this.tol = tol;
     }
 }
+
+// enum EngineType
 var EngineType;
 (function (EngineType) {
     EngineType[EngineType["Analytic"] = 0] = "Analytic";
@@ -30,9 +34,11 @@ var EngineType;
     EngineType[EngineType["QuasiMonteCarlo"] = 11] = "QuasiMonteCarlo";
     EngineType[EngineType["FFT"] = 12] = "FFT";
 })(EngineType || (EngineType = {}));
+
 function makeProcess(u, q, r, vol) {
     return new BlackScholesMertonProcess(new Handle(u), new Handle(q), new Handle(r), new Handle(vol));
 }
+
 function makeOption(payoff, exercise, u, q, r, vol, engineType, binomialSteps, samples) {
     const stochProcess = makeProcess(u, q, r, vol);
     let engine;
@@ -100,9 +106,11 @@ function makeOption(payoff, exercise, u, q, r, vol, engineType, binomialSteps, s
     option.setPricingEngine(engine);
     return option;
 }
+
 function timeToDays(t) {
     return Math.floor(t * 360 + 0.5);
 }
+
 function testEngineConsistency(engine, binomialSteps, samples, tolerance, testGreeks = false) {
     const calculated = new Map(), expected = new Map();
     const types = [Option.Type.Call, Option.Type.Put];
@@ -168,6 +176,7 @@ function testEngineConsistency(engine, binomialSteps, samples, tolerance, testGr
         }
     }
 }
+
 describe('European option tests', () => {
     it('Testing European option values...', () => {
         const backup = new SavedSettings();
@@ -917,6 +926,7 @@ describe('European option tests', () => {
         backup.dispose();
     });
 });
+
 describe('European option experimental tests', () => {
     it('Testing FFT European engines against analytic results...', () => {
         const backup = new SavedSettings();
@@ -929,4 +939,3 @@ describe('European option experimental tests', () => {
         backup.dispose();
     });
 });
-//# sourceMappingURL=europeanoption.js.map

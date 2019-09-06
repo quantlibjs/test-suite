@@ -1,5 +1,7 @@
 import { Array1D, TqrEigenDecomposition } from '/ql.mjs';
+
 const tolerance = 1.0e-10;
+
 describe('TQR eigendecomposition tests', () => {
     it('Testing TQR eigenvalue decomposition...', () => {
         const diag = [11, 7, 6, 2, 0];
@@ -38,4 +40,3 @@ describe('TQR eigendecomposition tests', () => {
             .toBeLessThan(tolerance);
     });
 });
-//# sourceMappingURL=tqreigendecomposition.js.map

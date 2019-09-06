@@ -1,4 +1,5 @@
-import { Array1D, autocorrelations2, autocovariances2, convolutions, Complex } from '/ql.mjs';
+import { Array1D, autocorrelations2, autocovariances2, convolutions } from '/ql.mjs';
+import { Complex } from '/test-suite/complex.mjs';
 
 describe('auto-covariance tests', () => {
     it('Testing convolutions...', () => {

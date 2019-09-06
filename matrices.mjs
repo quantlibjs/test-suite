@@ -1,4 +1,6 @@
-import { Array1D, Array2D, BiCGstab, CholeskyDecomposition, GMRES, MersenneTwisterUniformRng, moorePenroseInverse, OrthogonalProjections, pseudoSqrt, QL_EPSILON, QL_MAX_REAL, qrDecomposition, qrSolve, SalvagingAlgorithm, SVD, SymmetricSchurDecomposition, std, det, inv, qr } from '/ql.mjs';
+import { Array1D, Array2D, BiCGstab, CholeskyDecomposition, GMRES, MersenneTwisterUniformRng, moorePenroseInverse, OrthogonalProjections, pseudoSqrt, QL_EPSILON, QL_MAX_REAL, qrDecomposition, qrSolve, SalvagingAlgorithm, SVD, SymmetricSchurDecomposition } from '/ql.mjs';
+import { std } from '/test-suite/std.mjs';
+import { det, inv, qr } from '/test-suite/mathjs.mjs';
 
 let N;
 let M1, M2, M3, M4, M5, M6, M7, I;

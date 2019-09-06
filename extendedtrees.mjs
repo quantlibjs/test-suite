@@ -1,5 +1,9 @@
-import { Actual360, AnalyticEuropeanEngine, BinomialVanillaEngine, BlackScholesMertonProcess, DateExt, EuropeanExercise, EuropeanOption, ExtendedAdditiveEQPBinomialTree, ExtendedCoxRossRubinstein, ExtendedJarrowRudd, ExtendedJoshi4, ExtendedLeisenReimer, ExtendedTian, ExtendedTrigeorgis, Handle, Option, PlainVanillaPayoff, QL_NULL_INTEGER, SavedSettings, SimpleQuote, first } from '/ql.mjs';
+import { Actual360, AnalyticEuropeanEngine, BinomialVanillaEngine, BlackScholesMertonProcess, DateExt, EuropeanExercise, EuropeanOption, ExtendedAdditiveEQPBinomialTree, ExtendedCoxRossRubinstein, ExtendedJarrowRudd, ExtendedJoshi4, ExtendedLeisenReimer, ExtendedTian, ExtendedTrigeorgis, Handle, Option, PlainVanillaPayoff, QL_NULL_INTEGER, SavedSettings, SimpleQuote } from '/ql.mjs';
 import { flatRate1, flatVol1, relativeError } from '/test-suite/utilities.mjs';
+
+const first = 0;
+
+// enum EngineType
 var EngineType;
 (function (EngineType) {
     EngineType[EngineType["Analytic"] = 0] = "Analytic";
@@ -11,9 +15,11 @@ var EngineType;
     EngineType[EngineType["LR"] = 6] = "LR";
     EngineType[EngineType["JOSHI"] = 7] = "JOSHI";
 })(EngineType || (EngineType = {}));
+
 function makeProcess(u, q, r, vol) {
     return new BlackScholesMertonProcess(new Handle(u), new Handle(q), new Handle(r), new Handle(vol));
 }
+
 function makeOption(payoff, exercise, u, q, r, vol, engineType, binomialSteps) {
     const stochProcess = makeProcess(u, q, r, vol);
     let engine;
@@ -56,6 +62,7 @@ function makeOption(payoff, exercise, u, q, r, vol, engineType, binomialSteps) {
     option.setPricingEngine(engine);
     return option;
 }
+
 function testEngineConsistency(engine, binomialSteps, tolerance) {
     const calculated = new Map(), expected = new Map();
     const types = [Option.Type.Call, Option.Type.Put];
@@ -121,6 +128,7 @@ function testEngineConsistency(engine, binomialSteps, tolerance) {
         }
     }
 }
+
 describe('European option extended trees tests', () => {
     it('Testing time-dependent JR binomial European engines' +
         ' against analytic results...', () => {
@@ -214,4 +222,3 @@ describe('European option extended trees tests', () => {
         backup.dispose();
     });
 });
-//# sourceMappingURL=extendedtrees.js.map

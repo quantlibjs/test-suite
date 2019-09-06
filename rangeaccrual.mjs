@@ -1,4 +1,5 @@
 import { Actual365Fixed, Array1D, Array2D, BusinessDayConvention, DateExt, DateGeneration, Euribor6M, EuriborSwapIsdaFixA, FlatSmileSection, Frequency, Handle, InterpolatedSmileSection, Linear, Period, RangeAccrualFloatersCoupon, RangeAccrualPricerByBgm, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, SwaptionVolatilityMatrix, SwaptionVolCube1, SwaptionVolCube2, TARGET, Thirty360, TimeUnit, ZeroCurve } from '/ql.mjs';
+
 class CommonVars {
     constructor() {
         this.termStructure = new RelinkableHandle();
@@ -816,6 +817,7 @@ class CommonVars {
         }
     }
 }
+
 describe('Range Accrual tests', () => {
     it('Testing infinite range accrual floaters...', () => {
         const vars = new CommonVars();
@@ -872,4 +874,3 @@ describe('Range Accrual tests', () => {
         vars.backup.dispose();
     });
 });
-//# sourceMappingURL=rangeaccrual.js.map

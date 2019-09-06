@@ -1,5 +1,6 @@
 import { Actual360, AnalyticEuropeanEngine, BlackScholesMertonProcess, CompositeInstrument, DateExt, EuropeanExercise, EuropeanOption, Handle, Option, PlainVanillaPayoff, RelinkableHandle, Settings, SimpleQuote, Stock } from '/ql.mjs';
 import { Flag, flatRate4, flatVol4 } from '/test-suite/utilities.mjs';
+
 describe('Instrument tests', () => {
     it('Testing observability of instruments...', () => {
         const me1 = new SimpleQuote(0.0);
@@ -47,4 +48,3 @@ describe('Instrument tests', () => {
         expect(composite.NPV()).not.toEqual(0.0);
     });
 });
-//# sourceMappingURL=instruments.js.map

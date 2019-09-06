@@ -1,5 +1,6 @@
 import { Actual360, ActualActual, BlackCapFloorEngine, BusinessDayConvention, Cap, CapFloor, Collar, DateGeneration, DiscountingSwapEngine, Euribor6M, Floor, Frequency, Handle, IborLeg, Period, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, TimeUnit, VanillaSwap, VolatilityType } from '/ql.mjs';
 import { flatRate2 } from '/test-suite/utilities.mjs';
+
 class CommonVars {
     constructor() {
         this.termStructure = new RelinkableHandle();

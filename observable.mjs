@@ -1,4 +1,5 @@
 import { ObservableSettings, Observer, SimpleQuote } from '/ql.mjs';
+
 class UpdateCounter extends Observer {
     constructor() {
         super(...arguments);
@@ -11,6 +12,7 @@ class UpdateCounter extends Observer {
         return this._counter;
     }
 }
+
 describe('Observer tests', () => {
     it('Testing observable settings...', () => {
         const quote = new SimpleQuote(100.0);
@@ -41,4 +43,3 @@ describe('Observer tests', () => {
         expect(updateCounter2.counter()).toEqual(1);
     });
 });
-//# sourceMappingURL=observable.js.map

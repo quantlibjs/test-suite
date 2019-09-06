@@ -1,4 +1,5 @@
 import { Actual360, BackwardFlat, BusinessDayConvention, Claim, CreditDefaultSwap, DateExt, DateGeneration, DefaultDensity, FlatForward, FlatHazardRate, Frequency, Handle, HazardRate, Linear, LogLinear, MidPointCdsEngine, Period, PiecewiseDefaultCurve, Protection, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, SpreadCdsHelper, SurvivalProbability, TARGET, Thirty360, TimeUnit, UpfrontCdsHelper } from '/ql.mjs';
+
 function testBootstrapFromSpread(T, I) {
     const calendar = new TARGET();
     const today = Settings.evaluationDate.f();
@@ -43,6 +44,7 @@ function testBootstrapFromSpread(T, I) {
     }
     backup.dispose();
 }
+
 function testBootstrapFromUpfront(T, I) {
     const calendar = new TARGET();
     const today = Settings.evaluationDate.f();
@@ -90,6 +92,7 @@ function testBootstrapFromUpfront(T, I) {
     }
     backup.dispose();
 }
+
 describe('Default-probability curve tests', () => {
     it('Testing default-probability structure...', () => {
         const hazardRate = 0.0100;

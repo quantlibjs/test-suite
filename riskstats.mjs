@@ -1,9 +1,11 @@
 import { Array1D, Comparison, CumulativeNormalDistribution, GenericGaussianStatistics, IncrementalStatistics, InverseCumulativeNormal, M_PI, NormalDistribution, QL_MAX_REAL, QL_MIN_REAL, RiskStatistics, SobolRsg, StatsHolder } from '/ql.mjs';
+
 class IncrementalGaussianStatistics extends GenericGaussianStatistics {
     constructor() {
         super(new IncrementalStatistics());
     }
 }
+
 describe('Risk statistics tests', () => {
     it('Testing risk measures...', () => {
         const igs = new IncrementalGaussianStatistics();
@@ -174,4 +176,3 @@ describe('Risk statistics tests', () => {
         }
     });
 });
-//# sourceMappingURL=riskstats.js.map

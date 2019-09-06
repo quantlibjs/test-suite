@@ -1,5 +1,7 @@
-import { ActualActual, AnalyticEuropeanEngine, Array1D, Comparison, CubicNaturalSpline, DateExt, DouglasScheme, EuropeanExercise, FdmBlackScholesFwdOp, FdmBlackScholesMesher, FdmMesherComposite, FdmSchemeDesc, GammaFunction, GaussLobattoIntegral, GeneralizedBlackScholesProcess, Handle, Option, PlainVanillaPayoff, Predefined1dMesher, QL_EPSILON, QL_NULL_REAL, SavedSettings, Settings, SimpleQuote, SquareRootProcessRNDCalculator, TimeUnit, VanillaOption, std } from '/ql.mjs';
+import { ActualActual, AnalyticEuropeanEngine, Array1D, Comparison, CubicNaturalSpline, DateExt, DouglasScheme, EuropeanExercise, FdmBlackScholesFwdOp, FdmBlackScholesMesher, FdmMesherComposite, FdmSchemeDesc, GammaFunction, GaussLobattoIntegral, GeneralizedBlackScholesProcess, Handle, Option, PlainVanillaPayoff, Predefined1dMesher, QL_EPSILON, QL_NULL_REAL, SavedSettings, Settings, SimpleQuote, SquareRootProcessRNDCalculator, TimeUnit, VanillaOption } from '/ql.mjs';
 import { flatRate4, flatVol4 } from '/test-suite/utilities.mjs';
+import { std } from '/test-suite/std.mjs';
+
 function fokkerPlanckPrice1D(mesher, op, payoff, x0, maturity, tGrid) {
     const x = mesher.locations(0);
     const p = Array1D.fromSizeValue(x.length, 0.0);
@@ -43,13 +45,15 @@ function fokkerPlanckPrice1D(mesher, op, payoff, x0, maturity, tGrid) {
     f.enableExtrapolation();
     return new GaussLobattoIntegral(1000, 1e-6).f(f, x[0], x[x.length - 1]);
 }
-export function stationaryLogProbabilityFct(kappa, theta, sigma, z) {
+
+function stationaryLogProbabilityFct(kappa, theta, sigma, z) {
     const alpha = 2 * kappa * theta / (sigma * sigma);
     const beta = alpha / theta;
     return Math.pow(beta, alpha) * Math.exp(z * alpha) *
         Math.exp(-beta * Math.exp(z) - new GammaFunction().logValue(alpha));
 }
-export function createStationaryDistributionMesher(kappa, theta, sigma, vGrid) {
+
+function createStationaryDistributionMesher(kappa, theta, sigma, vGrid) {
     const qMin = 0.01;
     const qMax = 0.99;
     const dq = (qMax - qMin) / (vGrid - 1);
@@ -60,6 +64,7 @@ export function createStationaryDistributionMesher(kappa, theta, sigma, vGrid) {
     }
     return new FdmMesherComposite().cInit3(new Predefined1dMesher(v));
 }
+
 describe('Heston Stochastic Local Volatility tests', () => {
     it('Testing Fokker-Planck forward equation for BS process...', () => {
         const backup = new SavedSettings();
@@ -186,4 +191,3 @@ describe('Heston Stochastic Local Volatility tests', () => {
     it('Testing double no touch pricing with SLV and mixing...', () => {
     });
 });
-//# sourceMappingURL=hestonslvmodel.js.map

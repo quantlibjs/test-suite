@@ -1,5 +1,6 @@
 import { Actual360, AmericanExercise, Array1D, BinomialConvertibleEngine, BinomialVanillaEngine, BlackConstantVol, BlackIborCouponPricer, BlackProcess, BlackScholesMertonProcess, BusinessDayConvention, ConvertibleFixedCouponBond, ConvertibleFloatingRateBond, ConvertibleZeroCouponBond, CoxRossRubinstein, DateExt, DateGeneration, DiscountingBondEngine, Euribor1Y, EuropeanExercise, FixedRateBond, FloatingRateBond, ForwardCurve, ForwardSpreadedTermStructure, Frequency, Handle, MakeSchedule, NullCalendar, Option, Period, PlainVanillaPayoff, SavedSettings, Schedule, setCouponPricer, Settings, SimpleQuote, TARGET, Thirty360, TimeUnit, UnitedStates, VanillaOption, ZeroCouponBond } from '/ql.mjs';
 import { flatRate2, flatVol2 } from '/test-suite/utilities.mjs';
+
 class CommonVars {
     constructor() {
         this.calendar = new TARGET();
@@ -25,6 +26,7 @@ class CommonVars {
             this.redemption / this.underlying.currentLink().value();
     }
 }
+
 describe('Convertible bond tests', () => {
     it('Testing out-of-the-money convertible bonds against vanilla bonds...', () => {
         const vars = new CommonVars();

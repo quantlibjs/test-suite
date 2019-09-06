@@ -1,4 +1,5 @@
 import { Actual365Fixed, Array1D, DateExt, EuriborSwapIsdaFixA, EuropeanExercise, FlatForward, Gaussian1dJamshidianSwaptionEngine, Gaussian1dNonstandardSwaptionEngine, Gaussian1dSwaptionEngine, Gsr, GsrProcess, Handle, HullWhite, HullWhiteForwardProcess, JamshidianSwaptionEngine, MakeVanillaSwap, NonstandardSwaption, Period, Settings, Swaption, TARGET, TimeUnit } from '/ql.mjs';
+
 describe('GSR model tests', () => {
     it('Testing GSR process...', () => {
         const refDate = Settings.evaluationDate.f();
@@ -129,4 +130,3 @@ describe('GSR model tests', () => {
         expect(Math.abs(HwJamNpv - GsrJamNpv)).toBeLessThan(0.00005);
     });
 });
-//# sourceMappingURL=gsr.js.map

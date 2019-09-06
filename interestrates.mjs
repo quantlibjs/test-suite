@@ -1,4 +1,5 @@
 import { Actual360, Compounding, DateExt, Frequency, InterestRate, Rounding, TimeUnit } from '/ql.mjs';
+
 class InterestRateData {
     constructor(r, comp, freq, t, comp2, freq2, expected, precision) {
         this.r = r;
@@ -11,6 +12,7 @@ class InterestRateData {
         this.precision = precision;
     }
 }
+
 describe('Interest Rate tests', () => {
     it('Testing interest-rate conversions...', () => {
         const cases = [
@@ -83,4 +85,3 @@ describe('Interest Rate tests', () => {
         }
     });
 });
-//# sourceMappingURL=interestrates.js.map

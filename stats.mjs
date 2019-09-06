@@ -1,7 +1,10 @@
-import { Array1D, Comparison, ConvergenceStatistics, GenericSequenceStatistics, IncrementalStatistics, InverseCumulativeNormal, InverseCumulativeRng, MersenneTwisterUniformRng, RiskStatistics, SeedGenerator, first, second } from '/ql.mjs';
+import { Array1D, Comparison, ConvergenceStatistics, GenericSequenceStatistics, IncrementalStatistics, InverseCumulativeNormal, InverseCumulativeRng, MersenneTwisterUniformRng, RiskStatistics, SeedGenerator } from '/ql.mjs';
+
+const first = 0, second = 1;
 
 const data = [3.0, 4.0, 5.0, 2.0, 3.0, 4.0, 5.0, 6.0, 4.0, 7.0];
 const weights = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
+
 function check(s) {
     for (let i = 0; i < data.length; i++) {
         s.add(data[i], weights[i]);
@@ -35,6 +38,7 @@ function check(s) {
     calculated = s.kurtosis();
     expect(Math.abs(calculated - expected)).toBeLessThan(tolerance);
 }
+
 function checkSequence(ss, dimension) {
     let i;
     for (i = 0; i < data.length; i++) {
@@ -83,6 +87,7 @@ function checkSequence(ss, dimension) {
         expect(Math.abs(calculated[i] - expected)).toBeLessThan(tolerance);
     }
 }
+
 function checkConvergence(s) {
     const stats = new ConvergenceStatistics(s);
     stats.add(1.0);
@@ -118,6 +123,7 @@ function checkConvergence(s) {
     calculatedSamples = Array1D.back(stats.convergenceTable())[first];
     expect(calculatedSamples).toEqual(expectedSampleSize2);
 }
+
 describe('Statistics tests', () => {
     it('Testing statistics...', () => {
         check(new IncrementalStatistics());
@@ -178,4 +184,3 @@ describe('Statistics tests', () => {
         expect(Math.abs(stat2.variance() - 1E-2)).toBeLessThan(tol);
     });
 });
-//# sourceMappingURL=stats.js.map

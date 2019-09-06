@@ -1,5 +1,7 @@
-import { Actual360, Actual365Fixed, ActualActual, AmericanExercise, AnalyticHestonEngine, AnalyticPDFHestonEngine, AnalyticPTDHestonEngine, Barrier, BarrierOption, BlackCalibrationHelper, blackFormula1, BlackScholesMertonProcess, BoundaryConstraint, CashOrNothingPayoff, ConstantParameter, COSHestonEngine, CrankNicolson, DateExt, DividendVanillaOption, EndCriteria, EuropeanExercise, FDAmericanEngine, FdHestonBarrierEngine, FdHestonVanillaEngine, FordeHestonExpansion, Handle, HestonExpansionEngine, HestonModel, HestonModelHelper, HestonProcess, LevenbergMarquardt, LowDiscrepancy, LPP2HestonExpansion, LPP3HestonExpansion, M_PI, MakeMCEuropeanHestonEngine, MersenneTwisterUniformRng, Month, MultiPathGenerator, NullCalendar, NumericalDifferentiation, Option, Period, PiecewiseConstantParameter, PiecewiseTimeDependentHestonModel, PlainVanillaPayoff, PositiveConstraint, PseudoRandom, QL_EPSILON, QL_NULL_INTEGER, QL_NULL_REAL, RiskStatistics, SavedSettings, Settings, SimpleQuote, TARGET, TimeGrid, TimeUnit, VanillaOption, ZeroCurve, Complex } from '/ql.mjs';
+import { Actual360, Actual365Fixed, ActualActual, AmericanExercise, AnalyticHestonEngine, AnalyticPDFHestonEngine, AnalyticPTDHestonEngine, Barrier, BarrierOption, BlackCalibrationHelper, blackFormula1, BlackScholesMertonProcess, BoundaryConstraint, CashOrNothingPayoff, ConstantParameter, COSHestonEngine, CrankNicolson, DateExt, DividendVanillaOption, EndCriteria, EuropeanExercise, FDAmericanEngine, FdHestonBarrierEngine, FdHestonVanillaEngine, FordeHestonExpansion, Handle, HestonExpansionEngine, HestonModel, HestonModelHelper, HestonProcess, LevenbergMarquardt, LowDiscrepancy, LPP2HestonExpansion, LPP3HestonExpansion, M_PI, MakeMCEuropeanHestonEngine, MersenneTwisterUniformRng, Month, MultiPathGenerator, NullCalendar, NumericalDifferentiation, Option, Period, PiecewiseConstantParameter, PiecewiseTimeDependentHestonModel, PlainVanillaPayoff, PositiveConstraint, PseudoRandom, QL_EPSILON, QL_NULL_INTEGER, QL_NULL_REAL, RiskStatistics, SavedSettings, Settings, SimpleQuote, TARGET, TimeGrid, TimeUnit, VanillaOption, ZeroCurve } from '/ql.mjs';
+import { Complex } from '/test-suite/complex.mjs';
 import { flatRate2, flatRate4, flatVol2 } from '/test-suite/utilities.mjs';
+
 class CalibrationMarketData {
     constructor(s0, riskFreeTS, dividendYield, options) {
         this.s0 = s0;
@@ -8,6 +10,7 @@ class CalibrationMarketData {
         this.options = options;
     }
 }
+
 function getDAXCalibrationMarketData() {
     const settlementDate = Settings.evaluationDate.f();
     const dayCounter = new Actual365Fixed();
@@ -54,6 +57,7 @@ function getDAXCalibrationMarketData() {
     const marketData = new CalibrationMarketData(s0, riskFreeTS, dividendYield, options);
     return marketData;
 }
+
 class HestonProcessDiscretizationDesc {
     constructor(discretization, nSteps, name) {
         this.discretization = discretization;
@@ -61,6 +65,7 @@ class HestonProcessDiscretizationDesc {
         this.name = name;
     }
 }
+
 class HestonParameter {
     constructor(v0, kappa, theta, sigma, rho) {
         this.v0 = v0;
@@ -69,6 +74,7 @@ class HestonParameter {
         this.rho = rho;
     }
 }
+
 function reportOnIntegrationMethodTest(option, model, integration, formula, isAdaptive, expected, tol, valuations, method) {
     if (integration.isAdaptiveIntegration() !== isAdaptive) {
         throw new Error('not an adaptive integration routine');
@@ -81,6 +87,7 @@ function reportOnIntegrationMethodTest(option, model, integration, formula, isAd
     expect(error).toBeLessThan(tol);
     expect(valuations).toEqual(engine.numberOfEvaluations());
 }
+
 class LogCharacteristicFunction {
     constructor(n, t, engine) {
         this._t = t;
@@ -95,6 +102,7 @@ class LogCharacteristicFunction {
             .real();
     }
 }
+
 describe('Heston model tests', () => {
     it('Testing Heston model calibration using a flat volatility surface...', () => {
         const backup = new SavedSettings();
@@ -1293,6 +1301,7 @@ describe('Heston model tests', () => {
         backup.dispose();
     });
 });
+
 describe('Heston model experimental tests', () => {
     it('Testing analytic PDF Heston engine...', () => {
         const backup = new SavedSettings();
@@ -1342,4 +1351,3 @@ describe('Heston model experimental tests', () => {
         backup.dispose();
     });
 });
-//# sourceMappingURL=hestonmodel.js.map

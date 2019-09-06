@@ -1,4 +1,6 @@
-import { DateExt, EndCriteria, Garch11, InverseCumulativeNormal, InverseCumulativeRng, LevenbergMarquardt, MersenneTwisterUniformRng, OptimizationMethod, TimeSeries, first, second } from '/ql.mjs';
+import { DateExt, EndCriteria, Garch11, InverseCumulativeNormal, InverseCumulativeRng, LevenbergMarquardt, MersenneTwisterUniformRng, OptimizationMethod, TimeSeries } from '/ql.mjs';
+
+const first = 0, second = 1;
 
 class DummyOptimizationMethod extends OptimizationMethod {
     minimize(P, e) {
@@ -6,6 +8,7 @@ class DummyOptimizationMethod extends OptimizationMethod {
         return EndCriteria.Type.None;
     }
 }
+
 class Results {
     constructor(alpha, beta, omega, logLikelihood) {
         this.alpha = alpha;
@@ -14,17 +17,20 @@ class Results {
         this.logLikelihood = logLikelihood;
     }
 }
+
 const tolerance = 1e-6;
 const expected_calc = [
     0.452769, 0.513323, 0.530141, 0.5350841, 0.536558, 0.536999, 0.537132,
     0.537171, 0.537183, 0.537187
 ];
+
 function check_ts(x) {
     expect(DateExt.serialNumber(x[first])).toBeGreaterThan(22835);
     expect(DateExt.serialNumber(x[first])).toBeLessThan(22844);
     const error = Math.abs(x[second] - expected_calc[DateExt.serialNumber(x[first]) - 22835]);
     expect(error).toBeLessThan(tolerance);
 }
+
 describe('Testing GARCH model calculation...', () => {
     it('Testing GARCH model calibration...', () => {
         const start = new Date('7-July-1962'), d = start;
@@ -109,4 +115,3 @@ describe('Testing GARCH model calculation...', () => {
         tsout.dates().forEach(d => check_ts([d, tsout.get(d)]));
     });
 });
-//# sourceMappingURL=garch.js.map

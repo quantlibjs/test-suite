@@ -1,5 +1,8 @@
-import { BusinessDayConvention, DateExt, EUHICP, Frequency, inflationPeriod, MakeSchedule, Period, SavedSettings, Settings, TimeUnit, UKRPI, UnitedKingdom, first, second } from '/ql.mjs';
+import { BusinessDayConvention, DateExt, EUHICP, Frequency, inflationPeriod, MakeSchedule, Period, SavedSettings, Settings, TimeUnit, UKRPI, UnitedKingdom } from '/ql.mjs';
 import { IndexHistoryCleaner } from '/test-suite/utilities.mjs';
+
+const first = 0, second = 1;
+
 describe('Inflation tests', () => {
     it('Testing zero inflation indices...', () => {
         const backup = new SavedSettings();
@@ -67,4 +70,3 @@ describe('Inflation tests', () => {
     it('Testing inflation period...', () => {
     });
 });
-//# sourceMappingURL=inflation.js.map

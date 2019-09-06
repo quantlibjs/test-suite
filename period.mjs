@@ -1,4 +1,5 @@
 import { Period, PeriodParser, TimeUnit } from '/ql.mjs';
+
 describe('Period tests', () => {
     it('Testing period algebra on years/months...', () => {
         const OneYear = new Period().init1(1, TimeUnit.Years);
@@ -55,4 +56,3 @@ describe('Period tests', () => {
         expect(Period.equal(p5, p6)).toBeTruthy();
     });
 });
-//# sourceMappingURL=period.js.map

@@ -1,7 +1,9 @@
 import { Actual360, AnalyticCompoundOptionEngine, AnalyticEuropeanEngine, BlackConstantVol, BlackScholesMertonProcess, CompoundOption, DateExt, EuropeanExercise, EuropeanOption, FlatForward, Handle, NullCalendar, Option, PlainVanillaPayoff, SavedSettings, Settings, SimpleQuote } from '/ql.mjs';
+
 function timeToDays(t) {
     return Math.floor(t * 360 + 0.5);
 }
+
 class CompoundOptionData {
     constructor(typeMother, typeDaughter, strikeMother, strikeDaughter, s, q, r, tMother, tDaughter, v, npv = null, tol = null, delta = null, gamma = null, vega = null, theta = null) {
         this.typeMother = typeMother;

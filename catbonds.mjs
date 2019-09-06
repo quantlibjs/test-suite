@@ -1,10 +1,14 @@
-import { Actual360, ActualActual, BetaRisk, BlackIborCouponPricer, BusinessDayConvention, Compounding, DateGeneration, DigitalNotionalRisk, DiscountingBondEngine, EventSet, FloatingCatBond, FloatingRateBond, Frequency, Handle, MonteCarloCatBondEngine, NoOffset, Period, ProportionalNotionalRisk, Schedule, setCouponPricer, Settings, TARGET, TimeUnit, UnitedStates, USDLibor, first, second } from '/ql.mjs';
+import { Actual360, ActualActual, BetaRisk, BlackIborCouponPricer, BusinessDayConvention, Compounding, DateGeneration, DigitalNotionalRisk, DiscountingBondEngine, EventSet, FloatingCatBond, FloatingRateBond, Frequency, Handle, MonteCarloCatBondEngine, NoOffset, Period, ProportionalNotionalRisk, Schedule, setCouponPricer, Settings, TARGET, TimeUnit, UnitedStates, USDLibor } from '/ql.mjs';
 import { flatRate2 } from '/test-suite/utilities.mjs';
+
+const first = 0, second = 0;
+
 const data = [
     [new Date('1-February-2012').valueOf(), 100],
     [new Date('1-July-2013').valueOf(), 150],
     [new Date('5-January-2014').valueOf(), 50]
 ];
+
 const sampleEvents = Array.from(data);
 const eventsStart = new Date('1-January-2011');
 const eventsEnd = new Date('31-December-2014');
@@ -16,6 +20,7 @@ class CommonVars {
         this.faceAmount = 1000000.0;
     }
 }
+
 describe('CatBond tests', () => {
     it('Testing that catastrophe events are split ' +
         'correctly for periods of whole years...', () => {

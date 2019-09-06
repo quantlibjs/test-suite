@@ -1,9 +1,11 @@
 import { BoundedGrid, SampledCurve } from '/ql.mjs';
+
 class FSquared {
     f(x) {
         return x * x;
     }
 }
+
 describe('sampled curve tests', () => {
     it('Testing sampled curve construction...', () => {
         const curve = new SampledCurve().init2(BoundedGrid(-10.0, 10.0, 100));
@@ -30,4 +32,3 @@ describe('sampled curve tests', () => {
         }
     });
 });
-//# sourceMappingURL=sampledcurve.js.map

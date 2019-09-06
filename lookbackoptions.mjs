@@ -1,5 +1,6 @@
 import { Actual360, AnalyticContinuousFloatingLookbackEngine, BlackScholesMertonProcess, ContinuousFloatingLookbackOption, DateExt, EuropeanExercise, FloatingTypePayoff, Handle, Option, SimpleQuote } from '/ql.mjs';
 import { flatRate1, flatVol1 } from '/test-suite/utilities.mjs';
+
 class LookbackOptionData {
     constructor(type, strike, minmax, s, q, r, t, v, l, t1, result, tol) {
         this.type = type;
@@ -16,6 +17,7 @@ class LookbackOptionData {
         this.tol = tol;
     }
 }
+
 describe('Lookback option tests', () => {
     it('Testing analytic continuous floating-strike lookback options...', () => {
         const values = [
@@ -61,4 +63,3 @@ describe('Lookback option tests', () => {
     it('Testing analytic continuous fixed-strike lookback options...', () => {
     });
 });
-//# sourceMappingURL=lookbackoptions.js.map

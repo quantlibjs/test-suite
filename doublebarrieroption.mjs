@@ -1,5 +1,6 @@
 import { Actual360, AnalyticDoubleBarrierEngine, BinomialDoubleBarrierEngine, blackFormula1, BlackScholesMertonProcess, CoxRossRubinstein, DateExt, DeltaVolQuote, DiscretizedDermanKaniDoubleBarrierOption, DiscretizedDoubleBarrierOption, DoubleBarrier, DoubleBarrierOption, EuropeanExercise, Exercise, FdHestonDoubleBarrierEngine, Handle, HestonModel, HestonProcess, Option, PlainVanillaPayoff, SavedSettings, Settings, SimpleQuote, VannaVolgaDoubleBarrierEngine, WulinYongDoubleBarrierEngine } from '/ql.mjs';
 import { flatRate1, flatVol1 } from '/test-suite/utilities.mjs';
+
 class NewBarrierOptionData {
     constructor(barrierType, barrierlo, barrierhi, type, exType, strike, s, q, r, t, v, result, tol) {
         this.barrierType = barrierType;
@@ -17,6 +18,7 @@ class NewBarrierOptionData {
         this.tol = tol;
     }
 }
+
 class DoubleBarrierFxOptionData {
     constructor(barrierType, barrier1, barrier2, rebate, type, strike, s, q, r, t, vol25Put, volAtm, vol25Call, v, result, tol) {
         this.barrierType = barrierType;
@@ -37,6 +39,7 @@ class DoubleBarrierFxOptionData {
         this.tol = tol;
     }
 }
+
 describe('DoubleBarrier tests', () => {
     it('Testing double barrier european options against Haug\'s values...', () => {
         const european = Exercise.Type.European;
@@ -192,6 +195,7 @@ describe('DoubleBarrier tests', () => {
         }
     });
 });
+
 describe('DoubleBarrier experimental tests', () => {
     it('Testing double-barrier FX options against Vanna/Volga values...', () => {
         const backup = new SavedSettings();
@@ -272,4 +276,3 @@ describe('DoubleBarrier experimental tests', () => {
         backup.dispose();
     });
 });
-//# sourceMappingURL=doublebarrieroption.js.map

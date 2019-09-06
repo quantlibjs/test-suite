@@ -1,6 +1,8 @@
 import { Actual360, Actual365Fixed, AmericanExercise, Array2D, BasketOption, BlackProcess, BlackScholesMertonProcess, DateExt, EuropeanExercise, Fd2dBlackScholesVanillaEngine, FdmSchemeDesc, GeneralizedBlackScholesProcess, Handle, HestonBlackVolSurface, HestonModel, HestonProcess, KirkEngine, LowDiscrepancy, MakeMCAmericanBasketEngine, MakeMCEuropeanBasketEngine, MaxBasketPayoff, MinBasketPayoff, Option, PlainVanillaPayoff, PseudoRandom, RiskStatistics, SimpleQuote, SpreadBasketPayoff, StochasticProcessArray, StulzEngine, TimeUnit } from '/ql.mjs';
 import { flatRate1, flatRate2, flatVol1, flatVol2, relativeError } from '/test-suite/utilities.mjs';
-var BasketType;
+
+// enum BasketType
+var BasketType; 
 (function (BasketType) {
     BasketType[BasketType["MinBasket"] = 0] = "MinBasket";
     BasketType[BasketType["MaxBasket"] = 1] = "MaxBasket";
@@ -18,6 +20,7 @@ function basketTypeToPayoff(basketType, p) {
             throw new Error('unknown basket option type');
     }
 }
+
 class BasketOptionOneData {
     constructor(type, strike, s, q, r, t, v, result, tol) {
         this.type = type;

@@ -1,5 +1,6 @@
 import { Actual360, Array2D, BlackScholesMertonProcess, DateExt, Handle, HimalayaOption, MakeMCHimalayaEngine, PseudoRandom, Settings, SimpleQuote, StochasticProcessArray } from '/ql.mjs';
 import { flatRate2, flatVol2 } from '/test-suite/utilities.mjs';
+
 describe('Himalaya-option tests', () => {
     it('Testing Himalaya option against cached values...', () => {
         const today = Settings.evaluationDate.f();
@@ -58,4 +59,3 @@ describe('Himalaya-option tests', () => {
         expect(accuracy).toBeLessThan(tolerance);
     });
 });
-//# sourceMappingURL=himalayaoption.js.map

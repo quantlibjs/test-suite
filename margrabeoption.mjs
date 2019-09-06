@@ -1,5 +1,8 @@
-import { Actual360, AmericanExercise, AnalyticAmericanMargrabeEngine, AnalyticEuropeanMargrabeEngine, Array2D, BlackScholesMertonProcess, DateExt, EuropeanExercise, Handle, MargrabeOption, SavedSettings, Settings, SimpleQuote, first } from '/ql.mjs';
+import { Actual360, AmericanExercise, AnalyticAmericanMargrabeEngine, AnalyticEuropeanMargrabeEngine, Array2D, BlackScholesMertonProcess, DateExt, EuropeanExercise, Handle, MargrabeOption, SavedSettings, Settings, SimpleQuote } from '/ql.mjs';
 import { flatRate1, flatRate3, flatVol1, flatVol3, relativeError } from '/test-suite/utilities.mjs';
+
+const first = 0;
+
 class MargrabeOptionTwoData {
     constructor(s1, s2, Q1, Q2, q1, q2, r, t, v1, v2, rho, result, delta1, delta2, gamma1, gamma2, theta, rho_greek, tol) {
         this.s1 = s1;
@@ -40,9 +43,11 @@ class MargrabeAmericanOptionTwoData {
         this.tol = tol;
     }
 }
+
 function timeToDays(t) {
     return Math.floor(t * 360 + 0.5);
 }
+
 describe('Exchange option tests', () => {
     it('Testing European one-asset-for-another option...', () => {
         const values = [
@@ -320,4 +325,3 @@ describe('Exchange option tests', () => {
         }
     });
 });
-//# sourceMappingURL=margrabeoption.js.map

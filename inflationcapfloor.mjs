@@ -1,10 +1,12 @@
 import { ActualActual, BusinessDayConvention, ConstantYoYOptionletVolatility, DateExt, DateGeneration, DiscountingSwapEngine, FlatForward, Frequency, Handle, Linear, MakeSchedule, Period, PiecewiseYoYInflationCurve, Schedule, Settings, SimpleQuote, Thirty360, TimeUnit, UnitedKingdom, YearOnYearInflationSwap, YearOnYearInflationSwapHelper, YoYInflationBachelierCapFloorEngine, YoYInflationBlackCapFloorEngine, YoYInflationCap, YoYInflationCapFloor, YoYInflationCollar, YoYInflationFloor, yoyInflationLeg, YoYInflationTermStructure, YoYInflationUnitDisplacedBlackCapFloorEngine, YYUKRPIr } from '/ql.mjs';
+
 class Datum {
     constructor(date, rate) {
         this.date = date;
         this.rate = rate;
     }
 }
+
 function makeHelpers(U, iiData, N, ii, observationLag, calendar, bdc, dc) {
     const instruments = [];
     for (let i = 0; i < N; i++) {
@@ -15,6 +17,7 @@ function makeHelpers(U, iiData, N, ii, observationLag, calendar, bdc, dc) {
     }
     return instruments;
 }
+
 class CommonVars {
     constructor() {
         this.nominals = [1000000];
@@ -117,6 +120,7 @@ class CommonVars {
         return result;
     }
 }
+
 describe('Inflation (year-on-year) Cap and floor tests', () => {
     it('Testing consistency between yoy inflation cap, floor and collar...', () => {
         const vars = new CommonVars();
@@ -232,4 +236,3 @@ describe('Inflation (year-on-year) Cap and floor tests', () => {
         vars.hy.linkTo(new YoYInflationTermStructure());
     });
 });
-//# sourceMappingURL=inflationcapfloor.js.map

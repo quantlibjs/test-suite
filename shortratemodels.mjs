@@ -1,5 +1,6 @@
 import { Actual360, Actual365Fixed, EndCriteria, Euribor6M, Handle, HullWhite, JamshidianSwaptionEngine, LevenbergMarquardt, Period, SavedSettings, Settings, SimpleQuote, SwaptionHelper, Thirty360, TimeUnit } from '/ql.mjs';
 import { flatRate2, IndexHistoryCleaner } from '/test-suite/utilities.mjs';
+
 class CalibrationData {
     constructor(start, length, volatility) {
         this.start = start;
@@ -7,6 +8,7 @@ class CalibrationData {
         this.volatility = volatility;
     }
 }
+
 describe('Short-rate model tests', () => {
     it('Testing Hull-White calibration against ' +
         'cached values using swaptions with start delay...', () => {
@@ -73,4 +75,3 @@ describe('Short-rate model tests', () => {
     it('Testing zero bond pricing for extended CIR model ...', () => {
     });
 });
-//# sourceMappingURL=shortratemodels.js.map

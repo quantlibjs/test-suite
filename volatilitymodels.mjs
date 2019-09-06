@@ -1,4 +1,5 @@
 import { ConstantEstimator, SimpleLocalEstimator, TimeSeries } from '/ql.mjs';
+
 describe('volatility models tests', () => {
     it('Testing volatility model construction...', () => {
         const ts = new TimeSeries();
@@ -12,4 +13,3 @@ describe('volatility models tests', () => {
         console.log(sv);
     });
 });
-//# sourceMappingURL=volatilitymodels.js.map

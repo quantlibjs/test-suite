@@ -1,6 +1,7 @@
 import '/test-suite/quantlibtestsuite.mjs';
 import { Actual360, ActualActual, Australia, BlackIborCouponPricer, BondFunctions, Brazil, Business252, BusinessDayConvention, CashFlows, Compounding, DateExt, DateGeneration, DiscountingBondEngine, Duration, FixedRateBond, FloatingRateBond, Frequency, Handle, InterestRate, Month, NullCalendar, Period, SavedSettings, Schedule, setCouponPricer, Settings, SimpleQuote, TARGET, Thirty360, TimeUnit, UnitedKingdom, UnitedStates, USDLibor, ZeroCouponBond } from '/ql.mjs';
 import { flatRate1, flatRate2 } from '/test-suite/utilities.mjs';
+
 class CommonVars {
     constructor() {
         this.calendar = new TARGET();
@@ -13,6 +14,7 @@ class CommonVars {
         this.backup.dispose();
     }
 }
+
 class test_case {
     constructor(settlementDate, testPrice, accruedAmount, NPV, yield_, duration, convexity) {
         this.settlementDate = settlementDate;
@@ -24,9 +26,11 @@ class test_case {
         this.convexity = convexity;
     }
 }
+
 function ASSERT_CLOSE(name, settlement, calculated, expected, tolerance) {
     expect(Math.abs(calculated - expected)).toBeLessThan(tolerance);
 }
+
 describe('Bond tests', () => {
     it('Testing consistency of bond price/yield calculation...', () => {
         const vars = new CommonVars();

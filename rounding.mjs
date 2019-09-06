@@ -1,4 +1,5 @@
 import { CeilingTruncation, ClosestRounding, Comparison, DownRounding, FloorTruncation, UpRounding } from '/ql.mjs';
+
 class TestCase {
     constructor(x, precision, closest, up, down, floor, ceiling) {
         this.x = x;
@@ -10,6 +11,7 @@ class TestCase {
         this.ceiling = ceiling;
     }
 }
+
 const testData = [
     new TestCase(0.86313513, 5, 0.86314, 0.86314, 0.86313, 0.86314, 0.86313),
     new TestCase(0.86313, 5, 0.86313, 0.86313, 0.86313, 0.86313, 0.86313),
@@ -33,6 +35,7 @@ const testData = [
     new TestCase(6.28794223, 3, 6.288, 6.288, 6.287, 6.288, 6.287),
     new TestCase(7.89428221, 2, 7.89, 7.90, 7.89, 7.89, 7.89)
 ];
+
 describe('Rounding tests', () => {
     it('Testing closest decimal rounding...', () => {
         for (let i = 0; i < testData.length; i++) {
@@ -80,4 +83,3 @@ describe('Rounding tests', () => {
         }
     });
 });
-//# sourceMappingURL=rounding.js.map

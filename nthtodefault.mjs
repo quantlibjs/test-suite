@@ -1,10 +1,12 @@
 import { Actual360, Actual365Fixed, Array1D, Basket, Compounding, ConstantLossModel, EURCurrency, FlatForward, FlatHazardRate, GaussianCopulaPolicy, Handle, IntegralNtdEngine, Issuer, LatentModelIntegrationType, MakeSchedule, NorthAmericaCorpDefaultKey, NthToDefault, Period, Pool, Protection, SavedSettings, Seniority, Settings, SimpleQuote, TARGET, TCopulaPolicy, TimeUnit } from '/ql.mjs';
+
 class hwDatum {
     constructor(rank, spread) {
         this.rank = rank;
         this.spread = spread;
     }
 }
+
 const hwData = [
     new hwDatum(1, [603, 440, 293]), new hwDatum(2, [98, 139, 137]),
     new hwDatum(3, [12, 53, 79]), new hwDatum(4, [1, 21, 49]),
@@ -12,13 +14,16 @@ const hwData = [
     new hwDatum(7, [0, 1, 12]), new hwDatum(8, [0, 0, 7]),
     new hwDatum(9, [0, 0, 3]), new hwDatum(10, [0, 0, 1])
 ];
+
 const hwCorrelation = [0.0, 0.3, 0.6];
+
 class hwDatumDist {
     constructor(rank, spread) {
         this.rank = rank;
         this.spread = spread;
     }
 }
+
 const hwDataDist = [
     new hwDatumDist(1, [440, 419, 474, 455]),
     new hwDatumDist(2, [139, 127, 127, 116]),
@@ -27,6 +32,7 @@ const hwDataDist = [
     new hwDatumDist(7, [1, 5, 1, 5]), new hwDatumDist(8, [0, 3, 0, 4]),
     new hwDatumDist(9, [0, 2, 0, 0]), new hwDatumDist(10, [0, 1, 0, 1])
 ];
+
 describe('Nth-to-default tests', () => {
     it('Testing nth-to-default against Hull-White values with Gaussian copula...', () => {
         const backup = new SavedSettings();
@@ -217,4 +223,3 @@ describe('Nth-to-default tests', () => {
         backup.dispose();
     });
 });
-//# sourceMappingURL=nthtodefault.js.map

@@ -1,4 +1,5 @@
 import { CHFCurrency, Comparison, EURCurrency, ExchangeRate, ExchangeRateManager, GBPCurrency, ITLCurrency, JPYCurrency, Money, SEKCurrency, USDCurrency } from '/ql.mjs';
+
 describe('Exchange-rate tests', () => {
     it('Testing direct exchange rates...', () => {
         const EUR = new EURCurrency(), USD = new USDCurrency();
@@ -149,4 +150,3 @@ describe('Exchange-rate tests', () => {
         expect(Comparison.close(calculated.value(), expected.value())).toBeTruthy();
     });
 });
-//# sourceMappingURL=exchangerate.js.map

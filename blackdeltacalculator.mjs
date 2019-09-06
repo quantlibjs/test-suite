@@ -1,7 +1,9 @@
 import { Actual360, AnalyticEuropeanEngine, BlackConstantVol, BlackDeltaCalculator, BlackScholesMertonProcess, DateExt, DeltaVolQuote, EuropeanExercise, EuropeanOption, FlatForward, Handle, Option, PlainVanillaPayoff, SavedSettings, SimpleQuote, TARGET } from '/ql.mjs';
+
 function timeToDays(t) {
     return Math.floor(t * 360 + 0.5);
 }
+
 class DeltaData {
     constructor(ot, dt, spot, dDf, fDf, stdDev, strike, value) {
         this.ot = ot;
@@ -14,6 +16,7 @@ class DeltaData {
         this.value = value;
     }
 }
+
 class EuropeanOptionData {
     constructor(type, strike, s, q, r, t, v, result, tol) {
         this.type = type;
@@ -27,6 +30,7 @@ class EuropeanOptionData {
         this.tol = tol;
     }
 }
+
 describe('Black delta calculator tests', () => {
     it('Testing delta calculator values...', () => {
         const values = [
