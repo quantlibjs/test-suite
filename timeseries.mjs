@@ -1,4 +1,5 @@
-import { IntervalPrice, Month, TimeSeries, second } from '/ql.mjs';
+import { IntervalPrice, Month, TimeSeries } from '/ql.mjs';
+const second = 1;
 
 describe('time series tests', () => {
     it('Testing time series construction...', () => {
