@@ -290,4 +290,3 @@ describe('Cash flows tests', () => {
             .toEqual(new Date('30-Sep-2020').valueOf());
     });
 });
-//# sourceMappingURL=cashflows.js.map

@@ -1427,4 +1427,3 @@ describe('AssetSwap tests', () => {
         expect(error16).toBeLessThan(tolerance);
     });
 });
-//# sourceMappingURL=assetswap.js.map

@@ -1,4 +1,3 @@
-"use strict";
 describe('Swaption Volatility Cube tests', () => {
     it('Testing swaption volatility cube (atm vols)...', () => {
     });
@@ -11,4 +10,3 @@ describe('Swaption Volatility Cube tests', () => {
     it('Testing volatility cube observability...', () => {
     });
 });
-//# sourceMappingURL=swaptionvolatilitycube.js.map

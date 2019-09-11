@@ -451,4 +451,3 @@ describe('Distribution tests', () => {
     it('Testing inverse CDF based on stochastic collocation...', () => {
     });
 });
-//# sourceMappingURL=distributions.js.map

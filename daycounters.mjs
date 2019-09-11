@@ -302,4 +302,3 @@ describe('Day counter tests', () => {
         }
     });
 });
-//# sourceMappingURL=daycounters.js.map

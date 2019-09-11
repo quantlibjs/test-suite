@@ -1,4 +1,3 @@
-"use strict";
 describe('Overnight-indexed swap tests', () => {
     it('Testing Eonia-swap calculation of fair fixed rate...', () => {
     });
@@ -13,4 +12,3 @@ describe('Overnight-indexed swap tests', () => {
     it('Testing seasoned Eonia-swap calculation...', () => {
     });
 });
-//# sourceMappingURL=overnightindexedswap.js.map

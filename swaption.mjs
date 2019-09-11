@@ -1,4 +1,3 @@
-"use strict";
 describe('Swaption tests', () => {
     it('Testing swaption dependency on strike...', () => {
     });
@@ -17,4 +16,3 @@ describe('Swaption tests', () => {
     it('Testing implied volatility for swaptions...', () => {
     });
 });
-//# sourceMappingURL=swaption.js.map

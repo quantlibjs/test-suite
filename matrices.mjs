@@ -494,4 +494,3 @@ describe('Matrix tests', () => {
         }
     });
 });
-//# sourceMappingURL=matrices_test.js.map

@@ -34,4 +34,3 @@ describe('time series tests', () => {
     it('Testing time series iterators...', () => {
     });
 });
-//# sourceMappingURL=timeseries.js.map

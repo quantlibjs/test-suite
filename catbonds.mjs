@@ -318,4 +318,3 @@ describe('CatBond tests', () => {
         expect(riskFreeYield).toBeLessThan(yield1);
     });
 });
-//# sourceMappingURL=catbonds.js.map

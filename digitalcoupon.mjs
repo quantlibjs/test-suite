@@ -491,4 +491,3 @@ describe('Digital coupon tests', () => {
         }
     });
 });
-//# sourceMappingURL=digitalcoupon.js.map

@@ -11,6 +11,7 @@ function norm(m) {
 }
 
 describe('Covariance and correlation tests', () => {
+
     it('Testing matrix rank reduction salvaging algorithms...', () => {
         let expected, calculated;
         const n = 3;
@@ -39,6 +40,7 @@ describe('Covariance and correlation tests', () => {
         const error = norm(Array2D.sub(goodCov, badCov));
         expect(error).toBeLessThan(4.0e-4);
     });
+
     it('Testing positive semi-definiteness salvaging algorithms...', () => {
         let expected, calculated;
         const n = 3;
@@ -81,6 +83,7 @@ describe('Covariance and correlation tests', () => {
         const error = norm(Array2D.sub(goodCov, badCov));
         expect(error).toBeLessThan(4.0e-4);
     });
+
     it('Testing covariance and correlation calculations...', () => {
         const data00 = [3.0, 9.0];
         const data01 = [2.0, 7.0];
@@ -102,11 +105,11 @@ describe('Covariance and correlation tests', () => {
             for (j = 0; j < n; j++) {
                 temp[j] = data[i][j];
             }
-            s.add(temp, weights[i]);
+            s.add(Array.from(temp), weights[i]);
         }
-        const std = s.standardDeviation();
-        let calcCov = s.covariance();
-        let calcCor = s.correlation();
+        const std = Array.from(s.standardDeviation());
+        let calcCov = Array.from(s.covariance());
+        let calcCor = Array.from(s.correlation());
         const expCov = Array2D.newMatrix(n, n);
         for (i = 0; i < n; i++) {
             expCov[i][i] = std[i] * std[i];
@@ -147,4 +150,3 @@ describe('Covariance and correlation tests', () => {
         }
     });
 });
-//# sourceMappingURL=covariance.js.map

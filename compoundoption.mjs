@@ -153,4 +153,3 @@ describe('Compound option tests', () => {
         backup.dispose();
     });
 });
-//# sourceMappingURL=compoundoption.js.map

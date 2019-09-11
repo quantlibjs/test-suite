@@ -309,4 +309,3 @@ describe('American option tests', () => {
         testFdGreeks(new FDShoutEngine());
     });
 });
-//# sourceMappingURL=americanoption.js.map

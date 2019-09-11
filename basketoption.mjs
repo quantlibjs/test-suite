@@ -529,4 +529,3 @@ describe('Basket option tests', () => {
         expect(Math.abs(expectedGamma - calculatedGamma)).toBeLessThan(tol);
     });
 });
-//# sourceMappingURL=basketoption.js.map

@@ -1,4 +1,3 @@
-"use strict";
 describe('swap-forward mappings tests', () => {
     it('Testing forward-rate coinitial-swap Jacobian...', () => {
     });
@@ -7,4 +6,3 @@ describe('swap-forward mappings tests', () => {
     it('Testing implied swaption vol in LMM using HW approximation...', () => {
     });
 });
-//# sourceMappingURL=swapforwardmappings.js.map

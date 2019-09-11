@@ -1,4 +1,3 @@
-"use strict";
 describe('VPP Test', () => {
     it('Testing Geman-Roncoroni process...', () => {
     });
@@ -13,4 +12,3 @@ describe('VPP Test', () => {
     it('Testing KlugeExtOU matrix decomposition...', () => {
     });
 });
-//# sourceMappingURL=vpp.js.map

@@ -145,4 +145,3 @@ describe('Brownian bridge tests', () => {
         expect(maxCovError).toBeLessThan(covTolerance);
     });
 });
-//# sourceMappingURL=brownianbridge.js.map

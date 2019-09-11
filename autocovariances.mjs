@@ -39,4 +39,3 @@ describe('auto-covariance tests', () => {
         expect(Array1D.DotProduct(delta, delta)).toBeLessThan(1.0e-6);
     });
 });
-//# sourceMappingURL=autocovariances.js.map

@@ -933,4 +933,3 @@ describe('linear operator tests', () => {
         backup.dispose();
     });
 });
-//# sourceMappingURL=fdmlinearop.js.map

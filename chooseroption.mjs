@@ -53,4 +53,3 @@ describe('Chooser option tests', () => {
         expect(error).toBeLessThan(tolerance);
     });
 });
-//# sourceMappingURL=chooseroption.js.map

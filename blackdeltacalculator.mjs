@@ -366,4 +366,3 @@ describe('Black delta calculator tests', () => {
         backup.dispose();
     });
 });
-//# sourceMappingURL=blackdeltacalculator.js.map

@@ -221,4 +221,3 @@ describe('Capped and floored coupon tests', () => {
         expect(error).toBeLessThan(tolerance);
     });
 });
-//# sourceMappingURL=capflooredcoupon.js.map

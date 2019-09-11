@@ -402,4 +402,3 @@ describe('Digital option tests', () => {
         backup.dispose();
     });
 });
-//# sourceMappingURL=digitaloption.js.map

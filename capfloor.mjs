@@ -274,4 +274,3 @@ describe('Cap and floor tests', () => {
         expect(Math.abs(floor.NPV() - cachedFloorNPV)).toBeLessThan(1.0e-11);
     });
 });
-//# sourceMappingURL=capfloor.js.map

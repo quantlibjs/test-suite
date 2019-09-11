@@ -296,4 +296,3 @@ describe('Forward option tests', () => {
         backup.dispose();
     });
 });
-//# sourceMappingURL=forwardoption.js.map

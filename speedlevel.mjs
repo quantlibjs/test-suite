@@ -4,4 +4,3 @@ export var SpeedLevel;
     SpeedLevel[SpeedLevel["Fast"] = 1] = "Fast";
     SpeedLevel[SpeedLevel["Faster"] = 2] = "Faster";
 })(SpeedLevel || (SpeedLevel = {}));
-//# sourceMappingURL=speedlevel.js.map

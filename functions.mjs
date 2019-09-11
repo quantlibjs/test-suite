@@ -186,4 +186,3 @@ describe('Factorial tests', () => {
         }
     });
 });
-//# sourceMappingURL=functions.js.map

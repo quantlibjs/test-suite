@@ -1,4 +1,3 @@
-"use strict";
 describe('Money tests', () => {
     it('Testing money arithmetic without conversions...', () => {
     });
@@ -7,4 +6,3 @@ describe('Money tests', () => {
     it('Testing money arithmetic with automated conversion...', () => {
     });
 });
-//# sourceMappingURL=money.js.map

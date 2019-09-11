@@ -1,4 +1,3 @@
-"use strict";
 describe('OptionletStripper Tests', () => {
     it('Testing forward/forward vol stripping from flat' +
         ' term vol surface using OptionletStripper1 class...', () => {
@@ -22,4 +21,3 @@ describe('OptionletStripper Tests', () => {
         ' level in case of curve relinking...', () => {
     });
 });
-//# sourceMappingURL=optionletstripper.js.map

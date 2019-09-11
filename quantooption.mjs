@@ -1,4 +1,3 @@
-"use strict";
 describe('Quanto option tests', () => {
     it('Testing quanto option values...', () => {
     });
@@ -15,4 +14,3 @@ describe('Experimental quanto option tests', () => {
     it('Testing quanto-double-barrier option values...', () => {
     });
 });
-//# sourceMappingURL=quantooption.js.map

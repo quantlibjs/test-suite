@@ -1,4 +1,3 @@
-"use strict";
 describe('Market-model tests', () => {
     it('Testing exact repricing of one-step forwards and optionlets in a' +
         ' lognormal forward rate market model...', () => {
@@ -10,4 +9,3 @@ describe('Market-model tests', () => {
         ' rate market model...', () => {
     });
 });
-//# sourceMappingURL=marketmodel.js.map

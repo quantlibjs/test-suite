@@ -223,4 +223,3 @@ describe('Cliquet option tests', () => {
         backup.dispose();
     });
 });
-//# sourceMappingURL=cliquetoption.js.map

@@ -1,4 +1,3 @@
-"use strict";
 describe('yoyOptionletStripper (yoy inflation vol) tests', () => {
     it('Testing conversion from YoY price surface to YoY volatility surface...', () => {
     });
@@ -6,4 +5,3 @@ describe('yoyOptionletStripper (yoy inflation vol) tests', () => {
         ' YoY inflation term structure...', () => {
     });
 });
-//# sourceMappingURL=inflationvolatility.js.map

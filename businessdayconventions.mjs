@@ -58,4 +58,3 @@ describe('Business day convention tests', () => {
         }
     });
 });
-//# sourceMappingURL=businessdayconventions.js.map

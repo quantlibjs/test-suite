@@ -246,4 +246,3 @@ describe('Bates model tests', () => {
         backup.dispose();
     });
 });
-//# sourceMappingURL=batesmodel.js.map

@@ -1,4 +1,3 @@
-"use strict";
 describe('Libor market model tests', () => {
     it('Testing simple covariance models...', () => {
     });
@@ -9,4 +8,3 @@ describe('Libor market model tests', () => {
     it('Testing forward swap and swaption pricing...', () => {
     });
 });
-//# sourceMappingURL=libormarketmodel.js.map

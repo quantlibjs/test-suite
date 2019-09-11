@@ -1,4 +1,3 @@
-"use strict";
 describe('Swing-Option Test', () => {
     it('Testing extended Ornstein-Uhlenbeck process...', () => {
     });
@@ -13,4 +12,3 @@ describe('Swing-Option Test', () => {
     it('Testing simple swing option pricing for Kluge model...', () => {
     });
 });
-//# sourceMappingURL=swingoption.js.map

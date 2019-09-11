@@ -40,4 +40,3 @@ describe('Credit risk plus tests', () => {
         expect(Math.abs(cr.lossQuantile(0.99) - 250)).toBeLessThan(0.5);
     });
 });
-//# sourceMappingURL=creditriskplus.js.map

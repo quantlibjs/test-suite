@@ -1,4 +1,3 @@
-"use strict";
 describe('Libor market model process tests', () => {
     it('Testing caplet LMM process initialisation...', () => {
     });
@@ -7,4 +6,3 @@ describe('Libor market model process tests', () => {
     it('Testing caplet LMM Monte-Carlo caplet pricing...', () => {
     });
 });
-//# sourceMappingURL=libormarketmodelprocess.js.map

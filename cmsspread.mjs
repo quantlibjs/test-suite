@@ -186,4 +186,3 @@ describe('Cms tests', () => {
             .toBeLessThan(tol);
     });
 });
-//# sourceMappingURL=cmsspread.js.map

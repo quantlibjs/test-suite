@@ -51,4 +51,3 @@ describe('linear least squares regression tests', () => {
     it('Testing 1D simple linear least-squares regression...', () => {
     });
 });
-//# sourceMappingURL=linearleastsquaresregression.js.map

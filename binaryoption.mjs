@@ -119,4 +119,3 @@ describe('Binary Option tests', () => {
         }
     });
 });
-//# sourceMappingURL=binaryoption.js.map

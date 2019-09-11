@@ -1,4 +1,3 @@
-"use strict";
 describe('Interpolated piecewise zero spreaded yield curve tests', () => {
     it('Testing flat interpolation before the first spreaded date...', () => {
     });
@@ -21,4 +20,3 @@ describe('Interpolated piecewise zero spreaded yield curve tests', () => {
     it('Testing quote update...', () => {
     });
 });
-//# sourceMappingURL=piecewisezerospreadedtermstructure.js.map

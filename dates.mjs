@@ -77,4 +77,3 @@ describe('Date tests', () => {
         expect(d).toEqual(new Date(2012, 11, 2).valueOf());
     });
 });
-//# sourceMappingURL=dates.js.map

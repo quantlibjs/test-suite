@@ -189,4 +189,3 @@ describe('Default-probability curve tests', () => {
         backup.dispose();
     });
 });
-//# sourceMappingURL=defaultprobabilitycurves.js.map

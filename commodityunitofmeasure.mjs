@@ -51,4 +51,3 @@ describe('Commodity Unit Of Measure tests', () => {
         expect(calc.close(actual)).toBeTruthy();
     });
 });
-//# sourceMappingURL=commodityunitofmeasure.js.map
