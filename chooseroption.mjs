@@ -1,4 +1,4 @@
-import { Actual360, AnalyticComplexChooserEngine, AnalyticSimpleChooserEngine, BlackScholesMertonProcess, ComplexChooserOption, DateExt, EuropeanExercise, Handle, Settings, SimpleChooserOption, SimpleQuote } from '/ql.mjs';
+import { Actual360, AnalyticComplexChooserEngine, AnalyticSimpleChooserEngine, BlackScholesMertonProcess, ComplexChooserOption, DateExt, EuropeanExercise, Handle, Settings, SimpleChooserOption, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 import { flatRate1, flatVol1 } from '/test-suite/utilities.mjs';
 
 describe('Chooser option tests', () => {

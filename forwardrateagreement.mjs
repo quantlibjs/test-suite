@@ -1,4 +1,4 @@
-import { Cubic, DateExt, ForwardRate, ForwardRateAgreement, FraRateHelper, Handle, Period, PiecewiseYieldCurve, Position, RelinkableHandle, Settings, SimpleQuote, TimeUnit, USDLibor } from '/ql.mjs';
+import { Cubic, DateExt, ForwardRate, ForwardRateAgreement, FraRateHelper, Handle, Period, PiecewiseYieldCurve, Position, RelinkableHandle, Settings, SimpleQuote, TimeUnit, USDLibor } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 describe('forward rate agreement', () => {
     it('Testing forward rate agreement construction...', () => {

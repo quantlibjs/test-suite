@@ -1,4 +1,4 @@
-import { BusinessDayConvention, DateExt, EUHICP, Frequency, inflationPeriod, MakeSchedule, Period, SavedSettings, Settings, TimeUnit, UKRPI, UnitedKingdom } from '/ql.mjs';
+import { BusinessDayConvention, DateExt, EUHICP, Frequency, inflationPeriod, MakeSchedule, Period, SavedSettings, Settings, TimeUnit, UKRPI, UnitedKingdom } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 import { IndexHistoryCleaner } from '/test-suite/utilities.mjs';
 
 const first = 0, second = 1;

@@ -1,4 +1,4 @@
-import { Comparison, InverseCumulativePoisson, PoissonPseudoRandom, PseudoRandom } from '/ql.mjs';
+import { Comparison, InverseCumulativePoisson, PoissonPseudoRandom, PseudoRandom } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 describe('RNG traits tests', () => {
     it('Testing Gaussian pseudo-random number generation...', () => {

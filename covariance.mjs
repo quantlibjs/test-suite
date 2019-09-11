@@ -1,4 +1,4 @@
-import { Array1D, Array2D, CovarianceDecomposition, getCovariance, pseudoSqrt, rankReducedSqrt, SalvagingAlgorithm, SequenceStatistics } from '/ql.mjs';
+import { Array1D, Array2D, CovarianceDecomposition, getCovariance, pseudoSqrt, rankReducedSqrt, SalvagingAlgorithm, SequenceStatistics } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 function norm(m) {
     let sum = 0.0;

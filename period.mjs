@@ -1,4 +1,4 @@
-import { Period, PeriodParser, TimeUnit } from '/ql.mjs';
+import { Period, PeriodParser, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 describe('Period tests', () => {
     it('Testing period algebra on years/months...', () => {

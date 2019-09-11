@@ -1,4 +1,4 @@
-import { Array1D, Comparison, ConvergenceStatistics, GenericSequenceStatistics, IncrementalStatistics, InverseCumulativeNormal, InverseCumulativeRng, MersenneTwisterUniformRng, RiskStatistics, SeedGenerator } from '/ql.mjs';
+import { Array1D, Comparison, ConvergenceStatistics, GenericSequenceStatistics, IncrementalStatistics, InverseCumulativeNormal, InverseCumulativeRng, MersenneTwisterUniformRng, RiskStatistics, SeedGenerator } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 const first = 0, second = 1;
 

@@ -1,5 +1,5 @@
 import '/test-suite/quantlibtestsuite.mjs';
-import { Actual360, Array1D, BSMOperator, CumulativeNormalDistribution, DateExt, DPlusDMinus, DZero, GeneralizedBlackScholesProcess, Handle, NormalDistribution, PdeOperator, PdeType, SimpleQuote, TimeUnit, TridiagonalOperator } from '/ql.mjs';
+import { Actual360, Array1D, BSMOperator, CumulativeNormalDistribution, DateExt, DPlusDMinus, DZero, GeneralizedBlackScholesProcess, Handle, NormalDistribution, PdeOperator, PdeType, SimpleQuote, TimeUnit, TridiagonalOperator } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 import { flatRate2, flatVol2, norm } from '/test-suite/utilities.mjs';
 
 const average = 0.0;

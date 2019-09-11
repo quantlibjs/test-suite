@@ -1,4 +1,4 @@
-import { Array1D, TqrEigenDecomposition } from '/ql.mjs';
+import { Array1D, TqrEigenDecomposition } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 const tolerance = 1.0e-10;
 

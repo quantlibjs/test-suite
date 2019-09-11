@@ -1,4 +1,4 @@
-import { BlackConstantVol, FlatForward, Handle, IndexManager, NullCalendar, Observer, SimpleQuote } from '/ql.mjs';
+import { BlackConstantVol, FlatForward, Handle, IndexManager, NullCalendar, Observer, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 export class Flag extends Observer {
     constructor() {

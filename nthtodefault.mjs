@@ -1,4 +1,4 @@
-import { Actual360, Actual365Fixed, Array1D, Basket, Compounding, ConstantLossModel, EURCurrency, FlatForward, FlatHazardRate, GaussianCopulaPolicy, Handle, IntegralNtdEngine, Issuer, LatentModelIntegrationType, MakeSchedule, NorthAmericaCorpDefaultKey, NthToDefault, Period, Pool, Protection, SavedSettings, Seniority, Settings, SimpleQuote, TARGET, TCopulaPolicy, TimeUnit } from '/ql.mjs';
+import { Actual360, Actual365Fixed, Array1D, Basket, Compounding, ConstantLossModel, EURCurrency, FlatForward, FlatHazardRate, GaussianCopulaPolicy, Handle, IntegralNtdEngine, Issuer, LatentModelIntegrationType, MakeSchedule, NorthAmericaCorpDefaultKey, NthToDefault, Period, Pool, Protection, SavedSettings, Seniority, Settings, SimpleQuote, TARGET, TCopulaPolicy, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 class hwDatum {
     constructor(rank, spread) {

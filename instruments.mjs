@@ -1,4 +1,4 @@
-import { Actual360, AnalyticEuropeanEngine, BlackScholesMertonProcess, CompositeInstrument, DateExt, EuropeanExercise, EuropeanOption, Handle, Option, PlainVanillaPayoff, RelinkableHandle, Settings, SimpleQuote, Stock } from '/ql.mjs';
+import { Actual360, AnalyticEuropeanEngine, BlackScholesMertonProcess, CompositeInstrument, DateExt, EuropeanExercise, EuropeanOption, Handle, Option, PlainVanillaPayoff, RelinkableHandle, Settings, SimpleQuote, Stock } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 import { Flag, flatRate4, flatVol4 } from '/test-suite/utilities.mjs';
 
 describe('Instrument tests', () => {

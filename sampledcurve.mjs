@@ -1,4 +1,4 @@
-import { BoundedGrid, SampledCurve } from '/ql.mjs';
+import { BoundedGrid, SampledCurve } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 class FSquared {
     f(x) {

@@ -1,4 +1,4 @@
-import { Actual360, Actual365Fixed, Array2D, BusinessDayConvention, CapFloorTermVolSurface, ConstantOptionletVolatility, ConstantSwaptionVolatility, DepositRateHelper, Discount, EndCriteria, Euribor, EuriborSwapIsdaFixA, FlatForward, FraRateHelper, Frequency, Handle, LogLinear, MarkovFunctional, MfStateProcess, OptionletStripper1, Period, PiecewiseYieldCurve, Settings, SimpleQuote, StrippedOptionletAdapter, SwapRateHelper, SwaptionVolatilityMatrix, SwaptionVolCube1, TARGET, TimeUnit } from '/ql.mjs';
+import { Actual360, Actual365Fixed, Array2D, BusinessDayConvention, CapFloorTermVolSurface, ConstantOptionletVolatility, ConstantSwaptionVolatility, DepositRateHelper, Discount, EndCriteria, Euribor, EuriborSwapIsdaFixA, FlatForward, FraRateHelper, Frequency, Handle, LogLinear, MarkovFunctional, MfStateProcess, OptionletStripper1, Period, PiecewiseYieldCurve, Settings, SimpleQuote, StrippedOptionletAdapter, SwapRateHelper, SwaptionVolatilityMatrix, SwaptionVolCube1, TARGET, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 function flatYts() {
     return new Handle(new FlatForward().ffInit4(0, new TARGET(), 0.03, new Actual365Fixed()));

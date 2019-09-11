@@ -1,5 +1,4 @@
-import { Actual365Fixed, AmericanExercise, Array2D, BlackConstantVol, CrankNicolson, EarlyExercisePathPricer, FDAmericanEngine, FlatForward, GeneralizedBlackScholesProcess, Handle, LongstaffSchwartzPathPricer, LsmBasisSystem, MakeMCAmericanEngine, MC, MCLongstaffSchwartzEngine, NullCalendar, Option, PlainVanillaPayoff, PseudoRandom, QL_NULL_INTEGER, QL_NULL_REAL, RelinkableHandle, SavedSettings, Settings, SimpleQuote, StochasticProcessArray, VanillaOption, VanillaOptionEngine } from '/ql.mjs';
-import { std } from '/test-suite/std.mjs';
+import { Actual365Fixed, AmericanExercise, Array2D, BlackConstantVol, CrankNicolson, EarlyExercisePathPricer, FDAmericanEngine, FlatForward, GeneralizedBlackScholesProcess, Handle, LongstaffSchwartzPathPricer, LsmBasisSystem, MakeMCAmericanEngine, MC, MCLongstaffSchwartzEngine, NullCalendar, Option, PlainVanillaPayoff, PseudoRandom, QL_NULL_INTEGER, QL_NULL_REAL, RelinkableHandle, SavedSettings, Settings, SimpleQuote, StochasticProcessArray, VanillaOption, VanillaOptionEngine, std } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 class AmericanMaxPathPricer extends EarlyExercisePathPricer {
     constructor(payoff) {

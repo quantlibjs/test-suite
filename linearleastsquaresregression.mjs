@@ -1,4 +1,4 @@
-import { constant, identity, InverseCumulativeNormal, InverseCumulativeRng, LinearRegression, MersenneTwisterUniformRng, SavedSettings, square } from '/ql.mjs';
+import { constant, identity, InverseCumulativeNormal, InverseCumulativeRng, LinearRegression, MersenneTwisterUniformRng, SavedSettings, square } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 describe('linear least squares regression tests', () => {
     it('Testing linear least-squares regression...', () => {
         const backup = new SavedSettings();

@@ -1,6 +1,5 @@
-import { ActualActual, AnalyticEuropeanEngine, Array1D, Comparison, CubicNaturalSpline, DateExt, DouglasScheme, EuropeanExercise, FdmBlackScholesFwdOp, FdmBlackScholesMesher, FdmMesherComposite, FdmSchemeDesc, GammaFunction, GaussLobattoIntegral, GeneralizedBlackScholesProcess, Handle, Option, PlainVanillaPayoff, Predefined1dMesher, QL_EPSILON, QL_NULL_REAL, SavedSettings, Settings, SimpleQuote, SquareRootProcessRNDCalculator, TimeUnit, VanillaOption } from '/ql.mjs';
+import { ActualActual, AnalyticEuropeanEngine, Array1D, Comparison, CubicNaturalSpline, DateExt, DouglasScheme, EuropeanExercise, FdmBlackScholesFwdOp, FdmBlackScholesMesher, FdmMesherComposite, FdmSchemeDesc, GammaFunction, GaussLobattoIntegral, GeneralizedBlackScholesProcess, Handle, Option, PlainVanillaPayoff, Predefined1dMesher, QL_EPSILON, QL_NULL_REAL, SavedSettings, Settings, SimpleQuote, SquareRootProcessRNDCalculator, TimeUnit, VanillaOption, std } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 import { flatRate4, flatVol4 } from '/test-suite/utilities.mjs';
-import { std } from '/test-suite/std.mjs';
 
 function fokkerPlanckPrice1D(mesher, op, payoff, x0, maturity, tGrid) {
     const x = mesher.locations(0);

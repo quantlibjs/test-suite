@@ -1,4 +1,4 @@
-import { Actual360, ActualActual, BlackCapFloorEngine, BusinessDayConvention, Cap, CapFloor, Collar, DateGeneration, DiscountingSwapEngine, Euribor6M, Floor, Frequency, Handle, IborLeg, Period, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, TimeUnit, VanillaSwap, VolatilityType } from '/ql.mjs';
+import { Actual360, ActualActual, BlackCapFloorEngine, BusinessDayConvention, Cap, CapFloor, Collar, DateGeneration, DiscountingSwapEngine, Euribor6M, Floor, Frequency, Handle, IborLeg, Period, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, TimeUnit, VanillaSwap, VolatilityType } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 import { flatRate2 } from '/test-suite/utilities.mjs';
 
 class CommonVars {

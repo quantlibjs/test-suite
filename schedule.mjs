@@ -1,4 +1,4 @@
-import { BusinessDayConvention, Calendar, DateExt, DateGeneration, Frequency, Japan, MakeSchedule, Period, Schedule, TARGET, TimeUnit, UnitedStates, WeekendsOnly } from '/ql.mjs';
+import { BusinessDayConvention, Calendar, DateExt, DateGeneration, Frequency, Japan, MakeSchedule, Period, Schedule, TARGET, TimeUnit, UnitedStates, WeekendsOnly } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 function check_dates(s, expected) {
     if (s.size() !== expected.length) {

@@ -1,4 +1,4 @@
-import { TimeGrid } from '/ql.mjs';
+import { TimeGrid } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 describe('Timegrid tests', () => {
     it('TimeGrid constructor with additional steps...', () => {

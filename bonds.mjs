@@ -1,5 +1,5 @@
 import '/test-suite/quantlibtestsuite.mjs';
-import { Actual360, ActualActual, Australia, BlackIborCouponPricer, BondFunctions, Brazil, Business252, BusinessDayConvention, CashFlows, Compounding, DateExt, DateGeneration, DiscountingBondEngine, Duration, FixedRateBond, FloatingRateBond, Frequency, Handle, InterestRate, Month, NullCalendar, Period, SavedSettings, Schedule, setCouponPricer, Settings, SimpleQuote, TARGET, Thirty360, TimeUnit, UnitedKingdom, UnitedStates, USDLibor, ZeroCouponBond } from '/ql.mjs';
+import { Actual360, ActualActual, Australia, BlackIborCouponPricer, BondFunctions, Brazil, Business252, BusinessDayConvention, CashFlows, Compounding, DateExt, DateGeneration, DiscountingBondEngine, Duration, FixedRateBond, FloatingRateBond, Frequency, Handle, InterestRate, Month, NullCalendar, Period, SavedSettings, Schedule, setCouponPricer, Settings, SimpleQuote, TARGET, Thirty360, TimeUnit, UnitedKingdom, UnitedStates, USDLibor, ZeroCouponBond } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 import { flatRate1, flatRate2 } from '/test-suite/utilities.mjs';
 
 class CommonVars {

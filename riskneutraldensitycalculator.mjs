@@ -1,4 +1,4 @@
-import { Actual365Fixed, BlackCalculator, BlackScholesMertonProcess, BSMRNDCalculator, Handle, Option, QL_EPSILON, SavedSettings, Settings, SimpleQuote } from '/ql.mjs';
+import { Actual365Fixed, BlackCalculator, BlackScholesMertonProcess, BSMRNDCalculator, Handle, Option, QL_EPSILON, SavedSettings, Settings, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 import { flatRate2, flatVol4 } from '/test-suite/utilities.mjs';
 
 describe('Risk neutral density calculator tests', () => {

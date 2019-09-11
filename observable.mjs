@@ -1,4 +1,4 @@
-import { ObservableSettings, Observer, SimpleQuote } from '/ql.mjs';
+import { ObservableSettings, Observer, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 class UpdateCounter extends Observer {
     constructor() {

@@ -1,4 +1,4 @@
-import { Actual360, AmericanExercise, AnalyticDoubleBarrierBinaryEngine, BinomialDoubleBarrierEngine, BlackScholesMertonProcess, CashOrNothingPayoff, CoxRossRubinstein, DateExt, DiscretizedDoubleBarrierOption, DoubleBarrier, DoubleBarrierOption, EuropeanExercise, Handle, Option, SimpleQuote } from '/ql.mjs';
+import { Actual360, AmericanExercise, AnalyticDoubleBarrierBinaryEngine, BinomialDoubleBarrierEngine, BlackScholesMertonProcess, CashOrNothingPayoff, CoxRossRubinstein, DateExt, DiscretizedDoubleBarrierOption, DoubleBarrier, DoubleBarrierOption, EuropeanExercise, Handle, Option, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 import { flatRate1, flatVol1 } from '/test-suite/utilities.mjs';
 
 class DoubleBinaryOptionData {

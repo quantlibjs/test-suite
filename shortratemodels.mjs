@@ -1,4 +1,4 @@
-import { Actual360, Actual365Fixed, EndCriteria, Euribor6M, Handle, HullWhite, JamshidianSwaptionEngine, LevenbergMarquardt, Period, SavedSettings, Settings, SimpleQuote, SwaptionHelper, Thirty360, TimeUnit } from '/ql.mjs';
+import { Actual360, Actual365Fixed, EndCriteria, Euribor6M, Handle, HullWhite, JamshidianSwaptionEngine, LevenbergMarquardt, Period, SavedSettings, Settings, SimpleQuote, SwaptionHelper, Thirty360, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 import { flatRate2, IndexHistoryCleaner } from '/test-suite/utilities.mjs';
 
 class CalibrationData {

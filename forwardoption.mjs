@@ -1,4 +1,4 @@
-import { Actual360, AnalyticEuropeanEngine, BinomialVanillaEngine, BlackScholesMertonProcess, CoxRossRubinstein, DateExt, EuropeanExercise, ForwardPerformanceVanillaEngine, ForwardVanillaEngine, ForwardVanillaOption, Handle, Option, PlainVanillaPayoff, QL_NULL_REAL, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption } from '/ql.mjs';
+import { Actual360, AnalyticEuropeanEngine, BinomialVanillaEngine, BlackScholesMertonProcess, CoxRossRubinstein, DateExt, EuropeanExercise, ForwardPerformanceVanillaEngine, ForwardVanillaEngine, ForwardVanillaOption, Handle, Option, PlainVanillaPayoff, QL_NULL_REAL, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 import { flatRate1, flatRate3, flatVol1, flatVol3, relativeError } from '/test-suite/utilities.mjs';
 
 const first = 0;

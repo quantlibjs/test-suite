@@ -1,4 +1,4 @@
-import { Array1D, Array2D, BusinessDayConvention, CMSMMDriftCalculator, CMSwapCurveState, DateExt, DateGeneration, EvolutionDescription, Frequency, LMMCurveState, LMMDriftCalculator, NullCalendar, Period, Schedule, Settings, SimpleDayCounter, TimeUnit } from '/ql.mjs';
+import { Array1D, Array2D, BusinessDayConvention, CMSMMDriftCalculator, CMSwapCurveState, DateExt, DateGeneration, EvolutionDescription, Frequency, LMMCurveState, LMMDriftCalculator, NullCalendar, Period, Schedule, Settings, SimpleDayCounter, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 class CommonVars {
     constructor() {

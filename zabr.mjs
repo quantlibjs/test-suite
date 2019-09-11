@@ -1,4 +1,4 @@
-import { SabrSmileSection, ZabrFullFd, ZabrLocalVolatility, ZabrShortMaturityLognormal, ZabrShortMaturityNormal, ZabrSmileSection } from '/ql.mjs';
+import { SabrSmileSection, ZabrFullFd, ZabrLocalVolatility, ZabrShortMaturityLognormal, ZabrShortMaturityNormal, ZabrSmileSection } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 describe('Zabr model tests', () => {
     it('Testing Consistency ...', () => {

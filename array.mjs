@@ -1,4 +1,4 @@
-import { Array1D, QL_EPSILON } from '/ql.mjs';
+import { Array1D, QL_EPSILON } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 function p2(x) {
     return x * x;

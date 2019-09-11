@@ -1,4 +1,4 @@
-import { DateExt } from '/ql.mjs';
+import { DateExt } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 describe('Date tests', () => {
     it('Testing dates...', () => {

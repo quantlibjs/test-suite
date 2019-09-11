@@ -1,4 +1,4 @@
-import { Actual360, AmericanExercise, AnalyticDigitalAmericanEngine, AnalyticDigitalAmericanKOEngine, AnalyticEuropeanEngine, AssetOrNothingPayoff, BlackScholesMertonProcess, CashOrNothingPayoff, DateExt, EuropeanExercise, GapPayoff, Handle, LowDiscrepancy, MakeMCDigitalEngine, Option, SavedSettings, Settings, SimpleQuote, VanillaOption } from '/ql.mjs';
+import { Actual360, AmericanExercise, AnalyticDigitalAmericanEngine, AnalyticDigitalAmericanKOEngine, AnalyticEuropeanEngine, AssetOrNothingPayoff, BlackScholesMertonProcess, CashOrNothingPayoff, DateExt, EuropeanExercise, GapPayoff, Handle, LowDiscrepancy, MakeMCDigitalEngine, Option, SavedSettings, Settings, SimpleQuote, VanillaOption } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 import { flatRate1, flatRate3, flatVol1, flatVol3, relativeError } from '/test-suite/utilities.mjs';
 
 const first = 0;

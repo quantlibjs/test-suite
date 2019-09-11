@@ -1,4 +1,4 @@
-import { BusinessDayConvention, Period, SouthAfrica, TimeUnit } from '/ql.mjs';
+import { BusinessDayConvention, Period, SouthAfrica, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 class SingleCase {
     constructor(calendar, convention, start, period, endOfMonth, result) {

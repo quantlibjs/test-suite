@@ -1,4 +1,4 @@
-import { Actual365Fixed, bachelierBlackFormula1, bachelierBlackFormulaImpliedVol, blackFormula1, blackFormula2, blackFormulaImpliedStdDevApproximationRS1, blackFormulaImpliedStdDevApproximationRS2, blackFormulaImpliedStdDevChambers1, blackFormulaImpliedStdDevLiRS2, DateExt, Option, PlainVanillaPayoff, QL_NULL_REAL, SavedSettings, Settings, TimeUnit } from '/ql.mjs';
+import { Actual365Fixed, bachelierBlackFormula1, bachelierBlackFormulaImpliedVol, blackFormula1, blackFormula2, blackFormulaImpliedStdDevApproximationRS1, blackFormulaImpliedStdDevApproximationRS2, blackFormulaImpliedStdDevChambers1, blackFormulaImpliedStdDevLiRS2, DateExt, Option, PlainVanillaPayoff, QL_NULL_REAL, SavedSettings, Settings, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 import { flatRate4 } from '/test-suite/utilities.mjs';
 
 describe('Black formula tests', () => {

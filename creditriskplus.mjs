@@ -1,4 +1,4 @@
-import { Array1D, Array2D, CreditRiskPlus } from '/ql.mjs';
+import { Array1D, Array2D, CreditRiskPlus } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 describe('Credit risk plus tests', () => {
     it('Testing extended credit risk plus model against reference values...', () => {

@@ -1,5 +1,5 @@
 import '/test-suite/quantlibtestsuite.mjs';
-import { Actual365Fixed, Array1D, Array2D, BlackConstantVol, BlackScholesMertonProcess, BrownianBridge, FlatForward, Handle, InverseCumulativeNormal, InverseCumulativeRsg, NullCalendar, PathGenerator, SequenceStatistics, Settings, SimpleQuote, SobolRsg, TimeGrid } from '/ql.mjs';
+import { Actual365Fixed, Array1D, Array2D, BlackConstantVol, BlackScholesMertonProcess, BrownianBridge, FlatForward, Handle, InverseCumulativeNormal, InverseCumulativeRsg, NullCalendar, PathGenerator, SequenceStatistics, Settings, SimpleQuote, SobolRsg, TimeGrid } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 function maxDiff(forward1, begin1, end1, forward2, begin2) {
     let diff = 0.0;

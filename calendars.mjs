@@ -1,4 +1,4 @@
-import { BespokeCalendar, Brazil, Calendar, China, DateExt, Germany, Italy, Japan, JointCalendar, Russia, SouthKorea, TARGET, TimeUnit, UnitedKingdom, UnitedStates, Weekday } from '/ql.mjs';
+import { BespokeCalendar, Brazil, Calendar, China, DateExt, Germany, Italy, Japan, JointCalendar, Russia, SouthKorea, TARGET, TimeUnit, UnitedKingdom, UnitedStates, Weekday } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 describe('test-calendars', () => {
     it('Testing calendar modification...', () => {

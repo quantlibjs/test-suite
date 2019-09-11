@@ -1,4 +1,4 @@
-import { CeilingTruncation, ClosestRounding, Comparison, DownRounding, FloorTruncation, UpRounding } from '/ql.mjs';
+import { CeilingTruncation, ClosestRounding, Comparison, DownRounding, FloorTruncation, UpRounding } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 class TestCase {
     constructor(x, precision, closest, up, down, floor, ceiling) {

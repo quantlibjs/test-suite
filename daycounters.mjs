@@ -1,4 +1,4 @@
-import { Actual360, Actual365Fixed, ActualActual, Brazil, Business252, BusinessDayConvention, Canada, DateExt, Frequency, MakeSchedule, OneDayCounter, Period, QL_EPSILON, SimpleDayCounter, Thirty360, TimeUnit } from '/ql.mjs';
+import { Actual360, Actual365Fixed, ActualActual, Brazil, Business252, BusinessDayConvention, Canada, DateExt, Frequency, MakeSchedule, OneDayCounter, Period, QL_EPSILON, SimpleDayCounter, Thirty360, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 class SingleCase {
     constructor(convention, start, end, refStart, refEnd, result) {

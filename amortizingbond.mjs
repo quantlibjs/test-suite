@@ -1,5 +1,5 @@
 import '/test-suite/quantlibtestsuite.mjs';
-import { ActualActual, AmortizingFixedRateBond, Frequency, NullCalendar, Period, Settings, TimeUnit } from '/ql.mjs';
+import { ActualActual, AmortizingFixedRateBond, Frequency, NullCalendar, Period, Settings, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 describe('Amortizing Bond tests', () => {
     it('Testing amortizing fixed rate bond...', () => {

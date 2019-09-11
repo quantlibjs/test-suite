@@ -1,5 +1,5 @@
 import '/test-suite/quantlibtestsuite.mjs';
-import { Actual360, AmericanExercise, BaroneAdesiWhaleyApproximationEngine, BjerksundStenslandApproximationEngine, BlackScholesMertonProcess, CrankNicolson, DateExt, FDAmericanEngine, FDShoutEngine, Handle, JuQuadraticApproximationEngine, Option, PlainVanillaPayoff, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption } from '/ql.mjs';
+import { Actual360, AmericanExercise, BaroneAdesiWhaleyApproximationEngine, BjerksundStenslandApproximationEngine, BlackScholesMertonProcess, CrankNicolson, DateExt, FDAmericanEngine, FDShoutEngine, Handle, JuQuadraticApproximationEngine, Option, PlainVanillaPayoff, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 import { flatRate1, flatVol1, relativeError } from '/test-suite/utilities.mjs';
 
 const first = 0;

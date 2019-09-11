@@ -1,4 +1,4 @@
-import { BoundedGrid, TransformedGrid } from '/ql.mjs';
+import { BoundedGrid, TransformedGrid } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 class PlusOne {
     f(x) {

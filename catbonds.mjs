@@ -1,4 +1,4 @@
-import { Actual360, ActualActual, BetaRisk, BlackIborCouponPricer, BusinessDayConvention, Compounding, DateGeneration, DigitalNotionalRisk, DiscountingBondEngine, EventSet, FloatingCatBond, FloatingRateBond, Frequency, Handle, MonteCarloCatBondEngine, NoOffset, Period, ProportionalNotionalRisk, Schedule, setCouponPricer, Settings, TARGET, TimeUnit, UnitedStates, USDLibor } from '/ql.mjs';
+import { Actual360, ActualActual, BetaRisk, BlackIborCouponPricer, BusinessDayConvention, Compounding, DateGeneration, DigitalNotionalRisk, DiscountingBondEngine, EventSet, FloatingCatBond, FloatingRateBond, Frequency, Handle, MonteCarloCatBondEngine, NoOffset, Period, ProportionalNotionalRisk, Schedule, setCouponPricer, Settings, TARGET, TimeUnit, UnitedStates, USDLibor } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 import { flatRate2 } from '/test-suite/utilities.mjs';
 
 const first = 0, second = 0;

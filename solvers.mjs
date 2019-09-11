@@ -1,4 +1,4 @@
-import { Bisection, Brent, FalsePosition, FiniteDifferenceNewtonSafe, Newton, NewtonSafe, QL_NULL_REAL, Ridder, Secant } from '/ql.mjs';
+import { Bisection, Brent, FalsePosition, FiniteDifferenceNewtonSafe, Newton, NewtonSafe, QL_NULL_REAL, Ridder, Secant } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 class F1 {
     f(x) {

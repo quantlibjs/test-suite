@@ -1,4 +1,4 @@
-import { Actual365Fixed, BlackSwaptionEngine, Comparison, DateExt, EuriborSwapIsdaFixA, FlatForward, Handle, MakeSwaption, RelinkableHandle, SavedSettings, Settings, SwaptionVolatilityMatrix, TimeUnit, VolatilityType } from '/ql.mjs';
+import { Actual365Fixed, BlackSwaptionEngine, Comparison, DateExt, EuriborSwapIsdaFixA, FlatForward, Handle, MakeSwaption, RelinkableHandle, SavedSettings, Settings, SwaptionVolatilityMatrix, TimeUnit, VolatilityType } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 import { AtmVolatility, SwaptionMarketConventions } from '/test-suite/swaptionvolstructuresutilities.mjs';
 
 class CommonVars {

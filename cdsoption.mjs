@@ -1,4 +1,4 @@
-import { Actual360, BlackCdsOptionEngine, BusinessDayConvention, CdsOption, CreditDefaultSwap, DateGeneration, EuropeanExercise, FlatForward, FlatHazardRate, Frequency, Handle, MidPointCdsEngine, Period, Protection, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, TARGET, TimeUnit } from '/ql.mjs';
+import { Actual360, BlackCdsOptionEngine, BusinessDayConvention, CdsOption, CreditDefaultSwap, DateGeneration, EuropeanExercise, FlatForward, FlatHazardRate, Frequency, Handle, MidPointCdsEngine, Period, Protection, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, TARGET, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
 
 describe('CDS Option tests', () => {
     it('Testing CDS-option value against cached values...', () => {
