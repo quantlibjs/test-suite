@@ -1,4 +1,4 @@
-import { AbcdFunction, AbcdSquared, Comparison, constant, cos, Default, DiscreteSimpsonIntegral, DiscreteSimpsonIntegrator, DiscreteTrapezoidIntegral, DiscreteTrapezoidIntegrator, FilonIntegral, GaussKronrodAdaptive, GaussKronrodNonAdaptive, GaussLobattoIntegral, identity, M_PI, M_PI_2, MidPoint, NormalDistribution, PiecewiseIntegral, QL_EPSILON, QL_PIECEWISE_FUNCTION, SegmentIntegral, SimpsonIntegral, sin, square, TrapezoidIntegral, TwoDimensionalIntegral } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { AbcdFunction, AbcdSquared, Comparison, constant, cos, Default, DiscreteSimpsonIntegral, DiscreteSimpsonIntegrator, DiscreteTrapezoidIntegral, DiscreteTrapezoidIntegrator, FilonIntegral, GaussKronrodAdaptive, GaussKronrodNonAdaptive, GaussLobattoIntegral, identity, M_PI, M_PI_2, MidPoint, NormalDistribution, PiecewiseIntegral, QL_EPSILON, QL_PIECEWISE_FUNCTION, SegmentIntegral, SimpsonIntegral, sin, square, TrapezoidIntegral, TwoDimensionalIntegral } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 const tolerance = 1.0e-6;
 

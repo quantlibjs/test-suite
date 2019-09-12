@@ -1,4 +1,4 @@
-import { Array1D, BivariateCumulativeNormalDistributionDr78, BivariateCumulativeNormalDistributionWe04DP, BivariateCumulativeStudentDistribution, Comparison, CumulativeNormalDistribution, CumulativePoissonDistribution, InverseCumulativeNormal, InverseCumulativePoisson, M_PI, MaddockInverseCumulativeNormal, NormalDistribution, PoissonDistribution } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Array1D, BivariateCumulativeNormalDistributionDr78, BivariateCumulativeNormalDistributionWe04DP, BivariateCumulativeStudentDistribution, Comparison, CumulativeNormalDistribution, CumulativePoissonDistribution, InverseCumulativeNormal, InverseCumulativePoisson, M_PI, MaddockInverseCumulativeNormal, NormalDistribution, PoissonDistribution } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { norm } from '/test-suite/utilities.mjs';
 
 const average = 1.0, sigma = 2.0;

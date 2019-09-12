@@ -1,4 +1,4 @@
-import { Complex, Factorial, GammaFunction, M_PI, M_PI_2, modifiedBesselFunction_i, modifiedBesselFunction_i_exponentiallyWeighted, modifiedBesselFunction_ic, modifiedBesselFunction_ic_exponentiallyWeighted, modifiedBesselFunction_k, modifiedBesselFunction_k_exponentiallyWeighted, modifiedBesselFunction_kc, modifiedBesselFunction_kc_exponentiallyWeighted, QL_EPSILON } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Complex, Factorial, GammaFunction, M_PI, M_PI_2, modifiedBesselFunction_i, modifiedBesselFunction_i_exponentiallyWeighted, modifiedBesselFunction_ic, modifiedBesselFunction_ic_exponentiallyWeighted, modifiedBesselFunction_k, modifiedBesselFunction_k_exponentiallyWeighted, modifiedBesselFunction_kc, modifiedBesselFunction_kc_exponentiallyWeighted, QL_EPSILON } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 describe('Factorial tests', () => {
     it('Testing factorial numbers...', () => {

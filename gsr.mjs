@@ -1,4 +1,4 @@
-import { Actual365Fixed, Array1D, DateExt, EuriborSwapIsdaFixA, EuropeanExercise, FlatForward, Gaussian1dJamshidianSwaptionEngine, Gaussian1dNonstandardSwaptionEngine, Gaussian1dSwaptionEngine, Gsr, GsrProcess, Handle, HullWhite, HullWhiteForwardProcess, JamshidianSwaptionEngine, MakeVanillaSwap, NonstandardSwaption, Period, Settings, Swaption, TARGET, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Actual365Fixed, Array1D, DateExt, EuriborSwapIsdaFixA, EuropeanExercise, FlatForward, Gaussian1dJamshidianSwaptionEngine, Gaussian1dNonstandardSwaptionEngine, Gaussian1dSwaptionEngine, Gsr, GsrProcess, Handle, HullWhite, HullWhiteForwardProcess, JamshidianSwaptionEngine, MakeVanillaSwap, NonstandardSwaption, Period, Settings, Swaption, TARGET, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 describe('GSR model tests', () => {
     it('Testing GSR process...', () => {

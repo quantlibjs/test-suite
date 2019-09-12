@@ -1,4 +1,4 @@
-import { MersenneTwisterUniformRng } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { MersenneTwisterUniformRng } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 describe('Mersenne twister tests', () => {
     it('Testing Mersenne twister...', () => {

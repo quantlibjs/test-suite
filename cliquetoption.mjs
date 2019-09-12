@@ -1,4 +1,4 @@
-import { Actual360, AnalyticCliquetEngine, AnalyticPerformanceEngine, BlackScholesMertonProcess, CliquetOption, DateExt, EuropeanExercise, Frequency, Handle, MakeMCPerformanceEngine, Option, PercentageStrikePayoff, Period, PseudoRandom, SavedSettings, Settings, SimpleQuote, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Actual360, AnalyticCliquetEngine, AnalyticPerformanceEngine, BlackScholesMertonProcess, CliquetOption, DateExt, EuropeanExercise, Frequency, Handle, MakeMCPerformanceEngine, Option, PercentageStrikePayoff, Period, PseudoRandom, SavedSettings, Settings, SimpleQuote, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatRate3, flatVol1, flatVol3, relativeError } from '/test-suite/utilities.mjs';
 
 const first = 0;

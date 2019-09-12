@@ -1,4 +1,4 @@
-import { Actual360, Actual365Fixed, BusinessDayConvention, Comparison, CompositeZeroYieldStructure, Compounding, Currency, DateExt, DepositRateHelper, Discount, FlatForward, ForwardCurve, ForwardSpreadedTermStructure, Frequency, Handle, IborIndex, ImpliedTermStructure, LogLinear, Month, NullCalendar, Period, PiecewiseYieldCurve, RelinkableHandle, SavedSettings, Settings, SimpleQuote, SwapRateHelper, TARGET, Thirty360, TimeUnit, YieldTermStructure, ZeroSpreadedTermStructure } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Actual360, Actual365Fixed, BusinessDayConvention, Comparison, CompositeZeroYieldStructure, Compounding, Currency, DateExt, DepositRateHelper, Discount, FlatForward, ForwardCurve, ForwardSpreadedTermStructure, Frequency, Handle, IborIndex, ImpliedTermStructure, LogLinear, Month, NullCalendar, Period, PiecewiseYieldCurve, RelinkableHandle, SavedSettings, Settings, SimpleQuote, SwapRateHelper, TARGET, Thirty360, TimeUnit, YieldTermStructure, ZeroSpreadedTermStructure } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { Flag } from '/test-suite/utilities.mjs';
 
 class Datum {

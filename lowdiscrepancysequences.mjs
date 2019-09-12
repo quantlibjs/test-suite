@@ -1,4 +1,4 @@
-import { DiscrepancyStatistics, FaureRsg, HaltonRsg, LatticeRsg, LatticeRule, MersenneTwisterUniformRng, PPMT_MAX_DIM, PrimitivePolynomials, RandomizedLDS, RandomSequenceGenerator, SeedGenerator, SequenceStatistics, SobolRsg } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { DiscrepancyStatistics, FaureRsg, HaltonRsg, LatticeRsg, LatticeRule, MersenneTwisterUniformRng, PPMT_MAX_DIM, PrimitivePolynomials, RandomizedLDS, RandomSequenceGenerator, SeedGenerator, SequenceStatistics, SobolRsg } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 function testRandomizedLatticeRule(name, nameString) {
     const maxDim = 30;

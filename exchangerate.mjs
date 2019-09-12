@@ -1,4 +1,4 @@
-import { CHFCurrency, Comparison, EURCurrency, ExchangeRate, ExchangeRateManager, GBPCurrency, ITLCurrency, JPYCurrency, Money, SEKCurrency, USDCurrency } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { CHFCurrency, Comparison, EURCurrency, ExchangeRate, ExchangeRateManager, GBPCurrency, ITLCurrency, JPYCurrency, Money, SEKCurrency, USDCurrency } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 describe('Exchange-rate tests', () => {
     it('Testing direct exchange rates...', () => {

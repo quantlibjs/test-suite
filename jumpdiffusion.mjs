@@ -1,4 +1,4 @@
-import { Actual360, DateExt, EuropeanExercise, EuropeanOption, Handle, JumpDiffusionEngine, Merton76Process, Option, PlainVanillaPayoff, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Actual360, DateExt, EuropeanExercise, EuropeanOption, Handle, JumpDiffusionEngine, Merton76Process, Option, PlainVanillaPayoff, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatVol1 } from '/test-suite/utilities.mjs';
 
 class HaugMertonData {

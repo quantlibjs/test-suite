@@ -1,4 +1,4 @@
-import { Actual365Fixed, BSMRNDCalculator, DateExt, GeneralizedBlackScholesProcess, Handle, Month, NormalCLVModel, OrnsteinUhlenbeckProcess, QL_EPSILON, SavedSettings, SimpleQuote, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Actual365Fixed, BSMRNDCalculator, DateExt, GeneralizedBlackScholesProcess, Handle, Month, NormalCLVModel, OrnsteinUhlenbeckProcess, QL_EPSILON, SavedSettings, SimpleQuote, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2, flatVol2 } from '/test-suite/utilities.mjs';
 
 describe('NormalCLVModel tests', () => {

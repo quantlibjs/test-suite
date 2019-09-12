@@ -1,4 +1,4 @@
-import { Actual360, AmericanExercise, AnalyticDividendEuropeanEngine, AnalyticEuropeanEngine, BlackScholesMertonProcess, CrankNicolson, DateExt, DividendVanillaOption, EuropeanExercise, FDDividendAmericanEngine, FDDividendEuropeanEngine, Handle, Option, PlainVanillaPayoff, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Actual360, AmericanExercise, AnalyticDividendEuropeanEngine, AnalyticEuropeanEngine, BlackScholesMertonProcess, CrankNicolson, DateExt, DividendVanillaOption, EuropeanExercise, FDDividendAmericanEngine, FDDividendEuropeanEngine, Handle, Option, PlainVanillaPayoff, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate3, flatRate4, flatVol3, flatVol4, relativeError } from '/test-suite/utilities.mjs';
 
 const first = 0;

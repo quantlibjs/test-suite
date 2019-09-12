@@ -1,4 +1,4 @@
-import { ActualActual, blackFormulaImpliedStdDev1, CompositeQuote, DerivedQuote, Euribor, FlatForward, ForwardValueQuote, Handle, ImpliedStdDevQuote, Option, Period, RelinkableHandle, Settings, SimpleQuote, TARGET, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { ActualActual, blackFormulaImpliedStdDev1, CompositeQuote, DerivedQuote, Euribor, FlatForward, ForwardValueQuote, Handle, ImpliedStdDevQuote, Option, Period, RelinkableHandle, Settings, SimpleQuote, TARGET, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { Flag } from '/test-suite/utilities.mjs';
 
 function add10(x) {

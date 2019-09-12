@@ -1,4 +1,4 @@
-import { Array1D, autocorrelations2, autocovariances2, convolutions, Complex } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Array1D, autocorrelations2, autocovariances2, convolutions, Complex } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 describe('auto-covariance tests', () => {
     it('Testing convolutions...', () => {

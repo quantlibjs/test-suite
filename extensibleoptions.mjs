@@ -1,4 +1,4 @@
-import { Actual360, AnalyticHolderExtensibleOptionEngine, AnalyticWriterExtensibleOptionEngine, BlackScholesMertonProcess, DateExt, EuropeanExercise, GeneralizedBlackScholesProcess, Handle, HolderExtensibleOption, Option, PlainVanillaPayoff, Settings, SimpleQuote, WriterExtensibleOption } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Actual360, AnalyticHolderExtensibleOptionEngine, AnalyticWriterExtensibleOptionEngine, BlackScholesMertonProcess, DateExt, EuropeanExercise, GeneralizedBlackScholesProcess, Handle, HolderExtensibleOption, Option, PlainVanillaPayoff, Settings, SimpleQuote, WriterExtensibleOption } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatVol1 } from '/test-suite/utilities.mjs';
 
 describe('Extensible option tests', () => {

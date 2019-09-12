@@ -1,4 +1,4 @@
-import { Actual365Fixed, Array1D, Array2D, BusinessDayConvention, DateExt, DateGeneration, Euribor6M, EuriborSwapIsdaFixA, FlatSmileSection, Frequency, Handle, InterpolatedSmileSection, Linear, Period, RangeAccrualFloatersCoupon, RangeAccrualPricerByBgm, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, SwaptionVolatilityMatrix, SwaptionVolCube1, SwaptionVolCube2, TARGET, Thirty360, TimeUnit, ZeroCurve } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Actual365Fixed, Array1D, Array2D, BusinessDayConvention, DateExt, DateGeneration, Euribor6M, EuriborSwapIsdaFixA, FlatSmileSection, Frequency, Handle, InterpolatedSmileSection, Linear, Period, RangeAccrualFloatersCoupon, RangeAccrualPricerByBgm, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, SwaptionVolatilityMatrix, SwaptionVolCube1, SwaptionVolCube2, TARGET, Thirty360, TimeUnit, ZeroCurve } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class CommonVars {
     constructor() {

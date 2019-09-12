@@ -1,4 +1,4 @@
-import { Complex, FastFourierTransform } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Complex, FastFourierTransform } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 describe('fast fourier transform tests', () => {
     it('Testing complex direct FFT...', () => {

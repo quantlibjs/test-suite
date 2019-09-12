@@ -1,4 +1,4 @@
-import { Actual360, Array2D, BlackScholesMertonProcess, DateExt, EuropeanExercise, EverestOption, Handle, MakeMCEverestEngine, PseudoRandom, Settings, SimpleQuote, StochasticProcessArray } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Actual360, Array2D, BlackScholesMertonProcess, DateExt, EuropeanExercise, EverestOption, Handle, MakeMCEverestEngine, PseudoRandom, Settings, SimpleQuote, StochasticProcessArray } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2, flatVol2 } from '/test-suite/utilities.mjs';
 
 describe('Everest-option tests', () => {

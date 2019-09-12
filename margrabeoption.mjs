@@ -1,4 +1,4 @@
-import { Actual360, AmericanExercise, AnalyticAmericanMargrabeEngine, AnalyticEuropeanMargrabeEngine, Array2D, BlackScholesMertonProcess, DateExt, EuropeanExercise, Handle, MargrabeOption, SavedSettings, Settings, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Actual360, AmericanExercise, AnalyticAmericanMargrabeEngine, AnalyticEuropeanMargrabeEngine, Array2D, BlackScholesMertonProcess, DateExt, EuropeanExercise, Handle, MargrabeOption, SavedSettings, Settings, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatRate3, flatVol1, flatVol3, relativeError } from '/test-suite/utilities.mjs';
 
 const first = 0;

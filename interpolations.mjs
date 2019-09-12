@@ -1,4 +1,4 @@
-import { BackwardFlatInterpolation, CubicInterpolation, EndCriteria, ForwardFlatInterpolation, FritschButlandCubic, LagrangeInterpolation, LevenbergMarquardt, LinearInterpolation, M_PI, QL_EPSILON, QL_NULL_REAL, SABRInterpolation, sabrVolatility, Simplex, SimpsonIntegral } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { BackwardFlatInterpolation, CubicInterpolation, EndCriteria, ForwardFlatInterpolation, FritschButlandCubic, LagrangeInterpolation, LevenbergMarquardt, LinearInterpolation, M_PI, QL_EPSILON, QL_NULL_REAL, SABRInterpolation, sabrVolatility, Simplex, SimpsonIntegral } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 function xRange(start, finish, points) {
     const x = new Array(points);

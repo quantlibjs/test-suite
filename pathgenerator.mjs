@@ -1,4 +1,4 @@
-import { Actual360, BlackScholesMertonProcess, GeometricBrownianMotionProcess, Handle, MultiPathGenerator, OrnsteinUhlenbeckProcess, PathGenerator, PseudoRandom, SavedSettings, Settings, SimpleQuote, SquareRootProcess, StochasticProcessArray, TimeGrid } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Actual360, BlackScholesMertonProcess, GeometricBrownianMotionProcess, Handle, MultiPathGenerator, OrnsteinUhlenbeckProcess, PathGenerator, PseudoRandom, SavedSettings, Settings, SimpleQuote, SquareRootProcess, StochasticProcessArray, TimeGrid } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate4, flatVol4 } from '/test-suite/utilities.mjs';
 
 function testSingle(process, tag, brownianBridge, expected, antithetic) {

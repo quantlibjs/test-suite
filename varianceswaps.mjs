@@ -1,4 +1,4 @@
-import { Actual365Fixed, Array2D, BlackScholesMertonProcess, BlackVarianceCurve, BlackVarianceSurface, DateExt, Handle, MakeMCVarianceSwapEngine, NullCalendar, Option, Position, PseudoRandom, ReplicatingVarianceSwapEngine, SimpleQuote, VarianceSwap } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Actual365Fixed, Array2D, BlackScholesMertonProcess, BlackVarianceCurve, BlackVarianceSurface, DateExt, Handle, MakeMCVarianceSwapEngine, NullCalendar, Option, Position, PseudoRandom, ReplicatingVarianceSwapEngine, SimpleQuote, VarianceSwap } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1 } from '/test-suite/utilities.mjs';
 
 class MCVarianceSwapData {

@@ -1,4 +1,4 @@
-import { Actual365Fixed, ActualActual, Array1D, BlackCapFloorEngine, BlackIborCouponPricer, BusinessDayConvention, Cap, CapFloor, Collar, ConstantOptionletVolatility, DateGeneration, DiscountingSwapEngine, Euribor1Y, FixedRateLeg, Floor, Frequency, Handle, IborLeg, Period, RelinkableHandle, SavedSettings, Schedule, setCouponPricer, Settings, SimpleQuote, Swap, Thirty360, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Actual365Fixed, ActualActual, Array1D, BlackCapFloorEngine, BlackIborCouponPricer, BusinessDayConvention, Cap, CapFloor, Collar, ConstantOptionletVolatility, DateGeneration, DiscountingSwapEngine, Euribor1Y, FixedRateLeg, Floor, Frequency, Handle, IborLeg, Period, RelinkableHandle, SavedSettings, Schedule, setCouponPricer, Settings, SimpleQuote, Swap, Thirty360, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2 } from '/test-suite/utilities.mjs';
 
 class CommonVars {

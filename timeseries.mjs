@@ -1,4 +1,4 @@
-import { IntervalPrice, Month, TimeSeries } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { IntervalPrice, Month, TimeSeries } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 const second = 1;
 
 describe('time series tests', () => {

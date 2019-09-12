@@ -1,4 +1,4 @@
-import { Actual360, Actual365Fixed, Array1D, Array2D, BusinessDayConvention, CappedFlooredCmsSpreadCoupon, CmsCoupon, CmsSpreadCoupon, ConstantSwaptionVolatility, DateExt, EuriborSwapIsdaFixA, FlatForward, Handle, IndexManager, InverseCumulativeNormal, LinearTsrPricer, LognormalCmsSpreadPricer, Period, pseudoSqrt, QL_MAX_REAL, QL_NULL_REAL, Settings, SimpleQuote, SobolRsg, SwapSpreadIndex, TARGET, TimeUnit, VolatilityType } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Actual360, Actual365Fixed, Array1D, Array2D, BusinessDayConvention, CappedFlooredCmsSpreadCoupon, CmsCoupon, CmsSpreadCoupon, ConstantSwaptionVolatility, DateExt, EuriborSwapIsdaFixA, FlatForward, Handle, IndexManager, InverseCumulativeNormal, LinearTsrPricer, LognormalCmsSpreadPricer, Period, pseudoSqrt, QL_MAX_REAL, QL_NULL_REAL, Settings, SimpleQuote, SobolRsg, SwapSpreadIndex, TARGET, TimeUnit, VolatilityType } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class TestData {
     constructor() {

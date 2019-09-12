@@ -1,5 +1,5 @@
 import '/test-suite/quantlibtestsuite.mjs';
-import { Actual360, Actual365Fixed, ActualActual, BlackIborCouponPricer, BusinessDayConvention, CashFlows, Compounding, ConstantOptionletVolatility, DateExt, FixedRateLeg, FloatingRateCoupon, Frequency, Handle, IborLeg, InterestRate, MakeSchedule, NullCalendar, Period, SavedSettings, Schedule, Settings, SimpleCashFlow, TARGET, TimeUnit, USDLibor } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Actual360, Actual365Fixed, ActualActual, BlackIborCouponPricer, BusinessDayConvention, CashFlows, Compounding, ConstantOptionletVolatility, DateExt, FixedRateLeg, FloatingRateCoupon, Frequency, Handle, IborLeg, InterestRate, MakeSchedule, NullCalendar, Period, SavedSettings, Schedule, Settings, SimpleCashFlow, TARGET, TimeUnit, USDLibor } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2 } from '/test-suite/utilities.mjs';
 
 function CHECK_INCLUSION(leg, n, today, days, expected) {

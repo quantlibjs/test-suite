@@ -1,4 +1,4 @@
-import { Actual360, Compounding, DateExt, Frequency, InterestRate, Rounding, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Actual360, Compounding, DateExt, Frequency, InterestRate, Rounding, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class InterestRateData {
     constructor(r, comp, freq, t, comp2, freq2, expected, precision) {

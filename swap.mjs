@@ -1,4 +1,4 @@
-import { Actual365Fixed, BusinessDayConvention, DateGeneration, DiscountingSwapEngine, Euribor, Frequency, Period, RelinkableHandle, Schedule, Settings, Thirty360, TimeUnit, VanillaSwap } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Actual365Fixed, BusinessDayConvention, DateGeneration, DiscountingSwapEngine, Euribor, Frequency, Period, RelinkableHandle, Schedule, Settings, Thirty360, TimeUnit, VanillaSwap } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2 } from '/test-suite/utilities.mjs';
 
 class CommonVars {

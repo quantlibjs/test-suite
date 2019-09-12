@@ -1,4 +1,4 @@
-import { Actual360, AnalyticEuropeanEngine, BlackConstantVol, BlackDeltaCalculator, BlackScholesMertonProcess, DateExt, DeltaVolQuote, EuropeanExercise, EuropeanOption, FlatForward, Handle, Option, PlainVanillaPayoff, SavedSettings, SimpleQuote, TARGET } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Actual360, AnalyticEuropeanEngine, BlackConstantVol, BlackDeltaCalculator, BlackScholesMertonProcess, DateExt, DeltaVolQuote, EuropeanExercise, EuropeanOption, FlatForward, Handle, Option, PlainVanillaPayoff, SavedSettings, SimpleQuote, TARGET } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 function timeToDays(t) {
     return Math.floor(t * 360 + 0.5);

@@ -1,4 +1,4 @@
-import { Array1D, Comparison, CumulativeNormalDistribution, GenericGaussianStatistics, IncrementalStatistics, InverseCumulativeNormal, M_PI, NormalDistribution, QL_MAX_REAL, QL_MIN_REAL, RiskStatistics, SobolRsg, StatsHolder } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Array1D, Comparison, CumulativeNormalDistribution, GenericGaussianStatistics, IncrementalStatistics, InverseCumulativeNormal, M_PI, NormalDistribution, QL_MAX_REAL, QL_MIN_REAL, RiskStatistics, SobolRsg, StatsHolder } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class IncrementalGaussianStatistics extends GenericGaussianStatistics {
     constructor() {

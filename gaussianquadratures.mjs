@@ -1,4 +1,4 @@
-import { constant, cube, CumulativeNormalDistribution, fourth_power, GaussChebyshev2ndIntegration, GaussChebyshevIntegration, GaussGegenbauerIntegration, GaussHermiteIntegration, GaussHyperbolicIntegration, GaussLaguerreIntegration, GaussLegendreIntegration, identity, M_PI, NormalDistribution, square, TabulatedGaussLegendre } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { constant, cube, CumulativeNormalDistribution, fourth_power, GaussChebyshev2ndIntegration, GaussChebyshevIntegration, GaussGegenbauerIntegration, GaussHermiteIntegration, GaussHyperbolicIntegration, GaussLaguerreIntegration, GaussLegendreIntegration, identity, M_PI, NormalDistribution, square, TabulatedGaussLegendre } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 const tolerance = 1.0e-4;
 

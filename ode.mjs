@@ -1,4 +1,4 @@
-import { AdaptiveRungeKutta, Array1D, Array2D, Expm, QL_EPSILON, Complex } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { AdaptiveRungeKutta, Array1D, Array2D, Expm, QL_EPSILON, Complex } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class ode1 {
     f1(x, y) {

@@ -1,4 +1,4 @@
-import { Actual365Fixed, BermudanExercise, BusinessDayConvention, DateExt, DateGeneration, DiscountingSwapEngine, Euribor6M, FdG2SwaptionEngine, FdHullWhiteSwaptionEngine, Frequency, G2, HullWhite, Period, RelinkableHandle, SavedSettings, Schedule, Settings, Swaption, Thirty360, TimeUnit, TreeSwaptionEngine, VanillaSwap } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Actual365Fixed, BermudanExercise, BusinessDayConvention, DateExt, DateGeneration, DiscountingSwapEngine, Euribor6M, FdG2SwaptionEngine, FdHullWhiteSwaptionEngine, Frequency, G2, HullWhite, Period, RelinkableHandle, SavedSettings, Schedule, Settings, Swaption, Thirty360, TimeUnit, TreeSwaptionEngine, VanillaSwap } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2 } from '/test-suite/utilities.mjs';
 
 class CommonVars {

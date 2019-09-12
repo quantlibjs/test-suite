@@ -1,4 +1,4 @@
-import { Handle, SimpleQuote, Stock } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Handle, SimpleQuote, Stock } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { Flag } from '/test-suite/utilities.mjs';
 
 describe('LazyObject tests', () => {

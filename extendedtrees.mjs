@@ -1,4 +1,4 @@
-import { Actual360, AnalyticEuropeanEngine, BinomialVanillaEngine, BlackScholesMertonProcess, DateExt, EuropeanExercise, EuropeanOption, ExtendedAdditiveEQPBinomialTree, ExtendedCoxRossRubinstein, ExtendedJarrowRudd, ExtendedJoshi4, ExtendedLeisenReimer, ExtendedTian, ExtendedTrigeorgis, Handle, Option, PlainVanillaPayoff, QL_NULL_INTEGER, SavedSettings, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Actual360, AnalyticEuropeanEngine, BinomialVanillaEngine, BlackScholesMertonProcess, DateExt, EuropeanExercise, EuropeanOption, ExtendedAdditiveEQPBinomialTree, ExtendedCoxRossRubinstein, ExtendedJarrowRudd, ExtendedJoshi4, ExtendedLeisenReimer, ExtendedTian, ExtendedTrigeorgis, Handle, Option, PlainVanillaPayoff, QL_NULL_INTEGER, SavedSettings, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatVol1, relativeError } from '/test-suite/utilities.mjs';
 
 const first = 0;

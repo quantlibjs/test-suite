@@ -1,4 +1,4 @@
-import { ConstantEstimator, SimpleLocalEstimator, TimeSeries } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { ConstantEstimator, SimpleLocalEstimator, TimeSeries } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 describe('volatility models tests', () => {
     it('Testing volatility model construction...', () => {

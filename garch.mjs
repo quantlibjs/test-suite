@@ -1,4 +1,4 @@
-import { DateExt, EndCriteria, Garch11, InverseCumulativeNormal, InverseCumulativeRng, LevenbergMarquardt, MersenneTwisterUniformRng, OptimizationMethod, TimeSeries } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { DateExt, EndCriteria, Garch11, InverseCumulativeNormal, InverseCumulativeRng, LevenbergMarquardt, MersenneTwisterUniformRng, OptimizationMethod, TimeSeries } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 const first = 0, second = 1;
 

@@ -1,4 +1,4 @@
-import { Array1D, Array2D, Factorial, NumericalDifferentiation, QL_EPSILON, inv } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql/ql.mjs';
+import { Array1D, Array2D, Factorial, NumericalDifferentiation, QL_EPSILON, inv } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 function isTheSame(a, b) {
     const eps = 500 * QL_EPSILON;
