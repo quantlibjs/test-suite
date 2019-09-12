@@ -14,7 +14,7 @@ function CHECK_NPV(leg, r, includeRef, today, expected) {
 describe('Cash flows tests', () => {
     it('Testing cash-flow settings...', () => {
         const backup = new SavedSettings();
-        const today = new Date();
+        const today = DateExt.universalDateTime();
         Settings.evaluationDate.set(today);
         const leg = [];
         for (let i = 0; i < 3; ++i) {
@@ -81,17 +81,17 @@ describe('Cash flows tests', () => {
     });
     it('Testing dynamic cast of coupon in Black pricer...', () => {
         const backup = new SavedSettings();
-        const todaysDate = new Date('7-April-2010');
-        const settlementDate = new Date('9-April-2010');
+        const todaysDate = DateExt.UTC('7-April-2010');
+        const settlementDate = DateExt.UTC('9-April-2010');
         Settings.evaluationDate.set(todaysDate);
         const calendar = new TARGET();
         const rhTermStructure = new Handle(flatRate2(settlementDate, 0.04875825, new Actual365Fixed()));
         const volatility = 0.10;
         const vol = new Handle(new ConstantOptionletVolatility().covInit3(2, calendar, BusinessDayConvention.ModifiedFollowing, volatility, new Actual365Fixed()));
         const index3m = new USDLibor(new Period().init1(3, TimeUnit.Months), rhTermStructure);
-        const payDate = new Date('20-December-2013');
-        const startDate = new Date('20-September-2013');
-        const endDate = new Date('20-December-2013');
+        const payDate = DateExt.UTC('20-December-2013');
+        const startDate = DateExt.UTC('20-September-2013');
+        const endDate = DateExt.UTC('20-December-2013');
         const spread = 0.0115;
         const pricer = new BlackIborCouponPricer(vol);
         const coupon = new FloatingRateCoupon(payDate, 100, startDate, endDate, 2, index3m, 1.0, spread / 100);
@@ -147,8 +147,8 @@ describe('Cash flows tests', () => {
     it('Testing irregular first coupon reference dates ' +
         'with end of month enabled...', () => {
         const schedule = new MakeSchedule()
-            .from(new Date('17-January-2017'))
-            .to(new Date('28-February-2018'))
+            .from(DateExt.UTC('17-January-2017'))
+            .to(DateExt.UTC('28-February-2018'))
             .withFrequency(Frequency.Semiannual)
             .withConvention(BusinessDayConvention.Unadjusted)
             .endOfMonth()
@@ -160,14 +160,14 @@ describe('Cash flows tests', () => {
             .f();
         const firstCoupon = leg[0];
         expect(firstCoupon.referencePeriodStart().valueOf())
-            .toEqual(new Date('31-August-2016').valueOf());
+            .toEqual(DateExt.UTC('31-August-2016').valueOf());
     });
     it('Testing irregular last coupon reference dates' +
         ' with end of month enabled...', () => {
         const schedule = new MakeSchedule()
-            .from(new Date('17-January-2017'))
-            .to(new Date('15-September-2018'))
-            .withNextToLastDate(new Date('28-February-2018'))
+            .from(DateExt.UTC('17-January-2017'))
+            .to(DateExt.UTC('15-September-2018'))
+            .withNextToLastDate(DateExt.UTC('28-February-2018'))
             .withFrequency(Frequency.Semiannual)
             .withConvention(BusinessDayConvention.Unadjusted)
             .endOfMonth()
@@ -179,13 +179,13 @@ describe('Cash flows tests', () => {
             .f();
         const lastCoupon = leg[leg.length - 1];
         expect(lastCoupon.referencePeriodEnd().valueOf())
-            .toEqual(new Date('31-August-2018').valueOf());
+            .toEqual(DateExt.UTC('31-August-2018').valueOf());
     });
     it('Testing leg construction with partial schedule...', () => {
         const schedule = new MakeSchedule()
-            .from(new Date('15-September-2017'))
-            .to(new Date('30-September-2020'))
-            .withNextToLastDate(new Date('25-September-2020'))
+            .from(DateExt.UTC('15-September-2017'))
+            .to(DateExt.UTC('30-September-2020'))
+            .withNextToLastDate(DateExt.UTC('25-September-2020'))
             .withFrequency(Frequency.Semiannual)
             .backwards()
             .f();
@@ -208,37 +208,37 @@ describe('Cash flows tests', () => {
         expect(firstCpn).not.toEqual(null);
         expect(lastCpn).not.toEqual(null);
         expect(firstCpn.referencePeriodStart().valueOf())
-            .toEqual(new Date('25-Mar-2017').valueOf());
+            .toEqual(DateExt.UTC('25-Mar-2017').valueOf());
         expect(firstCpn.referencePeriodEnd().valueOf())
-            .toEqual(new Date('25-Sep-2017').valueOf());
+            .toEqual(DateExt.UTC('25-Sep-2017').valueOf());
         expect(lastCpn.referencePeriodStart().valueOf())
-            .toEqual(new Date('25-Sep-2020').valueOf());
+            .toEqual(DateExt.UTC('25-Sep-2020').valueOf());
         expect(lastCpn.referencePeriodEnd().valueOf())
-            .toEqual(new Date('25-Mar-2021').valueOf());
+            .toEqual(DateExt.UTC('25-Mar-2021').valueOf());
         const firstCpn2 = leg2[0];
         const lastCpn2 = leg2[leg2.length - 1];
         expect(firstCpn2).not.toBeNull();
         expect(lastCpn2).not.toBeNull();
         expect(firstCpn2.referencePeriodStart().valueOf())
-            .toEqual(new Date('25-Mar-2017').valueOf());
+            .toEqual(DateExt.UTC('25-Mar-2017').valueOf());
         expect(firstCpn2.referencePeriodEnd().valueOf())
-            .toEqual(new Date('25-Sep-2017').valueOf());
+            .toEqual(DateExt.UTC('25-Sep-2017').valueOf());
         expect(lastCpn2.referencePeriodStart().valueOf())
-            .toEqual(new Date('25-Sep-2020').valueOf());
+            .toEqual(DateExt.UTC('25-Sep-2020').valueOf());
         expect(lastCpn2.referencePeriodEnd().valueOf())
-            .toEqual(new Date('25-Mar-2021').valueOf());
+            .toEqual(DateExt.UTC('25-Mar-2021').valueOf());
         const firstCpn3 = leg3[0];
         const lastCpn3 = leg3[leg3.length - 1];
         expect(firstCpn3).not.toBeNull();
         expect(lastCpn3).not.toBeNull();
         expect(firstCpn3.referencePeriodStart().valueOf())
-            .toEqual(new Date('15-Sep-2017').valueOf());
+            .toEqual(DateExt.UTC('15-Sep-2017').valueOf());
         expect(firstCpn3.referencePeriodEnd().valueOf())
-            .toEqual(new Date('25-Sep-2017').valueOf());
+            .toEqual(DateExt.UTC('25-Sep-2017').valueOf());
         expect(lastCpn3.referencePeriodStart().valueOf())
-            .toEqual(new Date('25-Sep-2020').valueOf());
+            .toEqual(DateExt.UTC('25-Sep-2020').valueOf());
         expect(lastCpn3.referencePeriodEnd().valueOf())
-            .toEqual(new Date('30-Sep-2020').valueOf());
+            .toEqual(DateExt.UTC('30-Sep-2020').valueOf());
         const iborIndex = new USDLibor(new Period().init1(3, TimeUnit.Months));
         const legf = new IborLeg(schedule, iborIndex)
             .withNotionals1(100.0)
@@ -257,36 +257,36 @@ describe('Cash flows tests', () => {
         expect(firstCpnF).not.toBeNull();
         expect(lastCpnF).not.toBeNull();
         expect(firstCpnF.referencePeriodStart().valueOf())
-            .toEqual(new Date('25-Mar-2017').valueOf());
+            .toEqual(DateExt.UTC('25-Mar-2017').valueOf());
         expect(firstCpnF.referencePeriodEnd().valueOf())
-            .toEqual(new Date('25-Sep-2017').valueOf());
+            .toEqual(DateExt.UTC('25-Sep-2017').valueOf());
         expect(lastCpnF.referencePeriodStart().valueOf())
-            .toEqual(new Date('25-Sep-2020').valueOf());
+            .toEqual(DateExt.UTC('25-Sep-2020').valueOf());
         expect(lastCpnF.referencePeriodEnd().valueOf())
-            .toEqual(new Date('25-Mar-2021').valueOf());
+            .toEqual(DateExt.UTC('25-Mar-2021').valueOf());
         const firstCpnF2 = legf2[0];
         const lastCpnF2 = legf2[legf2.length - 1];
         expect(firstCpnF2).not.toBeNull();
         expect(lastCpnF2).not.toBeNull();
         expect(firstCpnF2.referencePeriodStart().valueOf())
-            .toEqual(new Date('25-Mar-2017').valueOf());
+            .toEqual(DateExt.UTC('25-Mar-2017').valueOf());
         expect(firstCpnF2.referencePeriodEnd().valueOf())
-            .toEqual(new Date('25-Sep-2017').valueOf());
+            .toEqual(DateExt.UTC('25-Sep-2017').valueOf());
         expect(lastCpnF2.referencePeriodStart().valueOf())
-            .toEqual(new Date('25-Sep-2020').valueOf());
+            .toEqual(DateExt.UTC('25-Sep-2020').valueOf());
         expect(lastCpnF2.referencePeriodEnd().valueOf())
-            .toEqual(new Date('25-Mar-2021').valueOf());
+            .toEqual(DateExt.UTC('25-Mar-2021').valueOf());
         const firstCpnF3 = legf3[0];
         const lastCpnF3 = legf3[legf3.length - 1];
         expect(firstCpnF3).not.toBeNull();
         expect(lastCpnF3).not.toBeNull();
         expect(firstCpnF3.referencePeriodStart().valueOf())
-            .toEqual(new Date('15-Sep-2017').valueOf());
+            .toEqual(DateExt.UTC('15-Sep-2017').valueOf());
         expect(firstCpnF3.referencePeriodEnd().valueOf())
-            .toEqual(new Date('25-Sep-2017').valueOf());
+            .toEqual(DateExt.UTC('25-Sep-2017').valueOf());
         expect(lastCpnF3.referencePeriodStart().valueOf())
-            .toEqual(new Date('25-Sep-2020').valueOf());
+            .toEqual(DateExt.UTC('25-Sep-2020').valueOf());
         expect(lastCpnF3.referencePeriodEnd().valueOf())
-            .toEqual(new Date('30-Sep-2020').valueOf());
+            .toEqual(DateExt.UTC('30-Sep-2020').valueOf());
     });
 });
