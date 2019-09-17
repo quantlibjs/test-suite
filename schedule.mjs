@@ -1,9 +1,7 @@
 import { BusinessDayConvention, Calendar, DateExt, DateGeneration, Frequency, Japan, MakeSchedule, Period, Schedule, TARGET, TimeUnit, UnitedStates, WeekendsOnly } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 function check_dates(s, expected) {
-    if (s.size() !== expected.length) {
-        throw new Error(`expected ${expected.length} dates, found ${s.size()}`);
-    }
+    expect(s.size()).toEqual(expected.length);
     for (let i = 0; i < expected.length; ++i) {
         expect(s.date(i).valueOf()).toEqual(expected[i].valueOf());
     }
@@ -11,7 +9,7 @@ function check_dates(s, expected) {
 
 describe('Schedule tests', () => {
     it('Testing schedule with daily frequency...', () => {
-        const startDate = new Date('17-January-2012');
+        const startDate = DateExt.UTC('17,January,2012');
         const s = new MakeSchedule()
             .from(startDate)
             .to(DateExt.add(startDate, 7))
@@ -20,18 +18,18 @@ describe('Schedule tests', () => {
             .withConvention(BusinessDayConvention.Preceding)
             .f();
         const expected = new Array(6);
-        expected[0] = new Date('17-January-2012');
-        expected[1] = new Date('18-January-2012');
-        expected[2] = new Date('19-January-2012');
-        expected[3] = new Date('20-January-2012');
-        expected[4] = new Date('23-January-2012');
-        expected[5] = new Date('24-January-2012');
+        expected[0] = DateExt.UTC('17,January,2012');
+        expected[1] = DateExt.UTC('18,January,2012');
+        expected[2] = DateExt.UTC('19,January,2012');
+        expected[3] = DateExt.UTC('20,January,2012');
+        expected[4] = DateExt.UTC('23,January,2012');
+        expected[5] = DateExt.UTC('24,January,2012');
         check_dates(s, expected);
     });
     it('Testing end date for schedule with end-of-month adjustment...', () => {
         let s = new MakeSchedule()
-            .from(new Date('30-September-2009'))
-            .to(new Date('15-June-2012'))
+            .from(DateExt.UTC('30,September,2009'))
+            .to(DateExt.UTC('15,June,2012'))
             .withCalendar(new Japan())
             .withTenor(new Period().init1(6, TimeUnit.Months))
             .withConvention(BusinessDayConvention.Following)
@@ -40,18 +38,18 @@ describe('Schedule tests', () => {
             .endOfMonth()
             .f();
         const expected = [
-            new Date('30-September-2009'),
-            new Date('31-March-2010'),
-            new Date('30-September-2010'),
-            new Date('31-March-2011'),
-            new Date('30-September-2011'),
-            new Date('30-March-2012'),
-            new Date('29-June-2012'),
+            DateExt.UTC('30,September,2009'),
+            DateExt.UTC('31,March,2010'),
+            DateExt.UTC('30,September,2010'),
+            DateExt.UTC('31,March,2011'),
+            DateExt.UTC('30,September,2011'),
+            DateExt.UTC('30,March,2012'),
+            DateExt.UTC('29,June,2012'),
         ];
         check_dates(s, expected);
         s = new MakeSchedule()
-            .from(new Date('30-September-2009'))
-            .to(new Date('15-June-2012'))
+            .from(DateExt.UTC('30,September,2009'))
+            .to(DateExt.UTC('15,June,2012'))
             .withCalendar(new Japan())
             .withTenor(new Period().init1(6, TimeUnit.Months))
             .withConvention(BusinessDayConvention.Following)
@@ -59,13 +57,13 @@ describe('Schedule tests', () => {
             .forwards()
             .endOfMonth()
             .f();
-        expected[6] = new Date('15-June-2012');
+        expected[6] = DateExt.UTC('15,June,2012');
         check_dates(s, expected);
     });
     it('Testing that no dates are past the end date with EOM adjustment...', () => {
         const s = new MakeSchedule()
-            .from(new Date('28-March-2013'))
-            .to(new Date('30-March-2015'))
+            .from(DateExt.UTC('28,March,2013'))
+            .to(DateExt.UTC('30,March,2015'))
             .withCalendar(new TARGET())
             .withTenor(new Period().init1(1, TimeUnit.Years))
             .withConvention(BusinessDayConvention.Unadjusted)
@@ -74,16 +72,16 @@ describe('Schedule tests', () => {
             .endOfMonth()
             .f();
         const expected = [
-            new Date('31-March-2013'), new Date('31-March-2014'),
-            new Date('30-March-2015')
+            DateExt.UTC('31,March,2013'), DateExt.UTC('31,March,2014'),
+            DateExt.UTC('30,March,2015')
         ];
         check_dates(s, expected);
         expect(s.isRegular1(2)).toBeFalsy();
     });
     it('Testing that next-to-last date same as end date is removed...', () => {
         const s = new MakeSchedule()
-            .from(new Date('28-March-2013'))
-            .to(new Date('31-March-2015'))
+            .from(DateExt.UTC('28,March,2013'))
+            .to(DateExt.UTC('31,March,2015'))
             .withCalendar(new TARGET())
             .withTenor(new Period().init1(1, TimeUnit.Years))
             .withConvention(BusinessDayConvention.Unadjusted)
@@ -92,8 +90,8 @@ describe('Schedule tests', () => {
             .endOfMonth()
             .f();
         const expected = [
-            new Date('31-March-2013'), new Date('31-March-2014'),
-            new Date('31-March-2015')
+            DateExt.UTC('31,March,2013'), DateExt.UTC('31,March,2014'),
+            DateExt.UTC('31,March,2015')
         ];
         check_dates(s, expected);
         expect(s.isRegular1(2)).toBeTruthy();
@@ -101,8 +99,8 @@ describe('Schedule tests', () => {
     it('Testing that the last date is not adjusted for' +
         ' EOM when termination date convention is unadjusted...', () => {
         const s = new MakeSchedule()
-            .from(new Date('31-August-1996'))
-            .to(new Date('15-September-1997'))
+            .from(DateExt.UTC('31,August,1996'))
+            .to(DateExt.UTC('15,September,1997'))
             .withCalendar(new UnitedStates(UnitedStates.Market.GovernmentBond))
             .withTenor(new Period().init1(6, TimeUnit.Months))
             .withConvention(BusinessDayConvention.Unadjusted)
@@ -111,16 +109,16 @@ describe('Schedule tests', () => {
             .endOfMonth()
             .f();
         const expected = [
-            new Date('31-August-1996'), new Date('28-February-1997'),
-            new Date('31-August-1997'), new Date('15-September-1997')
+            DateExt.UTC('31,August,1996'), DateExt.UTC('28,February,1997'),
+            DateExt.UTC('31,August,1997'), DateExt.UTC('15,September,1997')
         ];
         check_dates(s, expected);
     });
     it('Testing that the first date is not duplicated due' +
         ' to EOM convention when going backwards...', () => {
         const s = new MakeSchedule()
-            .from(new Date('22-August-1996'))
-            .to(new Date('31-August-1997'))
+            .from(DateExt.UTC('22,August,1996'))
+            .to(DateExt.UTC('31,August,1997'))
             .withCalendar(new UnitedStates(UnitedStates.Market.GovernmentBond))
             .withTenor(new Period().init1(6, TimeUnit.Months))
             .withConvention(BusinessDayConvention.Following)
@@ -129,15 +127,15 @@ describe('Schedule tests', () => {
             .endOfMonth()
             .f();
         const expected = [
-            new Date('30-August-1996'), new Date('28-February-1997'),
-            new Date('29-August-1997')
+            DateExt.UTC('30,August,1996'), DateExt.UTC('28,February,1997'),
+            DateExt.UTC('29,August,1997')
         ];
         check_dates(s, expected);
     });
     it('Testing CDS2015 semi-annual rolling convention...', () => {
         const s1 = new MakeSchedule()
-            .from(new Date('12-December-2016'))
-            .to(DateExt.advance(new Date('12-December-2016'), 5, TimeUnit.Years))
+            .from(DateExt.UTC('12,December,2016'))
+            .to(DateExt.advance(DateExt.UTC('12,December,2016'), 5, TimeUnit.Years))
             .withCalendar(new WeekendsOnly())
             .withTenor(new Period().init1(3, TimeUnit.Months))
             .withConvention(BusinessDayConvention.ModifiedFollowing)
@@ -145,12 +143,12 @@ describe('Schedule tests', () => {
             .withRule(DateGeneration.Rule.CDS2015)
             .f();
         expect(s1.startDate().valueOf())
-            .toEqual(new Date('20-September-2016').valueOf());
+            .toEqual(DateExt.UTC('20,September,2016').valueOf());
         expect(s1.endDate().valueOf())
-            .toEqual(new Date('20-December-2021').valueOf());
+            .toEqual(DateExt.UTC('20,December,2021').valueOf());
         const s2 = new MakeSchedule()
-            .from(new Date('1-March-2017'))
-            .to(DateExt.advance(new Date('1-March-2017'), 5, TimeUnit.Years))
+            .from(DateExt.UTC('1,March,2017'))
+            .to(DateExt.advance(DateExt.UTC('1,March,2017'), 5, TimeUnit.Years))
             .withCalendar(new WeekendsOnly())
             .withTenor(new Period().init1(3, TimeUnit.Months))
             .withConvention(BusinessDayConvention.ModifiedFollowing)
@@ -158,12 +156,12 @@ describe('Schedule tests', () => {
             .withRule(DateGeneration.Rule.CDS2015)
             .f();
         expect(s2.startDate().valueOf())
-            .toEqual(new Date('20-December-2016').valueOf());
+            .toEqual(DateExt.UTC('20,December,2016').valueOf());
         expect(s2.endDate().valueOf())
-            .toEqual(new Date('20-December-2021').valueOf());
+            .toEqual(DateExt.UTC('20,December,2021').valueOf());
         const s3 = new MakeSchedule()
-            .from(new Date('20-March-2017'))
-            .to(DateExt.advance(new Date('20-March-2017'), 5, TimeUnit.Years))
+            .from(DateExt.UTC('20,March,2017'))
+            .to(DateExt.advance(DateExt.UTC('20,March,2017'), 5, TimeUnit.Years))
             .withCalendar(new WeekendsOnly())
             .withTenor(new Period().init1(3, TimeUnit.Months))
             .withConvention(BusinessDayConvention.ModifiedFollowing)
@@ -171,14 +169,14 @@ describe('Schedule tests', () => {
             .withRule(DateGeneration.Rule.CDS2015)
             .f();
         expect(s3.startDate().valueOf())
-            .toEqual(new Date('20-March-2017').valueOf());
-        expect(s3.endDate().valueOf()).toEqual(new Date('20-June-2022').valueOf());
+            .toEqual(DateExt.UTC('20,March,2017').valueOf());
+        expect(s3.endDate().valueOf()).toEqual(DateExt.UTC('20,June,2022').valueOf());
     });
     it('Testing the constructor taking a vector of dates' +
         ' and possibly additional meta information...', () => {
         const dates = [
-            new Date('16-May-2015'), new Date('18-May-2015'),
-            new Date('18-May-2016'), new Date('31-December-2017')
+            DateExt.UTC('16,May,2015'), DateExt.UTC('18,May,2015'),
+            DateExt.UTC('18,May,2016'), DateExt.UTC('31,December,2017')
         ];
         const schedule1 = new Schedule().init1(dates);
         expect(schedule1.size()).toEqual(dates.length);
@@ -205,8 +203,8 @@ describe('Schedule tests', () => {
     it('Testing that a four-weeks tenor works...', () => {
         try {
             const s = new MakeSchedule()
-                .from(new Date('13-January-2016'))
-                .to(new Date('14-May-2016'))
+                .from(DateExt.UTC('13,January,2016'))
+                .to(DateExt.UTC('14,May,2016'))
                 .withCalendar(new TARGET())
                 .withTenor(new Period().init1(4, TimeUnit.Weeks))
                 .withConvention(BusinessDayConvention.Following)

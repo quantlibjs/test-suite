@@ -1,4 +1,4 @@
-import { ASX, DateExt, ECB, IMM, Month, TimeUnit } from '/ql.mjs';
+import { ASX, DateExt, ECB, IMM, Month, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 describe('Date tests', () => {
     it('Testing ECB dates...', () => {
@@ -8,7 +8,7 @@ describe('Date tests', () => {
         const n = ECB.nextDates1(DateExt.minDate()).length;
         expect(n).toEqual(knownDates.size);
         let i;
-        const knownDatesArray = Array.from(knownDates);
+        const knownDatesArray = Array.from(knownDates).map(d=>new Date(d));
         let previousEcbDate = DateExt.minDate(), currentEcbDate, ecbDateMinusOne;
         for (i = 0; i < knownDatesArray.length; ++i) {
             currentEcbDate = knownDatesArray[i];
@@ -44,14 +44,14 @@ describe('Date tests', () => {
         let counter = DateExt.minDate();
         const last = DateExt.advance(DateExt.maxDate(), -121, TimeUnit.Months);
         let imm;
-        while (counter <= last) {
+        while (counter.valueOf() <= last.valueOf()) {
             imm = IMM.nextDate1(counter, false);
             expect(imm.valueOf()).toBeGreaterThan(counter.valueOf());
             expect(IMM.isIMMdate(imm, false)).toBeTruthy();
             expect(imm.valueOf())
                 .toBeLessThanOrEqual(IMM.nextDate1(counter, true).valueOf());
             expect(IMM.date(IMM.code(imm), counter).valueOf()).toEqual(imm.valueOf());
-            for (let i = 0; i < 40; ++i) {
+            for (let i = 0; i < 120; ++i) {
                 expect(IMM.date(IMMcodes[i], counter).valueOf())
                     .toBeGreaterThanOrEqual(counter.valueOf());
             }
@@ -75,14 +75,14 @@ describe('Date tests', () => {
         let counter = DateExt.minDate();
         const last = DateExt.advance(DateExt.maxDate(), -121, TimeUnit.Months);
         let asx;
-        while (counter <= last) {
+        while (counter.valueOf() <= last.valueOf()) {
             asx = ASX.nextDate1(counter, false);
             expect(asx.valueOf()).toBeGreaterThan(counter.valueOf());
             expect(ASX.isASXdate(asx, false)).toBeTruthy();
             expect(asx.valueOf())
                 .toBeLessThanOrEqual(ASX.nextDate1(counter, true).valueOf());
             expect(ASX.date(ASX.code(asx), counter).valueOf()).toEqual(asx.valueOf());
-            for (let i = 0; i < 40; ++i) {
+            for (let i = 0; i < 120; ++i) {
                 expect(ASX.date(ASXcodes[i], counter).valueOf())
                     .toBeGreaterThanOrEqual(counter.valueOf());
             }
@@ -118,7 +118,15 @@ describe('Date tests', () => {
                 throw new Error('wrong day of year increment: \n' +
                     `date: ${t}\n` +
                     `day of year: ${dy}\n` +
-                    `previous: ${dyold}`);
+                    `: ${d}` +
+                    `: ${m}` +
+                    `: ${y}` +
+                    `: ${wd}` +
+                    `previous: ${dyold}` +
+                    `: ${dold}` +
+                    `: ${mold}` +
+                    `: ${yold}` +
+                    `: ${wdold}`);
             }
             dyold = dy;
             if (!((d === dold + 1 && m === mold && y === yold) ||
@@ -184,16 +192,11 @@ describe('Date tests', () => {
         expect(DateExt.hours(d1)).toEqual(10);
         expect(DateExt.minutes(d1)).toEqual(45);
         expect(DateExt.seconds(d1)).toEqual(13);
-        if (DateExt.ticksPerSecond() === 1000) {
-            expect(DateExt.fractionOfSecond(d1)).toEqual(0.234);
-        }
-        else if (DateExt.ticksPerSecond() >= 1000000) {
-            expect(DateExt.fractionOfSecond(d1))
-                .toEqual((234000 + 76253) / 1000000.0);
-        }
-        if (DateExt.ticksPerSecond() >= 1000) {
-            expect(DateExt.milliseconds(d1)).toEqual(234 + 76);
-        }
+
+        expect(DateExt.fractionOfSecond(d1)).toEqual(0.234);
+
+        expect(DateExt.milliseconds(d1)).toEqual(234);
+
         const d2 = new Date(Date.UTC(2015, Month.February - 1, 28, 50, 165, 476, 1234));
         expect(DateExt.year(d2)).toEqual(2015);
         expect(DateExt.month(d2)).toEqual(Month.March);
@@ -201,11 +204,11 @@ describe('Date tests', () => {
         expect(DateExt.hours(d2)).toEqual(4);
         expect(DateExt.minutes(d2)).toEqual(52);
         expect(DateExt.seconds(d2)).toEqual(57);
-        if (DateExt.ticksPerSecond() >= 1000) {
-            expect(DateExt.milliseconds(d2)).toEqual(234);
-        }
+
+        expect(DateExt.milliseconds(d2)).toEqual(234);
+
         const s = new Date(Date.UTC(2015, Month.February - 1, 7, 1, 4, 2, 3))
             .toISOString();
-        expect(s).toEqual('2015-02-07T01:04:02,003Z');
+        expect(s).toEqual('2015-02-07T01:04:02.003Z');
     });
 });
