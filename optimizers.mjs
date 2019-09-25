@@ -19,7 +19,7 @@ const yMinExpected_ = [];
 class OneDimensionalPolynomialDegreeN extends CostFunction {
     constructor(coefficients) {
         super();
-        this._coefficients = coefficients;
+        this._coefficients = Array.from(coefficients);
         this._polynomialDegree = coefficients.length - 1;
     }
     value(x) {
@@ -36,7 +36,8 @@ class OneDimensionalPolynomialDegreeN extends CostFunction {
         if (x.length !== 1) {
             throw new Error('independent variable must be 1 dimensional');
         }
-        const y = [this.value(x)];
+        const y = new Array(1);
+        y[0] = this.value(x);
         return y;
     }
 }
@@ -49,12 +50,12 @@ class OptimizationBasedCostFunction extends CostFunction {
         const coefficients = Array1D.fromSizeValue(3, 1.0);
         const oneDimensionalPolynomialDegreeN = new OneDimensionalPolynomialDegreeN(coefficients);
         const constraint = new NoConstraint();
-        const initialValues = [100.0];
+        const initialValues = Array1D.fromSizeValue(1, 100.0);
         const problem = new Problem(oneDimensionalPolynomialDegreeN, constraint, initialValues);
         const optimizationMethod = new LevenbergMarquardt();
         const endCriteria = new EndCriteria(1000, 100, 1e-5, 1e-5, 1e-5);
         optimizationMethod.minimize(problem, endCriteria);
-        const dummy = [0];
+        const dummy = Array1D.fromSizeValue(1,0);
         return dummy;
     }
 }
@@ -122,10 +123,14 @@ function setup() {
     const a = 1;
     const b = 1;
     const c = 1;
-    const coefficients = [c, b, a];
+    const coefficients = new Array(3);
+    coefficients[0] = c;
+    coefficients[1] = b;
+    coefficients[2] = a;
     costFunctions_.push(new OneDimensionalPolynomialDegreeN(coefficients));
     constraints_.push(new NoConstraint());
-    const initialValue = [-100];
+    const initialValue = new Array(1);
+    initialValue[0] = -100;
     initialValues_.push(initialValue);
     maxIterations_.push(10000);
     maxStationaryStateIterations_.push(100);
@@ -134,17 +139,25 @@ function setup() {
     gradientNormEpsilons_.push(1e-8);
     endCriterias_.push(new EndCriteria(Array1D.back(maxIterations_), Array1D.back(maxStationaryStateIterations_), Array1D.back(rootEpsilons_), Array1D.back(functionEpsilons_), Array1D.back(gradientNormEpsilons_)));
     const optimizationMethodTypes = [
-        OptimizationMethodType.simplex, OptimizationMethodType.levenbergMarquardt,
+        OptimizationMethodType.simplex,
+        OptimizationMethodType.levenbergMarquardt,
         OptimizationMethodType.levenbergMarquardt2,
         OptimizationMethodType.conjugateGradient,
-        OptimizationMethodType.bfgs
+        OptimizationMethodType.conjugateGradient_goldstein,
+        OptimizationMethodType.bfgs,
+        OptimizationMethodType.bfgs_goldstein,
+        OptimizationMethodType.steepestDescent,
+        OptimizationMethodType.steepestDescent_goldstein
     ];
     const simplexLambda = 0.1;
     const levenbergMarquardtEpsfcn = 1.0e-8;
     const levenbergMarquardtXtol = 1.0e-8;
     const levenbergMarquardtGtol = 1.0e-8;
     optimizationMethods_.push(makeOptimizationMethods(optimizationMethodTypes, optimizationMethodTypes.length, simplexLambda, levenbergMarquardtEpsfcn, levenbergMarquardtXtol, levenbergMarquardtGtol));
-    const xMinExpected = [-b / (2.0 * a)], yMinExpected = [-(b * b - 4.0 * a * c) / (4.0 * a)];
+    const xMinExpected = new Array(1);
+    xMinExpected[0] = -b /(2.0 * a);
+    const yMinExpected = new Array(1);
+    yMinExpected[0] = -(b * b - 4.0 * a *c) / (4.0 * a);
     xMinExpected_.push(xMinExpected);
     yMinExpected_.push(yMinExpected);
 }
@@ -154,6 +167,7 @@ class FirstDeJong extends CostFunction {
         const retVal = Array1D.fromSizeValue(x.length, this.value(x));
         return retVal;
     }
+
     value(x) {
         return Array1D.DotProduct(x, x);
     }
@@ -164,6 +178,7 @@ class SecondDeJong extends CostFunction {
         const retVal = Array1D.fromSizeValue(x.length, this.value(x));
         return retVal;
     }
+
     value(x) {
         return 100.0 * (x[0] * x[0] - x[1]) * (x[0] * x[0] - x[1]) +
             (1.0 - x[0]) * (1.0 - x[0]);
@@ -175,6 +190,7 @@ class ModThirdDeJong extends CostFunction {
         const retVal = Array1D.fromSizeValue(x.length, this.value(x));
         return retVal;
     }
+
     value(x) {
         let fx = 0.0;
         for (let i = 0; i < x.length; ++i) {
@@ -186,13 +202,15 @@ class ModThirdDeJong extends CostFunction {
 
 class ModFourthDeJong extends CostFunction {
     constructor() {
-        super(...arguments);
+        super();
         this._uniformRng = new MersenneTwisterUniformRng().init1(4711);
     }
+
     values(x) {
         const retVal = Array1D.fromSizeValue(x.length, this.value(x));
         return retVal;
     }
+
     value(x) {
         let fx = 0.0;
         for (let i = 0; i < x.length; ++i) {
@@ -207,6 +225,7 @@ class Griewangk extends CostFunction {
         const retVal = Array1D.fromSizeValue(x.length, this.value(x));
         return retVal;
     }
+
     value(x) {
         let fx = 0.0;
         for (let i = 0; i < x.length; ++i) {
@@ -256,6 +275,7 @@ describe('Optimizers tests', () => {
             }
         }
     });
+
     it('Testing nested optimizations...', () => {
         const optimizationBasedCostFunction = new OptimizationBasedCostFunction();
         const constraint = new NoConstraint();
@@ -263,8 +283,9 @@ describe('Optimizers tests', () => {
         const problem = new Problem(optimizationBasedCostFunction, constraint, initialValues);
         const optimizationMethod = new LevenbergMarquardt();
         const endCriteria = new EndCriteria(1000, 100, 1e-5, 1e-5, 1e-5);
-        optimizationMethod.minimize(problem, endCriteria);
+        expect(()=>{optimizationMethod.minimize(problem, endCriteria)}).not.toThrow();
     });
+
     it('Testing differential evolution...', () => {
         const conf = new DifferentialEvolution.Configuration()
             .withStepsizeWeight(0.4)

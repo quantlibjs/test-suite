@@ -49,16 +49,15 @@ describe('Interest Rate tests', () => {
             new InterestRateData(0.0400, Compounding.Simple, Frequency.Semiannual, 0.75, Compounding.SimpleThenCompounded, Frequency.Annual, 0.0400, 4)
         ];
         let roundingPrecision;
-        let r3;
-        const d1 = new Date();
+        let r3, r2;
+        const d1 = DateExt.UTC();
         let d2;
         let ir, ir2, ir3, expectedIR;
         let compoundf, error;
         let disc;
         for (let i = 0; i < cases.length; i++) {
             ir = new InterestRate(cases[i].r, new Actual360(), cases[i].comp, cases[i].freq);
-            d2 = new Date(d1.valueOf());
-            DateExt.advance(d2, Math.floor(360 * cases[i].t + 0.5), TimeUnit.Days);
+            d2 = DateExt.advance(d1, Math.floor(360 * cases[i].t + 0.5), TimeUnit.Days);
             roundingPrecision = new Rounding(cases[i].precision);
             compoundf = ir.compoundFactor2(d1, d2);
             disc = ir.discountFactor2(d1, d2);
@@ -70,6 +69,10 @@ describe('Interest Rate tests', () => {
             expect(ir.dayCounter()).toEqual(ir2.dayCounter());
             expect(ir.compounding()).toEqual(ir2.compounding());
             expect(ir.frequency()).toEqual(ir2.frequency());
+            r2 = ir.equivalentRate2(ir.dayCounter(), ir.compounding(), ir.frequency(), d1, d2)
+                .f();
+            error = Math.abs(ir.rate() - r2);
+            expect(error).toBeLessThan(1.0e-15);
             ir3 = ir.equivalentRate2(ir.dayCounter(), cases[i].comp2, cases[i].freq2, d1, d2);
             expectedIR = new InterestRate(cases[i].expected, ir.dayCounter(), cases[i].comp2, cases[i].freq2);
             r3 = roundingPrecision.f(ir3.rate());
@@ -78,7 +81,8 @@ describe('Interest Rate tests', () => {
             expect(ir3.dayCounter()).toEqual(expectedIR.dayCounter());
             expect(ir3.compounding()).toEqual(expectedIR.compounding());
             expect(ir3.frequency()).toEqual(expectedIR.frequency());
-            ir3 = ir.equivalentRate2(ir.dayCounter(), cases[i].comp2, cases[i].freq2, d1, d2);
+            r3 = ir.equivalentRate2(ir.dayCounter(), cases[i].comp2, cases[i].freq2, d1, d2)
+                .f();
             r3 = roundingPrecision.f(r3);
             error = Math.abs(r3 - cases[i].expected);
             expect(error).toBeLessThan(1.0e-17);
