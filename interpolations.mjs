@@ -64,6 +64,20 @@ function checkSymmetry(cubic, xMin) {
     }
 }
 
+class errorFunction {
+    constructor(f) {
+        this._f = f;
+    }
+    f(x) {
+        const temp = this._f.f(x) - Math.exp(-x * x);
+        return temp * temp;
+    }
+}
+
+function make_error_function(f) {
+    return new errorFunction(f);
+}
+
 function sign(y1, y2) {
     return y1 === y2 ? 0 : y1 < y2 ? 1 : -1;
 }
@@ -87,18 +101,19 @@ describe('Interpolation tests', () => {
             const y = gaussian(x);
             let f = new CubicInterpolation(x, 0, x.length, y, 0, CubicInterpolation.DerivativeApprox.Spline, false, CubicInterpolation.BoundaryCondition.NotAKnot, QL_NULL_REAL, CubicInterpolation.BoundaryCondition.NotAKnot, QL_NULL_REAL);
             f.update();
-            let result = Math.sqrt(integral.f(f, -1.7, 1.9));
+            let result = Math.sqrt(integral.f(make_error_function(f), -1.7, 1.9));
             result /= scaleFactor;
             expect(Math.abs(result - tabulatedErrors[i]))
                 .toBeLessThan(toleranceOnTabErr[i]);
             f = new CubicInterpolation(x, 0, x.length, y, 0, CubicInterpolation.DerivativeApprox.Spline, true, CubicInterpolation.BoundaryCondition.NotAKnot, QL_NULL_REAL, CubicInterpolation.BoundaryCondition.NotAKnot, QL_NULL_REAL);
             f.update();
-            result = Math.sqrt(integral.f(f, -1.7, 1.9));
+            result = Math.sqrt(integral.f(make_error_function(f), -1.7, 1.9));
             result /= scaleFactor;
             expect(Math.abs(result - tabulatedMCErrors[i]))
                 .toBeLessThan(toleranceOnTabMCErr[i]);
         }
     });
+
     it('Testing spline interpolation on a Gaussian data set...', () => {
         let interpolated, interpolated2;
         const n = 5;
@@ -123,6 +138,7 @@ describe('Interpolation tests', () => {
             expect(interpolated).toBeGreaterThanOrEqual(0.0);
         }
     });
+
     it('Testing spline interpolation on RPN15A data set...', () => {
         const RPN15A_x = [7.99, 8.09, 8.19, 8.7, 9.2, 10.0, 12.0, 15.0, 20.0];
         const RPN15A_y = [
@@ -154,22 +170,22 @@ describe('Interpolation tests', () => {
         f = new CubicInterpolation(RPN15A_x, 0, RPN15A_x.length, RPN15A_y, 0, CubicInterpolation.DerivativeApprox.Spline, true, CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0, CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0);
         f.update();
         checkValues(f, RPN15A_x, 0, RPN15A_x.length, RPN15A_y, 0);
-        checkNotAKnotCondition(f);
         interpolated = f.f(x_bad);
-        expect(interpolated).toBeGreaterThanOrEqual(1.0);
+        expect(interpolated).toBeLessThanOrEqual(1.0);
         f = new CubicInterpolation(RPN15A_x, 0, RPN15A_x.length, RPN15A_y, 0, CubicInterpolation.DerivativeApprox.Spline, true, CubicInterpolation.BoundaryCondition.FirstDerivative, 0.0, CubicInterpolation.BoundaryCondition.FirstDerivative, 0.0);
         f.update();
         checkValues(f, RPN15A_x, 0, RPN15A_x.length, RPN15A_y, 0);
         check1stDerivativeValue(f, RPN15A_x[0], 0.0);
         check1stDerivativeValue(f, RPN15A_x[RPN15A_x.length - 1], 0.0);
         interpolated = f.f(x_bad);
-        expect(interpolated).toBeGreaterThanOrEqual(1.0);
+        expect(interpolated).toBeLessThanOrEqual(1.0);
         f = new CubicInterpolation(RPN15A_x, 0, RPN15A_x.length, RPN15A_y, 0, CubicInterpolation.DerivativeApprox.Spline, true, CubicInterpolation.BoundaryCondition.NotAKnot, QL_NULL_REAL, CubicInterpolation.BoundaryCondition.NotAKnot, QL_NULL_REAL);
         f.update();
         checkValues(f, RPN15A_x, 0, RPN15A_x.length, RPN15A_y, 0);
         interpolated = f.f(x_bad);
-        expect(interpolated).toBeGreaterThanOrEqual(1.0);
+        expect(interpolated).toBeLessThanOrEqual(1.0);
     });
+
     it('Testing spline interpolation on generic values...', () => {
         const generic_x = [0.0, 1.0, 3.0, 4.0];
         const generic_y = [0.0, 0.0, 2.0, 2.0];
@@ -201,6 +217,7 @@ describe('Interpolation tests', () => {
         x35[2] = f.f(3.5);
         expect(x35[0] > x35[1] || x35[1] > x35[2]).toEqual(false);
     });
+
     it('Testing symmetry of spline interpolation end-conditions ...', () => {
         const n = 9;
         let x, y;
@@ -216,6 +233,7 @@ describe('Interpolation tests', () => {
         checkValues(f, x, 0, x.length, y, 0);
         checkSymmetry(f, x[0]);
     });
+
     it('Testing derivative end-conditions for spline interpolation ...', () => {
         const n = 4;
         const x = xRange(-2.0, 2.0, n), y = parabolic(x);
@@ -262,6 +280,7 @@ describe('Interpolation tests', () => {
         check2ndDerivativeValue(f, x[0], -2.0);
         check2ndDerivativeValue(f, x[n - 1], -2.0);
     });
+
     it('Testing non-restrictive Hyman filter...', () => {
         const n = 4;
         const x = xRange(-2.0, 2.0, n), y = parabolic(x);
@@ -280,8 +299,10 @@ describe('Interpolation tests', () => {
         interpolated = f.f(zero);
         expect(Math.abs(interpolated - expected)).toBeLessThan(1e-15);
     });
+
     it('Testing N-dimensional cubic spline...', () => {
     });
+
     it('Testing use of interpolations as functors...', () => {
         const x = [0.0, 1.0, 2.0, 3.0, 4.0];
         const y = [5.0, 4.0, 3.0, 2.0, 1.0];
@@ -303,6 +324,7 @@ describe('Interpolation tests', () => {
             expect(Math.abs(y2[i] - expected)).toBeLessThan(tolerance);
         }
     });
+
     it('Testing Fritsch-Butland interpolation...', () => {
         const x = [0.0, 1.0, 2.0, 3.0, 4.0];
         const y = [
@@ -322,6 +344,7 @@ describe('Interpolation tests', () => {
             }
         }
     });
+
     it('Testing backward-flat interpolation...', () => {
         const x = [0.0, 1.0, 2.0, 3.0, 4.0];
         const y = [5.0, 4.0, 3.0, 2.0, 1.0];
@@ -371,6 +394,7 @@ describe('Interpolation tests', () => {
             expect(Math.abs(expected - calculated)).toBeLessThan(tolerance);
         }
     });
+
     it('Testing forward-flat interpolation...', () => {
         const x = [0.0, 1.0, 2.0, 3.0, 4.0];
         const y = [5.0, 4.0, 3.0, 2.0, 1.0];
@@ -420,6 +444,7 @@ describe('Interpolation tests', () => {
             expect(Math.abs(expected - calculated)).toBeLessThan(tolerance);
         }
     });
+
     it('Testing Sabr interpolation...', () => {
         const tolerance = 1.0e-12;
         const strikes = new Array(31);
@@ -538,22 +563,31 @@ describe('Interpolation tests', () => {
             }
         }
     });
+
     it('Testing kernel 1D interpolation...', () => {
     });
+
     it('Testing kernel 2D interpolation...', () => {
     });
+
     it('Testing bicubic spline derivatives...', () => {
     });
+
     it('Testing that bicubic splines actually update...', () => {
     });
+
     it('Testing Richardson extrapolation...', () => {
     });
+
     it('Testing no-arbitrage Sabr interpolation...', () => {
     });
+
     it('Testing Sabr calibration single cases...', () => {
     });
+
     it('Testing Sabr and no-arbitrage Sabr transformation functions...', () => {
     });
+
     it('Testing Lagrange interpolation...', () => {
         const x = [-1.0, -0.5, -0.25, 0.1, 0.4, 0.75, 0.96];
         const y = x.map(lagrangeTestFct);
@@ -594,6 +628,7 @@ describe('Interpolation tests', () => {
             expect(Math.abs(references[i] - calculated)).toBeLessThan(tol);
         }
     });
+
     it('Testing Lagrange interpolation at supporting points...', () => {
         const n = 5;
         const x = new Array(n), y = new Array(n);
@@ -611,6 +646,7 @@ describe('Interpolation tests', () => {
             }
         }
     });
+
     it('Testing Lagrange interpolation derivatives...', () => {
         const x = new Array(5), y = new Array(5);
         x[0] = -1.0;
@@ -631,6 +667,7 @@ describe('Interpolation tests', () => {
             expect(Math.abs(expected - calculated)).toBeLessThan(25 * eps);
         }
     });
+
     it('Testing Lagrange interpolation on Chebyshev points...', () => {
         const n = 50;
         const x = new Array(n + 1), y = new Array(n + 1);
@@ -653,6 +690,7 @@ describe('Interpolation tests', () => {
             expect(diffDeriv).toBeLessThan(tolDeriv);
         }
     });
+    
     it('Testing B-Splines...', () => {
     });
 });
