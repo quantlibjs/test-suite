@@ -205,7 +205,7 @@ class HaltonFactory {
         this._shift = randomShift;
     }
     make(dim, seed) {
-        return new HaltonRsg(dim, seed, this._start, this._shift);
+        return new HaltonRsg().init(dim, seed, this._start, this._shift);
     }
     name() {
         let prefix = this._start ? 'random-start ' : '';
@@ -351,7 +351,7 @@ describe('Low-discrepancy sequence tests', () => {
         let point;
         const tolerance = 1.0e-15;
         let dimensionality = PPMT_MAX_DIM;
-        let rsg = new FaureRsg(dimensionality);
+        let rsg = new FaureRsg().init(dimensionality);
         let points = 100, i;
         for (i = 0; i < points; i++) {
             point = rsg.nextSequence().value;
@@ -366,7 +366,7 @@ describe('Low-discrepancy sequence tests', () => {
             0.15625, 0.65625, 0.90625, 0.40625, 0.28125, 0.78125, 0.53125, 0.03125
         ];
         dimensionality = 1;
-        rsg = new FaureRsg(dimensionality);
+        rsg = new FaureRsg().init(dimensionality);
         points = Math.floor(Math.pow(2.0, 5)) - 1;
         for (i = 0; i < points; i++) {
             point = rsg.nextSequence().value;
@@ -382,7 +382,7 @@ describe('Low-discrepancy sequence tests', () => {
             0.15625, 0.65625, 0.40625, 0.90625, 0.28125, 0.78125, 0.03125, 0.53125
         ];
         dimensionality = 2;
-        rsg = new FaureRsg(dimensionality);
+        rsg = new FaureRsg().init(dimensionality);
         points = Math.floor(Math.pow(2.0, 5)) - 1;
         for (i = 0; i < points; i++) {
             point = rsg.nextSequence().value;
@@ -404,7 +404,7 @@ describe('Low-discrepancy sequence tests', () => {
             4.0 / 9, 7.0 / 9, 1.0 / 9, 8.0 / 9, 2.0 / 9, 5.0 / 9
         ];
         dimensionality = 3;
-        rsg = new FaureRsg(dimensionality);
+        rsg = new FaureRsg().init(dimensionality);
         points = Math.floor(Math.pow(3.0, 2)) - 1;
         for (i = 0; i < points; i++) {
             point = rsg.nextSequence().value;
@@ -421,7 +421,7 @@ describe('Low-discrepancy sequence tests', () => {
         let point;
         const tolerance = 1.0e-15;
         let dimensionality = PPMT_MAX_DIM;
-        let rsg = new HaltonRsg(dimensionality, 0, false, false);
+        let rsg = new HaltonRsg().init(dimensionality, 0, false, false);
         let points = 100, i, k;
         for (i = 0; i < points; i++) {
             point = rsg.nextSequence().value;
@@ -461,7 +461,7 @@ describe('Low-discrepancy sequence tests', () => {
             0.96875,
         ];
         dimensionality = 1;
-        rsg = new HaltonRsg(dimensionality, 0, false, false);
+        rsg = new HaltonRsg().init(dimensionality, 0, false, false);
         points = Math.floor(Math.pow(2.0, 5)) - 1;
         for (i = 0; i < points; i++) {
             point = rsg.nextSequence().value;
@@ -476,7 +476,7 @@ describe('Low-discrepancy sequence tests', () => {
             23.0 / 27, 8.0 / 27, 17.0 / 27, 26.0 / 27
         ];
         dimensionality = 2;
-        rsg = new HaltonRsg(dimensionality, 0, false, false);
+        rsg = new HaltonRsg().init(dimensionality, 0, false, false);
         points = Math.floor(Math.pow(3.0, 3)) -
             1;
         for (i = 0; i < points; i++) {
@@ -487,7 +487,7 @@ describe('Low-discrepancy sequence tests', () => {
             expect(error).toBeLessThan(tolerance);
         }
         dimensionality = 33;
-        rsg = new HaltonRsg(dimensionality, 0, false, false);
+        rsg = new HaltonRsg().init(dimensionality, 0, false, false);
         const stat = new SequenceStatistics(dimensionality);
         let mean;
         k = 0;
@@ -502,7 +502,7 @@ describe('Low-discrepancy sequence tests', () => {
             const error = Math.abs(mean[0] - 0.5);
             expect(error).toBeLessThan(tolerance);
         }
-        rsg = new HaltonRsg(dimensionality, 0, false, false);
+        rsg = new HaltonRsg().init(dimensionality, 0, false, false);
         stat.reset(dimensionality);
         k = 0;
         for (j = 1; j < 3; j++) {

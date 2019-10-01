@@ -2,9 +2,11 @@ import { Array1D, Array2D, BiCGstab, CholeskyDecomposition, GMRES, MersenneTwist
 
 let N;
 let M1, M2, M3, M4, M5, M6, M7, I;
+
 function norm1(v) {
     return Math.sqrt(Array1D.DotProduct(v, v));
 }
+
 function norm2(m) {
     let sum = 0.0;
     for (let i = 0; i < Array2D.rows(m); i++) {
@@ -14,6 +16,7 @@ function norm2(m) {
     }
     return Math.sqrt(sum);
 }
+
 function setup() {
     N = 3;
     M1 = Array2D.newMatrix(N, N);
@@ -111,6 +114,7 @@ function setup() {
     M7[0][2] = 0.2;
     M7[2][1] = 1.2;
 }
+
 class MatrixMult {
     constructor(m) {
         this._m = m;
@@ -120,9 +124,11 @@ class MatrixMult {
         return retVal;
     }
 }
+
 function norm3(x) {
     return Math.sqrt(Array1D.DotProduct(x, x));
 }
+
 describe('Matrix tests', () => {
     it('Testing eigenvalues and eigenvectors calculation...', () => {
         setup();
@@ -152,6 +158,7 @@ describe('Matrix tests', () => {
             expect(norm2(Array2D.sub(m, I))).toBeLessThan(1.0e-15);
         }
     });
+
     it('Testing matricial square root...', () => {
         setup();
         const m = pseudoSqrt(M1, SalvagingAlgorithm.Type.None);
@@ -160,6 +167,7 @@ describe('Matrix tests', () => {
         const tolerance = 1.0e-12;
         expect(error).toBeLessThan(tolerance);
     });
+    
     it('Testing Higham matricial square root...', () => {
         setup();
         const tempSqrt = pseudoSqrt(M5, SalvagingAlgorithm.Type.Higham);
@@ -168,6 +176,7 @@ describe('Matrix tests', () => {
         const tolerance = 1.0e-4;
         expect(error).toBeLessThan(tolerance);
     });
+
     it('Testing singular value decomposition...', () => {
         setup();
         const tol = 1.0e-12;
@@ -190,18 +199,7 @@ describe('Matrix tests', () => {
             expect(norm2(Array2D.sub(A_reconstructed, A))).toBeLessThan(tol);
         }
     });
-    it('Testing Array2D.qr...', () => {
-        setup();
-        const tol = 1.0e-12;
-        const testMatrices = [M1, M2, I, M3, Array2D.transpose(M3), M4, Array2D.transpose(M4), M5];
-        for (let j = 0; j < testMatrices.length; j++) {
-            const A = testMatrices[j];
-            const result = qr(A);
-            const Q = result.Q;
-            const R = result.R;
-            expect(norm2(Array2D.sub(Array2D.mul(Q, R), A))).toBeLessThan(tol);
-        }
-    });
+
     it('Testing QR decomposition...', () => {
         setup();
         const tol = 1.0e-12;
@@ -222,6 +220,7 @@ describe('Matrix tests', () => {
             expect(norm2(Array2D.sub(Array2D.mul(Q, R), A))).toBeLessThan(tol);
         }
     });
+
     it('Testing QR solve...', () => {
         setup();
         const tol = 1.0e-12;
@@ -273,6 +272,7 @@ describe('Matrix tests', () => {
             }
         }
     });
+
     it('Testing LU inverse calculation...', () => {
         setup();
         const tol = 1e-12;
@@ -289,6 +289,7 @@ describe('Matrix tests', () => {
             }
         }
     });
+
     it('Testing LU determinant calculation...', () => {
         setup();
         const tol = 1e-10;
@@ -327,6 +328,7 @@ describe('Matrix tests', () => {
             expect(Math.abs(expected - calculated)).toBeLessThan(tol);
         }
     });
+
     it('Testing orthogonal projections...', () => {
         const dimension = 1000;
         const numberVectors = 50;
@@ -371,6 +373,7 @@ describe('Matrix tests', () => {
         expect(numberFailures).toEqual(0);
         expect(failuresTwo).toEqual(0);
     });
+
     it('Testing Cholesky Decomposition...', () => {
         const tmp = [
             [
@@ -443,6 +446,7 @@ describe('Matrix tests', () => {
             }
         }
     });
+
     it('Testing Moore-Penrose inverse...', () => {
         const tmp = [
             [64, 2, 3, 61, 60, 6], [9, 55, 54, 12, 13, 51], [17, 47, 46, 20, 21, 43],
@@ -472,6 +476,7 @@ describe('Matrix tests', () => {
             expect(Math.abs(y[i] - 260.0)).toBeLessThan(tol2);
         }
     });
+    
     it('Testing iterative solvers...', () => {
         setup();
         const b = new Array(3);
