@@ -170,10 +170,7 @@ describe('Statistics tests', () => {
             .toEqual(true);
         expect(Comparison.close_enough(stat.downsideDeviation(), 7.1264841364431061e+02))
             .toEqual(true);
-        const invCum = new InverseCumulativeNormal();
-        const seed = SeedGenerator.get();
-        const mt2 = new MersenneTwisterUniformRng().init1(seed);
-        const normal_gen = new InverseCumulativeRng(mt2, invCum);
+        const normal_gen = new InverseCumulativeRng(mt, new InverseCumulativeNormal());
         const stat2 = new IncrementalStatistics();
         for (let i = 0; i < 500000; ++i) {
             const x = normal_gen.next().value * 1E-1 + 1E8;
