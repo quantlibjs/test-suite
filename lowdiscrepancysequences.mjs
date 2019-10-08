@@ -10,8 +10,7 @@ function testRandomizedLatticeRule(name, nameString) {
     const seed = 12345678;
     const rng = new MersenneTwisterUniformRng().init1(seed);
     const rsg = new RandomSequenceGenerator(rng).init1(maxDim);
-    const rldsg = new RandomizedLDS(new SobolRsg().init(PPMT_MAX_DIM))
-        .init1(latticeGenerator, rsg);
+    const rldsg = new RandomizedLDS(latticeGenerator, rsg).init1(latticeGenerator, rsg);
     const outerStats = new SequenceStatistics(maxDim);
     for (let i = 0; i < numberBatches; ++i) {
         const innerStats = new SequenceStatistics(maxDim);
@@ -21,8 +20,8 @@ function testRandomizedLatticeRule(name, nameString) {
         outerStats.add(innerStats.mean());
         rldsg.nextRandomizer();
     }
-    const means = outerStats.mean();
-    const sds = outerStats.errorEstimate();
+    const means = Array.from(outerStats.mean());
+    const sds = Array.from(outerStats.errorEstimate());
     const errorInSds = new Array(maxDim);
     for (let i = 0; i < maxDim; ++i) {
         errorInSds[i] = (means[i] - 0.5) / sds[i];
@@ -244,6 +243,7 @@ function testGeneratorDiscrepancy(generatorFactory, discrepancy) {
 }
 
 describe('Low-discrepancy sequence tests', () => {
+
     it('Testing random-seed generator...', () => {
         expect(SeedGenerator.get()).not.toBeNaN();
         expect(SeedGenerator.get()).not.toBeNull();
@@ -275,22 +275,24 @@ describe('Low-discrepancy sequence tests', () => {
 
     it('Testing randomized low-discrepancy sequences up to dimension ' +
         `${PPMT_MAX_DIM}...`, () => {
-        const rldsg = new RandomizedLDS(new SobolRsg().init(PPMT_MAX_DIM))
-            .init3(PPMT_MAX_DIM);
+        const seed0 = SeedGenerator.get();
+        const seed1 = SeedGenerator.get();
+        const rldsg = new RandomizedLDS(new SobolRsg()).init3(PPMT_MAX_DIM, seed0, seed1);
         rldsg.nextSequence();
         rldsg.lastSequence();
         rldsg.nextRandomizer();
         const t1 = new SobolRsg().init(PPMT_MAX_DIM);
-        const t2 = new RandomizedLDS(new SobolRsg().init(PPMT_MAX_DIM))
-            .init3(PPMT_MAX_DIM);
-        const rldsg2 = new RandomizedLDS(new SobolRsg().init(PPMT_MAX_DIM)).init1(t1, t2);
+        const seed2 = SeedGenerator.get();
+        const t2 = new RandomSequenceGenerator(new MersenneTwisterUniformRng().init1(seed2)).init1(PPMT_MAX_DIM);
+        const rldsg2 = new RandomizedLDS(new SobolRsg()).init1(t1, t2);
         rldsg2.nextSequence();
         rldsg2.lastSequence();
         rldsg2.nextRandomizer();
-        const rldsg3 = new RandomizedLDS(new SobolRsg().init(PPMT_MAX_DIM)).init2(t1);
+        const rldsg3 = new RandomizedLDS(new SobolRsg()).init2(t1);
         rldsg3.nextSequence();
         rldsg3.lastSequence();
         rldsg3.nextRandomizer();
+        expect(()=>{}).not.toThrow();
     });
 
     it('Testing randomized lattice sequences...', () => {

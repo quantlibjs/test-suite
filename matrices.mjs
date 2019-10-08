@@ -117,7 +117,7 @@ function setup() {
 
 class MatrixMult {
     constructor(m) {
-        this._m = m;
+        this._m = Array.from(m);
     }
     f(x) {
         const retVal = Array2D.mulVector(this._m, x);
