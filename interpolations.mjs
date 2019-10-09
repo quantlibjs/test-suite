@@ -851,7 +851,7 @@ describe('Interpolation tests', () => {
         M1[1][7] = 14.24;
         M1[2][7] = 16.23;
         M1[3][7] = 19.20;
-        const kernel2DEp = new KernelInterpolation2D(xVec, 0, xVec1.length, yVec1, 0, yVec1.length, M1, { f: epanechnikovKernel });
+        const kernel2DEp = new KernelInterpolation2D(xVec1, 0, xVec1.length, yVec1, 0, yVec1.length, M1, { f: epanechnikovKernel });
         for (let i = 0; i < Array2D.rows(M1); ++i) {
             for (let j = 0; j < Array2D.columns(M1); ++j) {
                 calcVal = kernel2DEp.f(xVec1[i], yVec1[j]);
@@ -928,7 +928,7 @@ describe('Interpolation tests', () => {
         f[4][3] += 1.0;
         spline.update();
         const new_result = spline.f(x[2] + 0.1, y[4]);
-        expect(Math.abs(old_result - new_result)).toBeLessThan(0.5);
+        expect(Math.abs(old_result - new_result)).toBeGreaterThan(0.5);
     });
 
     it('Testing Richardson extrapolation...', () => {
