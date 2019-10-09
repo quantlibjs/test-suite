@@ -1,4 +1,4 @@
-import { Array1D, Array2D, BiCGstab, CholeskyDecomposition, GMRES, MersenneTwisterUniformRng, moorePenroseInverse, OrthogonalProjections, pseudoSqrt, QL_EPSILON, QL_MAX_REAL, qrDecomposition, qrSolve, SalvagingAlgorithm, SVD, SymmetricSchurDecomposition, std, det, inv, qr } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Array1D, Array2D, BiCGstab, CholeskyDecomposition, GMRES, MersenneTwisterUniformRng, moorePenroseInverse, OrthogonalProjections, pseudoSqrt, QL_EPSILON, QL_MAX_REAL, qrDecomposition, qrSolve, SalvagingAlgorithm, SVD, SymmetricSchurDecomposition, det, inv, std } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 let N;
 let M1, M2, M3, M4, M5, M6, M7, I;
@@ -117,7 +117,7 @@ function setup() {
 
 class MatrixMult {
     constructor(m) {
-        this._m = Array.from(m);
+        this._m = Array2D.from(m);
     }
     f(x) {
         const retVal = Array2D.mulVector(this._m, x);
@@ -167,7 +167,7 @@ describe('Matrix tests', () => {
         const tolerance = 1.0e-12;
         expect(error).toBeLessThan(tolerance);
     });
-    
+
     it('Testing Higham matricial square root...', () => {
         setup();
         const tempSqrt = pseudoSqrt(M5, SalvagingAlgorithm.Type.Higham);
@@ -476,7 +476,7 @@ describe('Matrix tests', () => {
             expect(Math.abs(y[i] - 260.0)).toBeLessThan(tol2);
         }
     });
-    
+
     it('Testing iterative solvers...', () => {
         setup();
         const b = new Array(3);
