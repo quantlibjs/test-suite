@@ -1,4 +1,4 @@
-import { Array1D, BivariateCumulativeNormalDistributionDr78, BivariateCumulativeNormalDistributionWe04DP, BivariateCumulativeStudentDistribution, Comparison, CumulativeNormalDistribution, CumulativePoissonDistribution, InverseCumulativeNormal, InverseCumulativePoisson, M_PI, MaddockInverseCumulativeNormal, NormalDistribution, PoissonDistribution } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Array1D, BivariateCumulativeNormalDistributionDr78, BivariateCumulativeNormalDistributionWe04DP, BivariateCumulativeStudentDistribution, Comparison, CumulativeNormalDistribution, CumulativePoissonDistribution, InverseCumulativeNormal, InverseCumulativePoisson, InverseCumulativeNonCentralChiSquare, M_PI, MaddockInverseCumulativeNormal, NormalDistribution, PoissonDistribution, StochasticCollocationInvCDF } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { norm } from '/test-suite/utilities.mjs';
 
 const average = 1.0, sigma = 2.0;
@@ -188,6 +188,7 @@ describe('Distribution tests', () => {
         e = norm(diff, h);
         expect(e).toBeLessThan(1.0e-16);
     });
+
     it('Testing bivariate cumulative normal distribution...', () => {
         checkBivariateAtZero('Drezner 1978', 1.0e-6, true);
         checkBivariate('Drezner 1978', true);
@@ -197,6 +198,7 @@ describe('Distribution tests', () => {
         checkBivariateTail('West 2004', 1.0e-6, false);
         checkBivariateTail('West 2004', 1.0e-8, false);
     });
+
     it('Testing Poisson distribution...', () => {
         for (let mean = 0.0; mean <= 10.0; mean += 0.5) {
             let i = 0;
@@ -220,6 +222,7 @@ describe('Distribution tests', () => {
             }
         }
     });
+
     it('Testing cumulative Poisson distribution...', () => {
         for (let mean = 0.0; mean <= 10.0; mean += 0.5) {
             let i = 0;
@@ -243,6 +246,7 @@ describe('Distribution tests', () => {
             }
         }
     });
+
     it('Testing inverse cumulative Poisson distribution...', () => {
         const icp = new InverseCumulativePoisson(1.0);
         const data = [
@@ -253,6 +257,7 @@ describe('Distribution tests', () => {
             expect(Comparison.close(icp.f(data[i]), i)).toEqual(true);
         }
     });
+
     it('Testing bivariate cumulative Student t distribution...', () => {
         const xs = [
             0.00, 0.50, 1.00, 1.50, 2.00, 2.50, 3.00, 4.00, 5.00, 6.00, 7.00, 8.00,
@@ -426,6 +431,7 @@ describe('Distribution tests', () => {
             expect(Math.abs(calculated - expected)).toBeLessThan(tolerance);
         }
     });
+
     it('Testing bivariate cumulative Student t distribution for large N...', () => {
         const n = 10000;
         for (let rho = -1.0; rho < 1.01; rho += 0.25) {
@@ -448,6 +454,29 @@ describe('Distribution tests', () => {
             expect(avgDiff).toBeLessThan(3.0e-6);
         }
     });
+
     it('Testing inverse CDF based on stochastic collocation...', () => {
+        const k = 3.0;
+        const lambda = 1.0;
+        const normalCDF = new CumulativeNormalDistribution();
+        const invCDF = new InverseCumulativeNonCentralChiSquare(k, lambda);
+        const scInvCDF10 = new StochasticCollocationInvCDF(invCDF, 10);
+        for (let x = -3.0; x < 3.0; x += 0.1) {
+            const u = normalCDF.f(x);
+            const calculated1 = scInvCDF10.f(u);
+            const calculated2 = scInvCDF10.value(x);
+            const expeced = invCDF.f(u);
+            expect(Math.abs(calculated1 - calculated2)).toBeLessThan(1e-6);
+            const tol = 1e-2;
+            expect(Math.abs(calculated2 - expeced)).toBeLessThan(tol);
+        }
+        const scInvCDF30 = new StochasticCollocationInvCDF(invCDF, 30, 0.9999999);
+        for (let x = -4.0; x < 4.0; x += 0.1) {
+            const u = normalCDF.f(x);
+            const expeced = invCDF.f(u);
+            const calculated = scInvCDF30.f(u);
+            const tol = 1e-6;
+            expect(Math.abs(calculated - expeced)).toBeLessThan(tol);
+        }
     });
 });
