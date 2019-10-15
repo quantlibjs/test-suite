@@ -105,7 +105,7 @@ class LogCharacteristicFunction {
 describe('Heston model tests', () => {
     it('Testing Heston model calibration using a flat volatility surface...', () => {
         const backup = new SavedSettings();
-        const today = new Date();
+        const today = DateExt.UTC();
         Settings.evaluationDate.set(today);
         const dayCounter = new Actual360();
         const calendar = new NullCalendar();
@@ -155,9 +155,10 @@ describe('Heston model tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing Heston model calibration using DAX volatility data...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('5-July-2002');
+        const settlementDate = DateExt.UTC('5,July,2002');
         Settings.evaluationDate.set(settlementDate);
         const marketData = getDAXCalibrationMarketData();
         const riskFreeTS = marketData.riskFreeTS;
@@ -193,6 +194,7 @@ describe('Heston model tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing analytic Heston engine against Black formula...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date();
@@ -229,6 +231,7 @@ describe('Heston model tests', () => {
         expect(error).toBeLessThan(tolerance);
         backup.dispose();
     });
+
     it('Testing analytic Heston engine against cached values...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('27-December-2004');
@@ -282,6 +285,7 @@ describe('Heston model tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing Monte Carlo Heston engine against cached values...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('27-December-2004');
@@ -312,6 +316,7 @@ describe('Heston model tests', () => {
         expect(errorEstimate).toBeLessThan(tolerance);
         backup.dispose();
     });
+
     it('Testing FD barrier Heston engine against cached values...', () => {
         const backup = new SavedSettings();
         const dc = new Actual360();
@@ -340,6 +345,7 @@ describe('Heston model tests', () => {
         expect(error).toBeLessThan(1.0e-3);
         backup.dispose();
     });
+
     it('Testing FD vanilla Heston engine against cached values...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('27-December-2004');
@@ -401,6 +407,7 @@ describe('Heston model tests', () => {
         expect(error).toBeLessThan(tolerance);
         backup.dispose();
     });
+
     it('Testing MC and FD Heston engines for the Kahl-Jaeckel example...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('30-March-2007');
@@ -462,6 +469,7 @@ describe('Heston model tests', () => {
         expect(error).toBeLessThan(0.00002);
         backup.dispose();
     });
+
     it('Testing different numerical Heston integration algorithms...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('27-December-2004');
@@ -529,6 +537,7 @@ describe('Heston model tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing multiple-strikes FD Heston engine...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('27-December-2004');
@@ -575,6 +584,7 @@ describe('Heston model tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing analytic piecewise time dependent Heston prices...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('27-December-2004');
@@ -614,6 +624,7 @@ describe('Heston model tests', () => {
         expect(Math.abs(calculatedAndersenPiterbarg - expected)).toBeLessThan(1e-8);
         backup.dispose();
     });
+
     it('Testing time-dependent Heston model calibration...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('5-July-2002');
@@ -659,6 +670,7 @@ describe('Heston model tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing Alan Lewis reference prices...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('5-July-2002');
@@ -727,6 +739,7 @@ describe('Heston model tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing expansion on Alan Lewis reference prices...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('5-July-2002');
@@ -790,6 +803,7 @@ describe('Heston model tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing expansion on Forde reference prices...', () => {
         const backup = new SavedSettings();
         const forward = 100.0;
@@ -850,6 +864,7 @@ describe('Heston model tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing semi-analytic Heston pricing with all integration methods...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('7-February-2017');
@@ -896,6 +911,7 @@ describe('Heston model tests', () => {
         reportOnIntegrationMethodTest(option, model, AnalyticHestonEngine.Integration.trapezoid(tol), AnalyticHestonEngine.ComplexLogFormula.AndersenPiterbarg, true, expected, 1e-6, QL_NULL_INTEGER, 'Trapezoid with Andersen Piterbarg control variate');
         backup.dispose();
     });
+
     it('Testing Heston COS cumulants...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('7-February-2017');
@@ -937,6 +953,7 @@ describe('Heston model tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing Heston pricing via COS method...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('7-February-2017');
@@ -974,6 +991,7 @@ describe('Heston model tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing Heston characteristic function...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('30-March-2017');
@@ -1003,6 +1021,7 @@ describe('Heston model tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing Andersen-Piterbarg method to price under the Heston model...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('30-March-2017');
@@ -1055,6 +1074,7 @@ describe('Heston model tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing Andersen-Piterbarg Integrand with control variate...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('17-April-2017');
@@ -1096,6 +1116,7 @@ describe('Heston model tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing Andersen-Piterbarg pricing convergence...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('5-July-2002');
@@ -1124,6 +1145,7 @@ describe('Heston model tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing piecewise time dependent ChF vs Heston ChF...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('5-July-2017');
@@ -1157,6 +1179,7 @@ describe('Heston model tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing piecewise time dependent comparison...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('5-July-2017');
@@ -1222,6 +1245,7 @@ describe('Heston model tests', () => {
             .toBeLessThan(3.0 * errorEstimate);
         backup.dispose();
     });
+    
     it('Testing piecewise time dependent ChF Asymtotic...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('5-July-2017');

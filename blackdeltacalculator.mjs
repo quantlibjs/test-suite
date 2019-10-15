@@ -78,6 +78,7 @@ describe('Black delta calculator tests', () => {
             expect(error).toBeLessThan(tolerance);
         }
     });
+
     it('Testing premium-adjusted delta price consistency...', () => {
         const backup = new SavedSettings();
         const values = [
@@ -105,7 +106,7 @@ describe('Black delta calculator tests', () => {
         ];
         const dc = new Actual360();
         const calendar = new TARGET();
-        const today = new Date();
+        const today = DateExt.UTC();
         let discFor = 0.0;
         let discDom = 0.0;
         let implVol = 0.0;
@@ -146,12 +147,25 @@ describe('Black delta calculator tests', () => {
             const option = new EuropeanOption(payoff, exercise);
             option.setPricingEngine(engine);
             calculatedVal = myCalc.deltaFromStrike(values[i].strike);
-            expectedVal = option.delta() - option.NPV() / spotQuote.value();
+            let delta = 0.0;
+            if (implVol > 0.0) {
+              delta = option.delta();
+            } else {
+              const fwd = spotQuote.value() * discFor / discDom;
+              if (payoff.optionType() === Option.Type.Call && fwd > payoff.strike()) {
+                delta = 1.0;
+              } else if (
+                  payoff.optionType() === Option.Type.Put && fwd < payoff.strike()) {
+                delta = -1.0;
+              }
+            }
+            expectedVal = delta - option.NPV() / spotQuote.value();
             error = Math.abs(expectedVal - calculatedVal);
             expect(error).toBeLessThan(tolerance);
         }
         backup.dispose();
     });
+
     it('Testing put-call parity for deltas...', () => {
         const backup = new SavedSettings();
         const values = [
@@ -201,7 +215,7 @@ describe('Black delta calculator tests', () => {
         ];
         const dc = new Actual360();
         const calendar = new TARGET();
-        const today = new Date();
+        const today = DateExt.UTC();
         let discFor = 0.0;
         let discDom = 0.0;
         let implVol = 0.0;
@@ -272,6 +286,7 @@ describe('Black delta calculator tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing delta-neutral ATM quotations...', () => {
         const backup = new SavedSettings();
         const values = [

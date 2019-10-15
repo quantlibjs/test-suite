@@ -1,11 +1,16 @@
-import { Bisection, Brent, FalsePosition, FiniteDifferenceNewtonSafe, Newton, NewtonSafe, QL_NULL_REAL, Ridder, Secant } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Bisection, Brent, FalsePosition, FiniteDifferenceNewtonSafe, Halley, HalleySafe, Newton, NewtonSafe, QL_NULL_REAL, Ridder, Secant } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class F1 {
     f(x) {
         return x * x - 1.0;
     }
+
     d(x) {
         return 2.0 * x;
+    }
+
+    d2(x) {
+        return 0.5 / x;
     }
 }
 
@@ -13,8 +18,13 @@ class F2 {
     f(x) {
         return 1.0 - x * x;
     }
+
     d(x) {
         return -2.0 * x;
+    }
+
+    d2(x) {
+        return 0.5 / x;
     }
 }
 
@@ -22,8 +32,13 @@ class F3 {
     f(x) {
         return Math.atan(x - 1);
     }
+
     d(x) {
         return 1.0 / (1.0 + (x - 1.0) * (x - 1.0));
+    }
+
+    d2(x) {
+        return -x / (1 + x * x);;
     }
 }
 
@@ -51,12 +66,18 @@ class Probe {
         this._offset = offset;
         this._previous = result.result;
     }
+
     f(x) {
         this._result.result = x;
         return this._previous + this._offset - x * x;
     }
+
     d(x) {
         return 2.0 * x;
+    }
+
+    d2(x) {
+        return 0.5 / x;
     }
 }
 
@@ -103,7 +124,7 @@ describe('1-D solver tests', () => {
     it('Testing bisection solver...', () => {
         test_solver(new Bisection(), 'Bisection', 1.0e-6);
     });
-    
+
     it('Testing false-position solver...', () => {
         test_solver(new FalsePosition(), 'FalsePosition', 1.0e-6);
     });
@@ -114,6 +135,14 @@ describe('1-D solver tests', () => {
 
     it('Testing Newton-safe solver...', () => {
         test_solver(new NewtonSafe(), 'NewtonSafe', 1.0e-9);
+    });
+
+    it('Testing Halley solver...', () => {
+        test_solver(new Halley(), 'Newton', 1.0e-12);
+    });
+
+    it('Testing Halley-safe solver...', () => {
+        test_solver(new HalleySafe(), 'NewtonSafe', 1.0e-9);
     });
 
     it('Testing finite-difference Newton-safe solver...', () => {
