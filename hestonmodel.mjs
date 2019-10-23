@@ -195,7 +195,7 @@ describe('Heston model tests', () => {
         backup.dispose();
     });
 
-    it('Testing analytic Heston engine against Black formula...', () => {
+    xit('Testing analytic Heston engine against Black formula...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date();
         Settings.evaluationDate.set(settlementDate);
@@ -346,7 +346,7 @@ describe('Heston model tests', () => {
         backup.dispose();
     });
 
-    it('Testing FD vanilla Heston engine against cached values...', () => {
+    xit('Testing FD vanilla Heston engine against cached values...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('27-December-2004');
         Settings.evaluationDate.set(settlementDate);
@@ -538,7 +538,7 @@ describe('Heston model tests', () => {
         backup.dispose();
     });
 
-    it('Testing multiple-strikes FD Heston engine...', () => {
+    xit('Testing multiple-strikes FD Heston engine...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('27-December-2004');
         Settings.evaluationDate.set(settlementDate);

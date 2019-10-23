@@ -1,4 +1,4 @@
-import { Actual360, Actual365Fixed, BusinessDayConvention, Comparison, CompositeZeroYieldStructure, Compounding, Currency, DateExt, DepositRateHelper, Discount, FlatForward, ForwardCurve, ForwardSpreadedTermStructure, Frequency, Handle, IborIndex, ImpliedTermStructure, LogLinear, Month, NullCalendar, Period, PiecewiseYieldCurve, RelinkableHandle, SavedSettings, Settings, SimpleQuote, SwapRateHelper, TARGET, Thirty360, TimeUnit, YieldTermStructure, ZeroSpreadedTermStructure } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Actual365Fixed, BusinessDayConvention, Comparison, CompositeZeroYieldStructure, Compounding, Currency, DateExt, DepositRateHelper, Discount, FlatForward, ForwardCurve, ForwardSpreadedTermStructure, Frequency, Handle, IborIndex, ImpliedTermStructure, LogLinear, NullCalendar, Period, PiecewiseYieldCurve, RelinkableHandle, SavedSettings, Settings, SimpleQuote, SwapRateHelper, TARGET, Thirty360, TimeUnit, YieldTermStructure, ZeroSpreadedTermStructure } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { Flag } from '/test-suite/utilities.mjs';
 
 class Datum {
@@ -14,7 +14,7 @@ class CommonVars {
         this.backup = new SavedSettings();
         this.calendar = new TARGET();
         this.settlementDays = 2;
-        const today = this.calendar.adjust(new Date());
+        const today = this.calendar.adjust(DateExt.UTC());
         Settings.evaluationDate.set(today);
         const settlement = this.calendar.advance1(today, this.settlementDays, TimeUnit.Days);
         const depositData = [
@@ -72,7 +72,9 @@ describe('Term structure tests', () => {
         for (i = 0; i < days.length; i++) {
             expect(Comparison.close(expected[i], calculated[i])).toBeTruthy();
         }
+        vars.backup.dispose();
     });
+
     it('Testing consistency of implied term structure...', () => {
         const vars = new CommonVars();
         const tolerance = 1.0e-10;
@@ -86,7 +88,9 @@ describe('Term structure tests', () => {
         const impliedDiscount = implied.discount1(testDate);
         expect(Math.abs(discount - baseDiscount * impliedDiscount))
             .toBeLessThan(tolerance);
+        vars.backup.dispose();
     });
+
     it('Testing observability of implied term structure...', () => {
         const vars = new CommonVars();
         const today = Settings.evaluationDate.f();
@@ -98,7 +102,9 @@ describe('Term structure tests', () => {
         flag.registerWith(implied);
         h.linkTo(vars.termStructure);
         expect(flag.isUp).toBeTruthy();
+        vars.backup.dispose();
     });
+
     it('Testing consistency of forward-spreaded term structure...', () => {
         const vars = new CommonVars();
         const tolerance = 1.0e-10;
@@ -116,7 +122,9 @@ describe('Term structure tests', () => {
             .f();
         expect(Math.abs(forward - (spreadedForward - me.value())))
             .toBeLessThan(tolerance);
+        vars.backup.dispose();
     });
+
     it('Testing observability of forward-spreaded term structure...', () => {
         const vars = new CommonVars();
         const me = new SimpleQuote(0.01);
@@ -130,7 +138,9 @@ describe('Term structure tests', () => {
         flag.lower();
         me.setValue(0.005);
         expect(flag.isUp).toBeTruthy();
+        vars.backup.dispose();
     });
+
     it('Testing consistency of zero-spreaded term structure...', () => {
         const vars = new CommonVars();
         const tolerance = 1.0e-10;
@@ -147,7 +157,9 @@ describe('Term structure tests', () => {
             .f();
         expect(Math.abs(zero - (spreadedZero - me.value())))
             .toBeLessThan(tolerance);
+        vars.backup.dispose();
     });
+
     it('Testing observability of zero-spreaded term structure...', () => {
         const vars = new CommonVars();
         const me = new SimpleQuote(0.01);
@@ -161,7 +173,9 @@ describe('Term structure tests', () => {
         flag.lower();
         me.setValue(0.005);
         expect(flag.isUp).toBeTruthy();
+        vars.backup.dispose();
     });
+
     it('Testing that a zero-spreaded curve can be ' +
         'created with a null underlying curve...', () => {
         const vars = new CommonVars();
@@ -170,7 +184,10 @@ describe('Term structure tests', () => {
         const spreaded = new ZeroSpreadedTermStructure(underlying, spread);
         underlying.linkTo(vars.termStructure);
         spreaded.referenceDate();
+        expect(() => {}).not.toThrow();
+        vars.backup.dispose();
     });
+
     it('Testing that an underlying curve can ' +
         'be relinked to a null underlying curve...', () => {
         const vars = new CommonVars();
@@ -179,29 +196,32 @@ describe('Term structure tests', () => {
         const spreaded = new ZeroSpreadedTermStructure(underlying, spread);
         spreaded.referenceDate();
         underlying.linkTo(new YieldTermStructure());
+        expect(() => {}).not.toThrow();
+        vars.backup.dispose();
     });
+
     it('Testing composite zero yield structures...', () => {
         const backup = new SavedSettings();
-        Settings.evaluationDate.set(new Date(2017, Month.Nov - 1, 10));
+        Settings.evaluationDate.set(DateExt.UTC('10,Nov,2017'));
         let dates = [];
         let rates = [];
-        dates.push(new Date(2017, Month.Nov - 1, 10));
-        dates.push(new Date(2017, Month.Nov - 1, 13));
-        dates.push(new Date(2018, Month.Feb - 1, 12));
-        dates.push(new Date(2018, Month.May - 1, 10));
-        dates.push(new Date(2018, Month.Aug - 1, 10));
-        dates.push(new Date(2018, Month.Nov - 1, 12));
-        dates.push(new Date(2018, Month.Dec - 1, 21));
-        dates.push(new Date(2020, Month.Jan - 1, 15));
-        dates.push(new Date(2021, Month.Mar - 1, 31));
-        dates.push(new Date(2023, Month.Feb - 1, 28));
-        dates.push(new Date(2026, Month.Dec - 1, 21));
-        dates.push(new Date(2030, Month.Jan - 1, 31));
-        dates.push(new Date(2031, Month.Feb - 1, 28));
-        dates.push(new Date(2036, Month.Mar - 1, 31));
-        dates.push(new Date(2041, Month.Feb - 1, 28));
-        dates.push(new Date(2048, Month.Feb - 1, 28));
-        dates.push(new Date(2141, Month.Dec - 1, 31));
+        dates.push(DateExt.UTC('10,Nov,2017'));
+        dates.push(DateExt.UTC('13,Nov,2017'));
+        dates.push(DateExt.UTC('12,Feb,2018'));
+        dates.push(DateExt.UTC('10,May,2018'));
+        dates.push(DateExt.UTC('10,Aug,2018'));
+        dates.push(DateExt.UTC('12,Nov,2018'));
+        dates.push(DateExt.UTC('21,Dec,2018'));
+        dates.push(DateExt.UTC('15,Jan,2020'));
+        dates.push(DateExt.UTC('31,Mar,2021'));
+        dates.push(DateExt.UTC('28,Feb,2023'));
+        dates.push(DateExt.UTC('21,Dec,2026'));
+        dates.push(DateExt.UTC('31,Jan,2030'));
+        dates.push(DateExt.UTC('28,Feb,2031'));
+        dates.push(DateExt.UTC('31,Mar,2036'));
+        dates.push(DateExt.UTC('28,Feb,2041'));
+        dates.push(DateExt.UTC('28,Feb,2048'));
+        dates.push(DateExt.UTC('31,Dec,2141'));
         rates.push(0.0655823213132524);
         rates.push(0.0655823213132524);
         rates.push(0.0699455024156877);
@@ -222,20 +242,20 @@ describe('Term structure tests', () => {
         const termStructure1 = new ForwardCurve().curveInit1(dates, rates, new Actual365Fixed(), new NullCalendar());
         dates = [];
         rates = [];
-        dates.push(new Date(2017, Month.Nov - 1, 10));
-        dates.push(new Date(2017, Month.Nov - 1, 13));
-        dates.push(new Date(2017, Month.Dec - 1, 11));
-        dates.push(new Date(2018, Month.Feb - 1, 12));
-        dates.push(new Date(2018, Month.May - 1, 10));
-        dates.push(new Date(2022, Month.Jan - 1, 31));
-        dates.push(new Date(2023, Month.Dec - 1, 7));
-        dates.push(new Date(2025, Month.Jan - 1, 31));
-        dates.push(new Date(2028, Month.Mar - 1, 31));
-        dates.push(new Date(2033, Month.Dec - 1, 7));
-        dates.push(new Date(2038, Month.Feb - 1, 1));
-        dates.push(new Date(2046, Month.Apr - 1, 2));
-        dates.push(new Date(2051, Month.Jan - 1, 2));
-        dates.push(new Date(2141, Month.Dec - 1, 31));
+        dates.push(DateExt.UTC('10,Nov,2017'));
+        dates.push(DateExt.UTC('13,Nov,2017'));
+        dates.push(DateExt.UTC('11,Dec,2017'));
+        dates.push(DateExt.UTC('12,Feb,2018'));
+        dates.push(DateExt.UTC('10,May,2018'));
+        dates.push(DateExt.UTC('31,Jan,2022'));
+        dates.push(DateExt.UTC('7,Dec,2023'));
+        dates.push(DateExt.UTC('31,Jan,2025'));
+        dates.push(DateExt.UTC('31,Mar,2028'));
+        dates.push(DateExt.UTC('7,Dec,2033'));
+        dates.push(DateExt.UTC('1,Feb,2038'));
+        dates.push(DateExt.UTC('2,Apr,2046'));
+        dates.push(DateExt.UTC('2,Jan,2051'));
+        dates.push(DateExt.UTC('31,Dec,2141'));
         rates.push(0.056656806197189);
         rates.push(0.056656806197189);
         rates.push(0.0419541633454473);
@@ -258,13 +278,13 @@ describe('Term structure tests', () => {
         });
         dates = [];
         rates = [];
-        dates.push(new Date(2017, Month.Nov - 1, 10));
-        dates.push(new Date(2017, Month.Dec - 1, 15));
-        dates.push(new Date(2018, Month.Jun - 1, 15));
-        dates.push(new Date(2029, Month.Sep - 1, 15));
-        dates.push(new Date(2038, Month.Sep - 1, 15));
-        dates.push(new Date(2046, Month.Mar - 1, 15));
-        dates.push(new Date(2141, Month.Dec - 1, 15));
+        dates.push(DateExt.UTC('10,Nov,2017'));
+        dates.push(DateExt.UTC('15,Dec,2017'));
+        dates.push(DateExt.UTC('15,Jun,2018'));
+        dates.push(DateExt.UTC('15,Sep,2029'));
+        dates.push(DateExt.UTC('15,Sep,2038'));
+        dates.push(DateExt.UTC('15,Mar,2046'));
+        dates.push(DateExt.UTC('15,Dec,2141'));
         rates.push(0.00892551511527986);
         rates.push(0.0278755322562788);
         rates.push(0.0512001768603456);
