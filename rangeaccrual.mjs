@@ -1,4 +1,4 @@
-import { Actual365Fixed, Array1D, Array2D, BusinessDayConvention, DateExt, DateGeneration, Euribor6M, EuriborSwapIsdaFixA, FlatSmileSection, Frequency, Handle, InterpolatedSmileSection, Linear, Period, RangeAccrualFloatersCoupon, RangeAccrualPricerByBgm, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, SwaptionVolatilityMatrix, SwaptionVolCube1, SwaptionVolCube2, TARGET, Thirty360, TimeUnit, ZeroCurve } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual365Fixed, Array1D, Array2D, BusinessDayConvention, DateExt, DateGeneration, Euribor6M, EuriborSwapIsdaFixA, FlatSmileSection, Frequency, Handle, InterpolatedSmileSection, Linear, Period, RangeAccrualFloatersCoupon, RangeAccrualPricerByBgm, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, SwaptionVolatilityMatrix, SwaptionVolCube1, SwaptionVolCube2, TARGET, Thirty360, TimeUnit, ZeroCurve, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class CommonVars {
     constructor() {
@@ -818,7 +818,7 @@ class CommonVars {
     }
 }
 
-describe('Range Accrual tests', () => {
+describe(`Range Accrual tests ${version}`, () => {
     it('Testing infinite range accrual floaters...', () => {
         const vars = new CommonVars();
         const coupon = new RangeAccrualFloatersCoupon(vars.paymentDate, 1.0, vars.iborIndex, vars.startDate, vars.endDate, vars.fixingDays, vars.rangeCouponDayCount, vars.gearing, vars.spread, vars.startDate, vars.endDate, vars.observationSchedule, vars.infiniteLowerStrike, vars.infiniteUpperStrike);

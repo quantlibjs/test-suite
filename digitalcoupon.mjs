@@ -1,4 +1,4 @@
-import { Actual360, Actual365Fixed, AnalyticEuropeanEngine, AssetOrNothingPayoff, blackFormulaCashItmProbability1, BlackIborCouponPricer, BlackScholesMertonProcess, BusinessDayConvention, CashOrNothingPayoff, ConstantOptionletVolatility, CumulativeNormalDistribution, DigitalCoupon, DigitalReplication, Euribor6M, EuropeanExercise, Handle, IborCoupon, Option, Period, Position, QL_NULL_REAL, RelinkableHandle, Replication, Settings, SimpleQuote, TimeUnit, VanillaOption } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Actual365Fixed, AnalyticEuropeanEngine, AssetOrNothingPayoff, blackFormulaCashItmProbability1, BlackIborCouponPricer, BlackScholesMertonProcess, BusinessDayConvention, CashOrNothingPayoff, ConstantOptionletVolatility, CumulativeNormalDistribution, DigitalCoupon, DigitalReplication, Euribor6M, EuropeanExercise, Handle, IborCoupon, Option, Period, Position, QL_NULL_REAL, RelinkableHandle, Replication, Settings, SimpleQuote, TimeUnit, VanillaOption, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatRate2, flatVol2 } from '/test-suite/utilities.mjs';
 
 class CommonVars {
@@ -18,7 +18,7 @@ class CommonVars {
     }
 }
 
-describe('Digital coupon tests', () => {
+describe(`Digital coupon tests ${version}`, () => {
     it('Testing European asset-or-nothing digital coupon...', () => {
         const vars = new CommonVars();
         const vols = [0.05, 0.15, 0.30];

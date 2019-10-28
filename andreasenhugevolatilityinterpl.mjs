@@ -1,4 +1,4 @@
-import { Actual365Fixed, AnalyticHestonEngine, AndreasenHugeLocalVolAdapter, AndreasenHugeVolatilityAdapter, AndreasenHugeVolatilityInterpl, Barrier, BarrierOption, BFGS, blackFormulaImpliedStdDevLiRS1, DateExt, EuropeanExercise, FdBlackScholesBarrierEngine, FdBlackScholesVanillaEngine, FdmSchemeDesc, GeneralizedBlackScholesProcess, Handle, HestonBlackVolSurface, HestonModel, HestonProcess, LevenbergMarquardt, Option, PlainVanillaPayoff, QL_EPSILON, QL_NULL_REAL, sabrVolatility, SavedSettings, Settings, SimpleQuote, Simplex, TimeUnit, VanillaOption, ZeroCurve } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual365Fixed, AnalyticHestonEngine, AndreasenHugeLocalVolAdapter, AndreasenHugeVolatilityAdapter, AndreasenHugeVolatilityInterpl, Barrier, BarrierOption, BFGS, blackFormulaImpliedStdDevLiRS1, DateExt, EuropeanExercise, FdBlackScholesBarrierEngine, FdBlackScholesVanillaEngine, FdmSchemeDesc, GeneralizedBlackScholesProcess, Handle, HestonBlackVolSurface, HestonModel, HestonProcess, LevenbergMarquardt, Option, PlainVanillaPayoff, QL_EPSILON, QL_NULL_REAL, sabrVolatility, SavedSettings, Settings, SimpleQuote, Simplex, TimeUnit, VanillaOption, ZeroCurve, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2, flatRate4 } from '/test-suite/utilities.mjs';
 
 const first = 0, second = 1;
@@ -11,6 +11,7 @@ class CalibrationData {
         this.calibrationSet = calibrationSet;
     }
 }
+
 class CalibrationResults {
     constructor(calibrationType, interpolationType, maxError, avgError, lvMaxError, lvAvgError) {
         this.calibrationType = calibrationType;
@@ -21,6 +22,7 @@ class CalibrationResults {
         this.lvAvgError = lvAvgError;
     }
 }
+
 function AndreasenHugeExampleData() {
     const spot = new Handle(new SimpleQuote(2772.7));
     const maturityTimes = [
@@ -172,6 +174,7 @@ function AndreasenHugeExampleData() {
     const data = new CalibrationData(spot, rTS, qTS, calibrationSet);
     return data;
 }
+
 function testAndreasenHugeVolatilityInterpolation(data, expected) {
     const backup = new SavedSettings();
     const rTS = data.rTS;
@@ -217,6 +220,7 @@ function testAndreasenHugeVolatilityInterpolation(data, expected) {
     expect(avgError).toBeLessThan(expected.avgError);
     backup.dispose();
 }
+
 function BorovkovaExampleData() {
     const dc = new Actual365Fixed();
     const today = new Date('4-January-2018');
@@ -251,6 +255,7 @@ function BorovkovaExampleData() {
     const data = new CalibrationData(spot, rTS, qTS, calibrationSet);
     return data;
 }
+
 function arbitrageData() {
     const dc = new Actual365Fixed();
     const today = new Date('4-January-2018');
@@ -273,6 +278,7 @@ function arbitrageData() {
     const data = new CalibrationData(spot, rTS, qTS, calibrationSet);
     return data;
 }
+
 function sabrData() {
     const dc = new Actual365Fixed();
     const today = new Date('4-January-2018');
@@ -301,33 +307,39 @@ function sabrData() {
     const parameter = [alpha, beta, nu, rho, forward, maturity];
     return [data, parameter];
 }
-describe('Andreasen-Huge volatility interpolation tests', () => {
+
+describe(`Andreasen-Huge volatility interpolation tests ${version}`, () => {
     it('Testing Andreasen-Huge example with Put calibration...', () => {
         const data = AndreasenHugeExampleData();
         const expected = new CalibrationResults(AndreasenHugeVolatilityInterpl.CalibrationType.Put, AndreasenHugeVolatilityInterpl.InterpolationType.CubicSpline, 0.0015, 0.00035, 0.0020, 0.00035);
         testAndreasenHugeVolatilityInterpolation(data, expected);
     });
+
     it('Testing Andreasen-Huge example with Call calibration...', () => {
         const data = AndreasenHugeExampleData();
         const expected = new CalibrationResults(AndreasenHugeVolatilityInterpl.CalibrationType.Call, AndreasenHugeVolatilityInterpl.InterpolationType.CubicSpline, 0.0015, 0.00035, 0.0015, 0.00035);
         testAndreasenHugeVolatilityInterpolation(data, expected);
     });
+
     it('Testing Andreasen-Huge example with instantaneous' +
         ' Call and Put calibration...', () => {
         const data = AndreasenHugeExampleData();
         const expected = new CalibrationResults(AndreasenHugeVolatilityInterpl.CalibrationType.CallPut, AndreasenHugeVolatilityInterpl.InterpolationType.CubicSpline, 0.0015, 0.00035, 0.0015, 0.00035);
         testAndreasenHugeVolatilityInterpolation(data, expected);
     });
+
     it('Testing Andreasen-Huge example with linear interpolation...', () => {
         const data = AndreasenHugeExampleData();
         const expected = new CalibrationResults(AndreasenHugeVolatilityInterpl.CalibrationType.CallPut, AndreasenHugeVolatilityInterpl.InterpolationType.Linear, 0.0020, 0.00015, 0.0040, 0.00035);
         testAndreasenHugeVolatilityInterpolation(data, expected);
     });
+
     it('Testing Andreasen-Huge example with piecewise constant interpolation...', () => {
         const data = AndreasenHugeExampleData();
         const expected = new CalibrationResults(AndreasenHugeVolatilityInterpl.CalibrationType.CallPut, AndreasenHugeVolatilityInterpl.InterpolationType.PiecewiseConstant, 0.0025, 0.00025, 0.0040, 0.00035);
         testAndreasenHugeVolatilityInterpolation(data, expected);
     });
+
     it('Testing Andreasen-Huge volatility interpolation with' +
         ' time dependent interest rates and dividend yield...', () => {
         const backup = new SavedSettings();
@@ -372,6 +384,7 @@ describe('Andreasen-Huge volatility interpolation tests', () => {
         testAndreasenHugeVolatilityInterpolation(irData, expected);
         backup.dispose();
     });
+
     it('Testing Andreasen-Huge volatility interpolation with a single option...', () => {
         const backup = new SavedSettings();
         const dc = new Actual365Fixed();
@@ -408,6 +421,7 @@ describe('Andreasen-Huge volatility interpolation tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing Andreasen-Huge volatility interpolation' +
         ' gives arbitrage free prices...', () => {
         const backup = new SavedSettings();
@@ -453,6 +467,7 @@ describe('Andreasen-Huge volatility interpolation tests', () => {
             }
         }
     });
+
     it('Testing Barrier option pricing with Andreasen-Huge' +
         ' local volatility surface...', () => {
         const backup = new SavedSettings();
@@ -500,6 +515,7 @@ describe('Andreasen-Huge volatility interpolation tests', () => {
         expect(diff).toBeLessThan(tol);
         backup.dispose();
     });
+
     it('Testing Peter\'s and Fabien\'s SABR example...', () => {
         const backup = new SavedSettings();
         const sd = sabrData();
@@ -522,6 +538,7 @@ describe('Andreasen-Huge volatility interpolation tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing different optimizer for Andreasen-Huge' +
         ' volatility interpolation...', () => {
         const data = sabrData()[first];
@@ -534,6 +551,7 @@ describe('Andreasen-Huge volatility interpolation tests', () => {
             expect(avgError).toBeLessThan(0.0001);
         }
     });
+
     it('Testing that reference date of adapter surface' +
         ' moves along with evaluation date...', () => {
         const backup = new SavedSettings();

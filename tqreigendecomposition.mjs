@@ -1,8 +1,8 @@
-import { Array1D, TqrEigenDecomposition } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Array1D, TqrEigenDecomposition, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 const tolerance = 1.0e-10;
 
-describe('TQR eigendecomposition tests', () => {
+describe(`TQR eigendecomposition tests ${version}`, () => {
     it('Testing TQR eigenvalue decomposition...', () => {
         const diag = [11, 7, 6, 2, 0];
         const sub = Array1D.fromSizeValue(4, 1);

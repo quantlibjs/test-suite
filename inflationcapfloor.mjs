@@ -1,4 +1,4 @@
-import { ActualActual, BusinessDayConvention, ConstantYoYOptionletVolatility, DateExt, DateGeneration, DiscountingSwapEngine, FlatForward, Frequency, Handle, Linear, MakeSchedule, Period, PiecewiseYoYInflationCurve, Schedule, Settings, SimpleQuote, Thirty360, TimeUnit, UnitedKingdom, YearOnYearInflationSwap, YearOnYearInflationSwapHelper, YoYInflationBachelierCapFloorEngine, YoYInflationBlackCapFloorEngine, YoYInflationCap, YoYInflationCapFloor, YoYInflationCollar, YoYInflationFloor, yoyInflationLeg, YoYInflationTermStructure, YoYInflationUnitDisplacedBlackCapFloorEngine, YYUKRPIr } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { ActualActual, BusinessDayConvention, ConstantYoYOptionletVolatility, DateExt, DateGeneration, DiscountingSwapEngine, FlatForward, Frequency, Handle, Linear, MakeSchedule, Period, PiecewiseYoYInflationCurve, Schedule, Settings, SimpleQuote, Thirty360, TimeUnit, UnitedKingdom, YearOnYearInflationSwap, YearOnYearInflationSwapHelper, YoYInflationBachelierCapFloorEngine, YoYInflationBlackCapFloorEngine, YoYInflationCap, YoYInflationCapFloor, YoYInflationCollar, YoYInflationFloor, yoyInflationLeg, YoYInflationTermStructure, YoYInflationUnitDisplacedBlackCapFloorEngine, YYUKRPIr, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class Datum {
     constructor(date, rate) {
@@ -121,7 +121,7 @@ class CommonVars {
     }
 }
 
-describe('Inflation (year-on-year) Cap and floor tests', () => {
+describe(`Inflation (year-on-year) Cap and floor tests ${version}`, () => {
     it('Testing consistency between yoy inflation cap, floor and collar...', () => {
         const vars = new CommonVars();
         const lengths = [1, 2, 3, 5, 7, 10, 15, 20];

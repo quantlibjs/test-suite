@@ -1,5 +1,5 @@
 import '/test-suite/quantlibtestsuite.mjs';
-import { Actual360, AmericanExercise, BaroneAdesiWhaleyApproximationEngine, BjerksundStenslandApproximationEngine, BlackScholesMertonProcess, CrankNicolson, DateExt, FDAmericanEngine, FDShoutEngine, Handle, JuQuadraticApproximationEngine, Option, PlainVanillaPayoff, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, AmericanExercise, BaroneAdesiWhaleyApproximationEngine, BjerksundStenslandApproximationEngine, BlackScholesMertonProcess, CrankNicolson, DateExt, FDAmericanEngine, FDShoutEngine, Handle, JuQuadraticApproximationEngine, Option, PlainVanillaPayoff, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatVol1, relativeError } from '/test-suite/utilities.mjs';
 
 const first = 0;
@@ -16,6 +16,7 @@ class AmericanOptionData {
         this.result = result;
     }
 }
+
 const juValues = [
     new AmericanOptionData(Option.Type.Put, 35.00, 40.00, 0.0, 0.0488, 0.0833, 0.2, 0.006),
     new AmericanOptionData(Option.Type.Put, 35.00, 40.00, 0.0, 0.0488, 0.3333, 0.2, 0.201),
@@ -65,6 +66,7 @@ const juValues = [
     new AmericanOptionData(Option.Type.Call, 100.00, 110.00, 0.03, 0.07, 3.0, 0.3, 30.028),
     new AmericanOptionData(Option.Type.Call, 100.00, 120.00, 0.03, 0.07, 3.0, 0.3, 37.177),
 ];
+
 function testFdGreeks(Engine) {
     const backup = new SavedSettings();
     const calculated = new Map(), expected = new Map(), tolerance = new Map();
@@ -139,7 +141,8 @@ function testFdGreeks(Engine) {
     }
     backup.dispose();
 }
-describe('American option tests', () => {
+
+describe(`American option tests ${version}`, () => {
     it('Testing Barone-Adesi and Whaley approximation for American options...', () => {
         const values = [
             new AmericanOptionData(Option.Type.Call, 100.00, 90.00, 0.10, 0.10, 0.10, 0.15, 0.0206),
@@ -207,6 +210,7 @@ describe('American option tests', () => {
             expect(error).toBeLessThan(tolerance);
         }
     });
+
     it('Testing Bjerksund and Stensland approximation for American options...', () => {
         const values = [
             new AmericanOptionData(Option.Type.Call, 40.00, 42.00, 0.08, 0.04, 0.75, 0.35, 5.2704),
@@ -245,6 +249,7 @@ describe('American option tests', () => {
             expect(error).toBeLessThan(tolerance);
         }
     });
+
     it('Testing Ju approximation for American options...', () => {
         const today = new Date();
         const dc = new Actual360();
@@ -273,6 +278,7 @@ describe('American option tests', () => {
             expect(error).toBeLessThan(tolerance);
         }
     });
+
     it('Testing finite-difference engine for American options...', () => {
         const today = new Date();
         const dc = new Actual360();
@@ -302,9 +308,11 @@ describe('American option tests', () => {
             expect(error).toBeLessThan(tolerance);
         }
     });
+
     it('Testing finite-differences American option greeks...', () => {
         testFdGreeks(new FDAmericanEngine(new CrankNicolson()));
     });
+    
     it('Testing finite-differences shout option greeks...', () => {
         testFdGreeks(new FDShoutEngine());
     });

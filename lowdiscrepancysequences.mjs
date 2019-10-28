@@ -1,4 +1,4 @@
-import { DiscrepancyStatistics, FaureRsg, HaltonRsg, LatticeRsg, LatticeRule, MersenneTwisterUniformRng, PPMT_MAX_DIM, PrimitivePolynomials, RandomizedLDS, RandomSequenceGenerator, SeedGenerator, SequenceStatistics, SobolRsg } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { DiscrepancyStatistics, FaureRsg, HaltonRsg, LatticeRsg, LatticeRule, MersenneTwisterUniformRng, PPMT_MAX_DIM, PrimitivePolynomials, RandomizedLDS, RandomSequenceGenerator, SeedGenerator, SequenceStatistics, SobolRsg, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 function testRandomizedLatticeRule(name, nameString) {
     const maxDim = 30;
@@ -242,7 +242,7 @@ function testGeneratorDiscrepancy(generatorFactory, discrepancy) {
     }
 }
 
-describe('Low-discrepancy sequence tests', () => {
+describe(`Low-discrepancy sequence tests ${version}`, () => {
 
     it('Testing random-seed generator...', () => {
         expect(SeedGenerator.get()).not.toBeNaN();

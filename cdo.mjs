@@ -1,4 +1,4 @@
-import { Actual360, ActualActual, Array1D, Basket, BusinessDayConvention, Compounding, EURCurrency, FlatForward, FlatHazardRate, GaussianConstantLossLM, GaussianCopulaPolicy, GaussianLHPLossModel, Handle, HomogGaussPoolLossModel, HomogTPoolLossModel, IHGaussPoolLossModel, IHStudentPoolLossModel, IntegralCDOEngine, Issuer, LatentModelIntegrationType, MakeSchedule, MidPointCDOEngine, NorthAmericaCorpDefaultKey, Period, Pool, Protection, RandomDefaultLM, SavedSettings, Seniority, Settings, SimpleQuote, SyntheticCDO, TARGET, TConstantLossLM, TCopulaPolicy, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, ActualActual, Array1D, Basket, BusinessDayConvention, Compounding, EURCurrency, FlatForward, FlatHazardRate, GaussianConstantLossLM, GaussianCopulaPolicy, GaussianLHPLossModel, Handle, HomogGaussPoolLossModel, HomogTPoolLossModel, IHGaussPoolLossModel, IHStudentPoolLossModel, IntegralCDOEngine, Issuer, LatentModelIntegrationType, MakeSchedule, MidPointCDOEngine, NorthAmericaCorpDefaultKey, Period, Pool, Protection, RandomDefaultLM, SavedSettings, Seniority, Settings, SimpleQuote, SyntheticCDO, TARGET, TConstantLossLM, TCopulaPolicy, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 const hwAttachment = [0.00, 0.03, 0.06, 0.10];
 const hwDetachment = [0.03, 0.06, 0.10, 1.00];
@@ -24,7 +24,7 @@ function check(i, j, desc, found, expected, bpTolerance, relativeTolerance) {
     expect(Math.abs(absDiff)).toBeLessThan(bpTolerance);
 }
 
-describe('CDO tests', () => {
+describe(`CDO tests ${version}`, () => {
     it('Testing CDO premiums against Hull-White values  for data set ', () => {
         const dataSet = 4;
         const backup = new SavedSettings();

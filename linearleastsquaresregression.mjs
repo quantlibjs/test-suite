@@ -1,10 +1,10 @@
-import { Array1D, constant, identity, InverseCumulativeNormal, InverseCumulativeRng, LinearRegression, MersenneTwisterUniformRng, SavedSettings, square } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Array1D, constant, identity, InverseCumulativeNormal, InverseCumulativeRng, LinearRegression, MersenneTwisterUniformRng, SavedSettings, square, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 function f(a, i) {
     return a[i];
 }
 
-describe('linear least squares regression tests', () => {
+describe(`linear least squares regression tests ${version}`, () => {
     it('Testing linear least-squares regression...', () => {
         const backup = new SavedSettings();
         const tolerance = 0.05;

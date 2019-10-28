@@ -1,15 +1,17 @@
-import { AdaptiveRungeKutta, Array1D, Array2D, Expm, QL_EPSILON, Complex } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { AdaptiveRungeKutta, Array1D, Array2D, Expm, QL_EPSILON, Complex, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class ode1 {
     f1(x, y) {
         return y;
     }
 }
+
 class ode2 {
     f1(x, y) {
         return new Complex(0.0, 1.0).mul(y);
     }
 }
+
 class ode3 {
     f2(x, y) {
         const r = new Array(2);
@@ -18,6 +20,7 @@ class ode3 {
         return r;
     }
 }
+
 class ode4 {
     f2(x, y) {
         const r = new Array(2);
@@ -26,6 +29,7 @@ class ode4 {
         return r;
     }
 }
+
 function frobenuiusNorm(m) {
     const trans = Array2D.transpose(m);
     const mmt = Array2D.mul(m, trans);
@@ -34,7 +38,8 @@ function frobenuiusNorm(m) {
     const dotProd = Array1D.DotProduct(diag, v1);
     return Math.sqrt(dotProd);
 }
-describe('ode tests', () => {
+
+describe(`ode tests ${version}`, () => {
     it('Testing adaptive Runge Kutta...', () => {
         const rk_real = new AdaptiveRungeKutta(1E-12, 1E-4, 0.0);
         const rk_complex = new AdaptiveRungeKutta(1E-12, 1E-4, 0.0);

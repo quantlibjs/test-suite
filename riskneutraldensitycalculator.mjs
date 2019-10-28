@@ -1,7 +1,7 @@
-import { Actual365Fixed, BlackCalculator, BlackScholesMertonProcess, BSMRNDCalculator, Handle, Option, QL_EPSILON, SavedSettings, Settings, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual365Fixed, BlackCalculator, BlackScholesMertonProcess, BSMRNDCalculator, Handle, Option, QL_EPSILON, SavedSettings, Settings, SimpleQuote, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2, flatVol4 } from '/test-suite/utilities.mjs';
 
-describe('Risk neutral density calculator tests', () => {
+describe(`Risk neutral density calculator tests ${version}`, () => {
     it('Testing density against option prices...', () => {
         const backup = new SavedSettings();
         const dayCounter = new Actual365Fixed();

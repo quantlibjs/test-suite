@@ -1,4 +1,4 @@
-import { Array1D, Array2D, BusinessDayConvention, CMSMMDriftCalculator, CMSwapCurveState, DateExt, DateGeneration, EvolutionDescription, Frequency, LMMCurveState, LMMDriftCalculator, NullCalendar, Period, Schedule, Settings, SimpleDayCounter, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Array1D, Array2D, BusinessDayConvention, CMSMMDriftCalculator, CMSwapCurveState, DateExt, DateGeneration, EvolutionDescription, Frequency, LMMCurveState, LMMDriftCalculator, NullCalendar, Period, Schedule, Settings, SimpleDayCounter, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class CommonVars {
     constructor() {
@@ -52,7 +52,8 @@ class CommonVars {
         evolution.firstAliveRate();
     }
 }
-describe('Curve States tests', () => {
+
+describe(`Curve States tests ${version}`, () => {
     it('Testing constant-maturity-swap-market-model curve state...', () => {
         const vars = new CommonVars();
         const nbRates = vars.todaysForwards.length;

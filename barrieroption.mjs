@@ -1,5 +1,5 @@
 import '/test-suite/quantlibtestsuite.mjs';
-import { Actual360, Actual365Fixed, AmericanExercise, AnalyticBarrierEngine, AnalyticEuropeanEngine, Array2D, Barrier, BarrierOption, Bicubic, BinomialBarrierEngine, blackFormula1, BlackScholesMertonProcess, BlackScholesProcess, BlackVarianceCurve, BlackVarianceSurface, Business252, CoxRossRubinstein, DateExt, DeltaVolQuote, DiscretizedBarrierOption, DiscretizedDermanKaniBarrierOption, DividendBarrierOption, EuropeanExercise, EuropeanOption, Exercise, FdBlackScholesBarrierEngine, FdHestonBarrierEngine, FdmSchemeDesc, Handle, HestonModel, HestonProcess, LowDiscrepancy, MakeMCBarrierEngine, Option, PerturbativeBarrierOptionEngine, PlainVanillaPayoff, RelinkableHandle, SavedSettings, Settings, SimpleQuote, TARGET, TimeUnit, VannaVolgaBarrierEngine, ZeroCurve } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Actual365Fixed, AmericanExercise, AnalyticBarrierEngine, AnalyticEuropeanEngine, Array2D, Barrier, BarrierOption, Bicubic, BinomialBarrierEngine, blackFormula1, BlackScholesMertonProcess, BlackScholesProcess, BlackVarianceCurve, BlackVarianceSurface, Business252, CoxRossRubinstein, DateExt, DeltaVolQuote, DiscretizedBarrierOption, DiscretizedDermanKaniBarrierOption, DividendBarrierOption, EuropeanExercise, EuropeanOption, Exercise, FdBlackScholesBarrierEngine, FdHestonBarrierEngine, FdmSchemeDesc, Handle, HestonModel, HestonProcess, LowDiscrepancy, MakeMCBarrierEngine, Option, PerturbativeBarrierOptionEngine, PlainVanillaPayoff, RelinkableHandle, SavedSettings, Settings, SimpleQuote, TARGET, TimeUnit, VannaVolgaBarrierEngine, ZeroCurve, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatRate2, flatVol1, flatVol2 } from '/test-suite/utilities.mjs';
 
 class BarrierOptionData {
@@ -12,6 +12,7 @@ class BarrierOptionData {
         this.putValue = putValue;
     }
 }
+
 class NewBarrierOptionData {
     constructor(barrierType, barrier, rebate, type, exType, strike, s, q, r, t, v, result, tol) {
         this.barrierType = barrierType;
@@ -29,6 +30,7 @@ class NewBarrierOptionData {
         this.tol = tol;
     }
 }
+
 class BarrierFxOptionData {
     constructor(barrierType, barrier, rebate, type, strike, s, q, r, t, vol25Put, volAtm, vol25Call, v, result, tol) {
         this.barrierType = barrierType;
@@ -48,7 +50,8 @@ class BarrierFxOptionData {
         this.tol = tol;
     }
 }
-describe('Barrier option tests', () => {
+
+describe(`Barrier option tests ${version}`, () => {
     it('Testing that knock-in plus knock-out barrier options ' +
         'replicate a European option...', () => {
         const today = Settings.evaluationDate.f();
@@ -79,6 +82,7 @@ describe('Barrier option tests', () => {
         error = Math.abs(replicated - expected);
         expect(error).toBeLessThan(1e-7);
     });
+
     it('Testing barrier options against Haug\'s values...', () => {
         const european = Exercise.Type.European;
         const american = Exercise.Type.American;
@@ -242,6 +246,7 @@ describe('Barrier option tests', () => {
             expect(error).toBeLessThan(tol);
         }
     });
+
     it('Testing barrier options against Babsiri\'s values...', () => {
         const values = [
             new BarrierOptionData(Barrier.Type.DownIn, 0.10, 100, 90, 0.07187, 0.0),
@@ -297,6 +302,7 @@ describe('Barrier option tests', () => {
             expect(error).toBeLessThan(maxMcRelativeErrorAllowed);
         }
     });
+
     it('Testing barrier options against Beaglehole\'s values...', () => {
         const values = [new BarrierOptionData(Barrier.Type.DownOut, 0.50, 50, 45, 5.477, 0.0)];
         const underlyingPrice = 50.0;
@@ -340,6 +346,7 @@ describe('Barrier option tests', () => {
             expect(error).toBeLessThan(maxMcRelativeErrorAllowed);
         }
     });
+
     it('Testing local volatility and Heston FD engines' +
         ' for barrier options...', () => {
         const backup = new SavedSettings();
@@ -426,6 +433,7 @@ describe('Barrier option tests', () => {
             .toBeLessThan(tol * expectedLocalVolNPV);
         backup.dispose();
     });
+
     it('Testing barrier option pricing with discrete dividends...', () => {
         const backup = new SavedSettings();
         const dc = new Actual365Fixed();
@@ -477,7 +485,8 @@ describe('Barrier option tests', () => {
         backup.dispose();
     });
 });
-describe('Barrier option experimental tests', () => {
+
+describe(`Barrier option experimental tests ${version}`, () => {
     it('Testing perturbative engine for barrier options...', () => {
         const S = 100.0;
         const rebate = 0.0;
@@ -518,6 +527,7 @@ describe('Barrier option experimental tests', () => {
         expected = 0.894374;
         expect(Math.abs(calculated - expected)).toBeLessThan(tolerance);
     });
+    
     it('Testing barrier FX options against Vanna/Volga values...', () => {
         const backup = new SavedSettings();
         const values = [

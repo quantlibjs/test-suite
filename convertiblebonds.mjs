@@ -1,4 +1,4 @@
-import { Actual360, AmericanExercise, Array1D, BinomialConvertibleEngine, BinomialVanillaEngine, BlackConstantVol, BlackIborCouponPricer, BlackProcess, BlackScholesMertonProcess, BusinessDayConvention, ConvertibleFixedCouponBond, ConvertibleFloatingRateBond, ConvertibleZeroCouponBond, CoxRossRubinstein, DateExt, DateGeneration, DiscountingBondEngine, Euribor1Y, EuropeanExercise, FixedRateBond, FloatingRateBond, ForwardCurve, ForwardSpreadedTermStructure, Frequency, Handle, MakeSchedule, NullCalendar, Option, Period, PlainVanillaPayoff, SavedSettings, Schedule, setCouponPricer, Settings, SimpleQuote, TARGET, Thirty360, TimeUnit, UnitedStates, VanillaOption, ZeroCouponBond } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, AmericanExercise, Array1D, BinomialConvertibleEngine, BinomialVanillaEngine, BlackConstantVol, BlackIborCouponPricer, BlackProcess, BlackScholesMertonProcess, BusinessDayConvention, ConvertibleFixedCouponBond, ConvertibleFloatingRateBond, ConvertibleZeroCouponBond, CoxRossRubinstein, DateExt, DateGeneration, DiscountingBondEngine, Euribor1Y, EuropeanExercise, FixedRateBond, FloatingRateBond, ForwardCurve, ForwardSpreadedTermStructure, Frequency, Handle, MakeSchedule, NullCalendar, Option, Period, PlainVanillaPayoff, SavedSettings, Schedule, setCouponPricer, Settings, SimpleQuote, TARGET, Thirty360, TimeUnit, UnitedStates, VanillaOption, ZeroCouponBond, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2, flatVol2 } from '/test-suite/utilities.mjs';
 
 class CommonVars {
@@ -27,7 +27,7 @@ class CommonVars {
     }
 }
 
-describe('Convertible bond tests', () => {
+describe(`Convertible bond tests ${version}`, () => {
     it('Testing out-of-the-money convertible bonds against vanilla bonds...', () => {
         const vars = new CommonVars();
         vars.conversionRatio = 1.0e-16;

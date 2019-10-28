@@ -1,4 +1,4 @@
-import { Actual360, DateExt, EuropeanExercise, EuropeanOption, Handle, JumpDiffusionEngine, Merton76Process, Option, PlainVanillaPayoff, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, DateExt, EuropeanExercise, EuropeanOption, Handle, JumpDiffusionEngine, Merton76Process, Option, PlainVanillaPayoff, SimpleQuote, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatVol1 } from '/test-suite/utilities.mjs';
 
 class HaugMertonData {
@@ -17,7 +17,7 @@ class HaugMertonData {
     }
 }
 
-describe('Jump-diffusion tests', () => {
+describe(`Jump-diffusion tests ${version}`, () => {
     it('Testing Merton 76 jump-diffusion model for European options...', () => {
         const values = [
             new HaugMertonData(Option.Type.Call, 80.00, 100.00, 0.00, 0.08, 0.10, 0.25, 1.0, 0.25, 20.67, 1e-2),

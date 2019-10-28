@@ -1,4 +1,4 @@
-import { Actual360, AmericanExercise, AnalyticAmericanMargrabeEngine, AnalyticEuropeanMargrabeEngine, Array2D, BlackScholesMertonProcess, DateExt, EuropeanExercise, Handle, MargrabeOption, SavedSettings, Settings, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, AmericanExercise, AnalyticAmericanMargrabeEngine, AnalyticEuropeanMargrabeEngine, Array2D, BlackScholesMertonProcess, DateExt, EuropeanExercise, Handle, MargrabeOption, SavedSettings, Settings, SimpleQuote, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatRate3, flatVol1, flatVol3, relativeError } from '/test-suite/utilities.mjs';
 
 const first = 0;
@@ -48,7 +48,7 @@ function timeToDays(t) {
     return Math.floor(t * 360 + 0.5);
 }
 
-describe('Exchange option tests', () => {
+describe(`Exchange option tests ${version}`, () => {
     it('Testing European one-asset-for-another option...', () => {
         const values = [
             new MargrabeOptionTwoData(22.0, 20.0, 1, 1, 0.06, 0.04, 0.10, 0.10, 0.20, 0.15, -0.50, 2.125, 0.841, -0.818, 0.112, 0.135, -2.043, 0.0, 1.0e-3),

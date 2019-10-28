@@ -1,4 +1,4 @@
-import { Actual360, Actual365Fixed, Array2D, BusinessDayConvention, CapFloorTermVolSurface, ConstantOptionletVolatility, ConstantSwaptionVolatility, DepositRateHelper, Discount, EndCriteria, Euribor, EuriborSwapIsdaFixA, FlatForward, FraRateHelper, Frequency, Handle, LogLinear, MarkovFunctional, MfStateProcess, OptionletStripper1, Period, PiecewiseYieldCurve, Settings, SimpleQuote, StrippedOptionletAdapter, SwapRateHelper, SwaptionVolatilityMatrix, SwaptionVolCube1, TARGET, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Actual365Fixed, Array2D, BusinessDayConvention, CapFloorTermVolSurface, ConstantOptionletVolatility, ConstantSwaptionVolatility, DepositRateHelper, Discount, EndCriteria, Euribor, EuriborSwapIsdaFixA, FlatForward, FraRateHelper, Frequency, Handle, LogLinear, MarkovFunctional, MfStateProcess, OptionletStripper1, Period, PiecewiseYieldCurve, Settings, SimpleQuote, StrippedOptionletAdapter, SwapRateHelper, SwaptionVolatilityMatrix, SwaptionVolCube1, TARGET, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 function flatYts() {
     return new Handle(new FlatForward().ffInit4(0, new TARGET(), 0.03, new Actual365Fixed()));
@@ -404,7 +404,7 @@ function tenorsCalBasket1() {
     return null;
 }
 
-describe('Markov functional model tests', () => {
+describe(`Markov functional model tests ${version}`, () => {
     it('Testing Markov functional state process...', () => {
         const tolerance = 1E-10;
         const times1 = [], vols1 = [1.0];

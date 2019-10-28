@@ -1,4 +1,4 @@
-import { DateExt, EndCriteria, Garch11, InverseCumulativeNormal, InverseCumulativeRng, LevenbergMarquardt, MersenneTwisterUniformRng, OptimizationMethod, TimeSeries } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { DateExt, EndCriteria, Garch11, InverseCumulativeNormal, InverseCumulativeRng, LevenbergMarquardt, MersenneTwisterUniformRng, OptimizationMethod, TimeSeries, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 const first = 0, second = 1;
 
@@ -31,7 +31,7 @@ function check_ts(x) {
     expect(error).toBeLessThan(tolerance);
 }
 
-describe('Testing GARCH model calculation...', () => {
+describe(`GARCH model test ${version}`, () => {
     it('Testing GARCH model calibration...', () => {
         const start = new Date('7-July-1962'), d = start;
         const ts = new TimeSeries();

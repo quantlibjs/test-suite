@@ -1,4 +1,4 @@
-import { BoundedGrid, TransformedGrid } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { BoundedGrid, TransformedGrid, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class PlusOne {
     f(x) {
@@ -6,7 +6,7 @@ class PlusOne {
     }
 }
 
-describe('transformed grid', () => {
+describe(`transformed grid ${version}`, () => {
     it('Testing transformed grid construction...', () => {
         const p1 = new PlusOne();
         const grid = BoundedGrid(0, 100, 100);

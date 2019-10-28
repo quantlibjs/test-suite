@@ -1,4 +1,4 @@
-import { Actual360, Actual365Fixed, Array1D, Array2D, BusinessDayConvention, CappedFlooredCmsSpreadCoupon, CmsCoupon, CmsSpreadCoupon, ConstantSwaptionVolatility, DateExt, EuriborSwapIsdaFixA, FlatForward, Handle, IndexManager, InverseCumulativeNormal, LinearTsrPricer, LognormalCmsSpreadPricer, Period, pseudoSqrt, QL_MAX_REAL, QL_NULL_REAL, Settings, SimpleQuote, SobolRsg, SwapSpreadIndex, TARGET, TimeUnit, VolatilityType } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Actual365Fixed, Array1D, Array2D, BusinessDayConvention, CappedFlooredCmsSpreadCoupon, CmsCoupon, CmsSpreadCoupon, ConstantSwaptionVolatility, DateExt, EuriborSwapIsdaFixA, FlatForward, Handle, IndexManager, InverseCumulativeNormal, LinearTsrPricer, LognormalCmsSpreadPricer, Period, pseudoSqrt, QL_MAX_REAL, QL_NULL_REAL, Settings, SimpleQuote, SobolRsg, SwapSpreadIndex, TARGET, TimeUnit, VolatilityType, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class TestData {
     constructor() {
@@ -66,7 +66,7 @@ function mcReferenceValue(cpn1, cpn2, cap, floor, vol, correlation) {
     return acc.reduce((p, c) => p + c, 0) / acc.length;
 }
 
-describe('Cms tests', () => {
+describe(`Cms spread tests ${version}`, () => {
     it('Testing fixings of cms spread indices...', () => {
         const d = new TestData();
         const cms10y = new EuriborSwapIsdaFixA().esInit2(new Period().init1(10, TimeUnit.Years), d.yts2, d.yts2);

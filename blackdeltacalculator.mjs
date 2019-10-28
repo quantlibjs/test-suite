@@ -1,4 +1,4 @@
-import { Actual360, AnalyticEuropeanEngine, BlackConstantVol, BlackDeltaCalculator, BlackScholesMertonProcess, DateExt, DeltaVolQuote, EuropeanExercise, EuropeanOption, FlatForward, Handle, Option, PlainVanillaPayoff, SavedSettings, SimpleQuote, TARGET } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, AnalyticEuropeanEngine, BlackConstantVol, BlackDeltaCalculator, BlackScholesMertonProcess, DateExt, DeltaVolQuote, EuropeanExercise, EuropeanOption, FlatForward, Handle, Option, PlainVanillaPayoff, SavedSettings, SimpleQuote, TARGET, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 function timeToDays(t) {
     return Math.floor(t * 360 + 0.5);
@@ -31,7 +31,7 @@ class EuropeanOptionData {
     }
 }
 
-describe('Black delta calculator tests', () => {
+describe(`Black delta calculator tests ${version}`, () => {
     it('Testing delta calculator values...', () => {
         const values = [
             new DeltaData(Option.Type.Call, DeltaVolQuote.DeltaType.Spot, 1.421, 0.997306, 0.992266, 0.1180654, 1.608080, 0.15),

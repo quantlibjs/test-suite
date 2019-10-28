@@ -1,6 +1,6 @@
-import { Array1D, Array2D, CreditRiskPlus } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Array1D, Array2D, CreditRiskPlus, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
-describe('Credit risk plus tests', () => {
+describe(`Credit risk plus tests ${version}`, () => {
     it('Testing extended credit risk plus model against reference values...', () => {
         const tol = 1E-8;
         const sector1Exposure = Array1D.fromSizeValue(1000, 1.0);

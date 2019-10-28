@@ -1,4 +1,4 @@
-import { BusinessDayConvention, Calendar, DateExt, DateGeneration, Frequency, Japan, MakeSchedule, Period, Schedule, TARGET, TimeUnit, UnitedStates, WeekendsOnly } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { BusinessDayConvention, Calendar, DateExt, DateGeneration, Frequency, Japan, MakeSchedule, Period, Schedule, TARGET, TimeUnit, UnitedStates, WeekendsOnly, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 function check_dates(s, expected) {
     expect(s.size()).toEqual(expected.length);
@@ -7,7 +7,7 @@ function check_dates(s, expected) {
     }
 }
 
-describe('Schedule tests', () => {
+describe(`Schedule tests ${version}`, () => {
     it('Testing schedule with daily frequency...', () => {
         const startDate = DateExt.UTC('17,January,2012');
         const s = new MakeSchedule()

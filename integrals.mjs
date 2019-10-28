@@ -1,4 +1,4 @@
-import { AbcdFunction, AbcdSquared, Comparison, constant, cos, Default, DiscreteSimpsonIntegral, DiscreteSimpsonIntegrator, DiscreteTrapezoidIntegral, DiscreteTrapezoidIntegrator, FilonIntegral, GaussKronrodAdaptive, GaussKronrodNonAdaptive, GaussLobattoIntegral, identity, M_PI, M_PI_2, MidPoint, NormalDistribution, PiecewiseIntegral, QL_EPSILON, QL_PIECEWISE_FUNCTION, SegmentIntegral, SimpsonIntegral, sin, square, TrapezoidIntegral, TwoDimensionalIntegral } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { AbcdFunction, AbcdSquared, Comparison, constant, cos, Default, DiscreteSimpsonIntegral, DiscreteSimpsonIntegrator, DiscreteTrapezoidIntegral, DiscreteTrapezoidIntegrator, FilonIntegral, GaussKronrodAdaptive, GaussKronrodNonAdaptive, GaussLobattoIntegral, identity, M_PI, M_PI_2, MidPoint, NormalDistribution, PiecewiseIntegral, QL_EPSILON, QL_PIECEWISE_FUNCTION, SegmentIntegral, SimpsonIntegral, sin, square, TrapezoidIntegral, TwoDimensionalIntegral, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 const tolerance = 1.0e-6;
 
@@ -54,32 +54,38 @@ function pw_check(input, a, b, expected) {
     expect(Comparison.close(calculated, expected)).toBeTruthy();
 }
 
-describe('Integration tests', () => {
+describe(`Integration tests ${version}`, () => {
     it('Testing segment integration...', () => {
         testSeveral(new SegmentIntegral(10000));
         testDegeneratedDomain(new SegmentIntegral(10000));
     });
+
     it('Testing trapezoid integration...', () => {
         testSeveral(new TrapezoidIntegral(new Default(), tolerance, 10000));
         testDegeneratedDomain(new TrapezoidIntegral(new Default(), tolerance, 10000));
     });
+
     it('Testing mid-point trapezoid integration...', () => {
         testSeveral(new TrapezoidIntegral(new MidPoint(), tolerance, 10000));
         testDegeneratedDomain(new TrapezoidIntegral(new MidPoint(), tolerance, 10000));
     });
+
     it('Testing Simpson integration...', () => {
         testSeveral(new SimpsonIntegral(tolerance, 10000));
         testDegeneratedDomain(new SimpsonIntegral(tolerance, 10000));
     });
+
     it('Testing adaptive Gauss-Kronrod integration...', () => {
         const maxEvaluations = 1000;
         testSeveral(new GaussKronrodAdaptive(tolerance, maxEvaluations));
         testDegeneratedDomain(new GaussKronrodAdaptive(tolerance, maxEvaluations));
     });
+
     it('Testing adaptive Gauss-Lobatto integration...', () => {
         const maxEvaluations = 1000;
         testSeveral(new GaussLobattoIntegral(maxEvaluations, tolerance));
     });
+
     it('Testing non-adaptive Gauss-Kronrod integration...', () => {
         const precision = tolerance;
         const maxEvaluations = 100;
@@ -88,6 +94,7 @@ describe('Integration tests', () => {
         testSeveral(gaussKronrodNonAdaptive);
         testDegeneratedDomain(gaussKronrodNonAdaptive);
     });
+
     it('Testing two dimensional adaptive Gauss-Lobatto integration...', () => {
         const maxEvaluations = 1000;
         const uf = {
@@ -100,6 +107,7 @@ describe('Integration tests', () => {
         const expected = 1.0;
         expect(Math.abs(calculated - expected)).toBeLessThan(tolerance);
     });
+
     it('Testing Folin\'s integral formulae...', () => {
         const nr = [4, 8, 16, 128, 256, 1024, 2048];
         const expected = [
@@ -119,6 +127,7 @@ describe('Integration tests', () => {
             expect(Math.abs(calculatedSine - expected[i])).toBeLessThan(tol);
         }
     });
+
     it('Testing discrete integral formulae...', () => {
         const x = [1.0, 2.02, 2.34, 3.3, 4.2, 4.6];
         const f = [f1(x[0]), f1(x[1]), f1(x[2]), f2(x[3]), f2(x[4]), f2(x[5])];
@@ -132,10 +141,12 @@ describe('Integration tests', () => {
         expect(Math.abs(calculatedSimpson - expectedSimpson)).toBeLessThan(tol);
         expect(Math.abs(calculatedTrapezoid - expectedTrapezoid)).toBeLessThan(tol);
     });
+
     it('Testing discrete integrator formulae...', () => {
         testSeveral(new DiscreteSimpsonIntegrator(300));
         testSeveral(new DiscreteTrapezoidIntegrator(3000));
     });
+    
     it('Testing piecewise integral...', () => {
         X = [1.0, 2.0, 3.0, 4.0, 5.0];
         Y = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0];

@@ -1,6 +1,6 @@
-import { TimeGrid } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { TimeGrid, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
-describe('Timegrid tests', () => {
+describe(`Timegrid tests ${version}`, () => {
     it('TimeGrid constructor with additional steps...', () => {
         const test_times = [];
         test_times.push(1.0);

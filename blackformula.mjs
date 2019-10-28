@@ -1,7 +1,7 @@
-import { Actual365Fixed, bachelierBlackFormula1, bachelierBlackFormulaImpliedVol, blackFormula1, blackFormula2, blackFormulaImpliedStdDevApproximationRS1, blackFormulaImpliedStdDevApproximationRS2, blackFormulaImpliedStdDevChambers1, blackFormulaImpliedStdDevLiRS2, DateExt, Option, PlainVanillaPayoff, QL_NULL_REAL, SavedSettings, Settings, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual365Fixed, bachelierBlackFormula1, bachelierBlackFormulaImpliedVol, blackFormula1, blackFormula2, blackFormulaImpliedStdDevApproximationRS1, blackFormulaImpliedStdDevApproximationRS2, blackFormulaImpliedStdDevChambers1, blackFormulaImpliedStdDevLiRS2, DateExt, Option, PlainVanillaPayoff, QL_NULL_REAL, SavedSettings, Settings, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate4 } from '/test-suite/utilities.mjs';
 
-describe('Black formula tests', () => {
+describe(`Black formula tests ${version}`, () => {
     it('Testing Bachelier implied vol...', () => {
         const forward = 1.0;
         const bpvol = 0.01;
@@ -17,6 +17,7 @@ describe('Black formula tests', () => {
             expect(Math.abs(bpvol - impliedBpVol)).toBeLessThan(1.0e-12);
         }
     });
+
     it('Testing Chambers-Nawalkha implied vol approximation...', () => {
         const types = [Option.Type.Call, Option.Type.Put];
         const displacements = [0.0000, 0.0010, 0.0050, 0.0100, 0.0200];
@@ -54,6 +55,7 @@ describe('Black formula tests', () => {
             }
         }
     });
+
     it('Testing Radoicic-Stefanica implied vol approximation...', () => {
         const T = 1.7;
         const r = 0.1;
@@ -77,6 +79,7 @@ describe('Black formula tests', () => {
             }
         }
     });
+
     it('Testing Radoicic-Stefanica lower bound...', () => {
         const forward = 1.0;
         const k = 1.2;
@@ -90,6 +93,7 @@ describe('Black formula tests', () => {
             expect(c > 1e-6 && error < 0.0).toBeFalsy();
         }
     });
+    
     it('Testing implied volatility calculation via ' +
         'adaptive successive over-relaxation...', () => {
         const backup = new SavedSettings();

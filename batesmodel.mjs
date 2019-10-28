@@ -1,4 +1,4 @@
-import { Actual365Fixed, ActualActual, Array1D, BatesDetJumpEngine, BatesDetJumpModel, BatesDoubleExpDetJumpEngine, BatesDoubleExpDetJumpModel, BatesDoubleExpEngine, BatesDoubleExpModel, BatesEngine, BatesModel, BatesProcess, BlackCalibrationHelper, blackFormula1, DateExt, EndCriteria, EuropeanExercise, EuropeanOption, FdBatesVanillaEngine, Handle, HestonModelHelper, HestonProcess, JumpDiffusionEngine, LevenbergMarquardt, MakeMCEuropeanHestonEngine, Merton76Process, Option, Period, PlainVanillaPayoff, PseudoRandom, SavedSettings, Settings, SimpleQuote, TARGET, TimeUnit, VanillaOption, ZeroCurve } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual365Fixed, ActualActual, Array1D, BatesDetJumpEngine, BatesDetJumpModel, BatesDoubleExpDetJumpEngine, BatesDoubleExpDetJumpModel, BatesDoubleExpEngine, BatesDoubleExpModel, BatesEngine, BatesModel, BatesProcess, BlackCalibrationHelper, blackFormula1, DateExt, EndCriteria, EuropeanExercise, EuropeanOption, FdBatesVanillaEngine, Handle, HestonModelHelper, HestonProcess, JumpDiffusionEngine, LevenbergMarquardt, MakeMCEuropeanHestonEngine, Merton76Process, Option, Period, PlainVanillaPayoff, PseudoRandom, SavedSettings, Settings, SimpleQuote, TARGET, TimeUnit, VanillaOption, ZeroCurve, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2, flatRate4, flatVol1 } from '/test-suite/utilities.mjs';
 
 function getCalibrationError(options) {
@@ -30,7 +30,7 @@ const hestonModels = [
     new HestonModelData('Equity case', 0.07, 2.0, 0.04, 0.55, -0.8, 0.03, 0.035),
 ];
 
-describe('Bates model tests', () => {
+describe(`Bates model tests ${version}`, () => {
     it('Testing analytic Bates engine against Black formula...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date();
@@ -79,6 +79,7 @@ describe('Bates model tests', () => {
         expect(error).toBeLessThan(tolerance);
         backup.dispose();
     });
+
     it('Testing analytic Bates engine against Merton-76 engine...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date();
@@ -128,6 +129,7 @@ describe('Bates model tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing analytic Bates engine against Monte-Carlo engine...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('30-March-2007');
@@ -166,6 +168,7 @@ describe('Bates model tests', () => {
         }
         backup.dispose();
     });
+    
     it('Testing Bates model calibration using DAX volatility data...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('5-July-2002');

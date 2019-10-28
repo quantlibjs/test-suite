@@ -1,4 +1,4 @@
-import { Array1D, BFGS, BoundaryConstraint, ConjugateGradient, CostFunction, DifferentialEvolution, EndCriteria, GoldsteinLineSearch, LevenbergMarquardt, MersenneTwisterUniformRng, NoConstraint, Problem, QL_NULL_REAL, Simplex, SteepestDescent } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Array1D, BFGS, BoundaryConstraint, ConjugateGradient, CostFunction, DifferentialEvolution, EndCriteria, GoldsteinLineSearch, LevenbergMarquardt, MersenneTwisterUniformRng, NoConstraint, Problem, QL_NULL_REAL, Simplex, SteepestDescent, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class NamedOptimizationMethod {
 }
@@ -239,7 +239,7 @@ class Griewangk extends CostFunction {
     }
 }
 
-describe('Optimizers tests', () => {
+describe(`Optimizers tests ${version}`, () => {
     it('Testing optimizers...', () => {
         setup();
         for (let i = 0; i < costFunctions_.length; ++i) {

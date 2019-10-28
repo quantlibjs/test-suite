@@ -1,4 +1,4 @@
-import { Actual360, Actual365Fixed, ActualActual, Brazil, Business252, BusinessDayConvention, Canada, DateExt, Frequency, MakeSchedule, OneDayCounter, Period, QL_EPSILON, SimpleDayCounter, Thirty360, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Actual365Fixed, ActualActual, Brazil, Business252, BusinessDayConvention, Canada, DateExt, Frequency, MakeSchedule, OneDayCounter, Period, QL_EPSILON, SimpleDayCounter, Thirty360, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class SingleCase {
     constructor(convention, start, end, refStart, refEnd, result) {
@@ -11,7 +11,7 @@ class SingleCase {
     }
 }
 
-describe('Day counter tests', () => {
+describe(`Day counter tests ${version}`, () => {
     it('Testing actual/actual day counters...', () => {
         const testCases = [
             new SingleCase(ActualActual.Convention.ISDA, DateExt.UTC('1,November,2003'), DateExt.UTC('1,May,2004'), null, null, 0.497724380567),

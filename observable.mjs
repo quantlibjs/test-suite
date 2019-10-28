@@ -1,4 +1,4 @@
-import { ObservableSettings, Observer, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { ObservableSettings, Observer, SimpleQuote, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class UpdateCounter extends Observer {
     constructor() {
@@ -13,7 +13,7 @@ class UpdateCounter extends Observer {
     }
 }
 
-describe('Observer tests', () => {
+describe(`Observer tests ${version}`, () => {
     it('Testing observable settings...', () => {
         const quote = new SimpleQuote(100.0);
         const updateCounter = new UpdateCounter();

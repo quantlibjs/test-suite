@@ -1,4 +1,4 @@
-import { Actual360, Actual365Fixed, EndCriteria, Euribor6M, Handle, HullWhite, JamshidianSwaptionEngine, LevenbergMarquardt, Period, SavedSettings, Settings, SimpleQuote, SwaptionHelper, Thirty360, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Actual365Fixed, EndCriteria, Euribor6M, Handle, HullWhite, JamshidianSwaptionEngine, LevenbergMarquardt, Period, SavedSettings, Settings, SimpleQuote, SwaptionHelper, Thirty360, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2, IndexHistoryCleaner } from '/test-suite/utilities.mjs';
 
 class CalibrationData {
@@ -9,7 +9,7 @@ class CalibrationData {
     }
 }
 
-describe('Short-rate model tests', () => {
+describe(`Short-rate model tests ${version}`, () => {
     it('Testing Hull-White calibration against ' +
         'cached values using swaptions with start delay...', () => {
         const backup = new SavedSettings();

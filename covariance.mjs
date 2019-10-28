@@ -1,4 +1,4 @@
-import { Array1D, Array2D, CovarianceDecomposition, getCovariance, pseudoSqrt, rankReducedSqrt, SalvagingAlgorithm, SequenceStatistics } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Array1D, Array2D, CovarianceDecomposition, getCovariance, pseudoSqrt, rankReducedSqrt, SalvagingAlgorithm, SequenceStatistics, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 function norm(m) {
     let sum = 0.0;
@@ -10,7 +10,7 @@ function norm(m) {
     return Math.sqrt(sum);
 }
 
-describe('Covariance and correlation tests', () => {
+describe(`Covariance and correlation tests ${version}`, () => {
 
     it('Testing matrix rank reduction salvaging algorithms...', () => {
         let expected, calculated;

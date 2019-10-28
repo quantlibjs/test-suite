@@ -1,5 +1,5 @@
 import '/test-suite/quantlibtestsuite.mjs';
-import { Actual365Fixed, BlackIborCouponPricer, BusinessDayConvention, ConstantOptionletVolatility, DateExt, DateGeneration, DiscountingSwapEngine, EURCurrency, Euribor, FixedRateLeg, Frequency, Handle, IborIndex, IborLeg, NullCalendar, Period, RelinkableHandle, Schedule, setCouponPricer, SavedSettings, Settings, SimpleDayCounter, Swap, Thirty360, TimeUnit, VanillaSwap } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual365Fixed, BlackIborCouponPricer, BusinessDayConvention, ConstantOptionletVolatility, DateExt, DateGeneration, DiscountingSwapEngine, EURCurrency, Euribor, FixedRateLeg, Frequency, Handle, IborIndex, IborLeg, NullCalendar, Period, RelinkableHandle, Schedule, setCouponPricer, SavedSettings, Settings, SimpleDayCounter, Swap, Thirty360, TimeUnit, VanillaSwap, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2 } from '/test-suite/utilities.mjs';
 
 class CommonVars {
@@ -31,7 +31,7 @@ class CommonVars {
     }
 }
 
-describe('Swap tests', () => {
+describe(`Swap tests ${version}`, () => {
     it('Testing vanilla-swap calculation of fair fixed rate...', () => {
         const vars = new CommonVars();
         const lengths = [1, 2, 5, 10, 20];

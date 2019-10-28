@@ -1,4 +1,4 @@
-import { Actual360, Actual365Fixed, ActualActual, AmericanExercise, AnalyticHestonEngine, AnalyticPDFHestonEngine, AnalyticPTDHestonEngine, Barrier, BarrierOption, BlackCalibrationHelper, blackFormula1, BlackScholesMertonProcess, BoundaryConstraint, CashOrNothingPayoff, ConstantParameter, COSHestonEngine, CrankNicolson, DateExt, DividendVanillaOption, EndCriteria, EuropeanExercise, FDAmericanEngine, FdHestonBarrierEngine, FdHestonVanillaEngine, FordeHestonExpansion, Handle, HestonExpansionEngine, HestonModel, HestonModelHelper, HestonProcess, LevenbergMarquardt, LowDiscrepancy, LPP2HestonExpansion, LPP3HestonExpansion, M_PI, MakeMCEuropeanHestonEngine, MersenneTwisterUniformRng, Month, MultiPathGenerator, NullCalendar, NumericalDifferentiation, Option, Period, PiecewiseConstantParameter, PiecewiseTimeDependentHestonModel, PlainVanillaPayoff, PositiveConstraint, PseudoRandom, QL_EPSILON, QL_NULL_INTEGER, QL_NULL_REAL, RiskStatistics, SavedSettings, Settings, SimpleQuote, TARGET, TimeGrid, TimeUnit, VanillaOption, ZeroCurve, Complex } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Actual365Fixed, ActualActual, AmericanExercise, AnalyticHestonEngine, AnalyticPDFHestonEngine, AnalyticPTDHestonEngine, Barrier, BarrierOption, BlackCalibrationHelper, blackFormula1, BlackScholesMertonProcess, BoundaryConstraint, CashOrNothingPayoff, ConstantParameter, COSHestonEngine, CrankNicolson, DateExt, DividendVanillaOption, EndCriteria, EuropeanExercise, FDAmericanEngine, FdHestonBarrierEngine, FdHestonVanillaEngine, FordeHestonExpansion, Handle, HestonExpansionEngine, HestonModel, HestonModelHelper, HestonProcess, LevenbergMarquardt, LowDiscrepancy, LPP2HestonExpansion, LPP3HestonExpansion, M_PI, MakeMCEuropeanHestonEngine, MersenneTwisterUniformRng, Month, MultiPathGenerator, NullCalendar, NumericalDifferentiation, Option, Period, PiecewiseConstantParameter, PiecewiseTimeDependentHestonModel, PlainVanillaPayoff, PositiveConstraint, PseudoRandom, QL_EPSILON, QL_NULL_INTEGER, QL_NULL_REAL, RiskStatistics, SavedSettings, Settings, SimpleQuote, TARGET, TimeGrid, TimeUnit, VanillaOption, ZeroCurve, Complex, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2, flatRate4, flatVol2 } from '/test-suite/utilities.mjs';
 
 class CalibrationMarketData {
@@ -102,7 +102,7 @@ class LogCharacteristicFunction {
     }
 }
 
-describe('Heston model tests', () => {
+describe(`Heston model tests ${version}`, () => {
     it('Testing Heston model calibration using a flat volatility surface...', () => {
         const backup = new SavedSettings();
         const today = DateExt.UTC();
@@ -1325,7 +1325,7 @@ describe('Heston model tests', () => {
     });
 });
 
-describe('Heston model experimental tests', () => {
+describe(`Heston model experimental tests ${version}`, () => {
     it('Testing analytic PDF Heston engine...', () => {
         const backup = new SavedSettings();
         const settlementDate = new Date('5-January-2014');

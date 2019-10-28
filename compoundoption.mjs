@@ -1,4 +1,4 @@
-import { Actual360, AnalyticCompoundOptionEngine, AnalyticEuropeanEngine, BlackConstantVol, BlackScholesMertonProcess, CompoundOption, DateExt, EuropeanExercise, EuropeanOption, FlatForward, Handle, NullCalendar, Option, PlainVanillaPayoff, SavedSettings, Settings, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, AnalyticCompoundOptionEngine, AnalyticEuropeanEngine, BlackConstantVol, BlackScholesMertonProcess, CompoundOption, DateExt, EuropeanExercise, EuropeanOption, FlatForward, Handle, NullCalendar, Option, PlainVanillaPayoff, SavedSettings, Settings, SimpleQuote, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 function timeToDays(t) {
     return Math.floor(t * 360 + 0.5);
@@ -24,7 +24,8 @@ class CompoundOptionData {
         this.theta = theta;
     }
 }
-describe('Compound option tests', () => {
+
+describe(`Compound option tests ${version}`, () => {
     it('Testing compound-option put-call parity...', () => {
         const values = [
             new CompoundOptionData(Option.Type.Put, Option.Type.Call, 50.0, 520.0, 500.0, 0.03, 0.08, 0.25, 0.5, 0.35),

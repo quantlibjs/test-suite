@@ -1,4 +1,4 @@
-import { Actual360, Actual365Fixed, Array1D, Basket, Compounding, ConstantLossModel, EURCurrency, FlatForward, FlatHazardRate, GaussianCopulaPolicy, Handle, IntegralNtdEngine, Issuer, LatentModelIntegrationType, MakeSchedule, NorthAmericaCorpDefaultKey, NthToDefault, Period, Pool, Protection, SavedSettings, Seniority, Settings, SimpleQuote, TARGET, TCopulaPolicy, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Actual365Fixed, Array1D, Basket, Compounding, ConstantLossModel, EURCurrency, FlatForward, FlatHazardRate, GaussianCopulaPolicy, Handle, IntegralNtdEngine, Issuer, LatentModelIntegrationType, MakeSchedule, NorthAmericaCorpDefaultKey, NthToDefault, Period, Pool, Protection, SavedSettings, Seniority, Settings, SimpleQuote, TARGET, TCopulaPolicy, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class hwDatum {
     constructor(rank, spread) {
@@ -33,7 +33,7 @@ const hwDataDist = [
     new hwDatumDist(9, [0, 2, 0, 0]), new hwDatumDist(10, [0, 1, 0, 1])
 ];
 
-describe('Nth-to-default tests', () => {
+describe(`Nth-to-default tests ${version}`, () => {
     it('Testing nth-to-default against Hull-White values with Gaussian copula...', () => {
         const backup = new SavedSettings();
         const relTolerance = 0.015;

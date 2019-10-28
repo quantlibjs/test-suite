@@ -1,4 +1,4 @@
-import { Actual360, AnalyticEuropeanEngine, BinomialVanillaEngine, BlackScholesMertonProcess, CoxRossRubinstein, DateExt, EuropeanExercise, ForwardPerformanceVanillaEngine, ForwardVanillaEngine, ForwardVanillaOption, Handle, Option, PlainVanillaPayoff, QL_NULL_REAL, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, AnalyticEuropeanEngine, BinomialVanillaEngine, BlackScholesMertonProcess, CoxRossRubinstein, DateExt, EuropeanExercise, ForwardPerformanceVanillaEngine, ForwardVanillaEngine, ForwardVanillaOption, Handle, Option, PlainVanillaPayoff, QL_NULL_REAL, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatRate3, flatVol1, flatVol3, relativeError } from '/test-suite/utilities.mjs';
 
 const first = 0;
@@ -139,7 +139,7 @@ class TestBinomialEngine extends BinomialVanillaEngine {
     }
 }
 
-describe('Forward option tests', () => {
+describe(`Forward option tests ${version}`, () => {
     it('Testing forward option values...', () => {
         const values = [
             new ForwardOptionData(Option.Type.Call, 1.1, 60.0, 0.04, 0.08, 0.25, 1.0, 0.30, 4.4064, 1.0e-4),

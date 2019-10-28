@@ -1,4 +1,4 @@
-import { Actual360, AmericanExercise, AnalyticDividendEuropeanEngine, AnalyticEuropeanEngine, BlackScholesMertonProcess, CrankNicolson, DateExt, DividendVanillaOption, EuropeanExercise, FDDividendAmericanEngine, FDDividendEuropeanEngine, Handle, Option, PlainVanillaPayoff, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, AmericanExercise, AnalyticDividendEuropeanEngine, AnalyticEuropeanEngine, BlackScholesMertonProcess, CrankNicolson, DateExt, DividendVanillaOption, EuropeanExercise, FDDividendAmericanEngine, FDDividendEuropeanEngine, Handle, Option, PlainVanillaPayoff, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate3, flatRate4, flatVol3, flatVol4, relativeError } from '/test-suite/utilities.mjs';
 
 const first = 0;
@@ -101,7 +101,7 @@ function testFdDegenerate(Engine, today, exercise) {
     }
 }
 
-describe('Dividend European option tests', () => {
+describe(`Dividend European option tests ${version}`, () => {
     it('Testing dividend European option values with no dividends...', () => {
         const backup = new SavedSettings();
         const tolerance = 1.0e-5;

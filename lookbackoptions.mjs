@@ -1,4 +1,4 @@
-import { Actual360, AnalyticContinuousFloatingLookbackEngine, BlackScholesMertonProcess, ContinuousFloatingLookbackOption, DateExt, EuropeanExercise, FloatingTypePayoff, Handle, Option, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, AnalyticContinuousFloatingLookbackEngine, BlackScholesMertonProcess, ContinuousFloatingLookbackOption, DateExt, EuropeanExercise, FloatingTypePayoff, Handle, Option, SimpleQuote, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatVol1 } from '/test-suite/utilities.mjs';
 
 class LookbackOptionData {
@@ -18,7 +18,7 @@ class LookbackOptionData {
     }
 }
 
-describe('Lookback option tests', () => {
+describe(`Lookback option tests ${version}`, () => {
     it('Testing analytic continuous floating-strike lookback options...', () => {
         const values = [
             new LookbackOptionData(Option.Type.Call, 0, 100, 120.0, 0.06, 0.10, 0.50, 0.30, 0, 0, 25.3533, 1.0e-4),

@@ -1,6 +1,6 @@
-import { BarrelUnitOfMeasure, GallonUnitOfMeasure, KilolitreUnitOfMeasure, LitreUnitOfMeasure, MBUnitOfMeasure, NullCommodityType, Quantity, UnitOfMeasureConversion, UnitOfMeasureConversionManager } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { BarrelUnitOfMeasure, GallonUnitOfMeasure, KilolitreUnitOfMeasure, LitreUnitOfMeasure, MBUnitOfMeasure, NullCommodityType, Quantity, UnitOfMeasureConversion, UnitOfMeasureConversionManager, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
-describe('Commodity Unit Of Measure tests', () => {
+describe(`Commodity Unit Of Measure tests ${version}`, () => {
     it('Testing direct commodity unit of measure conversions...', () => {
         let actual = new UnitOfMeasureConversion()
             .init1(new NullCommodityType(), new MBUnitOfMeasure(), new BarrelUnitOfMeasure(), 1000)

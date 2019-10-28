@@ -1,4 +1,4 @@
-import { Array1D, BivariateCumulativeNormalDistributionDr78, BivariateCumulativeNormalDistributionWe04DP, BivariateCumulativeStudentDistribution, Comparison, CumulativeNormalDistribution, CumulativePoissonDistribution, InverseCumulativeNormal, InverseCumulativePoisson, InverseCumulativeNonCentralChiSquare, M_PI, MaddockInverseCumulativeNormal, NormalDistribution, PoissonDistribution, StochasticCollocationInvCDF } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Array1D, BivariateCumulativeNormalDistributionDr78, BivariateCumulativeNormalDistributionWe04DP, BivariateCumulativeStudentDistribution, Comparison, CumulativeNormalDistribution, CumulativePoissonDistribution, InverseCumulativeNormal, InverseCumulativePoisson, InverseCumulativeNonCentralChiSquare, M_PI, MaddockInverseCumulativeNormal, NormalDistribution, PoissonDistribution, StochasticCollocationInvCDF, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { norm } from '/test-suite/utilities.mjs';
 
 const average = 1.0, sigma = 2.0;
@@ -133,7 +133,7 @@ class BivariateStudentTestData {
     }
 }
 
-describe('Distribution tests', () => {
+describe(`Distribution tests ${version}`, () => {
     it('Testing normal distributions...', () => {
         const invCumStandardNormal = new InverseCumulativeNormal();
         const check = invCumStandardNormal.f(0.5);

@@ -1,5 +1,6 @@
-import { EURCurrency, ExchangeRate, ExchangeRateManager, GBPCurrency, Money, USDCurrency } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
-describe('Money tests', () => {
+import { EURCurrency, ExchangeRate, ExchangeRateManager, GBPCurrency, Money, USDCurrency, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+
+describe(`Money tests ${version}`, () => {
     it('Testing money arithmetic without conversions...', () => {
         const EUR = new EURCurrency();
         const m1 = new Money().init2(EUR, 50000.0);

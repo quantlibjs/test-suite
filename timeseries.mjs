@@ -1,7 +1,7 @@
-import { IntervalPrice, Month, TimeSeries } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { IntervalPrice, Month, TimeSeries, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 const second = 1;
 
-describe('time series tests', () => {
+describe(`time series tests ${version}`, () => {
     it('Testing time series construction...', () => {
         const ts = new TimeSeries();
         ts.set(new Date(2005, Month.March - 1, 25), 1.2);

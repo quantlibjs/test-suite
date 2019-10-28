@@ -1,4 +1,4 @@
-import { Array1D, Array2D, Factorial, NumericalDifferentiation, QL_EPSILON, inv } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Array1D, Array2D, Factorial, NumericalDifferentiation, QL_EPSILON, inv, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 function isTheSame(a, b) {
     const eps = 500 * QL_EPSILON;
@@ -35,7 +35,7 @@ function vandermondeCoefficients(order, x, gridPoints) {
     return Array2D.mulVector(inv(m), b);
 }
 
-describe('NumericalDifferentiation tests', () => {
+describe(`NumericalDifferentiation tests ${version}`, () => {
     it('Testing numerical differentiation using the central scheme...', () => {
         const f = null;
         const central = NumericalDifferentiation.Scheme.Central;

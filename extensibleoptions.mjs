@@ -1,7 +1,7 @@
-import { Actual360, AnalyticHolderExtensibleOptionEngine, AnalyticWriterExtensibleOptionEngine, BlackScholesMertonProcess, DateExt, EuropeanExercise, GeneralizedBlackScholesProcess, Handle, HolderExtensibleOption, Option, PlainVanillaPayoff, Settings, SimpleQuote, WriterExtensibleOption } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, AnalyticHolderExtensibleOptionEngine, AnalyticWriterExtensibleOptionEngine, BlackScholesMertonProcess, DateExt, EuropeanExercise, GeneralizedBlackScholesProcess, Handle, HolderExtensibleOption, Option, PlainVanillaPayoff, Settings, SimpleQuote, WriterExtensibleOption, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatVol1 } from '/test-suite/utilities.mjs';
 
-describe('Extensible option tests', () => {
+describe(`Extensible option tests ${version}`, () => {
     it('Testing analytic engine for holder-extensible option...', () => {
         const type = Option.Type.Call;
         const strike1 = 100.0;

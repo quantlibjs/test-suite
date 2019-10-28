@@ -1,6 +1,6 @@
-import { Array1D, autocorrelations2, autocovariances2, convolutions, Complex } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Array1D, autocorrelations2, autocovariances2, convolutions, Complex, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
-describe('auto-covariance tests', () => {
+describe(`auto-covariance tests ${version}`, () => {
     it('Testing convolutions...', () => {
         const x = new Array(10);
         for (let i = 0; i < 10; i++) {
@@ -12,6 +12,7 @@ describe('auto-covariance tests', () => {
         const delta = Array1D.sub(conv, expected);
         expect(Array1D.DotProduct(delta, delta)).toBeLessThan(1.0e-6);
     });
+
     it('Testing auto-covariances...', () => {
         const x = new Array(10);
         for (let i = 0; i < 10; i++) {
@@ -24,6 +25,7 @@ describe('auto-covariance tests', () => {
         const delta = Array1D.sub(acovf, expected);
         expect(Array1D.DotProduct(delta, delta)).toBeLessThan(1.0e-6);
     });
+    
     it('Testing auto-correlations...', () => {
         const x = new Array(10);
         for (let i = 0; i < 10; i++) {

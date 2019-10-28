@@ -1,4 +1,4 @@
-import { Actual360, AmericanExercise, AnalyticDoubleBarrierBinaryEngine, BinomialDoubleBarrierEngine, BlackScholesMertonProcess, CashOrNothingPayoff, CoxRossRubinstein, DateExt, DiscretizedDoubleBarrierOption, DoubleBarrier, DoubleBarrierOption, EuropeanExercise, Handle, Option, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, AmericanExercise, AnalyticDoubleBarrierBinaryEngine, BinomialDoubleBarrierEngine, BlackScholesMertonProcess, CashOrNothingPayoff, CoxRossRubinstein, DateExt, DiscretizedDoubleBarrierOption, DoubleBarrier, DoubleBarrierOption, EuropeanExercise, Handle, Option, SimpleQuote, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatVol1 } from '/test-suite/utilities.mjs';
 
 class DoubleBinaryOptionData {
@@ -17,7 +17,7 @@ class DoubleBinaryOptionData {
     }
 }
 
-describe('DoubleBinary', () => {
+describe(`DoubleBinary test ${version}`, () => {
     it('Testing cash-or-nothing double barrier options against Haug\'s values...', () => {
         const values = [
             new DoubleBinaryOptionData(DoubleBarrier.Type.KnockOut, 80.00, 120.00, 10.00, 100.00, 0.02, 0.05, 0.25, 0.10, 9.8716, 1e-4),

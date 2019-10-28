@@ -1,4 +1,4 @@
-import { BoundedGrid, SampledCurve } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { BoundedGrid, SampledCurve, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class FSquared {
     f(x) {
@@ -6,7 +6,7 @@ class FSquared {
     }
 }
 
-describe('sampled curve tests', () => {
+describe(`sampled curve tests ${version}`, () => {
     it('Testing sampled curve construction...', () => {
         const curve = new SampledCurve().init2(BoundedGrid(-10.0, 10.0, 100));
         const f2 = new FSquared();

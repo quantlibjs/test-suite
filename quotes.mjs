@@ -1,4 +1,4 @@
-import { ActualActual, blackFormulaImpliedStdDev1, CompositeQuote, DerivedQuote, Euribor, FlatForward, ForwardValueQuote, Handle, ImpliedStdDevQuote, Option, Period, RelinkableHandle, Settings, SimpleQuote, TARGET, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { ActualActual, blackFormulaImpliedStdDev1, CompositeQuote, DerivedQuote, Euribor, FlatForward, ForwardValueQuote, Handle, ImpliedStdDevQuote, Option, Period, RelinkableHandle, Settings, SimpleQuote, TARGET, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { Flag } from '/test-suite/utilities.mjs';
 
 function add10(x) {
@@ -20,7 +20,7 @@ function sub(x, y) {
     return x - y;
 }
 
-describe('Quote tests', () => {
+describe(`Quote tests ${version}`, () => {
     it('Testing observability of quotes...', () => {
         const me = new SimpleQuote(0.0);
         const f = new Flag();
@@ -28,6 +28,7 @@ describe('Quote tests', () => {
         me.setValue(3.14);
         expect(f.isUp).toBeTruthy();
     });
+
     it('Testing observability of quote handles...', () => {
         const me1 = new SimpleQuote(0.0);
         const h = new RelinkableHandle(me1);
@@ -40,6 +41,7 @@ describe('Quote tests', () => {
         h.linkTo(me2);
         expect(f.isUp).toBeTruthy();
     });
+
     it('Testing derived quotes...', () => {
         const funcs = [{ f: add10 }, { f: mul10 }, { f: sub10 }];
         const me = new SimpleQuote(17.0);
@@ -50,6 +52,7 @@ describe('Quote tests', () => {
             expect(Math.abs(x - y)).toBeLessThan(1.0e-10);
         }
     });
+
     it('Testing composite quotes...', () => {
         const funcs = [{ f: add }, { f: mul }, { f: sub }];
         const me1 = new SimpleQuote(12.0), me2 = new SimpleQuote(13.0);
@@ -60,6 +63,7 @@ describe('Quote tests', () => {
             expect(Math.abs(x - y)).toBeLessThan(1.0e-10);
         }
     });
+    
     it('Testing forward-value and implied-standard-deviation quotes...', () => {
         const forwardRate = .05;
         const dc = new ActualActual();

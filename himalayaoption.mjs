@@ -1,7 +1,7 @@
-import { Actual360, Array2D, BlackScholesMertonProcess, DateExt, Handle, HimalayaOption, MakeMCHimalayaEngine, PseudoRandom, Settings, SimpleQuote, StochasticProcessArray } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Array2D, BlackScholesMertonProcess, DateExt, Handle, HimalayaOption, MakeMCHimalayaEngine, PseudoRandom, Settings, SimpleQuote, StochasticProcessArray, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2, flatVol2 } from '/test-suite/utilities.mjs';
 
-describe('Himalaya-option tests', () => {
+describe(`Himalaya-option tests ${version}`, () => {
     it('Testing Himalaya option against cached values...', () => {
         const today = Settings.evaluationDate.f();
         const dc = new Actual360();

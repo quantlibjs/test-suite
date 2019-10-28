@@ -1,4 +1,4 @@
-import { Array1D, Array2D, BackwardFlat, BackwardFlatInterpolation, BicubicSpline, BSpline, Comparison, CubicInterpolation, EndCriteria, ForwardFlatInterpolation, FritschButlandCubic, GaussianKernel, HaltonRsg, KernelInterpolation, KernelInterpolation2D, LagrangeInterpolation, LevenbergMarquardt, LinearInterpolation, M_PI, MultiCubicSpline, NoArbSabrInterpolation, NoArbSabrModel, NoArbSabrSmileSection, NoArbSabrSpecs, QL_EPSILON, QL_NULL_REAL, RichardsonExtrapolation, SABRInterpolation, SABRSpecs, sabrVolatility, Simplex, SimpsonIntegral, SobolRsg, validateSabrParameters } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Array1D, Array2D, BackwardFlat, BackwardFlatInterpolation, BicubicSpline, BSpline, Comparison, CubicInterpolation, EndCriteria, ForwardFlatInterpolation, FritschButlandCubic, GaussianKernel, HaltonRsg, KernelInterpolation, KernelInterpolation2D, LagrangeInterpolation, LevenbergMarquardt, LinearInterpolation, M_PI, MultiCubicSpline, NoArbSabrInterpolation, NoArbSabrModel, NoArbSabrSmileSection, NoArbSabrSpecs, QL_EPSILON, QL_NULL_REAL, RichardsonExtrapolation, SABRInterpolation, SABRSpecs, sabrVolatility, Simplex, SimpsonIntegral, SobolRsg, validateSabrParameters, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 function xRange(start, finish, points) {
     const x = new Array(points);
@@ -104,7 +104,7 @@ function lagrangeTestFct(x) {
     return Math.abs(x) + 0.5 * x - x * x;
 }
 
-describe('Interpolation tests', () => {
+describe(`Interpolation tests ${version}`, () => {
     it('Testing spline approximation on Gaussian data sets...', () => {
         const points = [5, 9, 17, 33];
         const tabulatedErrors = [3.5e-2, 2.0e-3, 4.0e-5, 1.8e-6];

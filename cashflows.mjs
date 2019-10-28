@@ -1,5 +1,5 @@
 import '/test-suite/quantlibtestsuite.mjs';
-import { Actual360, Actual365Fixed, ActualActual, BlackIborCouponPricer, BusinessDayConvention, CashFlows, Compounding, ConstantOptionletVolatility, DateExt, FixedRateLeg, FloatingRateCoupon, Frequency, Handle, IborLeg, InterestRate, MakeSchedule, NullCalendar, Period, SavedSettings, Schedule, Settings, SimpleCashFlow, TARGET, TimeUnit, USDLibor } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Actual365Fixed, ActualActual, BlackIborCouponPricer, BusinessDayConvention, CashFlows, Compounding, ConstantOptionletVolatility, DateExt, FixedRateLeg, FloatingRateCoupon, Frequency, Handle, IborLeg, InterestRate, MakeSchedule, NullCalendar, Period, SavedSettings, Schedule, Settings, SimpleCashFlow, TARGET, TimeUnit, USDLibor, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2 } from '/test-suite/utilities.mjs';
 
 function CHECK_INCLUSION(leg, n, today, days, expected) {
@@ -11,7 +11,7 @@ function CHECK_NPV(leg, r, includeRef, today, expected) {
     expect(Math.abs(NPV - expected)).toBeLessThan(1e-6);
 }
 
-describe('Cash flows tests', () => {
+describe(`Cash flows tests ${version}`, () => {
     it('Testing cash-flow settings...', () => {
         const backup = new SavedSettings();
         const today = DateExt.universalDateTime();
@@ -79,6 +79,7 @@ describe('Cash flows tests', () => {
         CHECK_NPV(leg, no_discount, true, today, 2.0);
         backup.dispose();
     });
+
     it('Testing dynamic cast of coupon in Black pricer...', () => {
         const backup = new SavedSettings();
         const todaysDate = DateExt.UTC('7,April,2010');
@@ -103,6 +104,7 @@ describe('Cash flows tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing default evaluation date in cashflows methods...', () => {
         const today = Settings.evaluationDate.f();
         Settings.evaluationDate.set(today);
@@ -127,6 +129,7 @@ describe('Cash flows tests', () => {
         const accruedAmount = CashFlows.accruedAmount(leg, false);
         expect(accruedAmount).not.toEqual(0.0);
     });
+
     it('Testing ibor leg construction with null fixing days...', () => {
         const today = Settings.evaluationDate.f();
         const schedule = new MakeSchedule()
@@ -144,6 +147,7 @@ describe('Cash flows tests', () => {
             .f();
         expect(leg).not.toBeNull();
     });
+
     it('Testing irregular first coupon reference dates ' +
         'with end of month enabled...', () => {
         const schedule = new MakeSchedule()
@@ -162,6 +166,7 @@ describe('Cash flows tests', () => {
         expect(firstCoupon.referencePeriodStart().valueOf())
             .toEqual(DateExt.UTC('31,August,2016').valueOf());
     });
+
     it('Testing irregular last coupon reference dates' +
         ' with end of month enabled...', () => {
         const schedule = new MakeSchedule()
@@ -181,6 +186,7 @@ describe('Cash flows tests', () => {
         expect(lastCoupon.referencePeriodEnd().valueOf())
             .toEqual(DateExt.UTC('31,August,2018').valueOf());
     });
+    
     it('Testing leg construction with partial schedule...', () => {
         const schedule = new MakeSchedule()
             .from(DateExt.UTC('15,September,2017'))

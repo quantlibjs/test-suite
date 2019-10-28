@@ -1,4 +1,4 @@
-import { Actual360, Actual365Fixed, AmericanExercise, AnalyticBarrierEngine, AnalyticEuropeanEngine, AnalyticHestonEngine, Barrier, BarrierOption, BlackScholesMertonProcess, DateExt, DividendVanillaOption, EuropeanExercise, FdHestonBarrierEngine, FdHestonVanillaEngine, FdmHestonSolver, FdmHestonVarianceMesher, FdmSchemeDesc, FlatForward, GeneralizedBlackScholesProcess, Handle, HestonModel, HestonProcess, Month, Option, PlainVanillaPayoff, QL_MIN_REAL, RelinkableHandle, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Actual365Fixed, AmericanExercise, AnalyticBarrierEngine, AnalyticEuropeanEngine, AnalyticHestonEngine, Barrier, BarrierOption, BlackScholesMertonProcess, DateExt, DividendVanillaOption, EuropeanExercise, FdHestonBarrierEngine, FdHestonVanillaEngine, FdmHestonSolver, FdmHestonVarianceMesher, FdmSchemeDesc, FlatForward, GeneralizedBlackScholesProcess, Handle, HestonModel, HestonProcess, Month, Option, PlainVanillaPayoff, QL_MIN_REAL, RelinkableHandle, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2, flatRate3, flatRate4, flatVol2, flatVol3 } from '/test-suite/utilities.mjs';
 
 class NewBarrierOptionData {
@@ -29,7 +29,7 @@ class HestonTestData {
     }
 }
 
-describe('Finite Difference Heston tests', () => {
+describe(`Finite Difference Heston tests ${version}`, () => {
     it('Testing FDM Heston variance mesher ...', () => {
         const backup = new SavedSettings();
         const today = new Date('22-February-2018');

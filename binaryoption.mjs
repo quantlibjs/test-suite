@@ -1,4 +1,4 @@
-import { Actual360, AmericanExercise, AnalyticBinaryBarrierEngine, AssetOrNothingPayoff, Barrier, BarrierOption, BlackScholesMertonProcess, CashOrNothingPayoff, DateExt, Handle, Option, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, AmericanExercise, AnalyticBinaryBarrierEngine, AssetOrNothingPayoff, Barrier, BarrierOption, BlackScholesMertonProcess, CashOrNothingPayoff, DateExt, Handle, Option, SimpleQuote, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatVol1 } from '/test-suite/utilities.mjs';
 
 class BinaryOptionData {
@@ -17,7 +17,8 @@ class BinaryOptionData {
         this.tol = tol;
     }
 }
-describe('Binary Option tests', () => {
+
+describe(`Binary Option tests ${version}`, () => {
     it('Testing cash-or-nothing barrier options against Haug\'s values...', () => {
         const values = [
             new BinaryOptionData(Barrier.Type.DownIn, 100.00, 15.00, Option.Type.Call, 102.00, 105.00, 0.00, 0.10, 0.5, 0.20, 4.9289, 1e-4),
@@ -73,6 +74,7 @@ describe('Binary Option tests', () => {
             expect(error).toBeLessThan(values[i].tol);
         }
     });
+    
     it('Testing asset-or-nothing barrier options against Haug\'s values...', () => {
         const values = [
             new BinaryOptionData(Barrier.Type.DownIn, 100.00, 0.00, Option.Type.Call, 102.00, 105.00, 0.00, 0.10, 0.5, 0.20, 37.2782, 1e-4),

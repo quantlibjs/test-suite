@@ -1,6 +1,6 @@
-import { Period, PeriodParser, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Period, PeriodParser, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
-describe('Period tests', () => {
+describe(`Period tests ${version}`, () => {
     it('Testing period algebra on years/months...', () => {
         const OneYear = new Period().init1(1, TimeUnit.Years);
         const SixMonths = new Period().init1(6, TimeUnit.Months);

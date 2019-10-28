@@ -1,4 +1,4 @@
-import { Actual360, Actual365Fixed, AmericanExercise, Array2D, BasketOption, BlackProcess, BlackScholesMertonProcess, DateExt, EuropeanExercise, Fd2dBlackScholesVanillaEngine, FdmSchemeDesc, GeneralizedBlackScholesProcess, Handle, HestonBlackVolSurface, HestonModel, HestonProcess, KirkEngine, LowDiscrepancy, MakeMCAmericanBasketEngine, MakeMCEuropeanBasketEngine, MaxBasketPayoff, MinBasketPayoff, Option, PlainVanillaPayoff, PseudoRandom, RiskStatistics, SimpleQuote, SpreadBasketPayoff, StochasticProcessArray, StulzEngine, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Actual365Fixed, AmericanExercise, Array2D, BasketOption, BlackProcess, BlackScholesMertonProcess, DateExt, EuropeanExercise, Fd2dBlackScholesVanillaEngine, FdmSchemeDesc, GeneralizedBlackScholesProcess, Handle, HestonBlackVolSurface, HestonModel, HestonProcess, KirkEngine, LowDiscrepancy, MakeMCAmericanBasketEngine, MakeMCEuropeanBasketEngine, MaxBasketPayoff, MinBasketPayoff, Option, PlainVanillaPayoff, PseudoRandom, RiskStatistics, SimpleQuote, SpreadBasketPayoff, StochasticProcessArray, StulzEngine, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatRate2, flatVol1, flatVol2, relativeError } from '/test-suite/utilities.mjs';
 
 // enum BasketType
@@ -34,6 +34,7 @@ class BasketOptionOneData {
         this.tol = tol;
     }
 }
+
 class BasketOptionTwoData {
     constructor(basketType, type, strike, s1, s2, q1, q2, r, t, v1, v2, rho, result, tol) {
         this.basketType = basketType;
@@ -52,6 +53,7 @@ class BasketOptionTwoData {
         this.tol = tol;
     }
 }
+
 class BasketOptionThreeData {
     constructor(basketType, type, strike, s1, s2, s3, r, t, v1, v2, v3, rho, euroValue, amValue) {
         this.basketType = basketType;
@@ -70,6 +72,7 @@ class BasketOptionThreeData {
         this.amValue = amValue;
     }
 }
+
 const oneDataValues = [
     new BasketOptionOneData(Option.Type.Put, 100.00, 80.00, 0.0, 0.06, 0.5, 0.4, 21.6059, 1e-2),
     new BasketOptionOneData(Option.Type.Put, 100.00, 85.00, 0.0, 0.06, 0.5, 0.4, 18.0374, 1e-2),
@@ -101,7 +104,8 @@ const oneDataValues = [
     new BasketOptionOneData(Option.Type.Put, 40.00, 44.00, 0.0, 0.06, 1.0, 0.4, 3.948, 1e-2),
     new BasketOptionOneData(Option.Type.Put, 40.00, 44.00, 0.0, 0.06, 2.0, 0.4, 5.647, 1e-2)
 ];
-describe('Basket option tests', () => {
+
+describe(`Basket option tests ${version}`, () => {
     it('Testing two-asset European basket options...', () => {
         const values = [
             new BasketOptionTwoData(BasketType.MinBasket, Option.Type.Call, 100.0, 100.0, 100.0, 0.00, 0.00, 0.05, 1.00, 0.30, 0.30, 0.90, 10.898, 1.0e-3),
@@ -236,6 +240,7 @@ describe('Basket option tests', () => {
             expect(relError).toBeLessThan(mcRelativeErrorTolerance);
         }
     });
+
     it('Testing three-asset basket options against Barraquand\'s values...', () => {
         const values = [
             new BasketOptionThreeData(BasketType.MaxBasket, Option.Type.Put, 35.0, 40.0, 40.0, 40.0, 0.05, 1.00, 0.20, 0.30, 0.50, 0.0, 0.00, 0.00),
@@ -318,6 +323,7 @@ describe('Basket option tests', () => {
             expect(relError).toBeLessThan(mcAmericanRelativeErrorTolerance);
         }
     });
+
     it('Testing three-asset American basket options against Tavella\'s values...', () => {
         const values = [
             new BasketOptionThreeData(BasketType.MaxBasket, Option.Type.Call, 100, 100, 100, 100, 0.05, 3.00, 0.20, 0.20, 0.20, 0.0, -999, 18.082)
@@ -383,6 +389,7 @@ describe('Basket option tests', () => {
         const relError = relativeError(calculated, expected, values[0].s1);
         expect(relError).toBeLessThan(mcRelativeErrorTolerance);
     });
+
     it('Testing basket American options against 1-D case...', () => {
         const dc = new Actual360();
         const today = new Date();
@@ -425,6 +432,7 @@ describe('Basket option tests', () => {
             expect(relError).toBeLessThan(oneDataValues[i].tol);
         }
     });
+
     it('Testing antithetic engine using odd sample number...', () => {
         const requiredSamples = 10001;
         const timeSteps = 53;
@@ -470,6 +478,7 @@ describe('Basket option tests', () => {
             expect(relError).toBeLessThan(values[i].tol);
         }
     });
+
     it('Testing 2D local-volatility spread-option pricing...', () => {
         const dc = new Actual360();
         const today = new Date('21-September-2017');
@@ -492,6 +501,7 @@ describe('Basket option tests', () => {
         const calculated = basketOption.NPV();
         expect(Math.abs(expected - calculated)).toBeLessThan(tolerance);
     });
+
     it('Testing Greeks of two-dimensional PDE engine...', () => {
         const s1 = 100;
         const s2 = 100;

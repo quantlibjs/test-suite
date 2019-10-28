@@ -1,7 +1,7 @@
-import { Actual365Fixed, BSMRNDCalculator, DateExt, GeneralizedBlackScholesProcess, Handle, Month, NormalCLVModel, OrnsteinUhlenbeckProcess, QL_EPSILON, SavedSettings, SimpleQuote, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual365Fixed, BSMRNDCalculator, DateExt, GeneralizedBlackScholesProcess, Handle, Month, NormalCLVModel, OrnsteinUhlenbeckProcess, QL_EPSILON, SavedSettings, SimpleQuote, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2, flatVol2 } from '/test-suite/utilities.mjs';
 
-describe('NormalCLVModel tests', () => {
+describe(`NormalCLVModel tests ${version}`, () => {
     it('Testing Black-Scholes cumulative distribution' +
         ' function with constant volatility...', () => {
         const backup = new SavedSettings();

@@ -1,7 +1,7 @@
-import { Actual365Fixed, AnalyticBSMHullWhiteEngine, AnalyticEuropeanEngine, BlackScholesMertonProcess, DateExt, EuropeanExercise, EuropeanOption, Handle, HullWhite, Option, PlainVanillaPayoff, SavedSettings, Settings, SimpleQuote, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual365Fixed, AnalyticBSMHullWhiteEngine, AnalyticEuropeanEngine, BlackScholesMertonProcess, DateExt, EuropeanExercise, EuropeanOption, Handle, HullWhite, Option, PlainVanillaPayoff, SavedSettings, Settings, SimpleQuote, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatVol1, flatVol2 } from '/test-suite/utilities.mjs';
 
-describe('Hybrid Heston-HullWhite tests', () => {
+describe(`Hybrid Heston-HullWhite tests ${version}`, () => {
     it('Testing European option pricing for a BSM process' +
         ' with one-factor Hull-White model...', () => {
         const backup = new SavedSettings();

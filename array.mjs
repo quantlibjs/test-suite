@@ -1,10 +1,10 @@
-import { Array1D, QL_EPSILON } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Array1D, QL_EPSILON, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 function p2(x) {
     return x * x;
 }
 
-describe('array tests', () => {
+describe(`array tests ${version}`, () => {
 
     it('Testing array construction...', () => {
         const a1 = new Array();

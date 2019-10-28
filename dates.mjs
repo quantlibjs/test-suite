@@ -1,6 +1,6 @@
-import { ASX, DateExt, ECB, IMM, Month, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { ASX, DateExt, ECB, IMM, Month, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
-describe('Date tests', () => {
+describe(`Date tests ${version}`, () => {
     it('Testing ECB dates...', () => {
         const knownDates = ECB.knownDates();
         expect(knownDates).not.toBeNull();

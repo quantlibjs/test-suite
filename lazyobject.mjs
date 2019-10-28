@@ -1,7 +1,7 @@
-import { Handle, SimpleQuote, Stock } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Handle, SimpleQuote, Stock, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { Flag } from '/test-suite/utilities.mjs';
 
-describe('LazyObject tests', () => {
+describe(`LazyObject tests ${version}`, () => {
     it('Testing that lazy objects discard notifications after the first...', () => {
         const q = new SimpleQuote(0.0);
         const s = new Stock(new Handle(q));

@@ -1,4 +1,4 @@
-import { Array1D, Comparison, ConvergenceStatistics, GenericSequenceStatistics, IncrementalStatistics, InverseCumulativeNormal, InverseCumulativeRng, MersenneTwisterUniformRng, RiskStatistics } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Array1D, Comparison, ConvergenceStatistics, GenericSequenceStatistics, IncrementalStatistics, InverseCumulativeNormal, InverseCumulativeRng, MersenneTwisterUniformRng, RiskStatistics, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 const first = 0, second = 1;
 
@@ -124,21 +124,24 @@ function checkConvergence(s) {
     expect(calculatedSamples).toEqual(expectedSampleSize2);
 }
 
-describe('Statistics tests', () => {
+describe(`Statistics tests ${version}`, () => {
     it('Testing statistics...', () => {
         check(new IncrementalStatistics());
         check(new RiskStatistics());
     });
+
     it('Testing sequence statistics...', () => {
         const s1 = new GenericSequenceStatistics(new IncrementalStatistics()).init(5);
         checkSequence(s1, 5);
         const s2 = new GenericSequenceStatistics(new RiskStatistics()).init(5);
         checkSequence(s2, 5);
     });
+
     it('Testing convergence statistics...', () => {
         checkConvergence(new IncrementalStatistics());
         checkConvergence(new RiskStatistics());
     });
+    
     it('Testing incremental statistics...', () => {
         const mt = new MersenneTwisterUniformRng().init1(42);
         const stat = new IncrementalStatistics();

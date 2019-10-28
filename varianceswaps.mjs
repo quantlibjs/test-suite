@@ -1,4 +1,4 @@
-import { Actual365Fixed, Array2D, BlackScholesMertonProcess, BlackVarianceCurve, BlackVarianceSurface, DateExt, Handle, MakeMCVarianceSwapEngine, NullCalendar, Option, Position, PseudoRandom, ReplicatingVarianceSwapEngine, SimpleQuote, VarianceSwap } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual365Fixed, Array2D, BlackScholesMertonProcess, BlackVarianceCurve, BlackVarianceSurface, DateExt, Handle, MakeMCVarianceSwapEngine, NullCalendar, Option, Position, PseudoRandom, ReplicatingVarianceSwapEngine, SimpleQuote, VarianceSwap, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1 } from '/test-suite/utilities.mjs';
 
 class MCVarianceSwapData {
@@ -41,7 +41,7 @@ class Datum {
     }
 }
 
-describe('Variance swap tests', () => {
+describe(`Variance swap tests ${version}`, () => {
     it('Testing variance swap with replicating cost engine...', () => {
         const values = [
             new ReplicatingVarianceSwapData(Position.Type.Long, 0.04, 50000, 100.0, 0.00, 0.05, 0.246575, 0.20, 0.04189, 1.0e-4)

@@ -1,5 +1,5 @@
 import '/test-suite/quantlibtestsuite.mjs';
-import { Actual360, ActualActual, Australia, BlackIborCouponPricer, BondFunctions, Brazil, Business252, BusinessDayConvention, CashFlows, Compounding, DateExt, DateGeneration, DiscountingBondEngine, Duration, FixedRateBond, FloatingRateBond, Frequency, Handle, InterestRate, Month, NullCalendar, Period, SavedSettings, Schedule, setCouponPricer, Settings, SimpleQuote, TARGET, Thirty360, TimeUnit, UnitedKingdom, UnitedStates, USDLibor, ZeroCouponBond } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, ActualActual, Australia, BlackIborCouponPricer, BondFunctions, Brazil, Business252, BusinessDayConvention, CashFlows, Compounding, DateExt, DateGeneration, DiscountingBondEngine, Duration, FixedRateBond, FloatingRateBond, Frequency, Handle, InterestRate, Month, NullCalendar, Period, SavedSettings, Schedule, setCouponPricer, Settings, SimpleQuote, TARGET, Thirty360, TimeUnit, UnitedKingdom, UnitedStates, USDLibor, ZeroCouponBond, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatRate2 } from '/test-suite/utilities.mjs';
 
 class CommonVars {
@@ -31,7 +31,7 @@ function ASSERT_CLOSE(name, settlement, calculated, expected, tolerance) {
     expect(Math.abs(calculated - expected)).toBeLessThan(tolerance);
 }
 
-describe('Bond tests', () => {
+describe(`Bond tests ${version}`, () => {
     it('Testing consistency of bond price/yield calculation...', () => {
         const vars = new CommonVars();
         const tolerance = 1.0e-7;
@@ -73,6 +73,7 @@ describe('Bond tests', () => {
         }
         vars.dispose();
     });
+
     it('Testing consistency of bond price/ATM rate calculation...', () => {
         const vars = new CommonVars();
         const tolerance = 1.0e-7;
@@ -106,6 +107,7 @@ describe('Bond tests', () => {
         }
         vars.dispose();
     });
+
     it('Testing consistency of bond price/z-spread calculation...', () => {
         const vars = new CommonVars();
         const tolerance = 1.0e-7;
@@ -148,6 +150,7 @@ describe('Bond tests', () => {
         }
         vars.dispose();
     });
+
     it('Testing theoretical bond price/yield calculation...', () => {
         const vars = new CommonVars();
         const tolerance = 1.0e-7;
@@ -187,6 +190,7 @@ describe('Bond tests', () => {
         }
         vars.dispose();
     });
+
     it('Testing bond price/yield calculation against cached values...', () => {
         const vars = new CommonVars();
         const today = new Date('22,November,2004');
@@ -247,6 +251,7 @@ describe('Bond tests', () => {
         expect(Math.abs(price - cachedPrice3)).toBeLessThan(tolerance);
         vars.dispose();
     });
+
     it('Testing zero-coupon bond prices against cached values...', () => {
         const vars = new CommonVars();
         const today = new Date('22,November,2004');
@@ -272,6 +277,7 @@ describe('Bond tests', () => {
         expect(Math.abs(price - cachedPrice3)).toBeLessThan(tolerance);
         vars.dispose();
     });
+
     it('Testing fixed-coupon bond prices against cached values...', () => {
         const vars = new CommonVars();
         const today = new Date('22,November,2004');
@@ -300,6 +306,7 @@ describe('Bond tests', () => {
         expect(Math.abs(price - cachedPrice3)).toBeLessThan(tolerance);
         vars.dispose();
     });
+
     it('Testing floating-rate bond prices against cached values...', () => {
         const vars = new CommonVars();
         const today = new Date('22,November,2004');
@@ -335,6 +342,7 @@ describe('Bond tests', () => {
         expect(Math.abs(price - cachedPrice3)).toBeLessThan(tolerance);
         vars.dispose();
     });
+
     it('Testing Brazilian public bond prices against Andima cached values...', () => {
         const backup = new SavedSettings();
         const settlementDays = 1;
@@ -368,6 +376,7 @@ describe('Bond tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing ex-coupon UK Gilt price against market values...', () => {
         const calendar = new UnitedKingdom();
         const settlementDays = 3;
@@ -405,6 +414,7 @@ describe('Bond tests', () => {
             ASSERT_CLOSE('price from yield', cases[i].settlementDate, calcprice, cases[i].testPrice, 1e-6);
         }
     });
+
     it('Testing ex-coupon Australian bond price against market values...', () => {
         const calendar = new Australia();
         const settlementDays = 3;
@@ -442,6 +452,7 @@ describe('Bond tests', () => {
             ASSERT_CLOSE('price from yield', cases[i].settlementDate, calcprice, cases[i].testPrice, 1e-3);
         }
     });
+
     it('Testing South African R2048 bond price using ' +
         'Schedule constructor with Date vector...', () => {
         const backup = new SavedSettings();
@@ -481,6 +492,7 @@ describe('Bond tests', () => {
             .toBeLessThan(tolerance);
         backup.dispose();
     });
+    
     it('Testing Thirty/360 bond with settlement on 31st of the month...', () => {
         const backup = new SavedSettings();
         Settings.evaluationDate.set(new Date('28,July,2017'));

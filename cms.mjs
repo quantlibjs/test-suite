@@ -1,4 +1,4 @@
-import { Actual365Fixed, AnalyticHaganPricer, Array1D, Array2D, BusinessDayConvention, CappedFlooredCmsCoupon, DateExt, Euribor6M, EuriborSwapIsdaFixA, GFunctionFactory, Handle, LinearTsrPricer, MakeCms, NumericHaganPricer, Period, QL_NULL_REAL, RelinkableHandle, SavedSettings, setCouponPricer, Settings, SimpleQuote, SwapIndex, SwaptionVolatilityMatrix, SwaptionVolCube1, SwaptionVolCube2, TARGET, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual365Fixed, AnalyticHaganPricer, Array1D, Array2D, BusinessDayConvention, CappedFlooredCmsCoupon, DateExt, Euribor6M, EuriborSwapIsdaFixA, GFunctionFactory, Handle, LinearTsrPricer, MakeCms, NumericHaganPricer, Period, QL_NULL_REAL, RelinkableHandle, SavedSettings, setCouponPricer, Settings, SimpleQuote, SwapIndex, SwaptionVolatilityMatrix, SwaptionVolCube1, SwaptionVolCube2, TARGET, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2 } from '/test-suite/utilities.mjs';
 
 class CommonVars {
@@ -156,7 +156,8 @@ class CommonVars {
         }
     }
 }
-describe('Cms tests', () => {
+
+describe(`Cms tests ${version}`, () => {
     it('Testing Hagan-pricer flat-vol equivalence for coupons...', () => {
         const vars = new CommonVars();
         const swapIndex = new SwapIndex().siInit('EuriborSwapIsdaFixA', new Period().init1(10, TimeUnit.Years), vars.iborIndex.fixingDays(), vars.iborIndex.currency(), vars.iborIndex.fixingCalendar(), new Period().init1(1, TimeUnit.Years), BusinessDayConvention.Unadjusted, vars.iborIndex.dayCounter(), vars.iborIndex);

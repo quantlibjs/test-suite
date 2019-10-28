@@ -1,7 +1,7 @@
-import { Actual365Fixed, ActualActual, AnalyticGJRGARCHEngine, BlackCalibrationHelper, CumulativeNormalDistribution, DateExt, EndCriteria, EuropeanExercise, GJRGARCHModel, GJRGARCHProcess, Handle, HestonModelHelper, M_PI, MakeMCEuropeanGJRGARCHEngine, Option, Period, PlainVanillaPayoff, PseudoRandom, SavedSettings, Settings, SimpleQuote, Simplex, TARGET, TimeUnit, VanillaOption, ZeroCurve } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual365Fixed, ActualActual, AnalyticGJRGARCHEngine, BlackCalibrationHelper, CumulativeNormalDistribution, DateExt, EndCriteria, EuropeanExercise, GJRGARCHModel, GJRGARCHProcess, Handle, HestonModelHelper, M_PI, MakeMCEuropeanGJRGARCHEngine, Option, Period, PlainVanillaPayoff, PseudoRandom, SavedSettings, Settings, SimpleQuote, Simplex, TARGET, TimeUnit, VanillaOption, ZeroCurve, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2 } from '/test-suite/utilities.mjs';
 
-describe('GJR-GARCH model tests', () => {
+describe(`GJR-GARCH model tests ${version}`, () => {
     it('Testing Monte Carlo GJR-GARCH engine' +
         ' against analytic GJR-GARCH engine...', () => {
         const dayCounter = new ActualActual();

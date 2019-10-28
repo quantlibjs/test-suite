@@ -1,4 +1,4 @@
-import { Actual365Fixed, BermudanExercise, BusinessDayConvention, DateExt, DateGeneration, DiscountingSwapEngine, Euribor6M, FdG2SwaptionEngine, FdHullWhiteSwaptionEngine, Frequency, G2, HullWhite, Period, RelinkableHandle, SavedSettings, Schedule, Settings, Swaption, Thirty360, TimeUnit, TreeSwaptionEngine, VanillaSwap } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual365Fixed, BermudanExercise, BusinessDayConvention, DateExt, DateGeneration, DiscountingSwapEngine, Euribor6M, FdG2SwaptionEngine, FdHullWhiteSwaptionEngine, Frequency, G2, HullWhite, Period, RelinkableHandle, SavedSettings, Schedule, Settings, Swaption, Thirty360, TimeUnit, TreeSwaptionEngine, VanillaSwap, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2 } from '/test-suite/utilities.mjs';
 
 class CommonVars {
@@ -34,7 +34,8 @@ class CommonVars {
         this.backup.dispose();
     }
 }
-describe('Bermudan swaption tests', () => {
+
+describe(`Bermudan swaption tests ${version}`, () => {
     it('Testing Bermudan swaption with HW model against cached values...', () => {
         const vars = new CommonVars();
         vars.today = new Date('15-February-2002');
@@ -93,6 +94,7 @@ describe('Bermudan swaption tests', () => {
         expect(Math.abs(swaption.NPV() - otmValue)).toBeLessThan(tolerance);
         vars.dispose();
     });
+
     it('Testing Bermudan swaption with G2 model against cached values...', () => {
         const vars = new CommonVars();
         vars.today = new Date('15-September-2016');

@@ -1,4 +1,4 @@
-import { constant, cube, CumulativeNormalDistribution, fourth_power, GaussChebyshev2ndIntegration, GaussChebyshevIntegration, GaussGegenbauerIntegration, GaussHermiteIntegration, GaussHyperbolicIntegration, GaussianQuadrature, GaussLaguerreIntegration, GaussLegendreIntegration, GaussNonCentralChiSquaredPolynomial, identity, M_PI, NonCentralChiSquareDistribution, NormalDistribution, square, TabulatedGaussLegendre } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { constant, cube, CumulativeNormalDistribution, fourth_power, GaussChebyshev2ndIntegration, GaussChebyshevIntegration, GaussGegenbauerIntegration, GaussHermiteIntegration, GaussHyperbolicIntegration, GaussianQuadrature, GaussLaguerreIntegration, GaussLegendreIntegration, GaussNonCentralChiSquaredPolynomial, identity, M_PI, NonCentralChiSquareDistribution, NormalDistribution, square, TabulatedGaussLegendre, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 const tolerance = 1.0e-4;
 
@@ -82,7 +82,7 @@ function testSingleTabulated(f, tag, expected, tolerance) {
     }
 }
 
-describe('Gaussian quadratures tests', () => {
+describe(`Gaussian quadratures tests ${version}`, () => {
     it('Testing Gauss-Jacobi integration...', () => {
         testSingleJacobi(new GaussLegendreIntegration(16));
         testSingleJacobi(new GaussChebyshevIntegration(130));
@@ -117,7 +117,7 @@ describe('Gaussian quadratures tests', () => {
     });
 });
 
-describe('Gaussian quadratures experimental tests', () => {
+describe(`Gaussian quadratures experimental tests ${version}`, () => {
   it('Testing Gauss non-central chi-squared integration...', () => {
         testSingle(new GaussianQuadrature(2, new GaussNonCentralChiSquaredPolynomial(4.0, 1.0)), 'f(x) = x^2 * nonCentralChiSquared(4, 1)(x)', x_x_nonCentralChiSquared, 37.0);
         testSingle(new GaussianQuadrature(14, new GaussNonCentralChiSquaredPolynomial(1.0, 1.0)), 'f(x) = x * sin(0.1*x)*exp(0.3*x)*nonCentralChiSquared(1, 1)(x)', x_sin_exp_nonCentralChiSquared, 17.408092);

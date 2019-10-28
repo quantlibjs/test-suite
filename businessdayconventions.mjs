@@ -1,4 +1,4 @@
-import { BusinessDayConvention, DateExt, Period, SouthAfrica, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { BusinessDayConvention, DateExt, Period, SouthAfrica, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class SingleCase {
     constructor(calendar, convention, start, period, endOfMonth, result) {
@@ -11,7 +11,7 @@ class SingleCase {
     }
 }
 
-describe('Business day convention tests', () => {
+describe(`Business day convention tests ${version}`, () => {
     it('Testing business day conventions...', () => {
         const testCases = [
             new SingleCase(new SouthAfrica(), BusinessDayConvention.Following, DateExt.UTC('3,February,2015'), new Period().init1(1, TimeUnit.Months), false, DateExt.UTC('3,March,2015')),

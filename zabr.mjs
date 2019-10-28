@@ -1,6 +1,6 @@
-import { SabrSmileSection, ZabrFullFd, ZabrLocalVolatility, ZabrShortMaturityLognormal, ZabrShortMaturityNormal, ZabrSmileSection } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { SabrSmileSection, ZabrFullFd, ZabrLocalVolatility, ZabrShortMaturityLognormal, ZabrShortMaturityNormal, ZabrSmileSection, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
-describe('Zabr model tests', () => {
+describe(`Zabr model tests ${version}`, () => {
     it('Testing Consistency ...', () => {
         const tol = 1E-4;
         const alpha = 0.08;

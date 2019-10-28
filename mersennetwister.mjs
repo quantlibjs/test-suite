@@ -1,6 +1,6 @@
-import { MersenneTwisterUniformRng } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { MersenneTwisterUniformRng, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
-describe('Mersenne twister tests', () => {
+describe(`Mersenne twister tests ${version}`, () => {
     it('Testing Mersenne twister...', () => {
         const referenceLongValues = [
             1067595299, 955945823, 477289528, 4107218783, 4228976476, 3344332714,

@@ -1,6 +1,6 @@
-import { ConstantEstimator, SimpleLocalEstimator, TimeSeries } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { ConstantEstimator, SimpleLocalEstimator, TimeSeries, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
-describe('volatility models tests', () => {
+describe(`volatility models tests ${version}`, () => {
     it('Testing volatility model construction...', () => {
         const ts = new TimeSeries();
         ts.set(new Date('25,March,2005'), 1.2);

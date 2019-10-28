@@ -1,4 +1,4 @@
-import { Actual360, Compounding, DateExt, Frequency, InterestRate, Rounding, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Compounding, DateExt, Frequency, InterestRate, Rounding, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class InterestRateData {
     constructor(r, comp, freq, t, comp2, freq2, expected, precision) {
@@ -13,7 +13,7 @@ class InterestRateData {
     }
 }
 
-describe('Interest Rate tests', () => {
+describe(`Interest Rate tests ${version}`, () => {
     it('Testing interest-rate conversions...', () => {
         const cases = [
             new InterestRateData(0.0800, Compounding.Compounded, Frequency.Quarterly, 1.00, Compounding.Continuous, Frequency.Annual, 0.0792, 4),

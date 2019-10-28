@@ -1,4 +1,4 @@
-import { Actual360, AnalyticEuropeanEngine, BinomialVanillaEngine, BlackScholesMertonProcess, DateExt, EuropeanExercise, EuropeanOption, ExtendedAdditiveEQPBinomialTree, ExtendedCoxRossRubinstein, ExtendedJarrowRudd, ExtendedJoshi4, ExtendedLeisenReimer, ExtendedTian, ExtendedTrigeorgis, Handle, Option, PlainVanillaPayoff, QL_NULL_INTEGER, SavedSettings, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, AnalyticEuropeanEngine, BinomialVanillaEngine, BlackScholesMertonProcess, DateExt, EuropeanExercise, EuropeanOption, ExtendedAdditiveEQPBinomialTree, ExtendedCoxRossRubinstein, ExtendedJarrowRudd, ExtendedJoshi4, ExtendedLeisenReimer, ExtendedTian, ExtendedTrigeorgis, Handle, Option, PlainVanillaPayoff, QL_NULL_INTEGER, SavedSettings, SimpleQuote, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatVol1, relativeError } from '/test-suite/utilities.mjs';
 
 const first = 0;
@@ -129,7 +129,7 @@ function testEngineConsistency(engine, binomialSteps, tolerance) {
     }
 }
 
-describe('European option extended trees tests', () => {
+describe(`European option extended trees tests ${version}`, () => {
     it('Testing time-dependent JR binomial European engines' +
         ' against analytic results...', () => {
         const backup = new SavedSettings();

@@ -1,6 +1,6 @@
-import { CHFCurrency, Comparison, DateExt, EURCurrency, ExchangeRate, ExchangeRateManager, GBPCurrency, ITLCurrency, JPYCurrency, Money, SEKCurrency, USDCurrency } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { CHFCurrency, Comparison, DateExt, EURCurrency, ExchangeRate, ExchangeRateManager, GBPCurrency, ITLCurrency, JPYCurrency, Money, SEKCurrency, USDCurrency, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
-describe('Exchange-rate tests', () => {
+describe(`Exchange-rate tests ${version}`, () => {
     it('Testing direct exchange rates...', () => {
         const EUR = new EURCurrency(), USD = new USDCurrency();
         const eur_usd = new ExchangeRate().init(EUR, USD, 1.2042);

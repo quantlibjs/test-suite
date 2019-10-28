@@ -1,4 +1,4 @@
-import { Bisection, Brent, FalsePosition, FiniteDifferenceNewtonSafe, Halley, HalleySafe, Newton, NewtonSafe, QL_NULL_REAL, Ridder, Secant } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Bisection, Brent, FalsePosition, FiniteDifferenceNewtonSafe, Halley, HalleySafe, Newton, NewtonSafe, QL_NULL_REAL, Ridder, Secant, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class F1 {
     f(x) {
@@ -116,7 +116,7 @@ function test_solver(solver, name, accuracy) {
     }
 }
 
-describe('1-D solver tests', () => {
+describe(`1-D solver tests ${version}`, () => {
     it('Testing Brent solver...', () => {
         test_solver(new Brent(), 'Brent', 1.0e-6);
     });

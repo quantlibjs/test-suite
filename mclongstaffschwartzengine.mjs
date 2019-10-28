@@ -1,4 +1,4 @@
-import { Actual365Fixed, AmericanExercise, Array2D, BlackConstantVol, CrankNicolson, EarlyExercisePathPricer, FDAmericanEngine, FlatForward, GeneralizedBlackScholesProcess, Handle, LongstaffSchwartzPathPricer, LsmBasisSystem, MakeMCAmericanEngine, MC, MCLongstaffSchwartzEngine, NullCalendar, Option, PlainVanillaPayoff, PseudoRandom, QL_NULL_INTEGER, QL_NULL_REAL, RelinkableHandle, SavedSettings, Settings, SimpleQuote, StochasticProcessArray, VanillaOption, VanillaOptionEngine, std } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual365Fixed, AmericanExercise, Array2D, BlackConstantVol, CrankNicolson, EarlyExercisePathPricer, FDAmericanEngine, FlatForward, GeneralizedBlackScholesProcess, Handle, LongstaffSchwartzPathPricer, LsmBasisSystem, MakeMCAmericanEngine, MC, MCLongstaffSchwartzEngine, NullCalendar, Option, PlainVanillaPayoff, PseudoRandom, QL_NULL_INTEGER, QL_NULL_REAL, RelinkableHandle, SavedSettings, Settings, SimpleQuote, StochasticProcessArray, VanillaOption, VanillaOptionEngine, std, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class AmericanMaxPathPricer extends EarlyExercisePathPricer {
     constructor(payoff) {
@@ -48,7 +48,7 @@ class MCAmericanMaxEngine extends MCLongstaffSchwartzEngine {
     }
 }
 
-describe('Longstaff Schwartz MC engine tests', () => {
+describe(`Longstaff Schwartz MC engine tests ${version}`, () => {
     it('Testing Monte-Carlo pricing of American options...', () => {
         const backup = new SavedSettings();
         const type = Option.Type.Put;

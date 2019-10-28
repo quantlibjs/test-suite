@@ -1,5 +1,5 @@
 import '/test-suite/quantlibtestsuite.mjs';
-import { Actual360, AnalyticContinuousGeometricAveragePriceAsianEngine, AnalyticDiscreteGeometricAveragePriceAsianEngine, AnalyticDiscreteGeometricAverageStrikeAsianEngine, Average, BlackScholesMertonProcess, Comparison, ContinuousArithmeticAsianLevyEngine, ContinuousArithmeticAsianVecerEngine, ContinuousAveragingAsianOption, DateExt, DiscreteAveragingAsianOption, EuropeanExercise, FdBlackScholesAsianEngine, Handle, LowDiscrepancy, MakeMCDiscreteArithmeticAPEngine, MakeMCDiscreteArithmeticASEngine, MakeMCDiscreteGeometricAPEngine, Option, PlainVanillaPayoff, QL_NULL_INTEGER, QL_NULL_REAL, SavedSettings, Settings, SimpleQuote, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, AnalyticContinuousGeometricAveragePriceAsianEngine, AnalyticDiscreteGeometricAveragePriceAsianEngine, AnalyticDiscreteGeometricAverageStrikeAsianEngine, Average, BlackScholesMertonProcess, Comparison, ContinuousArithmeticAsianLevyEngine, ContinuousArithmeticAsianVecerEngine, ContinuousAveragingAsianOption, DateExt, DiscreteAveragingAsianOption, EuropeanExercise, FdBlackScholesAsianEngine, Handle, LowDiscrepancy, MakeMCDiscreteArithmeticAPEngine, MakeMCDiscreteArithmeticASEngine, MakeMCDiscreteGeometricAPEngine, Option, PlainVanillaPayoff, QL_NULL_INTEGER, QL_NULL_REAL, SavedSettings, Settings, SimpleQuote, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatRate2, flatRate3, flatVol1, flatVol2, flatVol3, relativeError } from '/test-suite/utilities.mjs';
 
 const first = 0;
@@ -47,7 +47,7 @@ class VecerData {
     }
 }
 
-describe('Asian option tests', () => {
+describe(`Asian option tests ${version}`, () => {
     it('Testing analytic continuous geometric average-price Asians...', () => {
         const dc = new Actual360();
         const today = Settings.evaluationDate.f();
@@ -87,6 +87,7 @@ describe('Asian option tests', () => {
         tolerance = 3.0e-3;
         expect(Math.abs(calculated - expected)).toBeLessThan(tolerance);
     });
+
     it('Testing analytic continuous geometric average-price Asian greeks...', () => {
         const backup = new SavedSettings();
         const calculated = new Map(), expected = new Map(), tolerance = new Map();
@@ -197,6 +198,7 @@ describe('Asian option tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing analytic discrete geometric average-price Asians...', () => {
         const dc = new Actual360();
         const today = Settings.evaluationDate.f();
@@ -231,6 +233,7 @@ describe('Asian option tests', () => {
         const tolerance = 1e-10;
         expect(Math.abs(calculated - expected)).toBeLessThan(tolerance);
     });
+
     it('Testing analytic discrete geometric average-strike Asians...', () => {
         const dc = new Actual360();
         const today = Settings.evaluationDate.f();
@@ -265,6 +268,7 @@ describe('Asian option tests', () => {
         const tolerance = 1e-5;
         expect(Math.abs(calculated - expected)).toBeLessThan(tolerance);
     });
+
     it('Testing Monte Carlo discrete geometric average-price Asians...', () => {
         const dc = new Actual360();
         const today = Settings.evaluationDate.f();
@@ -304,6 +308,7 @@ describe('Asian option tests', () => {
         const expected = option.NPV();
         expect(Math.abs(calculated - expected)).toBeLessThan(tolerance);
     });
+
     it('Testing Monte Carlo discrete arithmetic average-price Asians...', () => {
         const cases4 = [
             new DiscreteAverageData(Option.Type.Put, 90.0, 87.0, 0.06, 0.025, 0.0, 11.0 / 12.0, 2, 0.13, true, 1.3942835683),
@@ -387,6 +392,7 @@ describe('Asian option tests', () => {
             }
         }
     });
+
     it('Testing Monte Carlo discrete arithmetic average-strike Asians...', () => {
         const cases5 = [
             new DiscreteAverageData(Option.Type.Call, 90.0, 87.0, 0.06, 0.025, 0.0, 11.0 / 12.0, 2, 0.13, true, 1.51917595129),
@@ -463,6 +469,7 @@ describe('Asian option tests', () => {
             expect(Math.abs(calculated - expected)).toBeLessThan(tolerance);
         }
     });
+
     it('Testing discrete-averaging geometric Asian greeks...', () => {
         const backup = new SavedSettings();
         const calculated = new Map(), expected = new Map(), tolerance = new Map();
@@ -578,6 +585,7 @@ describe('Asian option tests', () => {
         }
         backup.dispose();
     });
+
     it('Testing use of past fixings in Asian options...', () => {
         const dc = new Actual360();
         const today = Settings.evaluationDate.f();
@@ -644,6 +652,7 @@ describe('Asian option tests', () => {
         price4 = option4.NPV();
         expect(Comparison.close(price3, price4)).toBeFalsy();
     });
+
     it('Testing Asian options with all fixing dates in the past...', () => {
         const dc = new Actual360();
         const today = Settings.evaluationDate.f();
@@ -731,7 +740,8 @@ describe('Asian option tests', () => {
         backup.dispose();
     });
 });
-describe('Asian option experimental tests', () => {
+
+describe(`Asian option experimental tests ${version}`, () => {
     it('Testing Levy engine for Asians options...', () => {
         const cases = [
             new ContinuousAverageData(Option.Type.Call, 6.80, 6.80, 6.90, 0.09, 0.07, 0.14, 180, 0, 0.0944),
@@ -779,6 +789,7 @@ describe('Asian option experimental tests', () => {
             expect(error).toBeLessThan(tolerance);
         }
     });
+    
     it('Testing Vecer engine for Asian options...', () => {
         const cases = [
             new VecerData(1.9, 0.05, 0.5, 2.0, 1, 0.193174, 1.0e-5),

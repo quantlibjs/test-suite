@@ -1,4 +1,4 @@
-import { CeilingTruncation, ClosestRounding, Comparison, DownRounding, FloorTruncation, UpRounding } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { CeilingTruncation, ClosestRounding, Comparison, DownRounding, FloorTruncation, UpRounding, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class TestCase {
     constructor(x, precision, closest, up, down, floor, ceiling) {
@@ -36,7 +36,7 @@ const testData = [
     new TestCase(7.89428221, 2, 7.89, 7.90, 7.89, 7.89, 7.89)
 ];
 
-describe('Rounding tests', () => {
+describe(`Rounding tests ${version}`, () => {
     it('Testing closest decimal rounding...', () => {
         for (let i = 0; i < testData.length; i++) {
             const digits = testData[i].precision;

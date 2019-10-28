@@ -1,5 +1,5 @@
 import '/test-suite/quantlibtestsuite.mjs';
-import { Actual360, ActualActual, ASX, BackwardFlat, BMAIndex, BMASwap, BMASwapRateHelper, BusinessDayConvention, Comparison, Compounding, ConvexMonotone, CubicInterpolation, DateExt, DateGeneration, DepositRateHelper, Discount, DiscountingBondEngine, DiscountingSwapEngine, Euribor, Euribor3M, Euribor6M, FixedRateBond, FixedRateBondHelper, FlatForward, ForwardRate, ForwardRateAgreement, FraRateHelper, Frequency, Futures, FuturesRateHelper, Handle, IMM, IterativeBootstrap, JointCalendar, Linear, LocalBootstrap, LogCubic, LogLinear, MakeSchedule, MakeVanillaSwap, Period, PiecewiseYieldCurve, Position, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, SwapRateHelper, TARGET, Thirty360, TimeUnit, USDLibor, ZeroYield } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, ActualActual, ASX, BackwardFlat, BMAIndex, BMASwap, BMASwapRateHelper, BusinessDayConvention, Comparison, Compounding, ConvexMonotone, CubicInterpolation, DateExt, DateGeneration, DepositRateHelper, Discount, DiscountingBondEngine, DiscountingSwapEngine, Euribor, Euribor3M, Euribor6M, FixedRateBond, FixedRateBondHelper, FlatForward, ForwardRate, ForwardRateAgreement, FraRateHelper, Frequency, Futures, FuturesRateHelper, Handle, IMM, IterativeBootstrap, JointCalendar, Linear, LocalBootstrap, LogCubic, LogLinear, MakeSchedule, MakeVanillaSwap, Period, PiecewiseYieldCurve, Position, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, SwapRateHelper, TARGET, Thirty360, TimeUnit, USDLibor, ZeroYield, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class Datum {
     constructor(n, units, rate) {
@@ -342,67 +342,77 @@ function testCurveCopy(vars, traits, interpolator = null) {
     }
 }
 
-describe('Piecewise yield curve tests', () => {
+describe(`Piecewise yield curve tests ${version}`, () => {
     it('Testing consistency of piecewise-log-cubic discount curve...', () => {
         const vars = new CommonVars();
         testCurveConsistency(vars, new Discount(), new LogCubic(CubicInterpolation.DerivativeApprox.Spline, true, CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0, CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0));
         testBMACurveConsistency(vars, new Discount(), new LogCubic(CubicInterpolation.DerivativeApprox.Spline, true, CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0, CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0));
         vars.backup.dispose();
     });
+
     it('Testing consistency of piecewise-log-linear discount curve...', () => {
         const vars = new CommonVars();
         testCurveConsistency(vars, new Discount(), new LogLinear());
         testBMACurveConsistency(vars, new Discount(), new LogLinear());
         vars.backup.dispose();
     });
+
     it('Testing consistency of piecewise-linear discount curve...', () => {
         const vars = new CommonVars();
         testCurveConsistency(vars, new Discount(), new Linear());
         testBMACurveConsistency(vars, new Discount(), new Linear());
         vars.backup.dispose();
     });
+
     it('Testing consistency of piecewise-log-linear zero-yield curve...', () => {
         const vars = new CommonVars();
         testCurveConsistency(vars, new ZeroYield(), new LogLinear());
         testBMACurveConsistency(vars, new ZeroYield(), new LogLinear());
         vars.backup.dispose();
     });
+
     it('Testing consistency of piecewise-linear zero-yield curve...', () => {
         const vars = new CommonVars();
         testCurveConsistency(vars, new ZeroYield(), new Linear());
         testBMACurveConsistency(vars, new ZeroYield(), new Linear());
         vars.backup.dispose();
     });
+
     it('Testing consistency of piecewise-cubic zero-yield curve...', () => {
         const vars = new CommonVars();
         testCurveConsistency(vars, new ZeroYield(), new LogCubic(CubicInterpolation.DerivativeApprox.Spline, true, CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0, CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0));
         testBMACurveConsistency(vars, new ZeroYield(), new LogCubic(CubicInterpolation.DerivativeApprox.Spline, true, CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0, CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0));
         vars.backup.dispose();
     });
+
     it('Testing consistency of piecewise-linear forward-rate curve...', () => {
         const vars = new CommonVars();
         testCurveConsistency(vars, new ForwardRate(), new Linear());
         testBMACurveConsistency(vars, new ForwardRate(), new Linear());
         vars.backup.dispose();
     });
+
     it('Testing consistency of piecewise-flat forward-rate curve...', () => {
         const vars = new CommonVars();
         testCurveConsistency(vars, new ForwardRate(), new BackwardFlat());
         testBMACurveConsistency(vars, new ForwardRate(), new BackwardFlat());
         vars.backup.dispose();
     });
+
     it('Testing consistency of piecewise-cubic forward-rate curve...', () => {
         const vars = new CommonVars();
         testCurveConsistency(vars, new ForwardRate(), new LogCubic(CubicInterpolation.DerivativeApprox.Spline, true, CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0, CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0));
         testBMACurveConsistency(vars, new ForwardRate(), new LogCubic(CubicInterpolation.DerivativeApprox.Spline, true, CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0, CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0));
         vars.backup.dispose();
     });
+
     it('Testing consistency of convex monotone forward-rate curve...', () => {
         const vars = new CommonVars();
         testCurveConsistency(vars, new ForwardRate(), new ConvexMonotone());
         testBMACurveConsistency(vars, new ForwardRate(), new ConvexMonotone());
         vars.backup.dispose();
     });
+
     it('Testing consistency of local-bootstrap algorithm...', () => {
         const vars = new CommonVars();
         const traits = new ForwardRate();
@@ -412,28 +422,36 @@ describe('Piecewise yield curve tests', () => {
         testBMACurveConsistency(vars, traits, interpolator, bootstrap, 1.0e-7);
         vars.backup.dispose();
     });
+
     it('Testing observability of piecewise yield curve...', () => {
     });
+
     it('Testing use of today\'s LIBOR fixings in swap curve...', () => {
     });
+
     it('Testing bootstrap over JPY LIBOR swaps...', () => {
     });
+
     it('Testing copying of discount curve...', () => {
         const vars = new CommonVars();
         testCurveCopy(vars, new Discount(), new LogLinear());
         vars.backup.dispose();
     });
+
     it('Testing copying of forward-rate curve...', () => {
         const vars = new CommonVars();
         testCurveCopy(vars, new ForwardRate(), new BackwardFlat());
     });
+
     it('Testing copying of zero-rate curve...', () => {
         const vars = new CommonVars();
         testCurveCopy(vars, new ZeroYield(), new Linear());
         vars.backup.dispose();
     });
+
     it('Testing SwapRateHelper last relevant date...', () => {
     });
+    
     it('Testing bootstrap starting from bad guess...', () => {
     });
 });

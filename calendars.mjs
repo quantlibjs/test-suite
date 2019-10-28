@@ -1,6 +1,6 @@
-import { BespokeCalendar, Brazil, Calendar, China, DateExt, Germany, Italy, Japan, JointCalendar, Russia, SouthKorea, TARGET, TimeUnit, UnitedKingdom, UnitedStates, Weekday } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { BespokeCalendar, Brazil, Calendar, China, DateExt, Germany, Italy, Japan, JointCalendar, Russia, SouthKorea, TARGET, TimeUnit, UnitedKingdom, UnitedStates, Weekday, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
-describe('Calendar tests', () => {
+describe(`Calendar tests ${version}`, () => {
     it('Testing calendar modification...', () => {
         const c1 = new TARGET();
         const c2 = new UnitedStates(UnitedStates.Market.NYSE);
@@ -24,6 +24,7 @@ describe('Calendar tests', () => {
         expect(c1.isBusinessDay(d1)).toEqual(false);
         expect(c1.isHoliday(d2)).toEqual(false);
     });
+
     it('Testing joint calendars...', () => {
         const c1 = new TARGET(), c2 = new UnitedKingdom(), c3 = new UnitedStates(UnitedStates.Market.NYSE), c4 = new Japan();
         const c12h = new JointCalendar(c1, c2, null, null, JointCalendar.JointCalendarRule.JoinHolidays), c12b = new JointCalendar(c1, c2, null, null, JointCalendar.JointCalendarRule.JoinBusinessDays), c123h = new JointCalendar(c1, c2, c3, null, JointCalendar.JointCalendarRule.JoinHolidays), c123b = new JointCalendar(c1, c2, c3, null, JointCalendar.JointCalendarRule.JoinBusinessDays), c1234h = new JointCalendar(c1, c2, c3, c4, JointCalendar.JointCalendarRule.JoinHolidays), c1234b = new JointCalendar(c1, c2, c3, c4, JointCalendar.JointCalendarRule.JoinBusinessDays);
@@ -38,6 +39,7 @@ describe('Calendar tests', () => {
             expect((b1 || b2 || b3 || b4)).toEqual(c1234b.isBusinessDay(d));
         }
     });
+
     it('Testing US settlement holiday list...', () => {
         let expectedHol = [];
         expectedHol.push(DateExt.UTC('1,January,2004'));
@@ -81,6 +83,7 @@ describe('Calendar tests', () => {
             expect(hol[i].valueOf()).toEqual(expectedHol[i].valueOf());
         }
     });
+
     it('Testing US government bond market holiday list...', () => {
         const expectedHol = [];
         expectedHol.push(DateExt.UTC('1,January,2004'));
@@ -101,6 +104,7 @@ describe('Calendar tests', () => {
         }
         expect(hol.length).toEqual(expectedHol.length);
     });
+
     it('Testing New York Stock Exchange holiday list...', () => {
         const expectedHol = [];
         expectedHol.push(DateExt.UTC('1,January,2004'));
@@ -181,6 +185,7 @@ describe('Calendar tests', () => {
             expect(c.isHoliday(histClose[i])).toBeTruthy();
         }
     });
+
     it('Testing TARGET holiday list...', () => {
         const expectedHol = [];
         expectedHol.push(DateExt.UTC('1,January,1999'));
@@ -226,6 +231,7 @@ describe('Calendar tests', () => {
             expect(hol[i].valueOf()).toEqual(expectedHol[i].valueOf());
         }
     });
+
     it('Testing Frankfurt Stock Exchange holiday list...', () => {
         const expectedHol = [];
         expectedHol.push(DateExt.UTC('1,January,2003'));
@@ -248,6 +254,7 @@ describe('Calendar tests', () => {
         }
         expect(hol.length).toEqual(expectedHol.length);
     });
+
     it('Testing Eurex holiday list...', () => {
         const expectedHol = [];
         expectedHol.push(DateExt.UTC('1,January,2003'));
@@ -270,6 +277,7 @@ describe('Calendar tests', () => {
         }
         expect(hol.length).toEqual(expectedHol.length);
     });
+
     it('Testing Xetra holiday list...', () => {
         const expectedHol = [];
         expectedHol.push(DateExt.UTC('1,January,2003'));
@@ -292,6 +300,7 @@ describe('Calendar tests', () => {
         }
         expect(hol.length).toEqual(expectedHol.length);
     });
+
     it('Testing UK settlement holiday list...', () => {
         const expectedHol = [];
         expectedHol.push(DateExt.UTC('1,January,2004'));
@@ -333,6 +342,7 @@ describe('Calendar tests', () => {
         }
         expect(hol.length).toEqual(expectedHol.length);
     });
+
     it('Testing London Stock Exchange holiday list...', () => {
         const expectedHol = [];
         expectedHol.push(DateExt.UTC('1,January,2004'));
@@ -374,6 +384,7 @@ describe('Calendar tests', () => {
         }
         expect(hol.length).toEqual(expectedHol.length);
     });
+
     it('Testing London Metals Exchange holiday list...', () => {
         const expectedHol = [];
         expectedHol.push(DateExt.UTC('1,January,2004'));
@@ -415,6 +426,7 @@ describe('Calendar tests', () => {
         }
         expect(hol.length).toEqual(expectedHol.length);
     });
+
     it('Testing Milan Stock Exchange holiday list...', () => {
         const expectedHol = [];
         expectedHol.push(DateExt.UTC('1,January,2002'));
@@ -447,6 +459,7 @@ describe('Calendar tests', () => {
         }
         expect(hol.length).toEqual(expectedHol.length);
     });
+
     it('Testing Russia holiday list...', () => {
         const expectedHol = [];
         expectedHol.push(DateExt.UTC('1,January,2012'));
@@ -1025,6 +1038,7 @@ describe('Calendar tests', () => {
         }
         expect(hol.length).toEqual(expectedHol.length);
     });
+
     it('Testing Brazil holiday list...', () => {
         const expectedHol = [];
         expectedHol.push(DateExt.UTC('7,February,2005'));
@@ -1054,6 +1068,7 @@ describe('Calendar tests', () => {
         }
         expect(hol.length).toEqual(expectedHol.length);
     });
+
     it('Testing South-Korean settlement holiday list...', () => {
         const expectedHol = [];
         expectedHol.push(DateExt.UTC('1,January,2004'));
@@ -1111,6 +1126,7 @@ describe('Calendar tests', () => {
         }
         expect(hol.length).toEqual(expectedHol.length);
     });
+
     it('Testing Korea Stock Exchange holiday list...', () => {
         const expectedHol = [];
         expectedHol.push(DateExt.UTC('1,January,2004'));
@@ -1172,6 +1188,7 @@ describe('Calendar tests', () => {
         }
         expect(hol.length).toEqual(expectedHol.length);
     });
+
     it('Testing China Shanghai Stock Exchange holiday list...', () => {
         const expectedHol = [];
         expectedHol.push(DateExt.UTC('1,Jan,2014'));
@@ -1264,6 +1281,7 @@ describe('Calendar tests', () => {
         }
         expect(hol.length).toEqual(expectedHol.length);
     });
+
     it('Testing China Inter Bank working weekends list...', () => {
         const expectedWorkingWeekEnds = [];
         expectedWorkingWeekEnds.push(DateExt.UTC('26,Jan,2014'));
@@ -1306,6 +1324,7 @@ describe('Calendar tests', () => {
         }
         expect(k).toEqual(expectedWorkingWeekEnds.length);
     });
+
     it('Testing end-of-month calculation...', () => {
         const c = new TARGET();
         let eom;
@@ -1318,6 +1337,7 @@ describe('Calendar tests', () => {
             DateExt.adda(counter, 1);
         }
     });
+
     it('Testing calculation of business days between dates...', () => {
         const testDates = [];
         testDates.push(DateExt.UTC('1,February,2002'));
@@ -1339,6 +1359,7 @@ describe('Calendar tests', () => {
             expect(calculated).toEqual(expected[i - 1]);
         }
     });
+    
     it('Testing bespoke calendars...', () => {
         const a1 = new BespokeCalendar();
         const b1 = new BespokeCalendar();

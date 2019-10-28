@@ -1,11 +1,11 @@
 import '/test-suite/quantlibtestsuite.mjs';
-import { Actual360, Array1D, BSMOperator, CumulativeNormalDistribution, DateExt, DPlusDMinus, DZero, GeneralizedBlackScholesProcess, Handle, NormalDistribution, PdeOperator, PdeType, SimpleQuote, TimeUnit, TridiagonalOperator } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Array1D, BSMOperator, CumulativeNormalDistribution, DateExt, DPlusDMinus, DZero, GeneralizedBlackScholesProcess, Handle, NormalDistribution, PdeOperator, PdeType, SimpleQuote, TimeUnit, TridiagonalOperator, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2, flatVol2, norm } from '/test-suite/utilities.mjs';
 
 const average = 0.0;
 const sigma = 1.0;
 
-describe('Operator tests', () => {
+describe(`Operator tests ${version}`, () => {
     it('Testing tridiagonal operator...', () => {
         const n = 8;
         const T = new TridiagonalOperator().init1(n);

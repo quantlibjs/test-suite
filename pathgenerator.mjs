@@ -1,4 +1,4 @@
-import { Actual360, BlackScholesMertonProcess, GeometricBrownianMotionProcess, Handle, MultiPathGenerator, OrnsteinUhlenbeckProcess, PathGenerator, PseudoRandom, SavedSettings, Settings, SimpleQuote, SquareRootProcess, StochasticProcessArray, TimeGrid } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, BlackScholesMertonProcess, GeometricBrownianMotionProcess, Handle, MultiPathGenerator, OrnsteinUhlenbeckProcess, PathGenerator, PseudoRandom, SavedSettings, Settings, SimpleQuote, SquareRootProcess, StochasticProcessArray, TimeGrid, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate4, flatVol4 } from '/test-suite/utilities.mjs';
 
 function testSingle(process, tag, brownianBridge, expected, antithetic) {
@@ -55,7 +55,7 @@ function testMultiple(process, tag, expected, antithetic) {
     }
 }
 
-describe('Path generation tests', () => {
+describe(`Path generation tests ${version}`, () => {
     it('Testing 1-D path generation against cached values...', () => {
         const backup = new SavedSettings();
         Settings.evaluationDate.set(new Date('26-April-2005'));

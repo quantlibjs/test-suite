@@ -1,4 +1,4 @@
-import { Actual360, AmericanExercise, AnalyticDigitalAmericanEngine, AnalyticDigitalAmericanKOEngine, AnalyticEuropeanEngine, AssetOrNothingPayoff, BlackScholesMertonProcess, CashOrNothingPayoff, DateExt, EuropeanExercise, GapPayoff, Handle, LowDiscrepancy, MakeMCDigitalEngine, Option, SavedSettings, Settings, SimpleQuote, VanillaOption } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, AmericanExercise, AnalyticDigitalAmericanEngine, AnalyticDigitalAmericanKOEngine, AnalyticEuropeanEngine, AssetOrNothingPayoff, BlackScholesMertonProcess, CashOrNothingPayoff, DateExt, EuropeanExercise, GapPayoff, Handle, LowDiscrepancy, MakeMCDigitalEngine, Option, SavedSettings, Settings, SimpleQuote, VanillaOption, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatRate3, flatVol1, flatVol3, relativeError } from '/test-suite/utilities.mjs';
 
 const first = 0;
@@ -16,7 +16,7 @@ class DigitalOptionData {
         this.knockin = knockin;
     }
 }
-describe('Digital option tests', () => {
+describe(`Digital option tests ${version}`, () => {
     it('Testing European cash-or-nothing digital option...', () => {
         const values = [
             new DigitalOptionData(Option.Type.Put, 80.00, 100.0, 0.06, 0.06, 0.75, 0.35, 2.6710, 1e-4, true)

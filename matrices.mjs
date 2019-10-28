@@ -1,4 +1,4 @@
-import { Array1D, Array2D, BiCGstab, CholeskyDecomposition, GMRES, MersenneTwisterUniformRng, moorePenroseInverse, OrthogonalProjections, pseudoSqrt, QL_EPSILON, QL_MAX_REAL, qrDecomposition, qrSolve, SalvagingAlgorithm, SVD, SymmetricSchurDecomposition, det, inv, std } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Array1D, Array2D, BiCGstab, CholeskyDecomposition, GMRES, MersenneTwisterUniformRng, moorePenroseInverse, OrthogonalProjections, pseudoSqrt, QL_EPSILON, QL_MAX_REAL, qrDecomposition, qrSolve, SalvagingAlgorithm, SVD, SymmetricSchurDecomposition, det, inv, std, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 let N;
 let M1, M2, M3, M4, M5, M6, M7, I;
@@ -129,7 +129,7 @@ function norm3(x) {
     return Math.sqrt(Array1D.DotProduct(x, x));
 }
 
-describe('Matrix tests', () => {
+describe(`Matrix tests ${version}`, () => {
     it('Testing eigenvalues and eigenvectors calculation...', () => {
         setup();
         const testMatrices = [M1, M2];

@@ -1,4 +1,4 @@
-import { Actual360, ActualActual, BlackCapFloorEngine, BusinessDayConvention, Cap, CapFloor, Collar, DateGeneration, DiscountingSwapEngine, Euribor6M, Floor, Frequency, Handle, IborLeg, Period, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, TimeUnit, VanillaSwap, VolatilityType } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, ActualActual, BlackCapFloorEngine, BusinessDayConvention, Cap, CapFloor, Collar, DateGeneration, DiscountingSwapEngine, Euribor6M, Floor, Frequency, Handle, IborLeg, Period, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, TimeUnit, VanillaSwap, VolatilityType, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2 } from '/test-suite/utilities.mjs';
 
 class CommonVars {
@@ -48,10 +48,12 @@ class CommonVars {
         return result;
     }
 }
+
 function checkAbsError(x1, x2, tolerance) {
     return Math.abs(x1 - x2) < tolerance;
 }
-describe('Cap and floor tests', () => {
+
+describe(`Cap and floor tests ${version}`, () => {
     it('Testing cap/floor vega...', () => {
         const vars = new CommonVars();
         const lengths = [1, 2, 3, 4, 5, 6, 7, 10, 15, 20, 30];
@@ -84,6 +86,7 @@ describe('Cap and floor tests', () => {
         }
         vars.backup.dispose();
     });
+
     it('Testing cap/floor dependency on strike...', () => {
         const vars = new CommonVars();
         const lengths = [1, 2, 3, 5, 7, 10, 15, 20];
@@ -120,6 +123,7 @@ describe('Cap and floor tests', () => {
         }
         vars.backup.dispose();
     });
+
     it('Testing consistency between cap, floor and collar...', () => {
         const vars = new CommonVars();
         const lengths = [1, 2, 3, 5, 7, 10, 15, 20];
@@ -170,6 +174,7 @@ describe('Cap and floor tests', () => {
             }
         }
     });
+
     it('Testing cap/floor parity...', () => {
         const vars = new CommonVars();
         const lengths = [1, 2, 3, 5, 7, 10, 15, 20];
@@ -192,6 +197,7 @@ describe('Cap and floor tests', () => {
             }
         }
     });
+
     it('Testing cap/floor ATM rate...', () => {
         const vars = new CommonVars();
         const lengths = [1, 2, 3, 5, 7, 10, 15, 20];
@@ -217,6 +223,7 @@ describe('Cap and floor tests', () => {
             }
         }
     });
+
     it('Testing implied term volatility for cap and floor...', () => {
         const vars = new CommonVars();
         const maxEvaluations = 100;
@@ -260,6 +267,7 @@ describe('Cap and floor tests', () => {
             }
         }
     });
+    
     it('Testing Black cap/floor price against cached values...', () => {
         const vars = new CommonVars();
         const cachedToday = new Date('14-March-2002'), cachedSettlement = new Date('18-March-2002');

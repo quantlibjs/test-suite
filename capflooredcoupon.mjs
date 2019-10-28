@@ -1,4 +1,4 @@
-import { Actual365Fixed, ActualActual, Array1D, BlackCapFloorEngine, BlackIborCouponPricer, BusinessDayConvention, Cap, CapFloor, Collar, ConstantOptionletVolatility, DateGeneration, DiscountingSwapEngine, Euribor1Y, FixedRateLeg, Floor, Frequency, Handle, IborLeg, Period, RelinkableHandle, SavedSettings, Schedule, setCouponPricer, Settings, SimpleQuote, Swap, Thirty360, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual365Fixed, ActualActual, Array1D, BlackCapFloorEngine, BlackIborCouponPricer, BusinessDayConvention, Cap, CapFloor, Collar, ConstantOptionletVolatility, DateGeneration, DiscountingSwapEngine, Euribor1Y, FixedRateLeg, Floor, Frequency, Handle, IborLeg, Period, RelinkableHandle, SavedSettings, Schedule, setCouponPricer, Settings, SimpleQuote, Swap, Thirty360, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2 } from '/test-suite/utilities.mjs';
 
 class CommonVars {
@@ -88,7 +88,8 @@ class CommonVars {
         return result;
     }
 }
-describe('Capped and floored coupon tests', () => {
+
+describe(`Capped and floored coupon tests ${version}`, () => {
     it('Testing degenerate collared coupon...', () => {
         const vars = new CommonVars();
         const caps = Array1D.fromSizeValue(vars.length, 100.0);
@@ -105,6 +106,7 @@ describe('Capped and floored coupon tests', () => {
         expect(Math.abs(vanillaLeg.NPV() - collarLeg.NPV()))
             .toBeLessThan(tolerance);
     });
+    
     it('Testing collared coupon against its decomposition...', () => {
         const vars = new CommonVars();
         const tolerance = 1e-12;

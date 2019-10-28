@@ -1,5 +1,5 @@
 import '/test-suite/quantlibtestsuite.mjs';
-import { Actual360, Actual365Fixed, ActualActual, AnalyticHaganPricer, AssetSwap, BlackIborCouponPricer, Bond, BondFunctions, BusinessDayConvention, CmsLeg, CmsRateBond, Compounding, ConstantSwaptionVolatility, DateGeneration, DiscountingBondEngine, DiscountingSwapEngine, Euribor, FixedRateBond, FixedRateLeg, FloatingRateBond, Frequency, GFunctionFactory, Handle, IborLeg, NullCalendar, Period, RelinkableHandle, SavedSettings, Schedule, setCouponPricer, Settings, SimpleCashFlow, SimpleQuote, SwapIndex, TARGET, Thirty360, TimeUnit, ZeroCouponBond } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Actual365Fixed, ActualActual, AnalyticHaganPricer, AssetSwap, BlackIborCouponPricer, Bond, BondFunctions, BusinessDayConvention, CmsLeg, CmsRateBond, Compounding, ConstantSwaptionVolatility, DateGeneration, DiscountingBondEngine, DiscountingSwapEngine, Euribor, FixedRateBond, FixedRateLeg, FloatingRateBond, Frequency, GFunctionFactory, Handle, IborLeg, NullCalendar, Period, RelinkableHandle, SavedSettings, Schedule, setCouponPricer, Settings, SimpleCashFlow, SimpleQuote, SwapIndex, TARGET, Thirty360, TimeUnit, ZeroCouponBond, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2, IndexHistoryCleaner } from '/test-suite/utilities.mjs';
 
 class CommonVars {
@@ -28,7 +28,8 @@ class CommonVars {
         this.cmspricer = new AnalyticHaganPricer(swaptionVolatilityStructure, GFunctionFactory.YieldCurveModel.Standard, meanReversionQuote);
     }
 }
-describe('AssetSwap tests', () => {
+
+describe(`AssetSwap tests ${version}`, () => {
     it('Testing consistency between fair price and fair spread...', () => {
         const vars = new CommonVars();
         const bondCalendar = new TARGET();
@@ -121,6 +122,7 @@ describe('AssetSwap tests', () => {
         vars.backup.dispose();
         vars.indexCleaner.dispose();
     });
+
     it('Testing implied bond value against asset-swap ' +
         'fair price with null spread...', () => {
         const vars = new CommonVars();
@@ -215,6 +217,7 @@ describe('AssetSwap tests', () => {
         const error9 = Math.abs(cmsBondAssetSwapPrice2 - cmsBondPrice2);
         expect(error9).toBeLessThan(tolerance2);
     });
+
     it('Testing relationship between market asset swap and par asset swap...', () => {
         const vars = new CommonVars();
         const bondCalendar = new TARGET();
@@ -346,6 +349,7 @@ describe('AssetSwap tests', () => {
             100 * zeroCpnBondParAssetSwapSpread2 / zeroCpnBondMktFullPrice2);
         expect(error8).toBeLessThan(tolerance2);
     });
+
     it('Testing clean and dirty price with null Z-spread' +
         ' against theoretical prices...', () => {
         const vars = new CommonVars();
@@ -424,6 +428,7 @@ describe('AssetSwap tests', () => {
         const error15 = Math.abs(zeroCpnBondImpliedValue2 - zeroCpnBondCleanPrice2);
         expect(error15).toBeLessThan(tolerance);
     });
+
     it('Testing implied generic-bond value against asset-swap' +
         ' fair price with null spread...', () => {
         const vars = new CommonVars();
@@ -590,6 +595,7 @@ describe('AssetSwap tests', () => {
         const error9 = Math.abs(zeroCpnBondAssetSwapPrice2 - zeroCpnBondPrice2);
         expect(error9).toBeLessThan(tolerance2);
     });
+
     it('Testing market asset swap against par asset swap with generic bond...', () => {
         const vars = new CommonVars();
         const bondCalendar = new TARGET();
@@ -791,6 +797,7 @@ describe('AssetSwap tests', () => {
             100 * zeroCpnBondParAssetSwapSpread2 / zeroCpnBondMktFullPrice2);
         expect(error8).toBeLessThan(tolerance2);
     });
+
     it('Testing clean and dirty price with null Z-spread' +
         ' against theoretical prices...', () => {
         const vars = new CommonVars();
@@ -939,6 +946,7 @@ describe('AssetSwap tests', () => {
         const error15 = Math.abs(zeroCpnBondImpliedValue2 - zeroCpnBondCleanPrice2);
         expect(error15).toBeLessThan(tolerance);
     });
+
     it('Testing clean and dirty prices for specialized bond' +
         ' against equivalent generic bond...', () => {
         const vars = new CommonVars();
@@ -1139,6 +1147,7 @@ describe('AssetSwap tests', () => {
         const error16 = Math.abs(zeroCpnBondTheoDirty2 - zeroCpnSpecializedBondTheoDirty2);
         expect(error16).toBeLessThan(tolerance);
     });
+
     it('Testing asset-swap prices and spreads for specialized' +
         ' bond against equivalent generic bond...', () => {
         const vars = new CommonVars();
