@@ -1,6 +1,6 @@
 import '/test-suite/quantlibtestsuite.mjs';
 import { Flag } from '/test-suite/utilities.mjs';
-import { Actual360, Actual365Fixed, ActualActual, ASX, BackwardFlat, BMAIndex, BMASwap, BMASwapRateHelper, BusinessDayConvention, Comparison, Compounding, ConvexMonotone, CubicInterpolation, DateExt, DateGeneration, DepositRateHelper, Discount, DiscountingBondEngine, DiscountingSwapEngine, Euribor, Euribor1M, Euribor3M, Euribor6M, FixedRateBond, FixedRateBondHelper, FlatForward, ForwardRate, ForwardRateAgreement, FraRateHelper, Frequency, Futures, FuturesRateHelper, Handle, IMM, IterativeBootstrap, Japan, JointCalendar, JPYLibor, Linear, LocalBootstrap, LogCubic, LogLinear, MakeSchedule, MakeVanillaSwap, Period, PiecewiseYieldCurve, Position, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, SwapRateHelper, TARGET, Thirty360, TimeUnit, UnitedStates, USDLibor, ZeroYield } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Actual365Fixed, ActualActual, ASX, BackwardFlat, BMAIndex, BMASwap, BMASwapRateHelper, BusinessDayConvention, Comparison, Compounding, ConvexMonotone, CubicInterpolation, DateExt, DateGeneration, DepositRateHelper, Discount, DiscountingBondEngine, DiscountingSwapEngine, Euribor, Euribor1M, Euribor3M, Euribor6M, FixedRateBond, FixedRateBondHelper, FlatForward, ForwardRate, ForwardRateAgreement, FraRateHelper, Frequency, Futures, FuturesRateHelper, Handle, IMM, IterativeBootstrap, Japan, JointCalendar, JPYLibor, Linear, LocalBootstrap, LogCubic, LogLinear, MakeSchedule, MakeVanillaSwap, Period, PiecewiseYieldCurve, Position, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, SwapRateHelper, TARGET, Thirty360, TimeUnit, UnitedStates, USDLibor, ZeroYield, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class Datum {
     constructor(n, units, rate) {
@@ -424,7 +424,7 @@ function testCurveCopy(vars, traits, interpolator = null) {
     }
 }
 
-describe('Piecewise yield curve tests', () => {
+describe(`Piecewise yield curve tests ${version}`, () => {
     xit('Testing consistency of piecewise-log-cubic discount curve...', () => {
         const vars = new CommonVars();
         testCurveConsistency(vars, T.Discount, I.LogCubic, B.IterativeBootstrap, 1.0e-9, CubicInterpolation.DerivativeApprox.Spline, true, CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0, CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0);
