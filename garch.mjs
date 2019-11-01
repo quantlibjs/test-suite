@@ -4,7 +4,7 @@ const first = 0, second = 1;
 
 class DummyOptimizationMethod extends OptimizationMethod {
     minimize(P, e) {
-        P.setFunctionValue(P.value(P.currentValue()));
+        P.setFunctionValue(P.value(Array.from(P.currentValue())));
         return EndCriteria.Type.None;
     }
 }
@@ -33,7 +33,7 @@ function check_ts(x) {
 
 describe(`GARCH model test ${version}`, () => {
     it('Testing GARCH model calibration...', () => {
-        const start = new Date('7-July-1962'), d = start;
+        const start = DateExt.UTC('7,July,1962'), d = start;
         const ts = new TimeSeries();
         const garch = new Garch11().init1(0.2, 0.3, 0.4);
         const rng = new InverseCumulativeRng(new MersenneTwisterUniformRng().init1(48), new InverseCumulativeNormal());
@@ -103,8 +103,9 @@ describe(`GARCH model test ${version}`, () => {
         expect(Math.abs(expected3.logLikelihood - cgarch4.logLikelihood()))
             .toBeLessThan(tolerance);
     });
+
     it('Testing GARCH model calculation...', () => {
-        let d = new Date('7-July-1962');
+        let d = DateExt.UTC('7,July,1962');
         const ts = new TimeSeries();
         const garch = new Garch11().init1(0.2, 0.3, 0.4);
         const r = 0.1;

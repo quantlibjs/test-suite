@@ -11,9 +11,9 @@ function check(s) {
     }
     let calculated, expected;
     let tolerance;
-    expect(s.samples()).toEqual(data.length);
+    expect(s.samples1()).toEqual(data.length);
     expected = weights.reduce((a, c) => a + c, 0);
-    calculated = s.weightSum();
+    calculated = s.weightSum1();
     expect(calculated).toEqual(expected);
     expected = Math.min(...data);
     calculated = s.min();
@@ -47,9 +47,9 @@ function checkSequence(ss, dimension) {
     }
     let calculated;
     let expected, tolerance;
-    expect(ss.samples()).toEqual(data.length);
+    expect(ss.samples1()).toEqual(data.length);
     expected = weights.reduce((a, c) => a + c, 0);
-    expect(ss.weightSum()).toEqual(expected);
+    expect(ss.weightSum1()).toEqual(expected);
     expected = Math.min(...data);
     calculated = ss.min();
     for (i = 0; i < dimension; i++) {
@@ -150,8 +150,8 @@ describe(`Statistics tests ${version}`, () => {
             const w = mt.nextReal();
             stat.add(x, w);
         }
-        expect(stat.samples()).toEqual(500000);
-        expect(Comparison.close_enough(stat.weightSum(), 2.5003623600676749e+05))
+        expect(stat.samples1()).toEqual(500000);
+        expect(Comparison.close_enough(stat.weightSum1(), 2.5003623600676749e+05))
             .toEqual(true);
         expect(Comparison.close_enough(stat.mean(), 4.9122325964293845e-01))
             .toEqual(true);
