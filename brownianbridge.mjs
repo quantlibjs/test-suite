@@ -89,7 +89,7 @@ describe(`Brownian bridge tests ${version}`, () => {
         expect(maxMeanError).toBeLessThan(meanTolerance);
         expect(maxCovError).toBeLessThan(covTolerance);
     });
-    
+
     it('Testing Brownian-bridge path generation...', () => {
         const times = [];
         times.push(0.1);
@@ -111,25 +111,27 @@ describe(`Brownian bridge tests ${version}`, () => {
         const N = times.length;
         const samples = 262143;
         const seed = 42;
-        const sobol = new SobolRsg().init(N, seed);
-        const gsg = new InverseCumulativeRsg(sobol, new InverseCumulativeNormal());
+        const sobol1 = new SobolRsg().init(N, seed);
+        const sobol2 = new SobolRsg().init(N, seed);
+        const gsg1 = new InverseCumulativeRsg(sobol1, new InverseCumulativeNormal());
+        const gsg2 = new InverseCumulativeRsg(sobol2, new InverseCumulativeNormal());
         const today = Settings.evaluationDate.f();
         const x0 = new Handle(new SimpleQuote(100.0));
         const r = new Handle(new FlatForward().ffInit2(today, 0.06, new Actual365Fixed()));
         const q = new Handle(new FlatForward().ffInit2(today, 0.03, new Actual365Fixed()));
         const sigma = new Handle(new BlackConstantVol().bcvInit1(today, new NullCalendar(), 0.20, new Actual365Fixed()));
         const process = new BlackScholesMertonProcess(x0, q, r, sigma);
-        const generator1 = new PathGenerator().init2(process, grid, gsg, false);
-        const generator2 = new PathGenerator().init2(process, grid, gsg, true);
+        const generator1 = new PathGenerator().init2(process, grid, gsg1, false);
+        const generator2 = new PathGenerator().init2(process, grid, gsg2, true);
         const stats1 = new SequenceStatistics(N);
         const stats2 = new SequenceStatistics(N);
         let temp;
         for (let i = 0; i < samples; ++i) {
             const path1 = generator1.next().value;
-            temp = Array.from(path1.values().slice(1, path1.length()));
+            temp = path1.values().slice(1, path1.length());
             stats1.add(temp);
             const path2 = generator2.next().value;
-            temp = Array.from(path2.values().slice(1, path2.length()));
+            temp = path2.values().slice(1, path2.length());
             stats2.add(temp);
         }
         const expectedMean = stats1.mean();
