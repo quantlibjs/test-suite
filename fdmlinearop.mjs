@@ -1,3 +1,18 @@
+/**
+ * Copyright 2019 Jin Yang. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * =============================================================================
+ */
 import { Actual360, Actual365Fixed, AnalyticEuropeanEngine, Array1D, Array2D, BiCGstab, BicubicSpline, BilinearInterpolation, BlackScholesMertonProcess, CashOrNothingPayoff, Concentrating1dMesher, DateExt, DiscreteSimpsonIntegral, DiscreteTrapezoidIntegral, EuropeanExercise, Fdm3DimSolver, FdmAmericanStepCondition, FdmBackwardSolver, FdmBlackScholesMesher, FdmBlackScholesOp, FdmDirichletBoundary, FdmDividendHandler, FdmHestonHullWhiteOp, FdmHestonOp, FdmHestonSolver, FdmHestonVarianceMesher, FdmLinearOpLayout, FdmLogInnerValue, FdmMesherComposite, FdmMesherIntegral, FdmNdimSolver, FdmSchemeDesc, FdmSolverDesc, FdmStepConditionComposite, FiniteDifferenceModel, FirstDerivativeOp, FixedDividend, GeneralizedBlackScholesProcess, GMRES, Handle, HestonProcess, HullWhiteForwardProcess, HullWhiteProcess, HundsdorferScheme, HybridHestonHullWhiteProcess, MakeMCHestonHullWhiteEngine, MersenneTwisterUniformRng, MonotonicCubicNaturalSpline, NumericalDifferentiation, Option, Payoff, PlainVanillaPayoff, PseudoRandom, QL_EPSILON, QL_NULL_REAL, SavedSettings, SecondDerivativeOp, SecondOrderMixedDerivativeOp, Settings, SimpleQuote, SparseILUPreconditioner, StepCondition, TimeUnit, Uniform1dMesher, UniformGridMesher, VanillaOption, ZeroCurve, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2, flatRate4, flatVol2 } from '/test-suite/utilities.mjs';
 import { axpy_prod, compressed_matrix } from '/test-suite/boost.mjs';
