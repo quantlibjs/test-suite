@@ -1,4 +1,4 @@
-import { Actual360, ActualActual, BlackCapFloorEngine, BusinessDayConvention, Cap, CapFloor, Collar, DateGeneration, DiscountingSwapEngine, Euribor6M, Floor, Frequency, Handle, IborLeg, Period, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, TimeUnit, VanillaSwap, VolatilityType, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, ActualActual, BlackCapFloorEngine, BusinessDayConvention, Cap, CapFloor, Collar, DateExt, DateGeneration, DiscountingSwapEngine, Euribor6M, Floor, Frequency, Handle, IborLeg, Period, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, TimeUnit, VanillaSwap, VolatilityType } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2 } from '/test-suite/utilities.mjs';
 
 class CommonVars {
@@ -10,7 +10,7 @@ class CommonVars {
         this.index = new Euribor6M(this.termStructure);
         this.calendar = this.index.fixingCalendar();
         this.convention = BusinessDayConvention.ModifiedFollowing;
-        const today = this.calendar.adjust(new Date());
+        const today = this.calendar.adjust(DateExt.UTC());
         Settings.evaluationDate.set(today);
         const settlementDays = 2;
         this.fixingDays = 2;
@@ -140,6 +140,7 @@ describe(`Cap and floor tests ${version}`, () => {
                         const floor = vars.makeCapFloor(CapFloor.Type.Floor, leg, floor_rates[k], vols[l]);
                         const collar = new Collar(leg, [cap_rates[j]], [floor_rates[k]]);
                         collar.setPricingEngine(vars.makeEngine(vols[l]));
+                        expect(Math.abs((cap.NPV() - floor.NPV()) - collar.NPV())).toBeLessThan(1e-10);
                         if (Math.abs((cap.NPV() - floor.NPV()) - collar.NPV()) > 1e-10) {
                             expect(Math.abs((cap.NPV() - floor.NPV()) - collar.NPV()))
                                 .toBeLessThan(1e-10);
@@ -267,10 +268,10 @@ describe(`Cap and floor tests ${version}`, () => {
             }
         }
     });
-    
+
     it('Testing Black cap/floor price against cached values...', () => {
         const vars = new CommonVars();
-        const cachedToday = new Date('14-March-2002'), cachedSettlement = new Date('18-March-2002');
+        const cachedToday = DateExt.UTC('14-March-2002'), cachedSettlement = DateExt.UTC('18-March-2002');
         Settings.evaluationDate.set(cachedToday);
         vars.termStructure.linkTo(flatRate2(cachedSettlement, 0.05, new Actual360()));
         const startDate = vars.termStructure.currentLink().referenceDate();

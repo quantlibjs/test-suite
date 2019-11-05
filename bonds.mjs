@@ -1,11 +1,11 @@
 import '/test-suite/quantlibtestsuite.mjs';
-import { Actual360, ActualActual, Australia, BlackIborCouponPricer, BondFunctions, Brazil, Business252, BusinessDayConvention, CashFlows, Compounding, DateExt, DateGeneration, DiscountingBondEngine, Duration, FixedRateBond, FloatingRateBond, Frequency, Handle, InterestRate, Month, NullCalendar, Period, SavedSettings, Schedule, setCouponPricer, Settings, SimpleQuote, TARGET, Thirty360, TimeUnit, UnitedKingdom, UnitedStates, USDLibor, ZeroCouponBond, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, ActualActual, Australia, BlackIborCouponPricer, BondFunctions, Brazil, Business252, BusinessDayConvention, CashFlows, Compounding, DateExt, DateGeneration, DiscountingBondEngine, Duration, FixedRateBond, FloatingRateBond, Frequency, Handle, InterestRate, Month, NullCalendar, Period, SavedSettings, Schedule, setCouponPricer, Settings, SimpleQuote, TARGET, Thirty360, TimeUnit, UnitedKingdom, UnitedStates, USDLibor, ZeroCouponBond } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatRate2 } from '/test-suite/utilities.mjs';
 
 class CommonVars {
     constructor() {
         this.calendar = new TARGET();
-        this.today = this.calendar.adjust(new Date());
+        this.today = this.calendar.adjust(DateExt.UTC());
         Settings.evaluationDate.set(this.today);
         this.faceAmount = 1000000.0;
         this.backup = new SavedSettings();
@@ -60,6 +60,7 @@ describe(`Bond tests ${version}`, () => {
                             for (let m = 0; m < yields.length; m++) {
                                 const price = BondFunctions.cleanPrice3(bond, yields[m], bondDayCount, compounding[n], frequencies[l]);
                                 const calculated = BondFunctions.yield1(bond, price, bondDayCount, compounding[n], frequencies[l], null, tolerance, maxEvaluations);
+                                expect(Math.abs(yields[m] - calculated)).toBeLessThan(tolerance);
                                 if (Math.abs(yields[m] - calculated) > tolerance) {
                                     const price2 = BondFunctions.cleanPrice3(bond, calculated, bondDayCount, compounding[n], frequencies[l]);
                                     expect(Math.abs(price - price2) / price)
@@ -137,6 +138,7 @@ describe(`Bond tests ${version}`, () => {
                             for (let m = 0; m < spreads.length; m++) {
                                 const price = BondFunctions.cleanPrice4(bond, discountCurve.currentLink(), spreads[m], bondDayCount, compounding[n], frequencies[l]);
                                 const calculated = BondFunctions.zSpread(bond, price, discountCurve.currentLink(), bondDayCount, compounding[n], frequencies[l], null, tolerance, maxEvaluations);
+                                expect(Math.abs(spreads[m] - calculated)).toBeLessThan(tolerance);
                                 if (Math.abs(spreads[m] - calculated) > tolerance) {
                                     const price2 = BondFunctions.cleanPrice4(bond, discountCurve.currentLink(), calculated, bondDayCount, compounding[n], frequencies[l]);
                                     expect(Math.abs(price - price2) / price)
@@ -193,21 +195,21 @@ describe(`Bond tests ${version}`, () => {
 
     it('Testing bond price/yield calculation against cached values...', () => {
         const vars = new CommonVars();
-        const today = new Date('22,November,2004');
+        const today = DateExt.UTC('22,November,2004');
         Settings.evaluationDate.set(today);
         const bondCalendar = new NullCalendar();
         const bondDayCount = new ActualActual(ActualActual.Convention.ISMA);
         const settlementDays = 1;
         const discountCurve = new Handle(flatRate2(today, 0.03, new Actual360()));
         const freq = Frequency.Semiannual;
-        const sch1 = new Schedule().init2(new Date('31,October,2004'), new Date('31,October,2006'), new Period().init2(freq), bondCalendar, BusinessDayConvention.Unadjusted, BusinessDayConvention.Unadjusted, DateGeneration.Rule.Backward, false);
-        const bond1 = new FixedRateBond().frbInit1(settlementDays, vars.faceAmount, sch1, [0.025], bondDayCount, BusinessDayConvention.ModifiedFollowing, 100.0, new Date('1,November,2004'));
+        const sch1 = new Schedule().init2(DateExt.UTC('31,October,2004'), DateExt.UTC('31,October,2006'), new Period().init2(freq), bondCalendar, BusinessDayConvention.Unadjusted, BusinessDayConvention.Unadjusted, DateGeneration.Rule.Backward, false);
+        const bond1 = new FixedRateBond().frbInit1(settlementDays, vars.faceAmount, sch1, [0.025], bondDayCount, BusinessDayConvention.ModifiedFollowing, 100.0, DateExt.UTC('1,November,2004'));
         const bondEngine = new DiscountingBondEngine(discountCurve);
         bond1.setPricingEngine(bondEngine);
         const marketPrice1 = 99.203125;
         const marketYield1 = 0.02925;
-        const sch2 = new Schedule().init2(new Date('15,November,2004'), new Date('15,November,2009'), new Period().init2(freq), bondCalendar, BusinessDayConvention.Unadjusted, BusinessDayConvention.Unadjusted, DateGeneration.Rule.Backward, false);
-        const bond2 = new FixedRateBond().frbInit1(settlementDays, vars.faceAmount, sch2, [0.035], bondDayCount, BusinessDayConvention.ModifiedFollowing, 100.0, new Date('15,November,2004'));
+        const sch2 = new Schedule().init2(DateExt.UTC('15,November,2004'), DateExt.UTC('15,November,2009'), new Period().init2(freq), bondCalendar, BusinessDayConvention.Unadjusted, BusinessDayConvention.Unadjusted, DateGeneration.Rule.Backward, false);
+        const bond2 = new FixedRateBond().frbInit1(settlementDays, vars.faceAmount, sch2, [0.035], bondDayCount, BusinessDayConvention.ModifiedFollowing, 100.0, DateExt.UTC('15,November,2004'));
         bond2.setPricingEngine(bondEngine);
         const marketPrice2 = 99.6875;
         const marketYield2 = 0.03569;
@@ -238,15 +240,15 @@ describe(`Bond tests ${version}`, () => {
         expect(Math.abs(yield_ - cachedYield2b)).toBeLessThan(tolerance);
         yield_ = BondFunctions.yield1(bond2, bond2.cleanPrice1(), bondDayCount, Compounding.Continuous, freq, bond2.settlementDate());
         expect(Math.abs(yield_ - cachedYield2c)).toBeLessThan(tolerance);
-        const sch3 = new Schedule().init2(new Date('30,November,2004'), new Date('30,November,2006'), new Period().init2(freq), new UnitedStates(UnitedStates.Market.GovernmentBond), BusinessDayConvention.Unadjusted, BusinessDayConvention.Unadjusted, DateGeneration.Rule.Backward, false);
-        const bond3 = new FixedRateBond().frbInit1(settlementDays, vars.faceAmount, sch3, [0.02875], new ActualActual(ActualActual.Convention.ISMA), BusinessDayConvention.ModifiedFollowing, 100.0, new Date('30,November,2004'));
+        const sch3 = new Schedule().init2(DateExt.UTC('30,November,2004'), DateExt.UTC('30,November,2006'), new Period().init2(freq), new UnitedStates(UnitedStates.Market.GovernmentBond), BusinessDayConvention.Unadjusted, BusinessDayConvention.Unadjusted, DateGeneration.Rule.Backward, false);
+        const bond3 = new FixedRateBond().frbInit1(settlementDays, vars.faceAmount, sch3, [0.02875], new ActualActual(ActualActual.Convention.ISMA), BusinessDayConvention.ModifiedFollowing, 100.0, DateExt.UTC('30,November,2004'));
         bond3.setPricingEngine(bondEngine);
         const marketYield3 = 0.02997;
-        const settlementDate = new Date('30,November,2004');
+        const settlementDate = DateExt.UTC('30,November,2004');
         const cachedPrice3 = 99.764759;
         price = BondFunctions.cleanPrice3(bond3, marketYield3, bondDayCount, Compounding.Compounded, freq, settlementDate);
         expect(Math.abs(price - cachedPrice3)).toBeLessThan(tolerance);
-        Settings.evaluationDate.set(new Date('22,November,2004'));
+        Settings.evaluationDate.set(DateExt.UTC('22,November,2004'));
         price = BondFunctions.cleanPrice3(bond3, marketYield3, bondDayCount, Compounding.Compounded, freq);
         expect(Math.abs(price - cachedPrice3)).toBeLessThan(tolerance);
         vars.dispose();
@@ -254,23 +256,23 @@ describe(`Bond tests ${version}`, () => {
 
     it('Testing zero-coupon bond prices against cached values...', () => {
         const vars = new CommonVars();
-        const today = new Date('22,November,2004');
+        const today = DateExt.UTC('22,November,2004');
         Settings.evaluationDate.set(today);
         const settlementDays = 1;
         const discountCurve = new Handle(flatRate2(today, 0.03, new Actual360()));
         const tolerance = 1.0e-6;
-        const bond1 = new ZeroCouponBond(settlementDays, new UnitedStates(UnitedStates.Market.GovernmentBond), vars.faceAmount, new Date('30,November,2008'), BusinessDayConvention.ModifiedFollowing, 100.0, new Date('30,November,2004'));
+        const bond1 = new ZeroCouponBond(settlementDays, new UnitedStates(UnitedStates.Market.GovernmentBond), vars.faceAmount, DateExt.UTC('30,November,2008'), BusinessDayConvention.ModifiedFollowing, 100.0, DateExt.UTC('30,November,2004'));
         const bondEngine = new DiscountingBondEngine(discountCurve);
         bond1.setPricingEngine(bondEngine);
         const cachedPrice1 = 88.551726;
         let price = bond1.cleanPrice1();
         expect(Math.abs(price - cachedPrice1)).toBeLessThan(tolerance);
-        const bond2 = new ZeroCouponBond(settlementDays, new UnitedStates(UnitedStates.Market.GovernmentBond), vars.faceAmount, new Date('30,November,2007'), BusinessDayConvention.ModifiedFollowing, 100.0, new Date('30,November,2004'));
+        const bond2 = new ZeroCouponBond(settlementDays, new UnitedStates(UnitedStates.Market.GovernmentBond), vars.faceAmount, DateExt.UTC('30,November,2007'), BusinessDayConvention.ModifiedFollowing, 100.0, DateExt.UTC('30,November,2004'));
         bond2.setPricingEngine(bondEngine);
         const cachedPrice2 = 91.278949;
         price = bond2.cleanPrice1();
         expect(Math.abs(price - cachedPrice2)).toBeLessThan(tolerance);
-        const bond3 = new ZeroCouponBond(settlementDays, new UnitedStates(UnitedStates.Market.GovernmentBond), vars.faceAmount, new Date('30,November,2006'), BusinessDayConvention.ModifiedFollowing, 100.0, new Date('30,November,2004'));
+        const bond3 = new ZeroCouponBond(settlementDays, new UnitedStates(UnitedStates.Market.GovernmentBond), vars.faceAmount, DateExt.UTC('30,November,2006'), BusinessDayConvention.ModifiedFollowing, 100.0, DateExt.UTC('30,November,2004'));
         bond3.setPricingEngine(bondEngine);
         const cachedPrice3 = 94.098006;
         price = bond3.cleanPrice1();
@@ -280,26 +282,26 @@ describe(`Bond tests ${version}`, () => {
 
     it('Testing fixed-coupon bond prices against cached values...', () => {
         const vars = new CommonVars();
-        const today = new Date('22,November,2004');
+        const today = DateExt.UTC('22,November,2004');
         Settings.evaluationDate.set(today);
         const settlementDays = 1;
         const discountCurve = new Handle(flatRate2(today, 0.03, new Actual360()));
         const tolerance = 1.0e-6;
-        const sch = new Schedule().init2(new Date('30,November,2004'), new Date('30,November,2008'), new Period().init2(Frequency.Semiannual), new UnitedStates(UnitedStates.Market.GovernmentBond), BusinessDayConvention.Unadjusted, BusinessDayConvention.Unadjusted, DateGeneration.Rule.Backward, false);
-        const bond1 = new FixedRateBond().frbInit1(settlementDays, vars.faceAmount, sch, [0.02875], new ActualActual(ActualActual.Convention.ISMA), BusinessDayConvention.ModifiedFollowing, 100.0, new Date('30,November,2004'));
+        const sch = new Schedule().init2(DateExt.UTC('30,November,2004'), DateExt.UTC('30,November,2008'), new Period().init2(Frequency.Semiannual), new UnitedStates(UnitedStates.Market.GovernmentBond), BusinessDayConvention.Unadjusted, BusinessDayConvention.Unadjusted, DateGeneration.Rule.Backward, false);
+        const bond1 = new FixedRateBond().frbInit1(settlementDays, vars.faceAmount, sch, [0.02875], new ActualActual(ActualActual.Convention.ISMA), BusinessDayConvention.ModifiedFollowing, 100.0, DateExt.UTC('30,November,2004'));
         const bondEngine = new DiscountingBondEngine(discountCurve);
         bond1.setPricingEngine(bondEngine);
         const cachedPrice1 = 99.298100;
         let price = bond1.cleanPrice1();
         expect(Math.abs(price - cachedPrice1)).toBeLessThan(tolerance);
         const couponRates = [0.02875, 0.03, 0.03125, 0.0325];
-        const bond2 = new FixedRateBond().frbInit1(settlementDays, vars.faceAmount, sch, couponRates, new ActualActual(ActualActual.Convention.ISMA), BusinessDayConvention.ModifiedFollowing, 100.0, new Date('30,November,2004'));
+        const bond2 = new FixedRateBond().frbInit1(settlementDays, vars.faceAmount, sch, couponRates, new ActualActual(ActualActual.Convention.ISMA), BusinessDayConvention.ModifiedFollowing, 100.0, DateExt.UTC('30,November,2004'));
         bond2.setPricingEngine(bondEngine);
         const cachedPrice2 = 100.334149;
         price = bond2.cleanPrice1();
         expect(Math.abs(price - cachedPrice2)).toBeLessThan(tolerance);
-        const sch3 = new Schedule().init2(new Date('30,November,2004'), new Date('30,March,2009'), new Period().init2(Frequency.Semiannual), new UnitedStates(UnitedStates.Market.GovernmentBond), BusinessDayConvention.Unadjusted, BusinessDayConvention.Unadjusted, DateGeneration.Rule.Backward, false, null, new Date('30,November,2008'));
-        const bond3 = new FixedRateBond().frbInit1(settlementDays, vars.faceAmount, sch3, couponRates, new ActualActual(ActualActual.Convention.ISMA), BusinessDayConvention.ModifiedFollowing, 100.0, new Date('30,November,2004'));
+        const sch3 = new Schedule().init2(DateExt.UTC('30,November,2004'), DateExt.UTC('30,March,2009'), new Period().init2(Frequency.Semiannual), new UnitedStates(UnitedStates.Market.GovernmentBond), BusinessDayConvention.Unadjusted, BusinessDayConvention.Unadjusted, DateGeneration.Rule.Backward, false, null, DateExt.UTC('30,November,2008'));
+        const bond3 = new FixedRateBond().frbInit1(settlementDays, vars.faceAmount, sch3, couponRates, new ActualActual(ActualActual.Convention.ISMA), BusinessDayConvention.ModifiedFollowing, 100.0, DateExt.UTC('30,November,2004'));
         bond3.setPricingEngine(bondEngine);
         const cachedPrice3 = 100.382794;
         price = bond3.cleanPrice1();
@@ -309,7 +311,7 @@ describe(`Bond tests ${version}`, () => {
 
     it('Testing floating-rate bond prices against cached values...', () => {
         const vars = new CommonVars();
-        const today = new Date('22,November,2004');
+        const today = DateExt.UTC('22,November,2004');
         Settings.evaluationDate.set(today);
         const settlementDays = 1;
         const riskFreeRate = new Handle(flatRate2(today, 0.025, new Actual360()));
@@ -318,15 +320,15 @@ describe(`Bond tests ${version}`, () => {
         const fixingDays = 1;
         const tolerance = 1.0e-6;
         const pricer = new BlackIborCouponPricer(new Handle());
-        const sch = new Schedule().init2(new Date('30,November,2004'), new Date('30,November,2008'), new Period().init2(Frequency.Semiannual), new UnitedStates(UnitedStates.Market.GovernmentBond), BusinessDayConvention.ModifiedFollowing, BusinessDayConvention.ModifiedFollowing, DateGeneration.Rule.Backward, false);
-        const bond1 = new FloatingRateBond().frbInit1(settlementDays, vars.faceAmount, sch, index, new ActualActual(ActualActual.Convention.ISMA), BusinessDayConvention.ModifiedFollowing, fixingDays, [], [], [], [], false, 100.0, new Date('30,November,2004'));
+        const sch = new Schedule().init2(DateExt.UTC('30,November,2004'), DateExt.UTC('30,November,2008'), new Period().init2(Frequency.Semiannual), new UnitedStates(UnitedStates.Market.GovernmentBond), BusinessDayConvention.ModifiedFollowing, BusinessDayConvention.ModifiedFollowing, DateGeneration.Rule.Backward, false);
+        const bond1 = new FloatingRateBond().frbInit1(settlementDays, vars.faceAmount, sch, index, new ActualActual(ActualActual.Convention.ISMA), BusinessDayConvention.ModifiedFollowing, fixingDays, [], [], [], [], false, 100.0, DateExt.UTC('30,November,2004'));
         const bondEngine = new DiscountingBondEngine(riskFreeRate);
         bond1.setPricingEngine(bondEngine);
         setCouponPricer(bond1.cashflows(), pricer);
         const cachedPrice1 = 99.874645;
         let price = bond1.cleanPrice1();
         expect(Math.abs(price - cachedPrice1)).toBeLessThan(tolerance);
-        const bond2 = new FloatingRateBond().frbInit1(settlementDays, vars.faceAmount, sch, index, new ActualActual(ActualActual.Convention.ISMA), BusinessDayConvention.ModifiedFollowing, fixingDays, [], [], [], [], false, 100.0, new Date('30,November,2004'));
+        const bond2 = new FloatingRateBond().frbInit1(settlementDays, vars.faceAmount, sch, index, new ActualActual(ActualActual.Convention.ISMA), BusinessDayConvention.ModifiedFollowing, fixingDays, [], [], [], [], false, 100.0, DateExt.UTC('30,November,2004'));
         const bondEngine2 = new DiscountingBondEngine(discountCurve);
         bond2.setPricingEngine(bondEngine2);
         setCouponPricer(bond2.cashflows(), pricer);
@@ -334,7 +336,7 @@ describe(`Bond tests ${version}`, () => {
         price = bond2.cleanPrice1();
         expect(Math.abs(price - cachedPrice2)).toBeLessThan(tolerance);
         const spreads = [0.001, 0.0012, 0.0014, 0.0016];
-        const bond3 = new FloatingRateBond().frbInit1(settlementDays, vars.faceAmount, sch, index, new ActualActual(ActualActual.Convention.ISMA), BusinessDayConvention.ModifiedFollowing, fixingDays, [], spreads, [], [], false, 100.0, new Date('30,November,2004'));
+        const bond3 = new FloatingRateBond().frbInit1(settlementDays, vars.faceAmount, sch, index, new ActualActual(ActualActual.Convention.ISMA), BusinessDayConvention.ModifiedFollowing, fixingDays, [], spreads, [], [], false, 100.0, DateExt.UTC('30,November,2004'));
         bond3.setPricingEngine(bondEngine2);
         setCouponPricer(bond3.cashflows(), pricer);
         const cachedPrice3 = 98.495458;
@@ -348,14 +350,14 @@ describe(`Bond tests ${version}`, () => {
         const settlementDays = 1;
         const faceAmount = 1000.0;
         const redemption = 100.0;
-        const today = new Date('6,June,2007');
-        const issueDate = new Date('1,January,2007');
+        const today = DateExt.UTC('6,June,2007');
+        const issueDate = DateExt.UTC('1,January,2007');
         const tolerance = 1.0e-4;
         Settings.evaluationDate.set(today);
         const maturityDates = [
-            new Date('1,January,2008'), new Date('1,January,2010'),
-            new Date('1,July,2010'), new Date('1,January,2012'),
-            new Date('1,January,2014'), new Date('1,January,2017')
+            DateExt.UTC('1,January,2008'), DateExt.UTC('1,January,2010'),
+            DateExt.UTC('1,July,2010'), DateExt.UTC('1,January,2012'),
+            DateExt.UTC('1,January,2014'), DateExt.UTC('1,January,2017')
         ];
         const yields = [0.114614, 0.105726, 0.105328, 0.104283, 0.103218, 0.102948];
         const prices = [
@@ -365,7 +367,7 @@ describe(`Bond tests ${version}`, () => {
         const couponRates = [new InterestRate(0.1, new Thirty360(), Compounding.Compounded, Frequency.Annual)];
         for (let bondIndex = 0; bondIndex < maturityDates.length; bondIndex++) {
             const yield_ = new InterestRate(yields[bondIndex], new Business252(new Brazil()), Compounding.Compounded, Frequency.Annual);
-            const schedule = new Schedule().init2(new Date('1,January,2007'), maturityDates[bondIndex], new Period().init2(Frequency.Semiannual), new Brazil(Brazil.Market.Settlement), BusinessDayConvention.Unadjusted, BusinessDayConvention.Unadjusted, DateGeneration.Rule.Backward, false);
+            const schedule = new Schedule().init2(DateExt.UTC('1,January,2007'), maturityDates[bondIndex], new Period().init2(Frequency.Semiannual), new Brazil(Brazil.Market.Settlement), BusinessDayConvention.Unadjusted, BusinessDayConvention.Unadjusted, DateGeneration.Rule.Backward, false);
             const bond = new FixedRateBond().frbInit3(settlementDays, faceAmount, schedule, couponRates, BusinessDayConvention.Following, redemption, issueDate);
             const cachedPrice = prices[bondIndex];
             const price = faceAmount *
@@ -380,10 +382,10 @@ describe(`Bond tests ${version}`, () => {
     it('Testing ex-coupon UK Gilt price against market values...', () => {
         const calendar = new UnitedKingdom();
         const settlementDays = 3;
-        const issueDate = new Date('29,February,1996');
-        const startDate = new Date('29,February,1996');
-        const firstCouponDate = new Date('07,June,1996');
-        const maturityDate = new Date('07,June,2021');
+        const issueDate = DateExt.UTC('29,February,1996');
+        const startDate = DateExt.UTC('29,February,1996');
+        const firstCouponDate = DateExt.UTC('07,June,1996');
+        const maturityDate = DateExt.UTC('07,June,2021');
         const coupon = 0.08;
         const tenor = new Period().init1(6, TimeUnit.Months);
         const exCouponPeriod = new Period().init1(6, TimeUnit.Days);
@@ -393,9 +395,9 @@ describe(`Bond tests ${version}`, () => {
         const bond = new FixedRateBond().frbInit1(settlementDays, 100.0, new Schedule().init2(startDate, maturityDate, tenor, new NullCalendar(), BusinessDayConvention.Unadjusted, BusinessDayConvention.Unadjusted, DateGeneration.Rule.Forward, true, firstCouponDate), [coupon], dc, BusinessDayConvention.Unadjusted, 100.0, issueDate, calendar, exCouponPeriod, calendar);
         const leg = bond.cashflows();
         const cases = [
-            new test_case(new Date('29,May,2013'), 103.0, 3.8021978, 106.8021978, 0.0749518, 5.6760445, 42.1531486),
-            new test_case(new Date('30,May,2013'), 103.0, -0.1758242, 102.8241758, 0.0749618, 5.8928163, 43.7562186),
-            new test_case(new Date('31,May,2013'), 103.0, -0.1538462, 102.8461538, 0.0749599, 5.8901860, 43.7239438)
+            new test_case(DateExt.UTC('29,May,2013'), 103.0, 3.8021978, 106.8021978, 0.0749518, 5.6760445, 42.1531486),
+            new test_case(DateExt.UTC('30,May,2013'), 103.0, -0.1758242, 102.8241758, 0.0749618, 5.8928163, 43.7562186),
+            new test_case(DateExt.UTC('31,May,2013'), 103.0, -0.1538462, 102.8461538, 0.0749599, 5.8901860, 43.7239438)
         ];
         for (let i = 0; i < cases.length; ++i) {
             const accrued = bond.accruedAmount(cases[i].settlementDate);
@@ -418,10 +420,10 @@ describe(`Bond tests ${version}`, () => {
     it('Testing ex-coupon Australian bond price against market values...', () => {
         const calendar = new Australia();
         const settlementDays = 3;
-        const issueDate = new Date('10,June,2004');
-        const startDate = new Date('15,February,2004');
-        const firstCouponDate = new Date('15,August,2004');
-        const maturityDate = new Date('15,February,2017');
+        const issueDate = DateExt.UTC('10,June,2004');
+        const startDate = DateExt.UTC('15,February,2004');
+        const firstCouponDate = DateExt.UTC('15,August,2004');
+        const maturityDate = DateExt.UTC('15,February,2017');
         const coupon = 0.06;
         const tenor = new Period().init1(6, TimeUnit.Months);
         const exCouponPeriod = new Period().init1(7, TimeUnit.Days);
@@ -431,9 +433,9 @@ describe(`Bond tests ${version}`, () => {
         const bond = new FixedRateBond().frbInit1(settlementDays, 100.0, new Schedule().init2(startDate, maturityDate, tenor, new NullCalendar(), BusinessDayConvention.Unadjusted, BusinessDayConvention.Unadjusted, DateGeneration.Rule.Forward, true, firstCouponDate), [coupon], dc, BusinessDayConvention.Unadjusted, 100.0, issueDate, calendar, exCouponPeriod, new NullCalendar());
         const leg = bond.cashflows();
         const cases = [
-            new test_case(new Date('7,August,2014'), 103.0, 2.8670, 105.867, 0.04723, 2.26276, 6.54870),
-            new test_case(new Date('8,August,2014'), 103.0, -0.1160, 102.884, 0.047235, 2.32536, 6.72531),
-            new test_case(new Date('11,August,2014'), 103.0, -0.0660, 102.934, 0.04719, 2.31732, 6.68407)
+            new test_case(DateExt.UTC('7,August,2014'), 103.0, 2.8670, 105.867, 0.04723, 2.26276, 6.54870),
+            new test_case(DateExt.UTC('8,August,2014'), 103.0, -0.1160, 102.884, 0.047235, 2.32536, 6.72531),
+            new test_case(DateExt.UTC('11,August,2014'), 103.0, -0.0660, 102.934, 0.04719, 2.31732, 6.68407)
         ];
         for (let i = 0; i < cases.length; ++i) {
             const accrued = bond.accruedAmount(cases[i].settlementDate);
@@ -458,12 +460,12 @@ describe(`Bond tests ${version}`, () => {
         const backup = new SavedSettings();
         const calendar = new NullCalendar();
         const settlementDays = 3;
-        const issueDate = new Date('29,June,2012');
-        const today = new Date('7,September,2015');
+        const issueDate = DateExt.UTC('29,June,2012');
+        const today = DateExt.UTC('7,September,2015');
         const evaluationDate = calendar.adjust(today);
         const settlementDate = calendar.advance1(evaluationDate, settlementDays, TimeUnit.Days);
         Settings.evaluationDate.set(evaluationDate);
-        const maturityDate = new Date('29,February,2048');
+        const maturityDate = DateExt.UTC('29,February,2048');
         const coupon = 0.0875;
         const comp = Compounding.Compounded;
         const freq = Frequency.Semiannual;
@@ -477,7 +479,7 @@ describe(`Bond tests ${version}`, () => {
             const d = schedule.date(i);
             if (DateExt.month(d) === Month.February &&
                 DateExt.dayOfMonth(d) === 29) {
-                dates.push(new Date(DateExt.year(d), Month.February - 1, 28));
+                dates.push(new Date(Date.UTC(DateExt.year(d), Month.February - 1, 28)));
             }
             else {
                 dates.push(d);
@@ -492,13 +494,13 @@ describe(`Bond tests ${version}`, () => {
             .toBeLessThan(tolerance);
         backup.dispose();
     });
-    
+
     it('Testing Thirty/360 bond with settlement on 31st of the month...', () => {
         const backup = new SavedSettings();
-        Settings.evaluationDate.set(new Date('28,July,2017'));
-        const datedDate = new Date('13,February,2014');
-        const settlement = new Date('31,July,2017');
-        const maturity = new Date('13,August,2018');
+        Settings.evaluationDate.set(DateExt.UTC('28,July,2017'));
+        const datedDate = DateExt.UTC('13,February,2014');
+        const settlement = DateExt.UTC('31,July,2017');
+        const maturity = DateExt.UTC('13,August,2018');
         const dayCounter = new Thirty360(Thirty360.Convention.USA);
         const compounding = Compounding.Compounded;
         const fixedBondSchedule = new Schedule().init2(datedDate, maturity, new Period().init2(Frequency.Semiannual), new UnitedStates(UnitedStates.Market.GovernmentBond), BusinessDayConvention.Unadjusted, BusinessDayConvention.Unadjusted, DateGeneration.Rule.Forward, false);
