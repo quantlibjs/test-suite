@@ -14,10 +14,8 @@
  * =============================================================================
  */
 import '/test-suite/quantlibtestsuite.mjs';
-import { Actual360, AmericanExercise, BaroneAdesiWhaleyApproximationEngine, BjerksundStenslandApproximationEngine, BlackScholesMertonProcess, CrankNicolson, DateExt, FDAmericanEngine, FDShoutEngine, Handle, JuQuadraticApproximationEngine, Option, PlainVanillaPayoff, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, AmericanExercise, BaroneAdesiWhaleyApproximationEngine, BjerksundStenslandApproximationEngine, BlackScholesMertonProcess, CrankNicolson, DateExt, FDAmericanEngine, FDShoutEngine, Handle, JuQuadraticApproximationEngine, Option, PlainVanillaPayoff, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption, first, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatVol1, relativeError } from '/test-suite/utilities.mjs';
-
-const first = 0;
 
 class AmericanOptionData {
     constructor(type, strike, s, q, r, t, v, result) {
@@ -31,7 +29,6 @@ class AmericanOptionData {
         this.result = result;
     }
 }
-
 const juValues = [
     new AmericanOptionData(Option.Type.Put, 35.00, 40.00, 0.0, 0.0488, 0.0833, 0.2, 0.006),
     new AmericanOptionData(Option.Type.Put, 35.00, 40.00, 0.0, 0.0488, 0.3333, 0.2, 0.201),
@@ -95,7 +92,7 @@ function testFdGreeks(Engine) {
     const years = [1, 2];
     const vols = [0.11, 0.50, 1.20];
     const dc = new Actual360();
-    const today = new Date();
+    const today = DateExt.UTC();
     Settings.evaluationDate.set(today);
     const spot = new SimpleQuote(0.0);
     const qRate = new SimpleQuote(0.0);
@@ -112,7 +109,7 @@ function testFdGreeks(Engine) {
                 const exercise = new AmericanExercise().init1(today, exDate);
                 payoff = new PlainVanillaPayoff(types[i], strikes[j]);
                 const stochProcess = new BlackScholesMertonProcess(new Handle(spot), qTS, rTS, volTS);
-                let engine = Engine.init1(stochProcess);
+                let engine = Engine.fdInit(stochProcess);
                 const option = new VanillaOption(payoff, exercise);
                 option.setPricingEngine(engine);
                 for (let l = 0; l < underlyings.length; l++) {
@@ -198,7 +195,7 @@ describe(`American option tests ${version}`, () => {
             new AmericanOptionData(Option.Type.Put, 100.00, 110.00, 0.10, 0.10, 0.50, 0.35, 5.8823),
             new AmericanOptionData(Option.Type.Put, 100.00, 100.00, 0.00, 0.00, 0.50, 0.15, 4.2294)
         ];
-        const today = new Date();
+        const today = DateExt.UTC();
         const dc = new Actual360();
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
@@ -237,7 +234,7 @@ describe(`American option tests ${version}`, () => {
             new AmericanOptionData(Option.Type.Put, 110, 100, 0.05, 0.05, 1.00, 0.0001, 10.0),
             new AmericanOptionData(Option.Type.Put, 100, 110, 0.05, 0.05, 1.00, 10, 94.89543)
         ];
-        const today = new Date();
+        const today = DateExt.UTC();
         const dc = new Actual360();
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
@@ -266,7 +263,7 @@ describe(`American option tests ${version}`, () => {
     });
 
     it('Testing Ju approximation for American options...', () => {
-        const today = new Date();
+        const today = DateExt.UTC();
         const dc = new Actual360();
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
@@ -295,7 +292,7 @@ describe(`American option tests ${version}`, () => {
     });
 
     it('Testing finite-difference engine for American options...', () => {
-        const today = new Date();
+        const today = DateExt.UTC();
         const dc = new Actual360();
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
@@ -314,8 +311,7 @@ describe(`American option tests ${version}`, () => {
             rRate.setValue(juValues[i].r);
             vol.setValue(juValues[i].v);
             const stochProcess = new BlackScholesMertonProcess(new Handle(spot), new Handle(qTS), new Handle(rTS), new Handle(volTS));
-            const engine = new FDAmericanEngine(new CrankNicolson())
-                .init(stochProcess, 100, 100);
+            const engine = new FDAmericanEngine(new CrankNicolson()).fdInit(stochProcess, 100, 100);
             const option = new VanillaOption(payoff, exercise);
             option.setPricingEngine(engine);
             const calculated = option.NPV();
@@ -327,8 +323,8 @@ describe(`American option tests ${version}`, () => {
     it('Testing finite-differences American option greeks...', () => {
         testFdGreeks(new FDAmericanEngine(new CrankNicolson()));
     });
-    
+
     it('Testing finite-differences shout option greeks...', () => {
-        testFdGreeks(new FDShoutEngine());
+        testFdGreeks(new FDShoutEngine(new CrankNicolson()));
     });
 });
