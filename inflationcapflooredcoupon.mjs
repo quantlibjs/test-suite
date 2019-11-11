@@ -13,7 +13,7 @@
  * limitations under the License.
  * =============================================================================
  */
-import { ActualActual, Array1D, BachelierYoYInflationCouponPricer, BlackYoYInflationCouponPricer, BusinessDayConvention, CashFlows, ConstantYoYOptionletVolatility, DateExt, DateGeneration, DiscountingSwapEngine, FixedRateLeg, FlatForward, Frequency, Handle, Linear, MakeSchedule, Period, PiecewiseYoYInflationCurve, Schedule, Settings, SimpleQuote, Swap, Thirty360, TimeUnit, UnitDisplacedBlackYoYInflationCouponPricer, UnitedKingdom, YearOnYearInflationSwap, YearOnYearInflationSwapHelper, YoYInflationBachelierCapFloorEngine, YoYInflationBlackCapFloorEngine, YoYInflationCap, YoYInflationCapFloor, YoYInflationCollar, YoYInflationFloor, yoyInflationLeg, YoYInflationTermStructure, YoYInflationUnitDisplacedBlackCapFloorEngine, YYUKRPIr, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { ActualActual, Array1D, BachelierYoYInflationCouponPricer, BlackYoYInflationCouponPricer, BusinessDayConvention, CashFlows, ConstantYoYOptionletVolatility, DateExt, DateGeneration, DiscountingSwapEngine, FixedRateLeg, FlatForward, Frequency, Handle, Linear, MakeSchedule, Period, PiecewiseYoYInflationCurve, RelinkableHandle, Schedule, Settings, SimpleQuote, Swap, Thirty360, TimeUnit, UnitDisplacedBlackYoYInflationCouponPricer, UnitedKingdom, YearOnYearInflationSwap, YearOnYearInflationSwapHelper, YoYInflationBachelierCapFloorEngine, YoYInflationBlackCapFloorEngine, YoYInflationCap, YoYInflationCapFloor, YoYInflationCollar, YoYInflationFloor, yoyInflationLeg, YoYInflationTermStructure, YoYInflationUnitDisplacedBlackCapFloorEngine, YYUKRPIr, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class Datum {
     constructor(date, rate) {
@@ -35,13 +35,14 @@ function makeHelpers(U, iiData, N, ii, observationLag, calendar, bdc, dc) {
 
 class CommonVars {
     constructor() {
+        this.nominalTS = new RelinkableHandle();
         this.nominals = [1000000];
         this.frequency = Frequency.Annual;
         this.volatility = 0.01;
         this.length = 7;
         this.calendar = new UnitedKingdom();
         this.convention = BusinessDayConvention.ModifiedFollowing;
-        const today = new Date('13-August-2007');
+        const today = DateExt.UTC('13,August,2007');
         this.evaluationDate = this.calendar.adjust(today);
         Settings.evaluationDate.set(this.evaluationDate);
         this.settlementDays = 0;
@@ -50,8 +51,8 @@ class CommonVars {
             this.calendar.advance1(today, this.settlementDays, TimeUnit.Days);
         this.startDate = this.settlement;
         this.dc = new Thirty360();
-        const from = new Date('1-January-2005');
-        const to = new Date('13-August-2007');
+        const from = DateExt.UTC('1,January,2005');
+        const to = DateExt.UTC('13,August,2007');
         const rpiSchedule = new MakeSchedule()
             .from(from)
             .to(to)
@@ -74,21 +75,21 @@ class CommonVars {
         this.nominalTS.linkTo(nominalFF);
         const observationLag = new Period().init1(2, TimeUnit.Months);
         const yyData = [
-            new Datum(new Date('13-August-2008'), 2.95),
-            new Datum(new Date('13-August-2009'), 2.95),
-            new Datum(new Date('13-August-2010'), 2.93),
-            new Datum(new Date('15-August-2011'), 2.955),
-            new Datum(new Date('13-August-2012'), 2.945),
-            new Datum(new Date('13-August-2013'), 2.985),
-            new Datum(new Date('13-August-2014'), 3.01),
-            new Datum(new Date('13-August-2015'), 3.035),
-            new Datum(new Date('13-August-2016'), 3.055),
-            new Datum(new Date('13-August-2017'), 3.075),
-            new Datum(new Date('13-August-2019'), 3.105),
-            new Datum(new Date('15-August-2022'), 3.135),
-            new Datum(new Date('13-August-2027'), 3.155),
-            new Datum(new Date('13-August-2032'), 3.145),
-            new Datum(new Date('13-August-2037'), 3.145)
+            new Datum(DateExt.UTC('13,August,2008'), 2.95),
+            new Datum(DateExt.UTC('13,August,2009'), 2.95),
+            new Datum(DateExt.UTC('13,August,2010'), 2.93),
+            new Datum(DateExt.UTC('15,August,2011'), 2.955),
+            new Datum(DateExt.UTC('13,August,2012'), 2.945),
+            new Datum(DateExt.UTC('13,August,2013'), 2.985),
+            new Datum(DateExt.UTC('13,August,2014'), 3.01),
+            new Datum(DateExt.UTC('13,August,2015'), 3.035),
+            new Datum(DateExt.UTC('13,August,2016'), 3.055),
+            new Datum(DateExt.UTC('13,August,2017'), 3.075),
+            new Datum(DateExt.UTC('13,August,2019'), 3.105),
+            new Datum(DateExt.UTC('15,August,2022'), 3.135),
+            new Datum(DateExt.UTC('13,August,2027'), 3.155),
+            new Datum(DateExt.UTC('13,August,2032'), 3.145),
+            new Datum(DateExt.UTC('13,August,2037'), 3.145)
         ];
         const helpers = makeHelpers(new YearOnYearInflationSwapHelper(), yyData, yyData.length, this.iir, observationLag, this.calendar, this.convention, this.dc);
         const baseYYRate = yyData[0].rate / 100.0;
@@ -305,6 +306,7 @@ describe(`YoY inflation capped and floored coupon tests ${version}`, () => {
         expect(error).toBeLessThan(tolerance);
         vars.hy.linkTo(new YoYInflationTermStructure());
     });
+    
     it('Testing inflation capped/floored coupon against' +
         ' inflation capfloor instrument...', () => {
         const vars = new CommonVars();

@@ -13,7 +13,7 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Actual365Fixed, AmericanExercise, Array2D, BlackConstantVol, CrankNicolson, EarlyExercisePathPricer, FDAmericanEngine, FlatForward, GeneralizedBlackScholesProcess, Handle, LongstaffSchwartzPathPricer, LsmBasisSystem, MakeMCAmericanEngine, MC, MCLongstaffSchwartzEngine, NullCalendar, Option, PlainVanillaPayoff, PseudoRandom, QL_NULL_INTEGER, QL_NULL_REAL, RelinkableHandle, SavedSettings, Settings, SimpleQuote, StochasticProcessArray, VanillaOption, VanillaOptionEngine, std, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual365Fixed, AmericanExercise, Array2D, BlackConstantVol, CrankNicolson, DateExt, EarlyExercisePathPricer, FDAmericanEngine, FlatForward, GeneralizedBlackScholesProcess, Handle, LongstaffSchwartzPathPricer, LsmBasisSystem, MakeMCAmericanEngine, MC, MCLongstaffSchwartzEngine, NullCalendar, Option, PlainVanillaPayoff, PseudoRandom, QL_NULL_INTEGER, QL_NULL_REAL, RelinkableHandle, SavedSettings, Settings, SimpleQuote, StochasticProcessArray, VanillaOption, VanillaOptionEngine, std, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class AmericanMaxPathPricer extends EarlyExercisePathPricer {
     constructor(payoff) {
@@ -35,6 +35,7 @@ class AmericanMaxPathPricer extends EarlyExercisePathPricer {
         return LsmBasisSystem.multiPathBasisSystem(2, 2, LsmBasisSystem.PolynomType.Monomial);
     }
 }
+
 class MCAmericanMaxEngine extends MCLongstaffSchwartzEngine {
     constructor(RNG) {
         super(new VanillaOptionEngine.engine(), MC.MultiVariate, RNG);
@@ -71,10 +72,10 @@ describe(`Longstaff Schwartz MC engine tests ${version}`, () => {
         const dividendYield = 0.00;
         const riskFreeRate = 0.06;
         const volatility = 0.20;
-        const todaysDate = new Date('15,May,1998');
-        const settlementDate = new Date('17,May,1998');
+        const todaysDate = DateExt.UTC('15,May,1998');
+        const settlementDate = DateExt.UTC('17,May,1998');
         Settings.evaluationDate.set(todaysDate);
-        const maturity = new Date('17,May,1999');
+        const maturity = DateExt.UTC('17,May,1999');
         const dayCounter = new Actual365Fixed();
         const americanExercise = new AmericanExercise().init1(settlementDate, maturity);
         const flatTermStructure = new Handle(new FlatForward().ffInit2(settlementDate, riskFreeRate, dayCounter));
@@ -117,7 +118,7 @@ describe(`Longstaff Schwartz MC engine tests ${version}`, () => {
                 const errorEstimate = americanOption.errorEstimate();
                 const exerciseProbability = americanOption.result('exerciseProbability');
                 americanOption.setPricingEngine(new FDAmericanEngine(new CrankNicolson())
-                    .fdmaeInit(stochasticProcess, 401, 200));
+                    .fdInit(stochasticProcess, 401, 200));
                 const expected = americanOption.NPV();
                 expect(Math.abs(calculated - expected))
                     .toBeLessThan(2.34 * errorEstimate);
@@ -127,6 +128,7 @@ describe(`Longstaff Schwartz MC engine tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing Monte-Carlo pricing of American max options...', () => {
         const backup = new SavedSettings();
         const type = Option.Type.Call;
@@ -134,10 +136,10 @@ describe(`Longstaff Schwartz MC engine tests ${version}`, () => {
         const dividendYield = 0.10;
         const riskFreeRate = 0.05;
         const volatility = 0.20;
-        const todaysDate = new Date('15-May-1998');
-        const settlementDate = new Date('17-May-1998');
+        const todaysDate = DateExt.UTC('15,May,1998');
+        const settlementDate = DateExt.UTC('17,May,1998');
         Settings.evaluationDate.set(todaysDate);
-        const maturity = new Date('16-May-2001');
+        const maturity = DateExt.UTC('16,May,2001');
         const dayCounter = new Actual365Fixed();
         const americanExercise = new AmericanExercise().init1(settlementDate, maturity);
         const flatTermStructure = new Handle(new FlatForward().ffInit2(settlementDate, riskFreeRate, dayCounter));
