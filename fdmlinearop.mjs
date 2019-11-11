@@ -13,11 +13,8 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Actual360, Actual365Fixed, AnalyticEuropeanEngine, Array1D, Array2D, BiCGstab, BicubicSpline, BilinearInterpolation, BlackScholesMertonProcess, CashOrNothingPayoff, Concentrating1dMesher, DateExt, DiscreteSimpsonIntegral, DiscreteTrapezoidIntegral, EuropeanExercise, Fdm3DimSolver, FdmAmericanStepCondition, FdmBackwardSolver, FdmBlackScholesMesher, FdmBlackScholesOp, FdmDirichletBoundary, FdmDividendHandler, FdmHestonHullWhiteOp, FdmHestonOp, FdmHestonSolver, FdmHestonVarianceMesher, FdmLinearOpLayout, FdmLogInnerValue, FdmMesherComposite, FdmMesherIntegral, FdmNdimSolver, FdmSchemeDesc, FdmSolverDesc, FdmStepConditionComposite, FiniteDifferenceModel, FirstDerivativeOp, FixedDividend, GeneralizedBlackScholesProcess, GMRES, Handle, HestonProcess, HullWhiteForwardProcess, HullWhiteProcess, HundsdorferScheme, HybridHestonHullWhiteProcess, MakeMCHestonHullWhiteEngine, MersenneTwisterUniformRng, MonotonicCubicNaturalSpline, NumericalDifferentiation, Option, Payoff, PlainVanillaPayoff, PseudoRandom, QL_EPSILON, QL_NULL_REAL, SavedSettings, SecondDerivativeOp, SecondOrderMixedDerivativeOp, Settings, SimpleQuote, SparseILUPreconditioner, StepCondition, TimeUnit, Uniform1dMesher, UniformGridMesher, VanillaOption, ZeroCurve, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Actual365Fixed, AnalyticEuropeanEngine, Array1D, Array2D, BiCGstab, BicubicSpline, BilinearInterpolation, BlackScholesMertonProcess, CashOrNothingPayoff, Concentrating1dMesher, DateExt, DiscreteSimpsonIntegral, DiscreteTrapezoidIntegral, EuropeanExercise, Fdm3DimSolver, FdmAmericanStepCondition, FdmBackwardSolver, FdmBlackScholesMesher, FdmBlackScholesOp, FdmDirichletBoundary, FdmDividendHandler, FdmHestonHullWhiteOp, FdmHestonOp, FdmHestonSolver, FdmHestonVarianceMesher, FdmLinearOpLayout, FdmLogInnerValue, FdmMesherComposite, FdmMesherIntegral, FdmNdimSolver, FdmSchemeDesc, FdmSolverDesc, FdmStepConditionComposite, FiniteDifferenceModel, FirstDerivativeOp, FixedDividend, GeneralizedBlackScholesProcess, GMRES, Handle, HestonProcess, HullWhiteForwardProcess, HullWhiteProcess, HundsdorferScheme, HybridHestonHullWhiteProcess, MakeMCHestonHullWhiteEngine, MersenneTwisterUniformRng, MonotonicCubicNaturalSpline, NumericalDifferentiation, Option, Payoff, PlainVanillaPayoff, PseudoRandom, QL_EPSILON, QL_NULL_REAL, SavedSettings, SecondDerivativeOp, SecondOrderMixedDerivativeOp, Settings, SimpleQuote, SparseILUPreconditioner, SparseMatrix, StepCondition, TimeUnit, Uniform1dMesher, UniformGridMesher, VanillaOption, ZeroCurve, first, second, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2, flatRate4, flatVol2 } from '/test-suite/utilities.mjs';
-import { axpy_prod, compressed_matrix } from '/test-suite/boost.mjs';
-
-const first = 0, second = 1;
 
 class FdmHestonExpressCondition extends StepCondition {
     constructor(redemptions, triggerLevels, exerciseTimes, mesher) {
@@ -44,6 +41,7 @@ class FdmHestonExpressCondition extends StepCondition {
         }
     }
 }
+
 class ExpressPayoff extends Payoff {
     name() {
         return 'ExpressPayoff';
@@ -55,6 +53,7 @@ class ExpressPayoff extends Payoff {
         return ((s >= 100.0) ? 108.0 : 100.0) - ((s <= 75.0) ? 100.0 - s : 0.0);
     }
 }
+
 function createHestonHullWhite(maturity) {
     const dc = new Actual365Fixed();
     const today = Settings.evaluationDate.f();
@@ -75,6 +74,7 @@ function createHestonHullWhite(maturity) {
     const equityShortRateCorr = -0.7;
     return new HybridHestonHullWhiteProcess(hestonProcess, hwFwdProcess, equityShortRateCorr);
 }
+
 function createSolverDesc(dim, process) {
     const maturity = process.hullWhiteProcess().getForwardMeasureTime();
     const mesher1d = [];
@@ -91,15 +91,9 @@ function createSolverDesc(dim, process) {
     const desc = new FdmSolverDesc(mesher, boundaries, conditions, calculator, maturity, tGrid, dampingSteps);
     return desc;
 }
-function axpy(A, x) {
-    const tmpX = Array.from(x);
-    const y = new Array(x.length);
-    axpy_prod(A, tmpX, y);
-    const retVal = Array.from(y);
-    return retVal;
-}
+
 function createTestMatrix(n, m, theta) {
-    const a = new compressed_matrix(n * m, n * m);
+    const a = new SparseMatrix().smInit1(n * m, n * m);
     for (let i = 0; i < n; ++i) {
         for (let j = 0; j < m; ++j) {
             const k = i * m + j;
@@ -119,13 +113,7 @@ function createTestMatrix(n, m, theta) {
     }
     return a;
 }
-function nrElementsOfSparseMatrix(m) {
-    let retVal = 0;
-    for (let i1 = m.begin1(); i1 !== m.end1(); ++i1) {
-        retVal += m.end1() - m.begin1();
-    }
-    return retVal;
-}
+
 describe(`linear operator tests ${version}`, () => {
     it('Testing indexing of a linear operator...', () => {
         const dims = [5, 7, 8];
@@ -171,6 +159,7 @@ describe(`linear operator tests ${version}`, () => {
             }
         }
     });
+
     it('Testing uniform grid mesher...', () => {
         const dims = [5, 7, 8];
         const dim = Array.from(dims);
@@ -191,6 +180,7 @@ describe(`linear operator tests ${version}`, () => {
         expect(Math.abs(dx3 - mesher.dminus(layout.begin(), 2))).toBeLessThan(tol);
         expect(Math.abs(dx3 - mesher.dplus(layout.begin(), 2))).toBeLessThan(tol);
     });
+
     it('Testing application of first-derivatives map...', () => {
         const dims = [400, 100, 50];
         const dim = Array.from(dims);
@@ -233,6 +223,7 @@ describe(`linear operator tests ${version}`, () => {
             expect(Math.abs(calculated - expected)).toBeLessThan(1e-10);
         }
     });
+
     it('Testing application of second-derivatives map...', () => {
         const dims = [50, 50, 50];
         const dim = Array.from(dims);
@@ -291,6 +282,7 @@ describe(`linear operator tests ${version}`, () => {
             expect(Math.abs(d - t[i])).toBeLessThan(tol);
         }
     });
+
     it('Testing finite differences coefficients...', () => {
         const mesherX = new Concentrating1dMesher().init1(-2.0, 3.0, 50, [0.5, 0.01]);
         const mesherY = new Concentrating1dMesher().init1(0.5, 5.0, 25, [0.5, 0.1]);
@@ -315,13 +307,13 @@ describe(`linear operator tests ${version}`, () => {
                     const ndWeights1st = new NumericalDifferentiation()
                         .init1(null, 1, twoPoints)
                         .weights();
-                    const beta1 = dfdx.get(index, index);
-                    const gamma1 = dfdx.get(index, indexP1);
+                    const beta1 = dfdx.f(index, index);
+                    const gamma1 = dfdx.f(index, indexP1);
                     expect(Math.abs((beta1 - ndWeights1st[0]) / beta1)).toBeLessThan(tol);
                     expect(Math.abs((gamma1 - ndWeights1st[1]) / gamma1))
                         .toBeLessThan(tol);
-                    const beta2 = d2fdx2.get(index, index);
-                    const gamma2 = d2fdx2.get(index, indexP1);
+                    const beta2 = d2fdx2.f(index, index);
+                    const gamma2 = d2fdx2.f(index, indexP1);
                     expect(Math.abs(beta2)).toBeLessThan(QL_EPSILON);
                     expect(Math.abs(gamma2)).toBeLessThan(QL_EPSILON);
                 }
@@ -332,13 +324,13 @@ describe(`linear operator tests ${version}`, () => {
                     const ndWeights1st = new NumericalDifferentiation()
                         .init1(null, 1, twoPoints)
                         .weights();
-                    const alpha1 = dfdx.get(index, indexM1);
-                    const beta1 = dfdx.get(index, index);
+                    const alpha1 = dfdx.f(index, indexM1);
+                    const beta1 = dfdx.f(index, index);
                     expect(Math.abs((alpha1 - ndWeights1st[0]) / alpha1))
                         .toBeLessThan(tol);
                     expect(Math.abs((beta1 - ndWeights1st[1]) / beta1)).toBeLessThan(tol);
-                    const alpha2 = d2fdx2.get(index, indexM1);
-                    const beta2 = d2fdx2.get(index, index);
+                    const alpha2 = d2fdx2.f(index, indexM1);
+                    const beta2 = d2fdx2.f(index, index);
                     expect(Math.abs(alpha2)).toBeLessThan(QL_EPSILON);
                     expect(Math.abs(beta2)).toBeLessThan(QL_EPSILON);
                 }
@@ -350,9 +342,9 @@ describe(`linear operator tests ${version}`, () => {
                     const ndWeights1st = new NumericalDifferentiation()
                         .init1(null, 1, threePoints)
                         .weights();
-                    const alpha1 = dfdx.get(index, indexM1);
-                    const beta1 = dfdx.get(index, index);
-                    const gamma1 = dfdx.get(index, indexP1);
+                    const alpha1 = dfdx.f(index, indexM1);
+                    const beta1 = dfdx.f(index, index);
+                    const gamma1 = dfdx.f(index, indexP1);
                     expect(Math.abs((alpha1 - ndWeights1st[0]) / alpha1))
                         .toBeLessThan(tol);
                     expect(Math.abs((beta1 - ndWeights1st[1]) / beta1)).toBeLessThan(tol);
@@ -361,9 +353,9 @@ describe(`linear operator tests ${version}`, () => {
                     const ndWeights2nd = new NumericalDifferentiation()
                         .init1(null, 2, threePoints)
                         .weights();
-                    const alpha2 = d2fdx2.get(index, indexM1);
-                    const beta2 = d2fdx2.get(index, index);
-                    const gamma2 = d2fdx2.get(index, indexP1);
+                    const alpha2 = d2fdx2.f(index, indexM1);
+                    const beta2 = d2fdx2.f(index, index);
+                    const gamma2 = d2fdx2.f(index, indexP1);
                     expect(Math.abs((alpha2 - ndWeights2nd[0]) / alpha2))
                         .toBeLessThan(tol);
                     expect(Math.abs((beta2 - ndWeights2nd[1]) / beta2)).toBeLessThan(tol);
@@ -373,6 +365,7 @@ describe(`linear operator tests ${version}`, () => {
             }
         }
     });
+
     it('Testing application of second-order mixed-derivatives map...', () => {
         const dims = [50, 50, 50];
         const dim = Array.from(dims);
@@ -425,6 +418,7 @@ describe(`linear operator tests ${version}`, () => {
             expect(Math.abs(t[i] - u[i])).toBeLessThan(1e5 * QL_EPSILON);
         }
     });
+
     it('Testing triple-band map solution...', () => {
         const dims = [100, 400];
         const dim = Array.from(dims);
@@ -466,6 +460,7 @@ describe(`linear operator tests ${version}`, () => {
             expect(Math.abs(u[i] - t[i])).toBeLessThan(1e-6);
         }
     });
+
     it('Testing FDM with barrier option in Heston model...', () => {
         const backup = new SavedSettings();
         const dims = [200, 100];
@@ -525,6 +520,7 @@ describe(`linear operator tests ${version}`, () => {
         expect(Math.abs(gamma - gammaExpected)).toBeLessThan(0.000001);
         backup.dispose();
     });
+
     it('Testing FDM with American option in Heston model...', () => {
         const backup = new SavedSettings();
         const dims = [200, 100];
@@ -574,6 +570,7 @@ describe(`linear operator tests ${version}`, () => {
         expect(Math.abs(npv - npvExpected)).toBeLessThan(0.000001);
         backup.dispose();
     });
+
     it('Testing FDM with express certificate in Heston model...', () => {
         const backup = new SavedSettings();
         const dims = [200, 100];
@@ -622,6 +619,7 @@ describe(`linear operator tests ${version}`, () => {
             .toBeLessThan(0.001);
         backup.dispose();
     });
+
     it('Testing FDM with Heston Hull-White model...', () => {
         const backup = new SavedSettings();
         const today = new Date('28-March-2004');
@@ -698,13 +696,31 @@ describe(`linear operator tests ${version}`, () => {
         expect(Math.abs(directCalc - expected)).toBeLessThan(3 * tol);
         backup.dispose();
     });
+
     it('Testing bi-conjugated gradient stabilized algorithm...', () => {
         const n = 41, m = 21;
         const theta = 1.0;
         const a = createTestMatrix(n, m, theta);
+        for (let i = 0; i < n; ++i) {
+            for (let j = 0; j < m; ++j) {
+                const k = i * m + j;
+                a.set(k, k, 1.0);
+                if (i > 0 && j > 0 && i < n - 1 && j < m - 1) {
+                    const im1 = i - 1;
+                    const ip1 = i + 1;
+                    const jm1 = j - 1;
+                    const jp1 = j + 1;
+                    const delta = theta / ((ip1 - im1) * (jp1 - jm1));
+                    a.set(k, im1 * m + jm1, delta);
+                    a.set(k, im1 * m + jp1, -delta);
+                    a.set(k, ip1 * m + jm1, -delta);
+                    a.set(k, ip1 * m + jp1, delta);
+                }
+            }
+        }
         const matmult = {
             f: (x) => {
-                return axpy(a, x);
+                return a.mulVector(x);
             }
         };
         const ilu = new SparseILUPreconditioner(a, 4);
@@ -721,17 +737,18 @@ describe(`linear operator tests ${version}`, () => {
         const tol = 1e-10;
         const biCGstab = new BiCGstab(matmult, n * m, tol, precond);
         const x = biCGstab.solve(b).x;
-        const error = Math.sqrt(Array1D.DotProduct(Array1D.sub(b, axpy(a, x)), Array1D.sub(b, axpy(a, x))) /
+        const error = Math.sqrt(Array1D.DotProduct(Array1D.sub(b, a.mulVector(x)), Array1D.sub(b, a.mulVector(x))) /
             Array1D.DotProduct(b, b));
         expect(error).toBeLessThan(tol);
     });
+
     it('Testing GMRES algorithm...', () => {
         const n = 41, m = 21;
         const theta = 1.0;
         const a = createTestMatrix(n, m, theta);
         const matmult = {
             f: (x) => {
-                return axpy(a, x);
+                return a.mulVector(x);
             }
         };
         const ilu = new SparseILUPreconditioner(a, 4);
@@ -750,7 +767,7 @@ describe(`linear operator tests ${version}`, () => {
         const result = gmres.solve(b, b);
         const x = result.x;
         const errorCalculated = Array1D.back(result.errors);
-        const error = Math.sqrt(Array1D.DotProduct(Array1D.sub(b, axpy(a, x)), Array1D.sub(b, axpy(a, x))) /
+        const error = Math.sqrt(Array1D.DotProduct(Array1D.sub(b, a.mulVector(x)), Array1D.sub(b, a.mulVector(x))) /
             Array1D.DotProduct(b, b));
         expect(error).toBeLessThan(tol);
         expect(Math.abs(error - errorCalculated)).toBeLessThan(10 * QL_EPSILON);
@@ -759,6 +776,7 @@ describe(`linear operator tests ${version}`, () => {
         const errorWithRestart = Array1D.back(resultRestart.errors);
         expect(errorWithRestart).toBeLessThan(tol);
     });
+
     it('Testing Crank-Nicolson with initial implicit damping steps ' +
         'for a digital option...', () => {
         const backup = new SavedSettings();
@@ -806,16 +824,17 @@ describe(`linear operator tests ${version}`, () => {
             .toBeLessThan(relTol * expectedGamma);
         backup.dispose();
     });
+
     it('Testing SparseMatrixReference type...', () => {
         const rows = 10;
         const columns = 10;
         const nMatrices = 5;
         const nElements = 50;
         const rng = new MersenneTwisterUniformRng().init1(1234);
-        const expected = new compressed_matrix(rows, columns);
+        const expected = new SparseMatrix().smInit1(rows, columns);
         const v = new Array(nMatrices);
         for (let i = 0; i < nMatrices; i++) {
-            v[i] = new compressed_matrix(rows, columns);
+            v[i] = new SparseMatrix().smInit1(rows, columns);
         }
         const refs = [];
         for (let i = 0; i < v.length; ++i) {
@@ -824,30 +843,32 @@ describe(`linear operator tests ${version}`, () => {
                 const row = Math.floor(rng.next().value * rows);
                 const column = Math.floor(rng.next().value * columns);
                 const value = rng.next().value;
-                m.set(row, column, m.get(row, column) + value);
-                expected.set(row, column, expected.get(row, column) + value);
+                m.set(row, column, m.f(row, column) + value);
+                expected.set(row, column, expected.f(row, column) + value);
             }
             refs.push(m);
         }
-        const calculated = new compressed_matrix(rows, columns);
+        const calculated = new SparseMatrix().smInit1(rows, columns);
         for (let i = 0; i < rows; ++i) {
             for (let j = 0; j < columns; ++j) {
-                expect(Math.abs(calculated.get(i, j) - expected.get(i, j)))
+                expect(Math.abs(calculated.f(i, j) - expected.f(i, j)))
                     .toBeLessThan(100 * QL_EPSILON);
             }
         }
     });
+
     it('Testing assignment to zero in sparse matrix...', () => {
-        const m = new compressed_matrix(5, 5);
-        expect(nrElementsOfSparseMatrix(m)).toBeGreaterThan(0);
+        const m = new SparseMatrix().smInit1(5, 5);
+        expect(m.filled_size()).toBeGreaterThan(0);
         m.set(0, 0, 0.0);
         m.set(1, 2, 0.0);
-        expect(nrElementsOfSparseMatrix(m)).toEqual(2);
+        expect(m.filled_size()).toEqual(2);
         m.set(1, 3, 1.0);
-        expect(nrElementsOfSparseMatrix(m)).toEqual(3);
+        expect(m.filled_size()).toEqual(3);
         m.set(1, 3, 0.0);
-        expect(nrElementsOfSparseMatrix(m)).toEqual(3);
+        expect(m.filled_size()).toEqual(3);
     });
+
     it('Testing integrals over meshers functions...', () => {
         const mesher = new FdmMesherComposite().cInit5(new Concentrating1dMesher().init1(-1, 1.6, 21, [0, 0.1]), new Concentrating1dMesher().init1(-3, 4, 11, [1, 0.01]), new Concentrating1dMesher().init1(-2, 1, 5, [0.5, 0.1]));
         const layout = mesher.layout();
@@ -871,6 +892,7 @@ describe(`linear operator tests ${version}`, () => {
         expect(Math.abs(calculatedTrapezoid - expectedTrapezoid))
             .toBeLessThan(tol * expectedTrapezoid);
     });
+
     it('Testing Black-Scholes mesher in a high interest rate scenario...', () => {
         const backup = new SavedSettings();
         const dc = new Actual365Fixed();
@@ -902,6 +924,7 @@ describe(`linear operator tests ${version}`, () => {
         expect(minDiff).toBeLessThan(relTol * minimum);
         backup.dispose();
     });
+
     it('Testing Black-Scholes mesher in a low volatility and high ' +
         'discrete dividend scenario...', () => {
         const backup = new SavedSettings();

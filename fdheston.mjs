@@ -60,6 +60,7 @@ describe(`Finite Difference Heston tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing FDM Heston variance mesher ...', () => {
         const backup = new SavedSettings();
         const values = [
@@ -168,6 +169,7 @@ describe(`Finite Difference Heston tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing FDM with barrier option for Heston model ' +
         'vs Black-Scholes model...', () => {
         const backup = new SavedSettings();
@@ -192,6 +194,7 @@ describe(`Finite Difference Heston tests ${version}`, () => {
             .toBeLessThan(tol);
         backup.dispose();
     });
+
     it('Testing FDM with American option in Heston model...', () => {
         const backup = new SavedSettings();
         const s0 = new Handle(new SimpleQuote(100.0));
@@ -214,6 +217,7 @@ describe(`Finite Difference Heston tests ${version}`, () => {
         expect(Math.abs(option.gamma() - gammaExpected)).toBeLessThan(tol);
         backup.dispose();
     });
+
     it('Testing FDM Heston for Ikonen and Toivanen tests...', () => {
         const backup = new SavedSettings();
         const rTS = new Handle(flatRate4(0.10, new Actual360()));
@@ -236,6 +240,7 @@ describe(`Finite Difference Heston tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing FDM Heston with Black Scholes model...', () => {
         const backup = new SavedSettings();
         Settings.evaluationDate.set(new Date('28-March-2004'));
@@ -263,6 +268,7 @@ describe(`Finite Difference Heston tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing FDM with European option with dividends in Heston model...', () => {
         const backup = new SavedSettings();
         const s0 = new Handle(new SimpleQuote(100.0));
@@ -288,6 +294,7 @@ describe(`Finite Difference Heston tests ${version}`, () => {
         expect(Math.abs(option.gamma() - gammaExpected)).toBeLessThan(gammaTol);
         backup.dispose();
     });
+
     it('Testing FDM Heston convergence...', () => {
         const backup = new SavedSettings();
         const values = [
@@ -332,6 +339,7 @@ describe(`Finite Difference Heston tests ${version}`, () => {
         }
         backup.dispose();
     });
+    
     it('Testing FDM Heston intraday pricing ...', () => {
         const backup = new SavedSettings();
         const type = Option.Type.Put;
@@ -369,6 +377,7 @@ describe(`Finite Difference Heston tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing method of lines to solve Heston PDEs...', () => {
         const backup = new SavedSettings();
         const dc = new Actual365Fixed();
@@ -407,6 +416,7 @@ describe(`Finite Difference Heston tests ${version}`, () => {
         expect(barrierDiff).toBeLessThan(barrierTol);
         backup.dispose();
     });
+    
     it('Testing for spurious oscillations when solving the Heston PDEs...', () => {
         const backup = new SavedSettings();
         const dc = new Actual365Fixed();

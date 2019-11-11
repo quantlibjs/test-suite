@@ -1,7 +1,9 @@
 theme: jekyll-theme-cayman
 title: quantlib.js
+email: 'quantlibjs@gmail.com'
 description: quantitative finance in javascript © 2019 Jin Yang
 url: https://quantlib.js.org/test-suite/
+twitter_username: quantlibjs
 author: Jin Yang
 plugins:
   - jekyll-seo-tag
