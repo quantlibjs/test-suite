@@ -13,9 +13,7 @@
  * limitations under the License.
  * =============================================================================
  */
-import { DateExt, EndCriteria, Garch11, InverseCumulativeNormal, InverseCumulativeRng, LevenbergMarquardt, MersenneTwisterUniformRng, OptimizationMethod, TimeSeries, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
-
-const first = 0, second = 1;
+import { DateExt, EndCriteria, Garch11, InverseCumulativeNormal, InverseCumulativeRng, LevenbergMarquardt, MersenneTwisterUniformRng, OptimizationMethod, TimeSeries, first, second, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class DummyOptimizationMethod extends OptimizationMethod {
     minimize(P, e) {
