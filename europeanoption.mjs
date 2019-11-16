@@ -13,10 +13,8 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Actual360, Actual365Fixed, AdditiveEQPBinomialTree, AnalyticEuropeanEngine, Array2D, Bicubic, BinomialVanillaEngine, BlackScholesMertonProcess, BlackScholesProcess, BlackVarianceSurface, CoxRossRubinstein, CrankNicolson, DateExt, DividendVanillaOption, EuropeanExercise, EuropeanOption, FdBlackScholesVanillaEngine, FDEuropeanEngine, FdmSchemeDesc, FFTVanillaEngine, ForwardCurve, Handle, IntegralEngine, JarrowRudd, Joshi4, LeisenReimer, LowDiscrepancy, MakeMCEuropeanEngine, Option, PlainVanillaPayoff, PseudoRandom, QL_NULL_INTEGER, SavedSettings, Settings, SimpleQuote, TARGET, Tian, TimeUnit, Trigeorgis, VanillaOption, ZeroCurve, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
-import { Flag, flatRate1, flatRate2, flatVol1, flatVol2, relativeError } from '/test-suite/utilities.mjs';
-
-const first = 0;
+import { Actual360, Actual365Fixed, AdditiveEQPBinomialTree, AnalyticEuropeanEngine, Array2D, AssetOrNothingPayoff, Bicubic, BinomialVanillaEngine, BlackScholesMertonProcess, BlackScholesProcess, BlackVarianceSurface, CashOrNothingPayoff, CoxRossRubinstein, CrankNicolson, DateExt, DividendVanillaOption, EuropeanExercise, EuropeanOption, FdBlackScholesVanillaEngine, FDEuropeanEngine, FdmSchemeDesc, FFTVanillaEngine, ForwardCurve, GapPayoff, Handle, IntegralEngine, JarrowRudd, Joshi4, LeisenReimer, LowDiscrepancy, MakeMCEuropeanEngine, Option, PlainVanillaPayoff, PseudoRandom, QL_NULL_INTEGER, SavedSettings, Settings, SimpleQuote, TARGET, Tian, TimeUnit, Trigeorgis, VanillaOption, ZeroCurve, first, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Flag, flatRate1, flatRate2, flatRate3, flatVol1, flatVol2, flatVol3, relativeError } from '/test-suite/utilities.mjs';
 
 class EuropeanOptionData {
     constructor(type, strike, s, q, r, t, v, result, tol) {
@@ -91,7 +89,7 @@ function makeOption(payoff, exercise, u, q, r, vol, engineType, binomialSteps, s
             break;
         case EngineType.FiniteDifferences:
             engine = new FDEuropeanEngine(new CrankNicolson())
-                .init1(stochProcess, binomialSteps, samples);
+                .fdInit(stochProcess, binomialSteps, samples);
             break;
         case EngineType.Integral:
             engine = new IntegralEngine(stochProcess);
@@ -136,7 +134,7 @@ function testEngineConsistency(engine, binomialSteps, samples, tolerance, testGr
     const rRates = [0.01, 0.05, 0.15];
     const vols = [0.11, 0.50, 1.20];
     const dc = new Actual360();
-    const today = new Date();
+    const today = DateExt.UTC();
     const spot = new SimpleQuote(0.0);
     const vol = new SimpleQuote(0.0);
     const volTS = flatVol1(today, vol, dc);
@@ -241,7 +239,7 @@ describe(`European option tests ${version}`, () => {
             new EuropeanOptionData(Option.Type.Call, 40.00, 42.00, 0.08, 0.04, 0.75, 0.35, 5.0975, 1.0e-4),
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
         const qTS = flatRate1(today, qRate, dc);
@@ -268,6 +266,7 @@ describe(`European option tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing European option greek values...', () => {
         const backup = new SavedSettings();
         const values = [
@@ -284,7 +283,7 @@ describe(`European option tests ${version}`, () => {
             new EuropeanOptionData(Option.Type.Put, 490.00, 500.00, 0.05, 0.08, 0.250000, 0.15, 42.2254, 0)
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
         const qTS = flatRate1(today, qRate, dc);
@@ -446,8 +445,133 @@ describe(`European option tests ${version}`, () => {
         expect(error).toBeLessThan(tolerance);
         backup.dispose();
     });
+
     it('Testing analytic European option greeks...', () => {
+        const backup = new SavedSettings();
+        const calculated = new Map(), expected = new Map(), tolerance = new Map();
+        tolerance.set('delta', 1.0e-5);
+        tolerance.set('gamma', 1.0e-5);
+        tolerance.set('theta', 1.0e-5);
+        tolerance.set('rho', 1.0e-5);
+        tolerance.set('divRho', 1.0e-5);
+        tolerance.set('vega', 1.0e-5);
+        const types = [Option.Type.Call, Option.Type.Put];
+        const strikes = [50.0, 99.5, 100.0, 100.5, 150.0];
+        const underlyings = [100.0];
+        const qRates = [0.04, 0.05, 0.06];
+        const rRates = [0.01, 0.05, 0.15];
+        const residualTimes = [1.0, 2.0];
+        const vols = [0.11, 0.50, 1.20];
+        const dc = new Actual360();
+        const today = DateExt.UTC();
+        Settings.evaluationDate.set(today);
+        const spot = new SimpleQuote(0.0);
+        const qRate = new SimpleQuote(0.0);
+        const qTS = new Handle(flatRate3(qRate, dc));
+        const rRate = new SimpleQuote(0.0);
+        const rTS = new Handle(flatRate3(rRate, dc));
+        const vol = new SimpleQuote(0.0);
+        const volTS = new Handle(flatVol3(vol, dc));
+        let payoff;
+        for (let i = 0; i < types.length; i++) {
+            for (let j = 0; j < strikes.length; j++) {
+                for (let k = 0; k < residualTimes.length; k++) {
+                    const exDate = DateExt.add(today, timeToDays(residualTimes[k]));
+                    const exercise = new EuropeanExercise(exDate);
+                    for (let kk = 0; kk < 4; kk++) {
+                        if (kk === 0) {
+                            payoff = new PlainVanillaPayoff(types[i], strikes[j]);
+                        }
+                        else if (kk === 1) {
+                            payoff = new CashOrNothingPayoff(types[i], strikes[j], 100.0);
+                        }
+                        else if (kk === 2) {
+                            payoff = new AssetOrNothingPayoff(types[i], strikes[j]);
+                        }
+                        else if (kk === 3) {
+                            payoff = new GapPayoff(types[i], strikes[j], 100.0);
+                        }
+                        const stochProcess = new BlackScholesMertonProcess(new Handle(spot), qTS, rTS, volTS);
+                        const engine = new AnalyticEuropeanEngine().init1(stochProcess);
+                        const option = new EuropeanOption(payoff, exercise);
+                        option.setPricingEngine(engine);
+                        for (let l = 0; l < underlyings.length; l++) {
+                            for (let m = 0; m < qRates.length; m++) {
+                                for (let n = 0; n < rRates.length; n++) {
+                                    for (let p = 0; p < vols.length; p++) {
+                                        const u = underlyings[l];
+                                        const q = qRates[m], r = rRates[n];
+                                        const v = vols[p];
+                                        spot.setValue(u);
+                                        qRate.setValue(q);
+                                        rRate.setValue(r);
+                                        vol.setValue(v);
+                                        const value = option.NPV();
+                                        calculated.set('delta', option.delta());
+                                        calculated.set('gamma', option.gamma());
+                                        calculated.set('theta', option.theta());
+                                        calculated.set('rho', option.rho());
+                                        calculated.set('divRho', option.dividendRho());
+                                        calculated.set('vega', option.vega());
+                                        if (value > spot.value() * 1.0e-5) {
+                                            const du = u * 1.0e-4;
+                                            spot.setValue(u + du);
+                                            let value_p = option.NPV();
+                                            const delta_p = option.delta();
+                                            spot.setValue(u - du);
+                                            let value_m = option.NPV();
+                                            const delta_m = option.delta();
+                                            spot.setValue(u);
+                                            expected.set('delta', (value_p - value_m) / (2 * du));
+                                            expected.set('gamma', (delta_p - delta_m) / (2 * du));
+                                            const dr = r * 1.0e-4;
+                                            rRate.setValue(r + dr);
+                                            value_p = option.NPV();
+                                            rRate.setValue(r - dr);
+                                            value_m = option.NPV();
+                                            rRate.setValue(r);
+                                            expected.set('rho', (value_p - value_m) / (2 * dr));
+                                            const dq = q * 1.0e-4;
+                                            qRate.setValue(q + dq);
+                                            value_p = option.NPV();
+                                            qRate.setValue(q - dq);
+                                            value_m = option.NPV();
+                                            qRate.setValue(q);
+                                            expected.set('divRho', (value_p - value_m) / (2 * dq));
+                                            const dv = v * 1.0e-4;
+                                            vol.setValue(v + dv);
+                                            value_p = option.NPV();
+                                            vol.setValue(v - dv);
+                                            value_m = option.NPV();
+                                            vol.setValue(v);
+                                            expected.set('vega', (value_p - value_m) / (2 * dv));
+                                            const dT = dc.yearFraction(DateExt.sub(today, 1), DateExt.add(today, 1));
+                                            Settings.evaluationDate.set(DateExt.sub(today, 1));
+                                            value_m = option.NPV();
+                                            Settings.evaluationDate.set(DateExt.add(today, 1));
+                                            value_p = option.NPV();
+                                            Settings.evaluationDate.set(today);
+                                            expected.set('theta', (value_p - value_m) / dT);
+                                            let it;
+                                            const calculatedArray = Array.from(calculated);
+                                            for (it = 0; it !== calculatedArray.length; ++it) {
+                                                const greek = calculatedArray[it][first];
+                                                const expct = expected.get(greek), calcl = calculated.get(greek), tol = tolerance.get(greek);
+                                                const error = relativeError(expct, calcl, u);
+                                                expect(error).toBeLessThan(tol);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        backup.dispose();
     });
+
     it('Testing European option implied volatility...', () => {
         const backup = new SavedSettings();
         const maxEvaluations = 100;
@@ -460,7 +584,7 @@ describe(`European option tests ${version}`, () => {
         const rRates = [0.01, 0.05, 0.10];
         const vols = [0.01, 0.20, 0.30, 0.70, 0.90];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
         const qTS = flatRate1(today, qRate, dc);
@@ -515,12 +639,13 @@ describe(`European option tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing self-containment of implied volatility calculation...', () => {
         const backup = new SavedSettings();
         const maxEvaluations = 100;
         const tolerance = 1.0e-6;
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(100.0);
         const underlying = new Handle(spot);
         const qRate = new SimpleQuote(0.05);
@@ -547,9 +672,10 @@ describe(`European option tests ${version}`, () => {
         expect(Math.abs(option2.NPV() - refValue)).toBeLessThan(1.0e-8);
         vol.setValue(vol.value() * 1.5);
         expect(f.isUp()).toBeTruthy();
-        expect(Math.abs(option2.NPV() - refValue)).toBeLessThan(1.0e-8);
+        expect(Math.abs(option2.NPV() - refValue)).toBeGreaterThan(1.0e-8);
         backup.dispose();
     });
+
     it('Testing JR binomial European engines against analytic results...', () => {
         const backup = new SavedSettings();
         const engine = EngineType.JR;
@@ -563,6 +689,7 @@ describe(`European option tests ${version}`, () => {
         testEngineConsistency(engine, steps, samples, relativeTol, true);
         backup.dispose();
     });
+
     it('Testing CRR binomial European engines against analytic results...', () => {
         const backup = new SavedSettings();
         const engine = EngineType.CRR;
@@ -576,6 +703,7 @@ describe(`European option tests ${version}`, () => {
         testEngineConsistency(engine, steps, samples, relativeTol, true);
         backup.dispose();
     });
+
     it('Testing EQP binomial European engines against analytic results...', () => {
         const backup = new SavedSettings();
         const engine = EngineType.EQP;
@@ -589,6 +717,7 @@ describe(`European option tests ${version}`, () => {
         testEngineConsistency(engine, steps, samples, relativeTol, true);
         backup.dispose();
     });
+
     it('Testing TGEO binomial European engines against analytic results...', () => {
         const backup = new SavedSettings();
         const engine = EngineType.TGEO;
@@ -602,6 +731,7 @@ describe(`European option tests ${version}`, () => {
         testEngineConsistency(engine, steps, samples, relativeTol, true);
         backup.dispose();
     });
+
     it('Testing TIAN binomial European engines against analytic results...', () => {
         const backup = new SavedSettings();
         const engine = EngineType.TIAN;
@@ -615,6 +745,7 @@ describe(`European option tests ${version}`, () => {
         testEngineConsistency(engine, steps, samples, relativeTol, true);
         backup.dispose();
     });
+
     it('Testing LR binomial European engines against analytic results...', () => {
         const backup = new SavedSettings();
         const engine = EngineType.LR;
@@ -628,6 +759,7 @@ describe(`European option tests ${version}`, () => {
         testEngineConsistency(engine, steps, samples, relativeTol, true);
         backup.dispose();
     });
+
     it('Testing Joshi binomial European engines against analytic results...', () => {
         const backup = new SavedSettings();
         const engine = EngineType.JOSHI;
@@ -641,6 +773,7 @@ describe(`European option tests ${version}`, () => {
         testEngineConsistency(engine, steps, samples, relativeTol, true);
         backup.dispose();
     });
+
     it('Testing finite-difference European engines ' +
         'against analytic results...', () => {
         const backup = new SavedSettings();
@@ -655,6 +788,7 @@ describe(`European option tests ${version}`, () => {
         testEngineConsistency(engine, timeSteps, gridPoints, relativeTol, true);
         backup.dispose();
     });
+
     it('Testing integral European engines against analytic results...', () => {
         const backup = new SavedSettings();
         const engine = EngineType.Integral;
@@ -665,6 +799,7 @@ describe(`European option tests ${version}`, () => {
         testEngineConsistency(engine, timeSteps, gridPoints, relativeTol);
         backup.dispose();
     });
+
     it('Testing Monte Carlo European engines against analytic results...', () => {
         const backup = new SavedSettings();
         const engine = EngineType.PseudoMonteCarlo;
@@ -675,6 +810,7 @@ describe(`European option tests ${version}`, () => {
         testEngineConsistency(engine, timeSteps, gridPoints, relativeTol);
         backup.dispose();
     });
+
     it('Testing Quasi Monte Carlo European engines against analytic results...', () => {
         const backup = new SavedSettings();
         const engine = EngineType.QuasiMonteCarlo;
@@ -685,6 +821,7 @@ describe(`European option tests ${version}`, () => {
         testEngineConsistency(engine, timeSteps, gridPoints, relativeTol);
         backup.dispose();
     });
+
     it('Testing European price curves...', () => {
         const backup = new SavedSettings();
         const values = [
@@ -692,7 +829,7 @@ describe(`European option tests ${version}`, () => {
             new EuropeanOptionData(Option.Type.Put, 95.00, 100.00, 0.05, 0.10, 0.50, 0.20, 2.4648, 0.0)
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const timeSteps = 300;
         const gridPoints = 300;
         const spot = new SimpleQuote(0.0);
@@ -704,7 +841,7 @@ describe(`European option tests ${version}`, () => {
         const volTS = flatVol1(today, vol, dc);
         const stochProcess = new BlackScholesMertonProcess(new Handle(spot), new Handle(qTS), new Handle(rTS), new Handle(volTS));
         const engine = new FDEuropeanEngine(new CrankNicolson())
-            .init1(stochProcess, timeSteps, gridPoints);
+            .fdInit(stochProcess, timeSteps, gridPoints);
         for (let i = 0; i < values.length; i++) {
             const payoff = new PlainVanillaPayoff(values[i].type, values[i].strike);
             const exDate = DateExt.add(today, timeToDays(values[i].t));
@@ -722,7 +859,7 @@ describe(`European option tests ${version}`, () => {
             for (let i = start; i < end; i++) {
                 spot.setValue(price_curve.gridValue(i));
                 const engine1 = new FDEuropeanEngine(new CrankNicolson())
-                    .init1(stochProcess, timeSteps, gridPoints);
+                    .fdInit(stochProcess, timeSteps, gridPoints);
                 option.setPricingEngine(engine1);
                 const calculated = option.NPV();
                 const error = Math.abs(calculated - price_curve.value(i));
@@ -732,9 +869,10 @@ describe(`European option tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing finite-differences with local volatility...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('5-July-2002');
+        const settlementDate = DateExt.UTC('5,July,2002');
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new Actual365Fixed();
         const calendar = new TARGET();
@@ -817,10 +955,11 @@ describe(`European option tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing separate discount curve for analytic European engine...', () => {
         const backup = new SavedSettings();
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(1000.0);
         const qRate = new SimpleQuote(0.01);
         const qTS = flatRate1(today, qRate, dc);
@@ -848,10 +987,11 @@ describe(`European option tests ${version}`, () => {
         expect(npvSingleCurve).not.toEqual(npvMultiCurve);
         backup.dispose();
     });
+
     it('Testing different PDE schemes to solve Black-Scholes PDEs...', () => {
         const backup = new SavedSettings();
         const dc = new Actual365Fixed();
-        const today = new Date('18-February-2018');
+        const today = DateExt.UTC('18,February,2018');
         Settings.evaluationDate.set(today);
         const spot = new Handle(new SimpleQuote(100.0));
         const qTS = new Handle(flatRate2(today, 0.06, dc));
@@ -901,6 +1041,7 @@ describe(`European option tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing finite-difference European engine ' +
         'with non-constant parameters...', () => {
         const backup = new SavedSettings();
@@ -933,7 +1074,7 @@ describe(`European option tests ${version}`, () => {
         const gridPoints = 201;
         const timeDependent = false;
         option.setPricingEngine(new FDEuropeanEngine(new CrankNicolson())
-            .init1(process, timeSteps, gridPoints, timeDependent));
+            .fdInit(process, timeSteps, gridPoints, timeDependent));
         const calculated = option.NPV();
         const tolerance = 0.01;
         const error = Math.abs(expected - calculated);
