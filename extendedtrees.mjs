@@ -13,10 +13,8 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Actual360, AnalyticEuropeanEngine, BinomialVanillaEngine, BlackScholesMertonProcess, DateExt, EuropeanExercise, EuropeanOption, ExtendedAdditiveEQPBinomialTree, ExtendedCoxRossRubinstein, ExtendedJarrowRudd, ExtendedJoshi4, ExtendedLeisenReimer, ExtendedTian, ExtendedTrigeorgis, Handle, Option, PlainVanillaPayoff, QL_NULL_INTEGER, SavedSettings, SimpleQuote, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, AnalyticEuropeanEngine, BinomialVanillaEngine, BlackScholesMertonProcess, DateExt, EuropeanExercise, EuropeanOption, ExtendedAdditiveEQPBinomialTree, ExtendedCoxRossRubinstein, ExtendedJarrowRudd, ExtendedJoshi4, ExtendedLeisenReimer, ExtendedTian, ExtendedTrigeorgis, Handle, Option, PlainVanillaPayoff, QL_NULL_INTEGER, SavedSettings, SimpleQuote, first, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatVol1, relativeError } from '/test-suite/utilities.mjs';
-
-const first = 0;
 
 // enum EngineType
 var EngineType;
@@ -88,7 +86,7 @@ function testEngineConsistency(engine, binomialSteps, tolerance) {
     const rRates = [0.01, 0.05, 0.15];
     const vols = [0.11, 0.50, 1.20];
     const dc = new Actual360();
-    const today = new Date();
+    const today = DateExt.UTC();
     const spot = new SimpleQuote(0.0);
     const vol = new SimpleQuote(0.0);
     const volTS = flatVol1(today, vol, dc);
@@ -129,7 +127,7 @@ function testEngineConsistency(engine, binomialSteps, tolerance) {
                                 }
                                 let it;
                                 const calculatedArray = Array.from(calculated);
-                                for (it = 0; it <= calculatedArray.length; ++it) {
+                                for (it = 0; it < calculatedArray.length; ++it) {
                                     const greek = calculatedArray[it][first];
                                     const expct = expected.get(greek), calcl = calculated.get(greek), tol = tolerance.get(greek);
                                     const error = relativeError(expct, calcl, u);
@@ -158,6 +156,7 @@ describe(`European option extended trees tests ${version}`, () => {
         testEngineConsistency(engine, steps, relativeTol);
         backup.dispose();
     });
+
     it('Testing time-dependent CRR binomial European engines ' +
         ' against analytic results...', () => {
         const backup = new SavedSettings();
@@ -171,6 +170,7 @@ describe(`European option extended trees tests ${version}`, () => {
         testEngineConsistency(engine, steps, relativeTol);
         backup.dispose();
     });
+
     it('Testing time-dependent EQP binomial European engines ' +
         ' against analytic results...', () => {
         const backup = new SavedSettings();
@@ -184,6 +184,7 @@ describe(`European option extended trees tests ${version}`, () => {
         testEngineConsistency(engine, steps, relativeTol);
         backup.dispose();
     });
+
     it('Testing time-dependent TGEO binomial European engines ' +
         ' against analytic results...', () => {
         const backup = new SavedSettings();
@@ -197,6 +198,7 @@ describe(`European option extended trees tests ${version}`, () => {
         testEngineConsistency(engine, steps, relativeTol);
         backup.dispose();
     });
+
     it('Testing time-dependent TIAN binomial European engines ' +
         ' against analytic results...', () => {
         const backup = new SavedSettings();
@@ -210,6 +212,7 @@ describe(`European option extended trees tests ${version}`, () => {
         testEngineConsistency(engine, steps, relativeTol);
         backup.dispose();
     });
+
     it('Testing time-dependent LR binomial European engines ' +
         ' against analytic results...', () => {
         const backup = new SavedSettings();
@@ -223,6 +226,7 @@ describe(`European option extended trees tests ${version}`, () => {
         testEngineConsistency(engine, steps, relativeTol);
         backup.dispose();
     });
+    
     it('Testing time-dependent Joshi binomial European engines ' +
         ' against analytic results...', () => {
         const backup = new SavedSettings();
