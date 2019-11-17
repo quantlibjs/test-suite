@@ -85,6 +85,7 @@ class HestonParameter {
         this.v0 = v0;
         this.kappa = kappa;
         this.theta = theta;
+        this.sigma = sigma;
         this.rho = rho;
     }
 }
@@ -160,7 +161,7 @@ describe(`Heston model tests ${version}`, () => {
                 options[i].setPricingEngine(engine);
             }
             const om = new LevenbergMarquardt(1e-8, 1e-8, 1e-8);
-            model.calibrate(options, om, new EndCriteria(400, 40, 1.0e-8, 1.0e-8, 1.0e-8));
+            model.calibrate2(options, om, new EndCriteria(400, 40, 1.0e-8, 1.0e-8, 1.0e-8));
             const tolerance = 3.0e-3;
             expect(model.sigma()).toBeLessThan(tolerance);
             expect(Math.abs(model.kappa() * (model.theta() - volatility * volatility)))
@@ -191,14 +192,14 @@ describe(`Heston model tests ${version}`, () => {
             new AnalyticHestonEngine().aheInit2(model, 64),
             new COSHestonEngine(model, 12, 75)
         ];
-        const params = model.params();
+        const params = Array.from(model.params());
         for (let j = 0; j < engines.length; ++j) {
             model.setParams(params);
             for (let i = 0; i < options.length; ++i) {
                 options[i].setPricingEngine(engines[j]);
             }
             const om = new LevenbergMarquardt(1e-8, 1e-8, 1e-8);
-            model.calibrate(options, om, new EndCriteria(400, 40, 1.0e-8, 1.0e-8, 1.0e-8));
+            model.calibrate2(options, om, new EndCriteria(400, 40, 1.0e-8, 1.0e-8, 1.0e-8));
             let sse = 0;
             for (let i = 0; i < 13 * 8; ++i) {
                 const diff = options[i].calibrationError() * 100.0;
@@ -210,9 +211,9 @@ describe(`Heston model tests ${version}`, () => {
         backup.dispose();
     });
 
-    xit('Testing analytic Heston engine against Black formula...', () => {
+    it('Testing analytic Heston engine against Black formula...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date();
+        const settlementDate = DateExt.UTC();
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new ActualActual();
         const exerciseDate = DateExt.advance(settlementDate, 6, TimeUnit.Months);
@@ -249,10 +250,10 @@ describe(`Heston model tests ${version}`, () => {
 
     it('Testing analytic Heston engine against cached values...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('27-December-2004');
+        const settlementDate = DateExt.UTC('27,December,2004');
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new ActualActual();
-        const exerciseDate = new Date('28-March-2005');
+        const exerciseDate = DateExt.UTC('28,March,2005');
         const payoff = new PlainVanillaPayoff(Option.Type.Call, 1.05);
         const exercise = new EuropeanExercise(exerciseDate);
         const riskFreeTS = new Handle(flatRate4(0.0225, dayCounter));
@@ -276,7 +277,7 @@ describe(`Heston model tests ${version}`, () => {
         const calculated2 = new Array(6);
         let i;
         for (i = 0; i < 6; ++i) {
-            const exerciseDate = new Date(2005, Month.September - 1, 8 + i / 3);
+            const exerciseDate = new Date(Date.UTC(2005, Month.September - 1, 8 + i / 3));
             const payoff = new PlainVanillaPayoff(Option.Type.Call, K[i % 3]);
             const exercise = new EuropeanExercise(exerciseDate);
             const riskFreeTS = new Handle(flatRate4(0.05, dayCounter));
@@ -290,8 +291,8 @@ describe(`Heston model tests ${version}`, () => {
             option.setPricingEngine(engine);
             calculated2[i] = option.NPV();
         }
-        const t1 = dayCounter.yearFraction(settlementDate, new Date('8-September-2005'));
-        const t2 = dayCounter.yearFraction(settlementDate, new Date('9-September-2005'));
+        const t1 = dayCounter.yearFraction(settlementDate, DateExt.UTC('8,September,2005'));
+        const t2 = dayCounter.yearFraction(settlementDate, DateExt.UTC('9,September,2005'));
         for (i = 0; i < 3; ++i) {
             const interpolated = calculated2[i] +
                 (calculated2[i + 3] - calculated2[i]) / (t2 - t1) * (0.7 - t1);
@@ -303,10 +304,10 @@ describe(`Heston model tests ${version}`, () => {
 
     it('Testing Monte Carlo Heston engine against cached values...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('27-December-2004');
+        const settlementDate = DateExt.UTC('27,December,2004');
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new ActualActual();
-        const exerciseDate = new Date('28-March-2005');
+        const exerciseDate = DateExt.UTC('28,March,2005');
         const payoff = new PlainVanillaPayoff(Option.Type.Put, 1.05);
         const exercise = new EuropeanExercise(exerciseDate);
         const riskFreeTS = new Handle(flatRate4(0.7, dayCounter));
@@ -335,7 +336,7 @@ describe(`Heston model tests ${version}`, () => {
     it('Testing FD barrier Heston engine against cached values...', () => {
         const backup = new SavedSettings();
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const s0 = new Handle(new SimpleQuote(100.0));
         const rTS = new Handle(flatRate2(today, 0.08, dc));
         const qTS = new Handle(flatRate2(today, 0.04, dc));
@@ -361,12 +362,12 @@ describe(`Heston model tests ${version}`, () => {
         backup.dispose();
     });
 
-    xit('Testing FD vanilla Heston engine against cached values...', () => {
+    it('Testing FD vanilla Heston engine against cached values...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('27-December-2004');
+        const settlementDate = DateExt.UTC('27,December,2004');
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new ActualActual();
-        let exerciseDate = new Date('28-March-2005');
+        let exerciseDate = DateExt.UTC('28,March,2005');
         let payoff = new PlainVanillaPayoff(Option.Type.Put, 1.05);
         let exercise = new EuropeanExercise(exerciseDate);
         let riskFreeTS = new Handle(flatRate4(0.7, dayCounter));
@@ -425,10 +426,10 @@ describe(`Heston model tests ${version}`, () => {
 
     it('Testing MC and FD Heston engines for the Kahl-Jaeckel example...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('30-March-2007');
+        const settlementDate = DateExt.UTC('30,March,2007');
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new ActualActual();
-        const exerciseDate = new Date('30-March-2017');
+        const exerciseDate = DateExt.UTC('30,March,2017');
         const payoff = new PlainVanillaPayoff(Option.Type.Call, 200);
         const exercise = new EuropeanExercise(exerciseDate);
         const option = new VanillaOption(payoff, exercise);
@@ -487,7 +488,7 @@ describe(`Heston model tests ${version}`, () => {
 
     it('Testing different numerical Heston integration algorithms...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('27-December-2004');
+        const settlementDate = DateExt.UTC('27,December,2004');
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new ActualActual();
         const riskFreeTS = new Handle(flatRate4(0.05, dayCounter));
@@ -553,12 +554,12 @@ describe(`Heston model tests ${version}`, () => {
         backup.dispose();
     });
 
-    xit('Testing multiple-strikes FD Heston engine...', () => {
+    it('Testing multiple-strikes FD Heston engine...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('27-December-2004');
+        const settlementDate = DateExt.UTC('27,December,2004');
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new ActualActual();
-        const exerciseDate = new Date('28-March-2006');
+        const exerciseDate = DateExt.UTC('28,March,2006');
         const exercise = new EuropeanExercise(exerciseDate);
         const riskFreeTS = new Handle(flatRate4(0.06, dayCounter));
         const dividendTS = new Handle(flatRate4(0.02, dayCounter));
@@ -602,15 +603,15 @@ describe(`Heston model tests ${version}`, () => {
 
     it('Testing analytic piecewise time dependent Heston prices...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('27-December-2004');
+        const settlementDate = DateExt.UTC('27,December,2004');
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new ActualActual();
-        const exerciseDate = new Date('28-March-2005');
+        const exerciseDate = DateExt.UTC('28,March,2005');
         const payoff = new PlainVanillaPayoff(Option.Type.Call, 1.0);
         const exercise = new EuropeanExercise(exerciseDate);
         const dates = [];
         dates.push(settlementDate);
-        dates.push(new Date('01-January-2007'));
+        dates.push(DateExt.UTC('01,January,2007'));
         const irates = [];
         irates.push(0.0);
         irates.push(0.2);
@@ -642,7 +643,7 @@ describe(`Heston model tests ${version}`, () => {
 
     it('Testing time-dependent Heston model calibration...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('5-July-2002');
+        const settlementDate = DateExt.UTC('5,July,2002');
         Settings.evaluationDate.set(settlementDate);
         const marketData = getDAXCalibrationMarketData();
         const riskFreeTS = marketData.riskFreeTS;
@@ -674,7 +675,7 @@ describe(`Heston model tests ${version}`, () => {
                 options[i].setPricingEngine(engine);
             }
             const om = new LevenbergMarquardt(1e-8, 1e-8, 1e-8);
-            model.calibrate(options, om, new EndCriteria(400, 40, 1.0e-8, 1.0e-8, 1.0e-8));
+            model.calibrate2(options, om, new EndCriteria(400, 40, 1.0e-8, 1.0e-8, 1.0e-8));
             let sse = 0;
             for (let i = 0; i < 13 * 8; ++i) {
                 const diff = options[i].calibrationError() * 100.0;
@@ -688,9 +689,9 @@ describe(`Heston model tests ${version}`, () => {
 
     it('Testing Alan Lewis reference prices...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('5-July-2002');
+        const settlementDate = DateExt.UTC('5,July,2002');
         Settings.evaluationDate.set(settlementDate);
-        const maturityDate = new Date('5-July-2003');
+        const maturityDate = DateExt.UTC('5,July,2003');
         const exercise = new EuropeanExercise(maturityDate);
         const dayCounter = new Actual365Fixed();
         const riskFreeTS = new Handle(flatRate4(0.01, dayCounter));
@@ -757,9 +758,9 @@ describe(`Heston model tests ${version}`, () => {
 
     it('Testing expansion on Alan Lewis reference prices...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('5-July-2002');
+        const settlementDate = DateExt.UTC('5,July,2002');
         Settings.evaluationDate.set(settlementDate);
-        const maturityDate = new Date('5-July-2003');
+        const maturityDate = DateExt.UTC('5,July,2003');
         const exercise = new EuropeanExercise(maturityDate);
         const dayCounter = new Actual365Fixed();
         const riskFreeTS = new Handle(flatRate4(0.01, dayCounter));
@@ -882,7 +883,7 @@ describe(`Heston model tests ${version}`, () => {
 
     it('Testing semi-analytic Heston pricing with all integration methods...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('7-February-2017');
+        const settlementDate = DateExt.UTC('7,February,2017');
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new Actual365Fixed();
         const riskFreeTS = new Handle(flatRate4(0.05, dayCounter));
@@ -929,7 +930,7 @@ describe(`Heston model tests ${version}`, () => {
 
     it('Testing Heston COS cumulants...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('7-February-2017');
+        const settlementDate = DateExt.UTC('7,February,2017');
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new Actual365Fixed();
         const riskFreeTS = new Handle(flatRate4(0.15, dayCounter));
@@ -971,7 +972,7 @@ describe(`Heston model tests ${version}`, () => {
 
     it('Testing Heston pricing via COS method...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('7-February-2017');
+        const settlementDate = DateExt.UTC('7,February,2017');
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new Actual365Fixed();
         const riskFreeTS = new Handle(flatRate4(0.15, dayCounter));
@@ -1009,7 +1010,7 @@ describe(`Heston model tests ${version}`, () => {
 
     it('Testing Heston characteristic function...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('30-March-2017');
+        const settlementDate = DateExt.UTC('30,March,2017');
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new Actual365Fixed();
         const riskFreeTS = new Handle(flatRate4(0.35, dayCounter));
@@ -1039,7 +1040,7 @@ describe(`Heston model tests ${version}`, () => {
 
     it('Testing Andersen-Piterbarg method to price under the Heston model...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('30-March-2017');
+        const settlementDate = DateExt.UTC('30,March,2017');
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new Actual365Fixed();
         const riskFreeTS = new Handle(flatRate4(0.10, dayCounter));
@@ -1092,7 +1093,7 @@ describe(`Heston model tests ${version}`, () => {
 
     it('Testing Andersen-Piterbarg Integrand with control variate...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('17-April-2017');
+        const settlementDate = DateExt.UTC('17,April,2017');
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new Actual365Fixed();
         const rTS = new Handle(flatRate4(0.075, dayCounter));
@@ -1134,9 +1135,9 @@ describe(`Heston model tests ${version}`, () => {
 
     it('Testing Andersen-Piterbarg pricing convergence...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('5-July-2002');
+        const settlementDate = DateExt.UTC('5,July,2002');
         Settings.evaluationDate.set(settlementDate);
-        const maturityDate = new Date('5-July-2003');
+        const maturityDate = DateExt.UTC('5,July,2003');
         const dayCounter = new Actual365Fixed();
         const rTS = new Handle(flatRate4(0.01, dayCounter));
         const qTS = new Handle(flatRate4(0.02, dayCounter));
@@ -1163,9 +1164,9 @@ describe(`Heston model tests ${version}`, () => {
 
     it('Testing piecewise time dependent ChF vs Heston ChF...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('5-July-2017');
+        const settlementDate = DateExt.UTC('5,July,2017');
         Settings.evaluationDate.set(settlementDate);
-        const maturityDate = new Date('5-July-2018');
+        const maturityDate = DateExt.UTC('5,July,2018');
         const dayCounter = new Actual365Fixed();
         const rTS = new Handle(flatRate4(0.01, dayCounter));
         const qTS = new Handle(flatRate4(0.02, dayCounter));
@@ -1197,10 +1198,10 @@ describe(`Heston model tests ${version}`, () => {
 
     it('Testing piecewise time dependent comparison...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('5-July-2017');
+        const settlementDate = DateExt.UTC('5,July,2017');
         Settings.evaluationDate.set(settlementDate);
         const dc = new Actual365Fixed();
-        const maturityDate = new Date('5-July-2018');
+        const maturityDate = DateExt.UTC('5,July,2018');
         const maturity = dc.yearFraction(settlementDate, maturityDate);
         const rTS = new Handle(flatRate4(0.05, dc));
         const qTS = new Handle(flatRate4(0.08, dc));
@@ -1260,10 +1261,10 @@ describe(`Heston model tests ${version}`, () => {
             .toBeLessThan(3.0 * errorEstimate);
         backup.dispose();
     });
-    
+
     it('Testing piecewise time dependent ChF Asymtotic...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('5-July-2017');
+        const settlementDate = DateExt.UTC('5,July,2017');
         Settings.evaluationDate.set(settlementDate);
         const maturityDate = DateExt.advance(settlementDate, 13, TimeUnit.Months);
         const dc = new Actual365Fixed();
@@ -1343,7 +1344,7 @@ describe(`Heston model tests ${version}`, () => {
 describe(`Heston model experimental tests ${version}`, () => {
     it('Testing analytic PDF Heston engine...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('5-January-2014');
+        const settlementDate = DateExt.UTC('5,January,2014');
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new Actual365Fixed();
         const riskFreeTS = new Handle(flatRate4(0.07, dayCounter));

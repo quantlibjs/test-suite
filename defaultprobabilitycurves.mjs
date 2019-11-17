@@ -13,7 +13,8 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Actual360, BackwardFlat, BusinessDayConvention, Claim, CreditDefaultSwap, DateExt, DateGeneration, DefaultDensity, FlatForward, FlatHazardRate, Frequency, Handle, HazardRate, Linear, LogLinear, MidPointCdsEngine, Period, PiecewiseDefaultCurve, Protection, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, SpreadCdsHelper, SurvivalProbability, TARGET, Thirty360, TimeUnit, UpfrontCdsHelper, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import '/test-suite/quantlibtestsuite.mjs';
+import { Actual360, BackwardFlat, BusinessDayConvention, CreditDefaultSwap, DateExt, DateGeneration, DefaultDensity, FlatForward, FlatHazardRate, Frequency, Handle, HazardRate, Linear, LogLinear, MidPointCdsEngine, Period, PiecewiseDefaultCurve, Protection, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, SpreadCdsHelper, SurvivalProbability, TARGET, Thirty360, TimeUnit, UpfrontCdsHelper, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 function testBootstrapFromSpread(T, I) {
     const calendar = new TARGET();
@@ -99,7 +100,7 @@ function testBootstrapFromUpfront(T, I) {
         const endDate = DateExt.advance(today, n[i], TimeUnit.Years);
         const upfrontDate = calendar.advance1(today, upfrontSettlementDays, TimeUnit.Days, convention);
         const schedule = new Schedule().init2(startDate, endDate, new Period().init2(frequency), calendar, convention, BusinessDayConvention.Unadjusted, rule, false);
-        const cds = new CreditDefaultSwap().init2(Protection.Side.Buyer, notional, quote[i], fixedRate, schedule, convention, dayCounter, true, true, protectionStart, upfrontDate, new Claim(), new Actual360(true), true);
+        const cds = new CreditDefaultSwap().init2(Protection.Side.Buyer, notional, quote[i], fixedRate, schedule, convention, dayCounter, true, true, protectionStart, upfrontDate, null, new Actual360(true), true);
         cds.setPricingEngine(new MidPointCdsEngine(piecewiseCurve, recoveryRate, discountCurve, true));
         const inputUpfront = quote[i];
         const computedUpfront = cds.fairUpfront();
@@ -140,6 +141,7 @@ describe(`Default-probability curve tests ${version}`, () => {
                 .toBeLessThan(tolerance);
         }
     });
+
     it('Testing flat hazard rate...', () => {
         const hazardRate = 0.0100;
         const hazardRateQuote = new Handle(new SimpleQuote(hazardRate));
@@ -160,22 +162,27 @@ describe(`Default-probability curve tests ${version}`, () => {
                 .toBeLessThan(tolerance);
         }
     });
+
     it('Testing piecewise-flat hazard-rate consistency...', () => {
         testBootstrapFromSpread(new HazardRate(), new BackwardFlat());
         testBootstrapFromUpfront(new HazardRate(), new BackwardFlat());
     });
+
     it('Testing piecewise-flat default-density consistency...', () => {
         testBootstrapFromSpread(new DefaultDensity(), new BackwardFlat());
         testBootstrapFromUpfront(new DefaultDensity(), new BackwardFlat());
     });
+
     it('Testing piecewise-linear default-density consistency...', () => {
         testBootstrapFromSpread(new DefaultDensity(), new Linear());
         testBootstrapFromUpfront(new DefaultDensity(), new Linear());
     });
+
     it('Testing log-linear survival-probability consistency...', () => {
         testBootstrapFromSpread(new SurvivalProbability(), new LogLinear());
         testBootstrapFromUpfront(new SurvivalProbability(), new LogLinear());
     });
+
     it('Testing single-instrument curve bootstrap...', () => {
         const calendar = new TARGET();
         const today = Settings.evaluationDate.f();
@@ -194,7 +201,9 @@ describe(`Default-probability curve tests ${version}`, () => {
         const defaultCurve = new PiecewiseDefaultCurve(new HazardRate(), new BackwardFlat())
             .pwdcInit1(today, helpers, dayCounter);
         defaultCurve.recalculate();
+        expect(()=>{}).not.toThrow();
     });
+
     it('Testing bootstrap on upfront quotes...', () => {
         const backup = new SavedSettings();
         Settings.includeTodaysCashFlows = false;
