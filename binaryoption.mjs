@@ -64,7 +64,7 @@ describe(`Binary Option tests ${version}`, () => {
             new BinaryOptionData(Barrier.Type.UpOut, 100.00, 15.00, Option.Type.Put, 98.00, 101.00, 0.00, 0.10, 0.5, 0.20, 0.0000, 1e-4),
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(100.0);
         const qRate = new SimpleQuote(0.04);
         const qTS = flatRate1(today, qRate, dc);
@@ -75,7 +75,7 @@ describe(`Binary Option tests ${version}`, () => {
         for (let i = 0; i < values.length; i++) {
             const payoff = new CashOrNothingPayoff(values[i].type, values[i].strike, values[i].cash);
             const exDate = DateExt.add(today, Math.floor(values[i].t * 360 + 0.5));
-            const amExercise = new AmericanExercise().init1(today, exDate, true);
+            const amExercise = new AmericanExercise().aeInit1(today, exDate, true);
             spot.setValue(values[i].s);
             qRate.setValue(values[i].q);
             rRate.setValue(values[i].r);
@@ -89,7 +89,7 @@ describe(`Binary Option tests ${version}`, () => {
             expect(error).toBeLessThan(values[i].tol);
         }
     });
-    
+
     it('Testing asset-or-nothing barrier options against Haug\'s values...', () => {
         const values = [
             new BinaryOptionData(Barrier.Type.DownIn, 100.00, 0.00, Option.Type.Call, 102.00, 105.00, 0.00, 0.10, 0.5, 0.20, 37.2782, 1e-4),
@@ -110,7 +110,7 @@ describe(`Binary Option tests ${version}`, () => {
             new BinaryOptionData(Barrier.Type.UpOut, 100.00, 0.00, Option.Type.Put, 98.00, 95.00, 0.00, 0.10, 0.5, 0.20, 17.0306, 1e-4),
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(100.0);
         const qRate = new SimpleQuote(0.04);
         const qTS = flatRate1(today, qRate, dc);
@@ -121,7 +121,7 @@ describe(`Binary Option tests ${version}`, () => {
         for (let i = 0; i < values.length; i++) {
             const payoff = new AssetOrNothingPayoff(values[i].type, values[i].strike);
             const exDate = DateExt.add(today, Math.floor(values[i].t * 360 + 0.5));
-            const amExercise = new AmericanExercise().init1(today, exDate, true);
+            const amExercise = new AmericanExercise().aeInit1(today, exDate, true);
             spot.setValue(values[i].s);
             qRate.setValue(values[i].q);
             rRate.setValue(values[i].r);

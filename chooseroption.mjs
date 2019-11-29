@@ -40,9 +40,10 @@ describe(`Chooser option tests ${version}`, () => {
         const tolerance = 3e-5;
         expect(Math.abs(calculated - expected)).toBeLessThan(tolerance);
     });
+
     it('Testing analytic complex chooser option...', () => {
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(50.0);
         const qRate = new SimpleQuote(0.05);
         const qTS = flatRate1(today, qRate, dc);

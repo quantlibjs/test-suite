@@ -13,12 +13,12 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Actual360, BlackCdsOptionEngine, BusinessDayConvention, CdsOption, CreditDefaultSwap, DateGeneration, EuropeanExercise, FlatForward, FlatHazardRate, Frequency, Handle, MidPointCdsEngine, Period, Protection, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, TARGET, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, BlackCdsOptionEngine, BusinessDayConvention, CdsOption, CreditDefaultSwap, DateExt, DateGeneration, EuropeanExercise, FlatForward, FlatHazardRate, Frequency, Handle, MidPointCdsEngine, Period, Protection, RelinkableHandle, SavedSettings, Schedule, Settings, SimpleQuote, TARGET, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 describe(`CDS Option tests ${version}`, () => {
     it('Testing CDS-option value against cached values...', () => {
         const backup = new SavedSettings();
-        const cachedToday = new Date('10-December-2007');
+        const cachedToday = DateExt.UTC('10,December,2007');
         Settings.evaluationDate.set(cachedToday);
         const calendar = new TARGET();
         const riskFree = new RelinkableHandle();

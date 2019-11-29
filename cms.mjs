@@ -21,7 +21,7 @@ class CommonVars {
         this.termStructure = new RelinkableHandle();
         this.backup = new SavedSettings();
         const calendar = new TARGET();
-        const referenceDate = calendar.adjust(new Date());
+        const referenceDate = calendar.adjust(DateExt.UTC());
         Settings.evaluationDate.set(referenceDate);
         this.termStructure.linkTo(flatRate2(referenceDate, 0.05, new Actual365Fixed()));
         const atmOptionTenors = [];
@@ -198,6 +198,7 @@ describe(`Cms tests ${version}`, () => {
         }
         vars.backup.dispose();
     });
+
     it('Testing Hagan-pricer flat-vol equivalence for swaps...', () => {
         const vars = new CommonVars();
         const swapIndex = new SwapIndex().siInit('EuriborSwapIsdaFixA', new Period().init1(10, TimeUnit.Years), vars.iborIndex.fixingDays(), vars.iborIndex.currency(), vars.iborIndex.fixingCalendar(), new Period().init1(1, TimeUnit.Years), BusinessDayConvention.Unadjusted, vars.iborIndex.dayCounter(), vars.iborIndex);
@@ -230,6 +231,7 @@ describe(`Cms tests ${version}`, () => {
         }
         vars.backup.dispose();
     });
+
     it('Testing put-call parity for capped-floored CMS coupons...', () => {
         const vars = new CommonVars();
         const swaptionVols = [];

@@ -106,7 +106,7 @@ function testFdGreeks(Engine) {
         for (let j = 0; j < strikes.length; j++) {
             for (let k = 0; k < years.length; k++) {
                 const exDate = DateExt.advance(today, years[k], TimeUnit.Years);
-                const exercise = new AmericanExercise().init1(today, exDate);
+                const exercise = new AmericanExercise().aeInit1(today, exDate);
                 payoff = new PlainVanillaPayoff(types[i], strikes[j]);
                 const stochProcess = new BlackScholesMertonProcess(new Handle(spot), qTS, rTS, volTS);
                 let engine = Engine.fdInit(stochProcess);
@@ -208,7 +208,7 @@ describe(`American option tests ${version}`, () => {
         for (let i = 0; i < values.length; i++) {
             const payoff = new PlainVanillaPayoff(values[i].type, values[i].strike);
             const exDate = DateExt.add(today, Math.floor(values[i].t * 360 + 0.5));
-            const exercise = new AmericanExercise().init1(today, exDate);
+            const exercise = new AmericanExercise().aeInit1(today, exDate);
             spot.setValue(values[i].s);
             qRate.setValue(values[i].q);
             rRate.setValue(values[i].r);
@@ -247,7 +247,7 @@ describe(`American option tests ${version}`, () => {
         for (let i = 0; i < values.length; i++) {
             const payoff = new PlainVanillaPayoff(values[i].type, values[i].strike);
             const exDate = DateExt.add(today, Math.floor(values[i].t * 360 + 0.5));
-            const exercise = new AmericanExercise().init1(today, exDate);
+            const exercise = new AmericanExercise().aeInit1(today, exDate);
             spot.setValue(values[i].s);
             qRate.setValue(values[i].q);
             rRate.setValue(values[i].r);
@@ -276,7 +276,7 @@ describe(`American option tests ${version}`, () => {
         for (let i = 0; i < juValues.length; i++) {
             const payoff = new PlainVanillaPayoff(juValues[i].type, juValues[i].strike);
             const exDate = DateExt.add(today, Math.floor(juValues[i].t * 360 + 0.5));
-            const exercise = new AmericanExercise().init1(today, exDate);
+            const exercise = new AmericanExercise().aeInit1(today, exDate);
             spot.setValue(juValues[i].s);
             qRate.setValue(juValues[i].q);
             rRate.setValue(juValues[i].r);
@@ -305,7 +305,7 @@ describe(`American option tests ${version}`, () => {
         for (let i = 0; i < juValues.length; i++) {
             const payoff = new PlainVanillaPayoff(juValues[i].type, juValues[i].strike);
             const exDate = DateExt.add(today, Math.floor(juValues[i].t * 360 + 0.5));
-            const exercise = new AmericanExercise().init1(today, exDate);
+            const exercise = new AmericanExercise().aeInit1(today, exDate);
             spot.setValue(juValues[i].s);
             qRate.setValue(juValues[i].q);
             rRate.setValue(juValues[i].r);

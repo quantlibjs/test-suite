@@ -13,7 +13,7 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Actual360, Actual365Fixed, Array2D, BusinessDayConvention, CapFloorTermVolSurface, ConstantOptionletVolatility, ConstantSwaptionVolatility, DepositRateHelper, Discount, EndCriteria, Euribor, EuriborSwapIsdaFixA, FlatForward, FraRateHelper, Frequency, Handle, LogLinear, MarkovFunctional, MfStateProcess, OptionletStripper1, Period, PiecewiseYieldCurve, Settings, SimpleQuote, StrippedOptionletAdapter, SwapRateHelper, SwaptionVolatilityMatrix, SwaptionVolCube1, TARGET, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Actual365Fixed, Array1D, Array2D, BermudanExercise, BlackCapFloorEngine, blackFormula1, blackFormulaImpliedStdDev1, BlackSwaptionEngine, BusinessDayConvention, CapFloor, CapFloorTermVolSurface, ConstantOptionletVolatility, ConstantSwaptionVolatility, DateExt, DepositRateHelper, Discount, EndCriteria, Euribor, EuriborSwapIsdaFixA, EuropeanExercise, FlatForward, FraRateHelper, Frequency, Gaussian1dCapFloorEngine, Gaussian1dSwaptionEngine, Handle, InterpolatedSmileSection, KahaleSmileSection, LevenbergMarquardt, Linear, LogLinear, MakeCapFloor, MakeSwaption, MakeVanillaSwap, MarkovFunctional, MfStateProcess, Option, OptionletStripper1, Period, PiecewiseYieldCurve, Settings, SimpleQuote, StrippedOptionletAdapter, SwapRateHelper, Swaption, SwaptionHelper, SwaptionVolatilityMatrix, SwaptionVolCube1, TARGET, Thirty360, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 function flatYts() {
     return new Handle(new FlatForward().ffInit4(0, new TARGET(), 0.03, new Actual365Fixed()));
@@ -412,76 +412,677 @@ function md0OptionletVts() {
 }
 
 function expiriesCalBasket1() {
-    return null;
+    const res = [];
+    const referenceDate_ = Settings.evaluationDate.f();
+    for (let i = 1; i <= 5; i++) {
+        res.push(new TARGET().advance1(referenceDate_, i, TimeUnit.Years));
+    }
+    return res;
 }
 
 function tenorsCalBasket1() {
-    return null;
+    const res = new Array(5);
+    for (let i = 0; i < 5; ++i) {
+        res[i] = new Period().init1(10, TimeUnit.Years);
+    }
+    return res;
+}
+
+function expiriesCalBasket2() {
+    const res = [];
+    const referenceDate_ = Settings.evaluationDate.f();
+    res.push(new TARGET().advance1(referenceDate_, 6, TimeUnit.Months));
+    res.push(new TARGET().advance1(referenceDate_, 12, TimeUnit.Months));
+    res.push(new TARGET().advance1(referenceDate_, 18, TimeUnit.Months));
+    res.push(new TARGET().advance1(referenceDate_, 24, TimeUnit.Months));
+    res.push(new TARGET().advance1(referenceDate_, 30, TimeUnit.Months));
+    res.push(new TARGET().advance1(referenceDate_, 36, TimeUnit.Months));
+    res.push(new TARGET().advance1(referenceDate_, 42, TimeUnit.Months));
+    res.push(new TARGET().advance1(referenceDate_, 48, TimeUnit.Months));
+    res.push(new TARGET().advance1(referenceDate_, 54, TimeUnit.Months));
+    res.push(new TARGET().advance1(referenceDate_, 60, TimeUnit.Months));
+    return res;
+}
+
+function expiriesCalBasket3() {
+    const res = [];
+    const referenceDate_ = Settings.evaluationDate.f();
+    res.push(new TARGET().advance1(referenceDate_, 1, TimeUnit.Years));
+    res.push(new TARGET().advance1(referenceDate_, 2, TimeUnit.Years));
+    res.push(new TARGET().advance1(referenceDate_, 3, TimeUnit.Years));
+    res.push(new TARGET().advance1(referenceDate_, 4, TimeUnit.Years));
+    res.push(new TARGET().advance1(referenceDate_, 5, TimeUnit.Years));
+    res.push(new TARGET().advance1(referenceDate_, 6, TimeUnit.Years));
+    res.push(new TARGET().advance1(referenceDate_, 7, TimeUnit.Years));
+    res.push(new TARGET().advance1(referenceDate_, 8, TimeUnit.Years));
+    res.push(new TARGET().advance1(referenceDate_, 9, TimeUnit.Years));
+    return res;
+}
+
+function tenorsCalBasket3() {
+    const res = [];
+    res.push(new Period().init1(9, TimeUnit.Years));
+    res.push(new Period().init1(8, TimeUnit.Years));
+    res.push(new Period().init1(7, TimeUnit.Years));
+    res.push(new Period().init1(6, TimeUnit.Years));
+    res.push(new Period().init1(5, TimeUnit.Years));
+    res.push(new Period().init1(4, TimeUnit.Years));
+    res.push(new Period().init1(3, TimeUnit.Years));
+    res.push(new Period().init1(2, TimeUnit.Years));
+    res.push(new Period().init1(1, TimeUnit.Years));
+    return res;
+}
+
+function impliedStdDevs(atm, strikes, prices) {
+    const result = [];
+    for (let i = 0; i < prices.length; i++) {
+        result.push(blackFormulaImpliedStdDev1(Option.Type.Call, strikes[i], atm, prices[i], 1.0, 0.0, 0.2, 1E-8, 1000));
+    }
+    return result;
 }
 
 describe(`Markov functional model tests ${version}`, () => {
-    it('Testing Markov functional state process...', () => {
-        const tolerance = 1E-10;
-        const times1 = [], vols1 = [1.0];
-        const sp1 = new MfStateProcess(0.00, times1, vols1);
-        const var11 = sp1.variance(0.0, 0.0, 1.0);
-        const var12 = sp1.variance(0.0, 0.0, 2.0);
-        expect(Math.abs(var11 - 1.0)).toBeLessThan(tolerance);
-        expect(Math.abs(var12 - 2.0)).toBeLessThan(tolerance);
-    });
-    it('Testing Kahale smile section...', () => {
-    });
-    it('Testing Markov functional calibration to one instrument set...', () => {
-        const tol0 = 0.0001;
-        const tol1 = 0.0001;
-        const referenceDate = new Date('14-November-2012');
-        Settings.evaluationDate.set(referenceDate);
-        const flatYts_ = flatYts();
-        const flatSwaptionVts_ = flatSwaptionVts();
-        const swapIndexBase = new EuriborSwapIsdaFixA().esInit1(new Period().init1(1, TimeUnit.Years));
-        const volStepDates = [];
-        const vols = [];
-        vols.push(1.0);
-        const money = [];
-        money.push(0.1);
-        money.push(0.25);
-        money.push(0.50);
-        money.push(0.75);
-        money.push(1.0);
-        money.push(1.25);
-        money.push(1.50);
-        money.push(2.0);
-        money.push(5.0);
-        const mf1 = new MarkovFunctional().mfInit1(flatYts_, 0.01, volStepDates, vols, flatSwaptionVts_, expiriesCalBasket1(), tenorsCalBasket1(), swapIndexBase, new MarkovFunctional.ModelSettings()
-            .init1()
-            .withYGridPoints(64)
-            .withYStdDevs(7.0)
-            .withGaussHermitePoints(32)
-            .withDigitalGap(1e-5)
-            .withMarketRateAccuracy(1e-7)
-            .withLowerRateBound(0.0)
-            .withUpperRateBound(2.0)
-            .withAdjustments(MarkovFunctional.ModelSettings.Adjustments.KahaleSmile |
-            MarkovFunctional.ModelSettings.Adjustments
-                .SmileExponentialExtrapolation)
-            .withSmileMoneynessCheckpoints(money));
-        const outputs1 = mf1.modelOutputs();
-        for (let i = 0; i < outputs1._expiries.length; i++) {
-            expect(Math.abs(outputs1._marketZerorate[i] - outputs1._modelZerorate[i]))
-                .toBeLessThan(tol0);
-        }
-        for (let i = 0; i < outputs1._expiries.length; i++) {
-            for (let j = 0; j < outputs1._smileStrikes[i].length; j++) {
-                expect(Math.abs(outputs1._marketCallPremium[i][j] -
-                    outputs1._modelCallPremium[i][j]))
-                    .toBeLessThan(tol1);
-            }
-        }
-    });
-    it('Testing Markov functional vanilla engines...', () => {
-    });
-    it('Testing Markov functional calibration to two instrument sets...', () => {
-    });
-    it('Testing Markov functional Bermudan swaption engine...', () => {
-    });
+  it('Testing Markov functional state process...', () => {
+      const tolerance = 1E-10;
+      const times1 = [], vols1 = [1.0];
+      const sp1 = new MfStateProcess(0.00, times1, vols1);
+      const var11 = sp1.variance(0.0, 0.0, 1.0);
+      const var12 = sp1.variance(0.0, 0.0, 2.0);
+      expect(Math.abs(var11 - 1.0)).toBeLessThan(tolerance);
+      expect(Math.abs(var12 - 2.0)).toBeLessThan(tolerance);
+      const times2 = new Array(2), vols2 = new Array(3);
+      times2[0] = 1.0;
+      times2[1] = 2.0;
+      vols2[0] = 1.0;
+      vols2[1] = 2.0;
+      vols2[2] = 3.0;
+      const sp2 = new MfStateProcess(0.00, times2, vols2);
+      const dif21 = sp2.diffusion2(0.0, 0.0);
+      const dif22 = sp2.diffusion2(0.99, 0.0);
+      const dif23 = sp2.diffusion2(1.0, 0.0);
+      const dif24 = sp2.diffusion2(1.9, 0.0);
+      const dif25 = sp2.diffusion2(2.0, 0.0);
+      const dif26 = sp2.diffusion2(3.0, 0.0);
+      const dif27 = sp2.diffusion2(5.0, 0.0);
+      expect(Math.abs(dif21 - 1.0)).toBeLessThan(tolerance);
+      expect(Math.abs(dif22 - 1.0)).toBeLessThan(tolerance);
+      expect(Math.abs(dif23 - 2.0)).toBeLessThan(tolerance);
+      expect(Math.abs(dif24 - 2.0)).toBeLessThan(tolerance);
+      expect(Math.abs(dif25 - 3.0)).toBeLessThan(tolerance);
+      expect(Math.abs(dif26 - 3.0)).toBeLessThan(tolerance);
+      expect(Math.abs(dif27 - 3.0)).toBeLessThan(tolerance);
+      const var21 = sp2.variance(0.0, 0.0, 0.0);
+      const var22 = sp2.variance(0.0, 0.0, 0.5);
+      const var23 = sp2.variance(0.0, 0.0, 1.0);
+      const var24 = sp2.variance(0.0, 0.0, 1.5);
+      const var25 = sp2.variance(0.0, 0.0, 3.0);
+      const var26 = sp2.variance(0.0, 0.0, 5.0);
+      const var27 = sp2.variance(1.2, 0.0, 1.0);
+      expect(Math.abs(var21 - 0.0)).toBeLessThan(tolerance);
+      expect(Math.abs(var22 - 0.5)).toBeLessThan(tolerance);
+      expect(Math.abs(var23 - 1.0)).toBeLessThan(tolerance);
+      expect(Math.abs(var24 - 3.0)).toBeLessThan(tolerance);
+      expect(Math.abs(var25 - 14.0)).toBeLessThan(tolerance);
+      expect(Math.abs(var26 - 32.0)).toBeLessThan(tolerance);
+      expect(Math.abs(var27 - 5.0)).toBeLessThan(tolerance);
+      const sp3 = new MfStateProcess(0.01, times2, vols2);
+      const var31 = sp3.variance(0.0, 0.0, 0.0);
+      const var32 = sp3.variance(0.0, 0.0, 0.5);
+      const var33 = sp3.variance(0.0, 0.0, 1.0);
+      const var34 = sp3.variance(0.0, 0.0, 1.5);
+      const var35 = sp3.variance(0.0, 0.0, 3.0);
+      const var36 = sp3.variance(0.0, 0.0, 5.0);
+      const var37 = sp3.variance(1.2, 0.0, 1.0);
+      expect(Math.abs(var31 - 0.0)).toBeLessThan(tolerance);
+      expect(Math.abs(var32 - 0.502508354208)).toBeLessThan(tolerance);
+      expect(Math.abs(var33 - 1.01006700134)).toBeLessThan(tolerance);
+      expect(Math.abs(var34 - 3.06070578669)).toBeLessThan(tolerance);
+      expect(Math.abs(var35 - 14.5935513933)).toBeLessThan(tolerance);
+      expect(Math.abs(var36 - 34.0940185819)).toBeLessThan(tolerance);
+      expect(Math.abs(var37 - 5.18130257358)).toBeLessThan(tolerance);
+  });
+
+  it('Testing Kahale smile section...', () => {
+      const tol = 1E-8;
+      const atm = 0.05;
+      const t = 1.0;
+      const strikes0 = [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10];
+      const strikes = strikes0.slice(0, 10);
+      const money = [];
+      const calls0 = [];
+      for (let i = 0; i < strikes.length; i++) {
+          money.push(strikes[i] / atm);
+          calls0.push(blackFormula1(Option.Type.Call, strikes[i], atm, 0.50 * Math.sqrt(t), 1.0, 0.0));
+      }
+      const stdDevs0 = impliedStdDevs(atm, strikes, calls0);
+      const sec1 = new InterpolatedSmileSection(new Linear())
+          .issInit2(t, strikes, stdDevs0, atm);
+      const ksec11 = new KahaleSmileSection(sec1, atm, false, false, false, money);
+      expect(Math.abs(ksec11.leftCoreStrike() - 0.01)).toBeLessThan(tol);
+      expect(Math.abs(ksec11.rightCoreStrike() - 0.10)).toBeLessThan(tol);
+      let k = strikes[0];
+      while (k <= Array1D.back(strikes) + tol) {
+          const pric0 = sec1.optionPrice(k);
+          const pric1 = ksec11.optionPrice(k);
+          expect(Math.abs(pric0 - pric1)).toBeLessThan(tol);
+          k += 0.0001;
+      }
+      const ksec12 = new KahaleSmileSection(sec1, atm, true, false, false, money);
+      expect(Math.abs(ksec12.leftCoreStrike() - 0.02)).toBeLessThan(tol);
+      expect(Math.abs(ksec12.leftCoreStrike() - 0.01)).toBeLessThan(tol);
+      expect(Math.abs(ksec12.rightCoreStrike() - 0.10)).toBeLessThan(tol);
+      for (let i = 1; i < strikes.length; i++) {
+          const pric0 = sec1.optionPrice(strikes[i]);
+          const pric1 = ksec12.optionPrice(strikes[i]);
+          expect(Math.abs(pric0 - pric1)).toBeLessThan(tol);
+      }
+      k = 0.0010;
+      let dig00 = 1.0, dig10 = 1.0;
+      while (k <= 2.0 * Array1D.back(strikes) + tol) {
+          const dig0 = ksec11.digitalOptionPrice(k);
+          const dig1 = ksec12.digitalOptionPrice(k);
+          expect(dig0).toBeLessThanOrEqual(dig00 + tol);
+          expect(dig0).toBeGreaterThanOrEqual(0.0);
+          expect(dig1).toBeLessThanOrEqual(dig10 + tol);
+          expect(dig1).toBeGreaterThanOrEqual(0.0);
+          dig00 = dig0;
+          dig10 = dig1;
+          k += 0.0001;
+      }
+      const ksec13 = new KahaleSmileSection(sec1, atm, false, true, false, money);
+      k = Array1D.back(strikes);
+      const dig0 = ksec13.digitalOptionPrice(k - 0.0010);
+      while (k <= 10.0 * Array1D.back(strikes) + tol) {
+          expect(dig0).toBeLessThanOrEqual(dig00 + tol);
+          expect(dig0).toBeGreaterThanOrEqual(0.0);
+          k += 0.0001;
+      }
+      const calls1 = Array.from(calls0);
+      calls1[0] = (atm - strikes[0]) +
+          0.0010;
+      const stdDevs1 = impliedStdDevs(atm, strikes, calls1);
+      const sec2 = new InterpolatedSmileSection(new Linear())
+          .issInit2(t, strikes, stdDevs1, atm);
+      const ksec21 = new KahaleSmileSection(sec2, atm, false, false, false, money);
+      const ksec22 = new KahaleSmileSection(sec2, atm, true, false, true, money);
+      expect(Math.abs(ksec21.leftCoreStrike() - 0.02)).toBeLessThan(tol);
+      expect(Math.abs(ksec22.leftCoreStrike() - 0.02)).toBeLessThan(tol);
+      expect(Math.abs(ksec21.rightCoreStrike() - 0.10)).toBeLessThan(tol);
+      expect(Math.abs(ksec22.rightCoreStrike() - 0.10)).toBeLessThan(tol);
+      k = 0.0010;
+      dig00 = dig10 = 1.0;
+      while (k <= 2.0 * Array1D.back(strikes) + tol) {
+          const dig0 = ksec21.digitalOptionPrice(k);
+          const dig1 = ksec22.digitalOptionPrice(k);
+          expect(dig0).toBeLessThanOrEqual(dig00 + tol);
+          expect(dig0).toBeGreaterThanOrEqual(0.0);
+          expect(dig1).toBeLessThanOrEqual(dig10 + tol);
+          expect(dig1).toBeGreaterThanOrEqual(0.0);
+          dig00 = dig0;
+          dig10 = dig1;
+          k += 0.0001;
+      }
+      const calls2 = Array.from(calls0);
+      calls2[8] = 0.9 * calls2[9] +
+          0.1 * calls2[8];
+      const stdDevs2 = impliedStdDevs(atm, strikes, calls2);
+      const sec3 = new InterpolatedSmileSection(new Linear())
+          .issInit2(t, strikes, stdDevs2, atm);
+      const ksec31 = new KahaleSmileSection(sec3, atm, false, false, false, money);
+      const ksec32 = new KahaleSmileSection(sec3, atm, true, false, true, money);
+      expect(Math.abs(ksec31.leftCoreStrike() - 0.01)).toBeLessThan(tol);
+      expect(Math.abs(ksec32.leftCoreStrike() - 0.02)).toBeLessThan(tol);
+      expect(Math.abs(ksec32.leftCoreStrike() - 0.01)).toBeLessThan(tol);
+      expect(Math.abs(ksec31.rightCoreStrike() - 0.08)).toBeLessThan(tol);
+      expect(Math.abs(ksec32.rightCoreStrike() - 0.10)).toBeLessThan(tol);
+      k = 0.0010;
+      dig00 = dig10 = 1.0;
+      while (k <= 2.0 * Array1D.back(strikes) + tol) {
+          const dig0 = ksec31.digitalOptionPrice(k);
+          const dig1 = ksec32.digitalOptionPrice(k);
+          expect(dig0).toBeLessThanOrEqual(dig00 + tol);
+          expect(dig0).toBeGreaterThanOrEqual(0.0);
+          expect(dig1).toBeLessThanOrEqual(dig10 + tol);
+          expect(dig1).toBeGreaterThanOrEqual(0.0);
+          dig00 = dig0;
+          dig10 = dig1;
+          k += 0.0001;
+      }
+  });
+
+  it('Testing Markov functional calibration to one instrument set...', () => {
+      const tol0 = 0.0001;
+      const tol1 = 0.0001;
+      const referenceDate = new Date('14-November-2012');
+      Settings.evaluationDate.set(referenceDate);
+      const flatYts_ = flatYts();
+      const flatSwaptionVts_ = flatSwaptionVts();
+      const swapIndexBase = new EuriborSwapIsdaFixA().esInit1(new Period().init1(1, TimeUnit.Years));
+      const volStepDates = [];
+      const vols = [];
+      vols.push(1.0);
+      const money = [];
+      money.push(0.1);
+      money.push(0.25);
+      money.push(0.50);
+      money.push(0.75);
+      money.push(1.0);
+      money.push(1.25);
+      money.push(1.50);
+      money.push(2.0);
+      money.push(5.0);
+      const mf1 = new MarkovFunctional().mfInit1(flatYts_, 0.01, volStepDates, vols, flatSwaptionVts_, expiriesCalBasket1(), tenorsCalBasket1(), swapIndexBase, new MarkovFunctional.ModelSettings()
+          .init1()
+          .withYGridPoints(64)
+          .withYStdDevs(7.0)
+          .withGaussHermitePoints(32)
+          .withDigitalGap(1e-5)
+          .withMarketRateAccuracy(1e-7)
+          .withLowerRateBound(0.0)
+          .withUpperRateBound(2.0)
+          .withAdjustments(MarkovFunctional.ModelSettings.Adjustments.KahaleSmile |
+          MarkovFunctional.ModelSettings.Adjustments
+              .SmileExponentialExtrapolation)
+          .withSmileMoneynessCheckpoints(money));
+      const outputs1 = mf1.modelOutputs();
+      for (let i = 0; i < outputs1._expiries.length; i++) {
+          expect(Math.abs(outputs1._marketZerorate[i] - outputs1._modelZerorate[i]))
+              .toBeLessThan(tol0);
+      }
+      for (let i = 0; i < outputs1._expiries.length; i++) {
+          for (let j = 0; j < outputs1._smileStrikes[i].length; j++) {
+              expect(Math.abs(outputs1._marketCallPremium[i][j] -
+                  outputs1._modelCallPremium[i][j]))
+                  .toBeLessThan(tol1);
+          }
+      }
+  });
+
+  it('Testing Markov functional vanilla engines...', () => {
+      const tol1 = 0.0001;
+      const savedEvalDate = Settings.evaluationDate.f();
+      const referenceDate = DateExt.UTC('14,November,2012');
+      Settings.evaluationDate.set(referenceDate);
+      const flatYts_ = flatYts();
+      const md0Yts_ = md0Yts();
+      const flatSwaptionVts_ = flatSwaptionVts();
+      const md0SwaptionVts_ = md0SwaptionVts();
+      const flatOptionletVts_ = flatOptionletVts();
+      const md0OptionletVts_ = md0OptionletVts();
+      const swapIndexBase = new EuriborSwapIsdaFixA().esInit1(new Period().init1(1, TimeUnit.Years));
+      const volStepDates = [];
+      const vols = [];
+      vols.push(1.0);
+      const money = [];
+      money.push(0.1);
+      money.push(0.25);
+      money.push(0.50);
+      money.push(0.75);
+      money.push(1.0);
+      money.push(1.25);
+      money.push(1.50);
+      money.push(2.0);
+      money.push(5.0);
+      const iborIndex1 = new Euribor(new Period().init1(6, TimeUnit.Months), flatYts_);
+      const mf1 = new MarkovFunctional().mfInit1(flatYts_, 0.01, volStepDates, vols, flatSwaptionVts_, expiriesCalBasket1(), tenorsCalBasket1(), swapIndexBase, new MarkovFunctional.ModelSettings()
+          .withYGridPoints(64)
+          .withYStdDevs(7.0)
+          .withGaussHermitePoints(32)
+          .withDigitalGap(1e-5)
+          .withMarketRateAccuracy(1e-7)
+          .withLowerRateBound(0.0)
+          .withUpperRateBound(2.0)
+          .withSmileMoneynessCheckpoints(money));
+      const outputs1 = mf1.modelOutputs();
+      const mfSwaptionEngine1 = new Gaussian1dSwaptionEngine().g1dseInit1(mf1, 64, 7.0);
+      const blackSwaptionEngine1 = new BlackSwaptionEngine().bseInit3(flatYts_, flatSwaptionVts_);
+      for (let i = 0; i < outputs1._expiries.length; i++) {
+          for (let j = 0; j < outputs1._smileStrikes[0].length; j++) {
+              const underlyingCall = new MakeVanillaSwap(outputs1._tenors[i], iborIndex1, outputs1._smileStrikes[i][j])
+                  .withEffectiveDate(new TARGET().advance1(outputs1._expiries[i], 2, TimeUnit.Days))
+                  .receiveFixed(false)
+                  .f();
+              const underlyingPut = new MakeVanillaSwap(outputs1._tenors[i], iborIndex1, outputs1._smileStrikes[i][j])
+                  .withEffectiveDate(new TARGET().advance1(outputs1._expiries[i], 2, TimeUnit.Days))
+                  .receiveFixed(true)
+                  .f();
+              const exercise = new EuropeanExercise(outputs1._expiries[i]);
+              const swaptionC = new Swaption(underlyingCall, exercise);
+              const swaptionP = new Swaption(underlyingPut, exercise);
+              swaptionC.setPricingEngine(blackSwaptionEngine1);
+              swaptionP.setPricingEngine(blackSwaptionEngine1);
+              const blackPriceCall = swaptionC.NPV();
+              const blackPricePut = swaptionP.NPV();
+              swaptionC.setPricingEngine(mfSwaptionEngine1);
+              swaptionP.setPricingEngine(mfSwaptionEngine1);
+              const mfPriceCall = swaptionC.NPV();
+              const mfPricePut = swaptionP.NPV();
+              expect(Math.abs(blackPriceCall - mfPriceCall)).toBeLessThan(tol1);
+              expect(Math.abs(blackPricePut - mfPricePut)).toBeLessThan(tol1);
+          }
+      }
+      const iborIndex2 = new Euribor(new Period().init1(6, TimeUnit.Months), flatYts_);
+      const mf2 = new MarkovFunctional().mfInit2(flatYts_, 0.01, volStepDates, vols, flatOptionletVts_, expiriesCalBasket2(), iborIndex2, new MarkovFunctional.ModelSettings()
+          .withYGridPoints(64)
+          .withYStdDevs(7.0)
+          .withGaussHermitePoints(16)
+          .withDigitalGap(1e-5)
+          .withMarketRateAccuracy(1e-7)
+          .withLowerRateBound(0.0)
+          .withUpperRateBound(2.0)
+          .withSmileMoneynessCheckpoints(money));
+      const blackCapFloorEngine2 = new BlackCapFloorEngine().init3(flatYts_, flatOptionletVts_);
+      const mfCapFloorEngine2 = new Gaussian1dCapFloorEngine(mf2, 64, 7.0);
+      const c2 = [];
+      c2.push(new MakeCapFloor(CapFloor.Type.Cap, new Period().init1(5, TimeUnit.Years), iborIndex2, 0.01)
+          .f());
+      c2.push(new MakeCapFloor(CapFloor.Type.Cap, new Period().init1(5, TimeUnit.Years), iborIndex2, 0.02)
+          .f());
+      c2.push(new MakeCapFloor(CapFloor.Type.Cap, new Period().init1(5, TimeUnit.Years), iborIndex2, 0.03)
+          .f());
+      c2.push(new MakeCapFloor(CapFloor.Type.Cap, new Period().init1(5, TimeUnit.Years), iborIndex2, 0.04)
+          .f());
+      c2.push(new MakeCapFloor(CapFloor.Type.Cap, new Period().init1(5, TimeUnit.Years), iborIndex2, 0.05)
+          .f());
+      c2.push(new MakeCapFloor(CapFloor.Type.Cap, new Period().init1(5, TimeUnit.Years), iborIndex2, 0.07)
+          .f());
+      c2.push(new MakeCapFloor(CapFloor.Type.Cap, new Period().init1(5, TimeUnit.Years), iborIndex2, 0.10)
+          .f());
+      c2.push(new MakeCapFloor(CapFloor.Type.Floor, new Period().init1(5, TimeUnit.Years), iborIndex2, 0.01)
+          .f());
+      c2.push(new MakeCapFloor(CapFloor.Type.Floor, new Period().init1(5, TimeUnit.Years), iborIndex2, 0.02)
+          .f());
+      c2.push(new MakeCapFloor(CapFloor.Type.Floor, new Period().init1(5, TimeUnit.Years), iborIndex2, 0.03)
+          .f());
+      c2.push(new MakeCapFloor(CapFloor.Type.Floor, new Period().init1(5, TimeUnit.Years), iborIndex2, 0.04)
+          .f());
+      c2.push(new MakeCapFloor(CapFloor.Type.Floor, new Period().init1(5, TimeUnit.Years), iborIndex2, 0.05)
+          .f());
+      c2.push(new MakeCapFloor(CapFloor.Type.Floor, new Period().init1(5, TimeUnit.Years), iborIndex2, 0.07)
+          .f());
+      c2.push(new MakeCapFloor(CapFloor.Type.Floor, new Period().init1(5, TimeUnit.Years), iborIndex2, 0.10)
+          .f());
+      for (let i = 0; i < c2.length; i++) {
+          c2[i].setPricingEngine(blackCapFloorEngine2);
+          const blackPrice = c2[i].NPV();
+          c2[i].setPricingEngine(mfCapFloorEngine2);
+          const mfPrice = c2[i].NPV();
+          expect(Math.abs(blackPrice - mfPrice)).toBeLessThan(tol1);
+      }
+      const iborIndex3 = new Euribor(new Period().init1(6, TimeUnit.Months), md0Yts_);
+      const mf3 = new MarkovFunctional().mfInit1(md0Yts_, 0.01, volStepDates, vols, md0SwaptionVts_, expiriesCalBasket1(), tenorsCalBasket1(), swapIndexBase, new MarkovFunctional.ModelSettings()
+          .withYGridPoints(64)
+          .withYStdDevs(7.0)
+          .withGaussHermitePoints(32)
+          .withDigitalGap(1e-5)
+          .withMarketRateAccuracy(1e-7)
+          .withLowerRateBound(0.0)
+          .withUpperRateBound(2.0)
+          .withSmileMoneynessCheckpoints(money));
+      const mfSwaptionEngine3 = new Gaussian1dSwaptionEngine().g1dseInit1(mf3, 64, 7.0);
+      const blackSwaptionEngine3 = new BlackSwaptionEngine().bseInit3(md0Yts_, md0SwaptionVts_);
+      const outputs3 = mf3.modelOutputs();
+      for (let i = 0; i < outputs3._expiries.length; i++) {
+          for (let j = 0; j < outputs3._smileStrikes[0].length; j++) {
+              const underlyingCall = new MakeVanillaSwap(outputs3._tenors[i], iborIndex3, outputs3._smileStrikes[i][j])
+                  .withEffectiveDate(new TARGET().advance1(outputs3._expiries[i], 2, TimeUnit.Days))
+                  .receiveFixed(false)
+                  .f();
+              const underlyingPut = new MakeVanillaSwap(outputs3._tenors[i], iborIndex3, outputs3._smileStrikes[i][j])
+                  .withEffectiveDate(new TARGET().advance1(outputs3._expiries[i], 2, TimeUnit.Days))
+                  .receiveFixed(true)
+                  .f();
+              const exercise = new EuropeanExercise(outputs3._expiries[i]);
+              const swaptionC = new Swaption(underlyingCall, exercise);
+              const swaptionP = new Swaption(underlyingPut, exercise);
+              swaptionC.setPricingEngine(blackSwaptionEngine3);
+              swaptionP.setPricingEngine(blackSwaptionEngine3);
+              const blackPriceCall = swaptionC.NPV();
+              const blackPricePut = swaptionP.NPV();
+              swaptionC.setPricingEngine(mfSwaptionEngine3);
+              swaptionP.setPricingEngine(mfSwaptionEngine3);
+              const mfPriceCall = swaptionC.NPV();
+              const mfPricePut = swaptionP.NPV();
+              const smileCorrectionCall = (outputs3._marketCallPremium[i][j] -
+                  outputs3._marketRawCallPremium[i][j]);
+              const smileCorrectionPut = (outputs3._marketPutPremium[i][j] -
+                  outputs3._marketRawPutPremium[i][j]);
+              expect(Math.abs(blackPriceCall - mfPriceCall + smileCorrectionCall))
+                  .toBeLessThan(tol1);
+              expect(Math.abs(blackPricePut - mfPricePut + smileCorrectionPut))
+                  .toBeLessThan(tol1);
+          }
+      }
+      const iborIndex4 = new Euribor(new Period().init1(6, TimeUnit.Months), md0Yts_);
+      const mf4 = new MarkovFunctional().mfInit2(md0Yts_, 0.01, volStepDates, vols, md0OptionletVts_, expiriesCalBasket2(), iborIndex4, new MarkovFunctional.ModelSettings()
+          .withYGridPoints(64)
+          .withYStdDevs(7.0)
+          .withGaussHermitePoints(32)
+          .withDigitalGap(1e-5)
+          .withMarketRateAccuracy(1e-7)
+          .withLowerRateBound(0.0)
+          .withUpperRateBound(2.0)
+          .withSmileMoneynessCheckpoints(money));
+      const blackCapFloorEngine4 = new BlackCapFloorEngine().init3(md0Yts_, md0OptionletVts_);
+      const mfCapFloorEngine4 = new Gaussian1dCapFloorEngine(mf4, 64, 7.0);
+      const c4 = [];
+      c4.push(new MakeCapFloor(CapFloor.Type.Cap, new Period().init1(5, TimeUnit.Years), iborIndex4, 0.01)
+          .f());
+      c4.push(new MakeCapFloor(CapFloor.Type.Cap, new Period().init1(5, TimeUnit.Years), iborIndex4, 0.02)
+          .f());
+      c4.push(new MakeCapFloor(CapFloor.Type.Cap, new Period().init1(5, TimeUnit.Years), iborIndex4, 0.03)
+          .f());
+      c4.push(new MakeCapFloor(CapFloor.Type.Cap, new Period().init1(5, TimeUnit.Years), iborIndex4, 0.04)
+          .f());
+      c4.push(new MakeCapFloor(CapFloor.Type.Cap, new Period().init1(5, TimeUnit.Years), iborIndex4, 0.05)
+          .f());
+      c4.push(new MakeCapFloor(CapFloor.Type.Cap, new Period().init1(5, TimeUnit.Years), iborIndex4, 0.06)
+          .f());
+      c4.push(new MakeCapFloor(CapFloor.Type.Floor, new Period().init1(5, TimeUnit.Years), iborIndex4, 0.01)
+          .f());
+      c4.push(new MakeCapFloor(CapFloor.Type.Floor, new Period().init1(5, TimeUnit.Years), iborIndex4, 0.02)
+          .f());
+      c4.push(new MakeCapFloor(CapFloor.Type.Floor, new Period().init1(5, TimeUnit.Years), iborIndex4, 0.03)
+          .f());
+      c4.push(new MakeCapFloor(CapFloor.Type.Floor, new Period().init1(5, TimeUnit.Years), iborIndex4, 0.04)
+          .f());
+      c4.push(new MakeCapFloor(CapFloor.Type.Floor, new Period().init1(5, TimeUnit.Years), iborIndex4, 0.05)
+          .f());
+      c4.push(new MakeCapFloor(CapFloor.Type.Floor, new Period().init1(5, TimeUnit.Years), iborIndex4, 0.06)
+          .f());
+      for (let i = 0; i < c4.length; i++) {
+          c4[i].setPricingEngine(blackCapFloorEngine4);
+          const blackPrice = c4[i].NPV();
+          c4[i].setPricingEngine(mfCapFloorEngine4);
+          const mfPrice = c4[i].NPV();
+          expect(Math.abs(blackPrice - mfPrice)).toBeLessThan(tol1);
+      }
+      Settings.evaluationDate.set(savedEvalDate);
+  });
+
+  it('Testing Markov functional calibration to two instrument sets...', () => {
+      const tol1 = 0.1;
+      const savedEvalDate = Settings.evaluationDate.f();
+      const referenceDate = DateExt.UTC('14,November,2012');
+      Settings.evaluationDate.set(referenceDate);
+      const flatYts_ = flatYts();
+      const md0Yts_ = md0Yts();
+      const flatSwaptionVts_ = flatSwaptionVts();
+      const md0SwaptionVts_ = md0SwaptionVts();
+      const swapIndexBase = new EuriborSwapIsdaFixA().esInit1(new Period().init1(1, TimeUnit.Years));
+      const volStepDates = [];
+      const vols = [];
+      volStepDates.push(new TARGET().advance1(referenceDate, 1, TimeUnit.Years));
+      volStepDates.push(new TARGET().advance1(referenceDate, 2, TimeUnit.Years));
+      volStepDates.push(new TARGET().advance1(referenceDate, 3, TimeUnit.Years));
+      volStepDates.push(new TARGET().advance1(referenceDate, 4, TimeUnit.Years));
+      vols.push(1.0);
+      vols.push(1.0);
+      vols.push(1.0);
+      vols.push(1.0);
+      vols.push(1.0);
+      const money = [];
+      money.push(0.1);
+      money.push(0.25);
+      money.push(0.50);
+      money.push(0.75);
+      money.push(1.0);
+      money.push(1.25);
+      money.push(1.50);
+      money.push(2.0);
+      money.push(5.0);
+      const om = new LevenbergMarquardt();
+      const ec = new EndCriteria(1000, 500, 1e-2, 1e-2, 1e-2);
+      const iborIndex1 = new Euribor(new Period().init1(6, TimeUnit.Months), flatYts_);
+      const calibrationHelper1 = [];
+      const calibrationHelperVols1 = [];
+      calibrationHelperVols1.push(0.20);
+      calibrationHelperVols1.push(0.20);
+      calibrationHelperVols1.push(0.20);
+      calibrationHelperVols1.push(0.20);
+      calibrationHelper1.push(new SwaptionHelper().shInit1(new Period().init1(1, TimeUnit.Years), new Period().init1(4, TimeUnit.Years), new Handle(new SimpleQuote(calibrationHelperVols1[0])), iborIndex1, new Period().init1(1, TimeUnit.Years), new Thirty360(), new Actual360(), flatYts_));
+      calibrationHelper1.push(new SwaptionHelper().shInit1(new Period().init1(2, TimeUnit.Years), new Period().init1(3, TimeUnit.Years), new Handle(new SimpleQuote(calibrationHelperVols1[1])), iborIndex1, new Period().init1(1, TimeUnit.Years), new Thirty360(), new Actual360(), flatYts_));
+      calibrationHelper1.push(new SwaptionHelper().shInit1(new Period().init1(3, TimeUnit.Years), new Period().init1(2, TimeUnit.Years), new Handle(new SimpleQuote(calibrationHelperVols1[2])), iborIndex1, new Period().init1(1, TimeUnit.Years), new Thirty360(), new Actual360(), flatYts_));
+      calibrationHelper1.push(new SwaptionHelper().shInit1(new Period().init1(4, TimeUnit.Years), new Period().init1(1, TimeUnit.Years), new Handle(new SimpleQuote(calibrationHelperVols1[3])), iborIndex1, new Period().init1(1, TimeUnit.Years), new Thirty360(), new Actual360(), flatYts_));
+      const mf1 = new MarkovFunctional().mfInit1(flatYts_, 0.01, volStepDates, vols, flatSwaptionVts_, expiriesCalBasket1(), tenorsCalBasket1(), swapIndexBase, new MarkovFunctional.ModelSettings()
+          .withYGridPoints(64)
+          .withYStdDevs(7.0)
+          .withGaussHermitePoints(32)
+          .withDigitalGap(1e-5)
+          .withMarketRateAccuracy(1e-7)
+          .withLowerRateBound(0.0)
+          .withUpperRateBound(2.0)
+          .withSmileMoneynessCheckpoints(money));
+      const mfSwaptionEngine1 = new Gaussian1dSwaptionEngine().g1dseInit1(mf1, 64, 7.0);
+      calibrationHelper1[0].setPricingEngine(mfSwaptionEngine1);
+      calibrationHelper1[1].setPricingEngine(mfSwaptionEngine1);
+      calibrationHelper1[2].setPricingEngine(mfSwaptionEngine1);
+      calibrationHelper1[3].setPricingEngine(mfSwaptionEngine1);
+      mf1.calibrate(calibrationHelper1, om, ec);
+      const ch1 = [];
+      ch1.push(new MakeSwaption()
+          .init1(new EuriborSwapIsdaFixA().esInit1(new Period().init1(4, TimeUnit.Years), flatYts_), new Period().init1(1, TimeUnit.Years))
+          .f());
+      ch1.push(new MakeSwaption()
+          .init1(new EuriborSwapIsdaFixA().esInit1(new Period().init1(3, TimeUnit.Years), flatYts_), new Period().init1(2, TimeUnit.Years))
+          .f());
+      ch1.push(new MakeSwaption()
+          .init1(new EuriborSwapIsdaFixA().esInit1(new Period().init1(2, TimeUnit.Years), flatYts_), new Period().init1(3, TimeUnit.Years))
+          .f());
+      ch1.push(new MakeSwaption()
+          .init1(new EuriborSwapIsdaFixA().esInit1(new Period().init1(1, TimeUnit.Years), flatYts_), new Period().init1(4, TimeUnit.Years))
+          .f());
+      for (let i = 0; i < ch1.length; i++) {
+          const blackEngine = new BlackSwaptionEngine().bseInit1(flatYts_, calibrationHelperVols1[i]);
+          ch1[i].setPricingEngine(blackEngine);
+          const blackPrice = ch1[i].NPV();
+          const blackVega = ch1[i].result('vega');
+          ch1[i].setPricingEngine(mfSwaptionEngine1);
+          const mfPrice = ch1[i].NPV();
+          expect(Math.abs(blackPrice - mfPrice) / blackVega).toBeLessThan(tol1);
+      }
+      const iborIndex2 = new Euribor(new Period().init1(6, TimeUnit.Months), md0Yts_);
+      const mf2 = new MarkovFunctional().mfInit1(md0Yts_, 0.01, volStepDates, vols, md0SwaptionVts_, expiriesCalBasket1(), tenorsCalBasket1(), swapIndexBase, new MarkovFunctional.ModelSettings()
+          .withYGridPoints(64)
+          .withYStdDevs(7.0)
+          .withGaussHermitePoints(32)
+          .withDigitalGap(1e-5)
+          .withMarketRateAccuracy(1e-7)
+          .withLowerRateBound(0.0)
+          .withUpperRateBound(2.0)
+          .withSmileMoneynessCheckpoints(money));
+      const calibrationHelper2 = [];
+      const calibrationHelperVols2 = [];
+      calibrationHelperVols2.push(md0SwaptionVts_.currentLink().volatility1(new Period().init1(1, TimeUnit.Years), new Period().init1(4, TimeUnit.Years), md0SwaptionVts_.currentLink()
+          .atmStrike2(new Period().init1(1, TimeUnit.Years), new Period().init1(4, TimeUnit.Years))));
+      calibrationHelperVols2.push(md0SwaptionVts_.currentLink().volatility1(new Period().init1(2, TimeUnit.Years), new Period().init1(3, TimeUnit.Years), md0SwaptionVts_.currentLink()
+          .atmStrike2(new Period().init1(2, TimeUnit.Years), new Period().init1(3, TimeUnit.Years))));
+      calibrationHelperVols2.push(md0SwaptionVts_.currentLink().volatility1(new Period().init1(3, TimeUnit.Years), new Period().init1(2, TimeUnit.Years), md0SwaptionVts_.currentLink()
+          .atmStrike2(new Period().init1(3, TimeUnit.Years), new Period().init1(2, TimeUnit.Years))));
+      calibrationHelperVols2.push(md0SwaptionVts_.currentLink().volatility1(new Period().init1(4, TimeUnit.Years), new Period().init1(1, TimeUnit.Years), md0SwaptionVts_.currentLink()
+          .atmStrike2(new Period().init1(4, TimeUnit.Years), new Period().init1(1, TimeUnit.Years))));
+      calibrationHelper2.push(new SwaptionHelper().shInit1(new Period().init1(1, TimeUnit.Years), new Period().init1(4, TimeUnit.Years), new Handle(new SimpleQuote(calibrationHelperVols2[0])), iborIndex2, new Period().init1(1, TimeUnit.Years), new Thirty360(), new Actual360(), md0Yts_));
+      calibrationHelper2.push(new SwaptionHelper().shInit1(new Period().init1(2, TimeUnit.Years), new Period().init1(3, TimeUnit.Years), new Handle(new SimpleQuote(calibrationHelperVols2[1])), iborIndex2, new Period().init1(1, TimeUnit.Years), new Thirty360(), new Actual360(), md0Yts_));
+      calibrationHelper2.push(new SwaptionHelper().shInit1(new Period().init1(3, TimeUnit.Years), new Period().init1(2, TimeUnit.Years), new Handle(new SimpleQuote(calibrationHelperVols2[2])), iborIndex2, new Period().init1(1, TimeUnit.Years), new Thirty360(), new Actual360(), md0Yts_));
+      calibrationHelper2.push(new SwaptionHelper().shInit1(new Period().init1(4, TimeUnit.Years), new Period().init1(1, TimeUnit.Years), new Handle(new SimpleQuote(calibrationHelperVols2[3])), iborIndex2, new Period().init1(1, TimeUnit.Years), new Thirty360(), new Actual360(), md0Yts_));
+      const mfSwaptionEngine2 = new Gaussian1dSwaptionEngine().g1dseInit1(mf2, 64, 7.0);
+      calibrationHelper2[0].setPricingEngine(mfSwaptionEngine2);
+      calibrationHelper2[1].setPricingEngine(mfSwaptionEngine2);
+      calibrationHelper2[2].setPricingEngine(mfSwaptionEngine2);
+      calibrationHelper2[3].setPricingEngine(mfSwaptionEngine2);
+      mf2.calibrate(calibrationHelper2, om, ec);
+      const ch2 = [];
+      ch2.push(new MakeSwaption()
+          .init1(new EuriborSwapIsdaFixA().esInit1(new Period().init1(4, TimeUnit.Years), md0Yts_), new Period().init1(1, TimeUnit.Years))
+          .f());
+      ch2.push(new MakeSwaption()
+          .init1(new EuriborSwapIsdaFixA().esInit1(new Period().init1(3, TimeUnit.Years), md0Yts_), new Period().init1(2, TimeUnit.Years))
+          .f());
+      ch2.push(new MakeSwaption()
+          .init1(new EuriborSwapIsdaFixA().esInit1(new Period().init1(2, TimeUnit.Years), md0Yts_), new Period().init1(3, TimeUnit.Years))
+          .f());
+      ch2.push(new MakeSwaption()
+          .init1(new EuriborSwapIsdaFixA().esInit1(new Period().init1(1, TimeUnit.Years), md0Yts_), new Period().init1(4, TimeUnit.Years))
+          .f());
+      for (let i = 0; i < ch2.length; i++) {
+          const blackEngine = new BlackSwaptionEngine().bseInit1(md0Yts_, calibrationHelperVols2[i]);
+          ch2[i].setPricingEngine(blackEngine);
+          const blackPrice = ch2[i].NPV();
+          const blackVega = ch2[i].result('vega');
+          ch2[i].setPricingEngine(mfSwaptionEngine2);
+          const mfPrice = ch2[i].NPV();
+          expect(Math.abs(blackPrice - mfPrice) / blackVega).toBeLessThan(tol1);
+      }
+      Settings.evaluationDate.set(savedEvalDate);
+  });
+
+  it('Testing Markov functional Bermudan swaption engine...', () => {
+      const tol0 = 0.0001;
+      const savedEvalDate = Settings.evaluationDate.f();
+      const referenceDate = DateExt.UTC('14,November,2012');
+      Settings.evaluationDate.set(referenceDate);
+      const md0Yts_ = md0Yts();
+      const md0SwaptionVts_ = md0SwaptionVts();
+      const swapIndexBase = new EuriborSwapIsdaFixA().esInit1(new Period().init1(1, TimeUnit.Years));
+      const volStepDates = [];
+      const vols = [];
+      vols.push(1.0);
+      const iborIndex1 = new Euribor(new Period().init1(6, TimeUnit.Months), md0Yts_);
+      const mf1 = new MarkovFunctional().mfInit1(md0Yts_, 0.01, volStepDates, vols, md0SwaptionVts_, expiriesCalBasket3(), tenorsCalBasket3(), swapIndexBase, new MarkovFunctional.ModelSettings()
+          .withYGridPoints(32)
+          .withYStdDevs(7.0)
+          .withGaussHermitePoints(16)
+          .withMarketRateAccuracy(1e-7)
+          .withDigitalGap(1e-5)
+          .withLowerRateBound(0.0)
+          .withUpperRateBound(2.0));
+      const mfSwaptionEngine1 = new Gaussian1dSwaptionEngine().g1dseInit1(mf1, 64, 7.0);
+      const underlyingCall = new MakeVanillaSwap(new Period().init1(10, TimeUnit.Years), iborIndex1, 0.03)
+          .withEffectiveDate(new TARGET().advance1(referenceDate, 2, TimeUnit.Days))
+          .receiveFixed(false)
+          .f();
+      const europeanExercises = [];
+      const expiries = expiriesCalBasket3();
+      const europeanSwaptions = [];
+      for (let i = 0; i < expiries.length; i++) {
+          europeanExercises.push(new EuropeanExercise(expiries[i]));
+          europeanSwaptions.push(new Swaption(underlyingCall, europeanExercises[i]));
+          Array1D.back(europeanSwaptions).setPricingEngine(mfSwaptionEngine1);
+      }
+      const bermudanExercise = new BermudanExercise().beInit(expiries);
+      const bermudanSwaption = new Swaption(underlyingCall, bermudanExercise);
+      bermudanSwaption.setPricingEngine(mfSwaptionEngine1);
+      const cachedValues = [
+          0.0030757, 0.0107344, 0.0179862, 0.0225881, 0.0243215, 0.0229148,
+          0.0191415, 0.0139035, 0.0076354
+      ];
+      const cachedValue = 0.0327776;
+      for (let i = 0; i < expiries.length; i++) {
+          const npv = europeanSwaptions[i].NPV();
+          expect(Math.abs(npv - cachedValues[i])).toBeLessThan(tol0);
+      }
+      const npv = bermudanSwaption.NPV();
+      expect(Math.abs(npv - cachedValue)).toBeLessThan(tol0);
+      Settings.evaluationDate.set(savedEvalDate);
+  });
 });

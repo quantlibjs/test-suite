@@ -83,7 +83,7 @@ describe(`Variance swap tests ${version}`, () => {
             new Datum(Option.Type.Call, 135, 0.13)
         ];
         const dc = new Actual365Fixed();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
         const qTS = flatRate1(today, qRate, dc);
@@ -133,12 +133,13 @@ describe(`Variance swap tests ${version}`, () => {
             expect(error).toBeLessThan(values[i].tol);
         }
     });
+
     it('Testing variance swap with Monte Carlo engine...', () => {
         const values = [
             new MCVarianceSwapData(Position.Type.Long, 0.04, 50000, 100.0, 0.00, 0.05, 0.1, 0.246575, 0.1, 0.20, 0.04, 3.0e-4)
         ];
         const dc = new Actual365Fixed();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
         const qTS = flatRate1(today, qRate, dc);

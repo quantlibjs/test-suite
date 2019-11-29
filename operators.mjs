@@ -60,6 +60,7 @@ describe(`Operator tests ${version}`, () => {
         }
         expect(error).toBeLessThan(tolerance);
     });
+
     it('Testing differential operators...', () => {
         const normal = new NormalDistribution(average, sigma);
         const cum = new CumulativeNormalDistribution(average, sigma);
@@ -88,6 +89,7 @@ describe(`Operator tests ${version}`, () => {
         e = norm(diff, h);
         expect(e).toBeLessThan(1.0e-4);
     });
+
     it('Testing consistency of BSM operators...', () => {
         const grid = new Array(10);
         let price = 20.0;
@@ -103,7 +105,7 @@ describe(`Operator tests ${version}`, () => {
         const sigma = 0.5;
         const ref = new BSMOperator().bsmInit1(grid.length, dx, r, q, sigma);
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const exercise = DateExt.advance(today, 2, TimeUnit.Years);
         const residualTime = dc.yearFraction(today, exercise);
         const spot = new SimpleQuote(0.0);

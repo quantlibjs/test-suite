@@ -55,7 +55,7 @@ class DoubleBarrierFxOptionData {
     }
 }
 
-describe(`DoubleBarrier tests ${version}`, () => {
+describe(`Double barrier tests ${version}`, () => {
     it('Testing double barrier european options against Haug\'s values...', () => {
         const european = Exercise.Type.European;
         const values = [
@@ -151,7 +151,7 @@ describe(`DoubleBarrier tests ${version}`, () => {
             new NewBarrierOptionData(DoubleBarrier.Type.KnockIn, 90.0, 110.0, Option.Type.Call, european, 100, 100.0, 0.0, 0.1, 0.50, 0.35, 12.2398, 1.0e-4)
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
         const qTS = flatRate1(today, qRate, dc);
@@ -211,7 +211,7 @@ describe(`DoubleBarrier tests ${version}`, () => {
     });
 });
 
-describe(`DoubleBarrier experimental tests ${version}`, () => {
+describe(`Double barrier experimental tests ${version}`, () => {
     it('Testing double-barrier FX options against Vanna/Volga values...', () => {
         const backup = new SavedSettings();
         const values = [
@@ -237,7 +237,7 @@ describe(`DoubleBarrier experimental tests ${version}`, () => {
             new DoubleBarrierFxOptionData(DoubleBarrier.Type.KnockOut, 1.0, 1.6, 0.0, Option.Type.Put, 1.56345, 1.30265, 0.0009418, 0.0039788, 2.0, 0.10891, 0.09525, 0.09197, 0.09261, 0.17704, 1.0e-4)
         ];
         const dc = new Actual360();
-        const today = new Date('05-Mar-2013');
+        const today = DateExt.UTC('05,Mar,2013');
         Settings.evaluationDate.set(today);
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);

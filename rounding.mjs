@@ -61,6 +61,7 @@ describe(`Rounding tests ${version}`, () => {
             expect(Comparison.close(calculated, expected, 1)).toEqual(true);
         }
     });
+
     it('Testing upward decimal rounding...', () => {
         for (let i = 0; i < testData.length; i++) {
             const digits = testData[i].precision;
@@ -70,6 +71,7 @@ describe(`Rounding tests ${version}`, () => {
             expect(Comparison.close(calculated, expected, 1)).toEqual(true);
         }
     });
+
     it('Testing downward decimal rounding...', () => {
         for (let i = 0; i < testData.length; i++) {
             const digits = testData[i].precision;
@@ -79,6 +81,7 @@ describe(`Rounding tests ${version}`, () => {
             expect(Comparison.close(calculated, expected, 1)).toEqual(true);
         }
     });
+
     it('Testing floor decimal rounding...', () => {
         for (let i = 0; i < testData.length; i++) {
             const digits = testData[i].precision;
@@ -88,6 +91,7 @@ describe(`Rounding tests ${version}`, () => {
             expect(Comparison.close(calculated, expected, 1)).toEqual(true);
         }
     });
+
     it('Testing ceiling decimal rounding...', () => {
         for (let i = 0; i < testData.length; i++) {
             const digits = testData[i].precision;

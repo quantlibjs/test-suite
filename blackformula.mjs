@@ -108,12 +108,12 @@ describe(`Black formula tests ${version}`, () => {
             expect(c > 1e-6 && error < 0.0).toBeFalsy();
         }
     });
-    
+
     it('Testing implied volatility calculation via ' +
         'adaptive successive over-relaxation...', () => {
         const backup = new SavedSettings();
         const dc = new Actual365Fixed();
-        const today = new Date('12-July-2017');
+        const today = DateExt.UTC('12,July,2017');
         Settings.evaluationDate.set(today);
         const exerciseDate = DateExt.advance(today, 15, TimeUnit.Months);
         const exerciseTime = dc.yearFraction(today, exerciseDate);

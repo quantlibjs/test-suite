@@ -54,7 +54,7 @@ function frobenuiusNorm(m) {
     return Math.sqrt(dotProd);
 }
 
-describe(`ode tests ${version}`, () => {
+describe(`ODE tests ${version}`, () => {
     it('Testing adaptive Runge Kutta...', () => {
         const rk_real = new AdaptiveRungeKutta(1E-12, 1E-4, 0.0);
         const rk_complex = new AdaptiveRungeKutta(1E-12, 1E-4, 0.0);
@@ -92,6 +92,7 @@ describe(`ode tests ${version}`, () => {
             y4 = rk_complex.f2(ode4_, y40, 0.0, x);
         }
     });
+
     it('Testing matrix exponential based on ode...', () => {
         const m = Array2D.newMatrix(3, 3);
         m[0][0] = 5;
@@ -125,6 +126,7 @@ describe(`ode tests ${version}`, () => {
             expect(Math.abs(relDiffNorm)).toBeLessThan(100 * tol);
         }
     });
+
     it('Testing matrix exponential of a zero matrix based on ode...', () => {
         const m = Array2D.newMatrix(3, 3, 0.0);
         const tol = 100 * QL_EPSILON;

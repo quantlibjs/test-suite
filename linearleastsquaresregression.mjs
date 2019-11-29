@@ -19,7 +19,7 @@ function f(a, i) {
     return a[i];
 }
 
-describe(`linear least squares regression tests ${version}`, () => {
+describe(`Linear least squares regression tests ${version}`, () => {
     it('Testing linear least-squares regression...', () => {
         const backup = new SavedSettings();
         const tolerance = 0.05;

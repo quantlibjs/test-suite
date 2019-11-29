@@ -13,9 +13,9 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Complex, FastFourierTransform, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { FastFourierTransform, Complex, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
-describe(`fast fourier transform tests ${version}`, () => {
+describe(`Fast fourier transform tests ${version}`, () => {
     it('Testing complex direct FFT...', () => {
         const a = [
             new Complex(0, 0), new Complex(1, 1), new Complex(3, 3),
@@ -36,6 +36,7 @@ describe(`fast fourier transform tests ${version}`, () => {
             expect(Math.abs(b[i].imag() - expected[i].imag())).toBeLessThan(1.0e-2);
         }
     });
+    
     it('Testing convolution via inverse FFT...', () => {
         const x = [new Complex(1), new Complex(2), new Complex(3)];
         const order = FastFourierTransform.min_order(x.length) + 1;

@@ -13,10 +13,8 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Actual365Fixed, AnalyticHestonEngine, AndreasenHugeLocalVolAdapter, AndreasenHugeVolatilityAdapter, AndreasenHugeVolatilityInterpl, Barrier, BarrierOption, BFGS, blackFormulaImpliedStdDevLiRS1, DateExt, EuropeanExercise, FdBlackScholesBarrierEngine, FdBlackScholesVanillaEngine, FdmSchemeDesc, GeneralizedBlackScholesProcess, Handle, HestonBlackVolSurface, HestonModel, HestonProcess, LevenbergMarquardt, Option, PlainVanillaPayoff, QL_EPSILON, QL_NULL_REAL, sabrVolatility, SavedSettings, Settings, SimpleQuote, Simplex, TimeUnit, VanillaOption, ZeroCurve, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual365Fixed, AnalyticHestonEngine, AndreasenHugeLocalVolAdapter, AndreasenHugeVolatilityAdapter, AndreasenHugeVolatilityInterpl, Barrier, BarrierOption, BFGS, blackFormulaImpliedStdDevLiRS1, DateExt, EuropeanExercise, FdBlackScholesBarrierEngine, FdBlackScholesVanillaEngine, FdmSchemeDesc, GeneralizedBlackScholesProcess, Handle, HestonBlackVolSurface, HestonModel, HestonProcess, LevenbergMarquardt, Option, PlainVanillaPayoff, QL_EPSILON, QL_NULL_REAL, sabrVolatility, SavedSettings, Settings, SimpleQuote, Simplex, TimeUnit, VanillaOption, ZeroCurve, first, second, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2, flatRate4 } from '/test-suite/utilities.mjs';
-
-const first = 0, second = 1;
 
 class CalibrationData {
     constructor(spot, rTS, qTS, calibrationSet) {
@@ -163,7 +161,7 @@ function AndreasenHugeExampleData() {
         ]
     ];
     const dc = new Actual365Fixed();
-    const today = new Date('1-March-2010');
+    const today = DateExt.UTC('1,March,2010');
     const rTS = new Handle(flatRate2(today, 0.0, dc));
     const qTS = new Handle(flatRate2(today, 0.0, dc));
     const nMaturities = maturityTimes.length;
@@ -238,7 +236,7 @@ function testAndreasenHugeVolatilityInterpolation(data, expected) {
 
 function BorovkovaExampleData() {
     const dc = new Actual365Fixed();
-    const today = new Date('4-January-2018');
+    const today = DateExt.UTC('4,January,2018');
     const rTS = new Handle(flatRate2(today, 0.025, dc));
     const qTS = new Handle(flatRate2(today, 0.085, dc));
     const spot = new Handle(new SimpleQuote(100));
@@ -273,7 +271,7 @@ function BorovkovaExampleData() {
 
 function arbitrageData() {
     const dc = new Actual365Fixed();
-    const today = new Date('4-January-2018');
+    const today = DateExt.UTC('4,January,2018');
     const rTS = new Handle(flatRate2(today, 0.13, dc));
     const qTS = new Handle(flatRate2(today, 0.03, dc));
     const spot = new Handle(new SimpleQuote(100));
@@ -296,7 +294,7 @@ function arbitrageData() {
 
 function sabrData() {
     const dc = new Actual365Fixed();
-    const today = new Date('4-January-2018');
+    const today = DateExt.UTC('4,January,2018');
     const alpha = 0.15;
     const beta = 0.8;
     const nu = 0.5;
@@ -403,7 +401,7 @@ describe(`Andreasen-Huge volatility interpolation tests ${version}`, () => {
     it('Testing Andreasen-Huge volatility interpolation with a single option...', () => {
         const backup = new SavedSettings();
         const dc = new Actual365Fixed();
-        const today = new Date('4-January-2018');
+        const today = DateExt.UTC('4,January,2018');
         const rTS = new Handle(flatRate2(today, 0.025, dc));
         const qTS = new Handle(flatRate2(today, 0.085, dc));
         const calibrationSet = [];
@@ -487,7 +485,7 @@ describe(`Andreasen-Huge volatility interpolation tests ${version}`, () => {
         ' local volatility surface...', () => {
         const backup = new SavedSettings();
         const dc = new Actual365Fixed();
-        const today = new Date('4-January-2018');
+        const today = DateExt.UTC('4,January,2018');
         const rTS = new Handle(flatRate2(today, 0.01, dc));
         const qTS = new Handle(flatRate2(today, 0.03, dc));
         const spot = new Handle(new SimpleQuote(100));
@@ -570,7 +568,7 @@ describe(`Andreasen-Huge volatility interpolation tests ${version}`, () => {
     it('Testing that reference date of adapter surface' +
         ' moves along with evaluation date...', () => {
         const backup = new SavedSettings();
-        const today = new Date('4-January-2018');
+        const today = DateExt.UTC('4,January,2018');
         Settings.evaluationDate.set(today);
         const dc = new Actual365Fixed();
         const maturity = DateExt.advance(today, 1, TimeUnit.Months);
@@ -590,7 +588,7 @@ describe(`Andreasen-Huge volatility interpolation tests ${version}`, () => {
         const localRefDate = localVolAdapter.referenceDate();
         expect(volRefDate.valueOf()).toEqual(today.valueOf());
         expect(localRefDate.valueOf()).toEqual(today.valueOf());
-        const modToday = new Date('15-January-2018');
+        const modToday = DateExt.UTC('15,January,2018');
         Settings.evaluationDate.set(modToday);
         const modVolRefDate = volatilityAdapter.referenceDate();
         const modLocalRefDate = localVolAdapter.referenceDate();

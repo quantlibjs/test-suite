@@ -41,6 +41,7 @@ describe(`Schedule tests ${version}`, () => {
         expected[5] = DateExt.UTC('24,January,2012');
         check_dates(s, expected);
     });
+
     it('Testing end date for schedule with end-of-month adjustment...', () => {
         let s = new MakeSchedule()
             .from(DateExt.UTC('30,September,2009'))
@@ -75,6 +76,7 @@ describe(`Schedule tests ${version}`, () => {
         expected[6] = DateExt.UTC('15,June,2012');
         check_dates(s, expected);
     });
+
     it('Testing that no dates are past the end date with EOM adjustment...', () => {
         const s = new MakeSchedule()
             .from(DateExt.UTC('28,March,2013'))
@@ -93,6 +95,7 @@ describe(`Schedule tests ${version}`, () => {
         check_dates(s, expected);
         expect(s.isRegular1(2)).toBeFalsy();
     });
+
     it('Testing that next-to-last date same as end date is removed...', () => {
         const s = new MakeSchedule()
             .from(DateExt.UTC('28,March,2013'))
@@ -111,6 +114,7 @@ describe(`Schedule tests ${version}`, () => {
         check_dates(s, expected);
         expect(s.isRegular1(2)).toBeTruthy();
     });
+
     it('Testing that the last date is not adjusted for' +
         ' EOM when termination date convention is unadjusted...', () => {
         const s = new MakeSchedule()
@@ -129,6 +133,7 @@ describe(`Schedule tests ${version}`, () => {
         ];
         check_dates(s, expected);
     });
+
     it('Testing that the first date is not duplicated due' +
         ' to EOM convention when going backwards...', () => {
         const s = new MakeSchedule()
@@ -147,6 +152,7 @@ describe(`Schedule tests ${version}`, () => {
         ];
         check_dates(s, expected);
     });
+
     it('Testing CDS2015 semi-annual rolling convention...', () => {
         const s1 = new MakeSchedule()
             .from(DateExt.UTC('12,December,2016'))
@@ -187,6 +193,7 @@ describe(`Schedule tests ${version}`, () => {
             .toEqual(DateExt.UTC('20,March,2017').valueOf());
         expect(s3.endDate().valueOf()).toEqual(DateExt.UTC('20,June,2022').valueOf());
     });
+
     it('Testing the constructor taking a vector of dates' +
         ' and possibly additional meta information...', () => {
         const dates = [
@@ -215,6 +222,7 @@ describe(`Schedule tests ${version}`, () => {
         expect(schedule2.rule()).toEqual(DateGeneration.Rule.Backward);
         expect(schedule2.endOfMonth()).toEqual(true);
     });
+
     it('Testing that a four-weeks tenor works...', () => {
         try {
             const s = new MakeSchedule()

@@ -13,7 +13,7 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Actual360, BlackScholesMertonProcess, GeometricBrownianMotionProcess, Handle, MultiPathGenerator, OrnsteinUhlenbeckProcess, PathGenerator, PseudoRandom, SavedSettings, Settings, SimpleQuote, SquareRootProcess, StochasticProcessArray, TimeGrid, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, BlackScholesMertonProcess, DateExt, GeometricBrownianMotionProcess, Handle, MultiPathGenerator, OrnsteinUhlenbeckProcess, PathGenerator, PseudoRandom, SavedSettings, Settings, SimpleQuote, SquareRootProcess, StochasticProcessArray, TimeGrid, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate4, flatVol4 } from '/test-suite/utilities.mjs';
 
 function testSingle(process, tag, brownianBridge, expected, antithetic) {
@@ -73,7 +73,7 @@ function testMultiple(process, tag, expected, antithetic) {
 describe(`Path generation tests ${version}`, () => {
     it('Testing 1-D path generation against cached values...', () => {
         const backup = new SavedSettings();
-        Settings.evaluationDate.set(new Date('26-April-2005'));
+        Settings.evaluationDate.set(DateExt.UTC('26,April,2005'));
         const x0 = new Handle(new SimpleQuote(100.0));
         const r = new Handle(flatRate4(0.05, new Actual360()));
         const q = new Handle(flatRate4(0.02, new Actual360()));
@@ -85,9 +85,10 @@ describe(`Path generation tests ${version}`, () => {
         testSingle(new SquareRootProcess(0.1, 0.1, 0.20, 10.0), 'Ornstein-Uhlenbeck', false, 1.70608664108, 6.024200546031);
         backup.dispose();
     });
+
     it('Testing n-D path generation against cached values...', () => {
         const backup = new SavedSettings();
-        Settings.evaluationDate.set(new Date('26-April-2005'));
+        Settings.evaluationDate.set(DateExt.UTC('26,April,2005'));
         const x0 = new Handle(new SimpleQuote(100.0));
         const r = new Handle(flatRate4(0.05, new Actual360()));
         const q = new Handle(flatRate4(0.02, new Actual360()));

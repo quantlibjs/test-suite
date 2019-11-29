@@ -13,6 +13,7 @@
  * limitations under the License.
  * =============================================================================
  */
+import '/test-suite/quantlibtestsuite.mjs';
 import { Actual365Fixed, Array1D, DateExt, EuriborSwapIsdaFixA, EuropeanExercise, FlatForward, Gaussian1dJamshidianSwaptionEngine, Gaussian1dNonstandardSwaptionEngine, Gaussian1dSwaptionEngine, Gsr, GsrProcess, Handle, HullWhite, HullWhiteForwardProcess, JamshidianSwaptionEngine, MakeVanillaSwap, NonstandardSwaption, Period, Settings, Swaption, TARGET, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 describe(`GSR model tests ${version}`, () => {
@@ -78,6 +79,7 @@ describe(`GSR model tests ${version}`, () => {
         const p = new GsrProcess(times, vols, reversions);
         p.setForwardMeasureTime(10.0);
     });
+
     it('Testing GSR model...', () => {
         const refDate = Settings.evaluationDate.f();
         const modelvol = 0.01;

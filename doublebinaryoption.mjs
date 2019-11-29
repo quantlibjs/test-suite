@@ -32,7 +32,7 @@ class DoubleBinaryOptionData {
     }
 }
 
-describe(`DoubleBinary test ${version}`, () => {
+describe(`Double binary tests`, () => {
     it('Testing cash-or-nothing double barrier options against Haug\'s values...', () => {
         const values = [
             new DoubleBinaryOptionData(DoubleBarrier.Type.KnockOut, 80.00, 120.00, 10.00, 100.00, 0.02, 0.05, 0.25, 0.10, 9.8716, 1e-4),
@@ -109,7 +109,7 @@ describe(`DoubleBinary test ${version}`, () => {
             new DoubleBinaryOptionData(DoubleBarrier.Type.KOKI, 95.00, 105.00, 10.00, 110.00, 0.02, 0.05, 0.25, 0.10, 10.0000, 1e-4)
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(100.0);
         const qRate = new SimpleQuote(0.04);
         const qTS = flatRate1(today, qRate, dc);
@@ -123,7 +123,7 @@ describe(`DoubleBinary test ${version}`, () => {
             let exercise;
             if (values[i].barrierType === DoubleBarrier.Type.KIKO ||
                 values[i].barrierType === DoubleBarrier.Type.KOKI) {
-                exercise = new AmericanExercise().init1(today, exDate);
+                exercise = new AmericanExercise().aeInit1(today, exDate);
             }
             else {
                 exercise = new EuropeanExercise(exDate);

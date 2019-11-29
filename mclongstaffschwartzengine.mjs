@@ -77,7 +77,7 @@ describe(`Longstaff Schwartz MC engine tests ${version}`, () => {
         Settings.evaluationDate.set(todaysDate);
         const maturity = DateExt.UTC('17,May,1999');
         const dayCounter = new Actual365Fixed();
-        const americanExercise = new AmericanExercise().init1(settlementDate, maturity);
+        const americanExercise = new AmericanExercise().aeInit1(settlementDate, maturity);
         const flatTermStructure = new Handle(new FlatForward().ffInit2(settlementDate, riskFreeRate, dayCounter));
         const flatDividendTS = new Handle(new FlatForward().ffInit2(settlementDate, dividendYield, dayCounter));
         const expectedExProb = [
@@ -141,7 +141,7 @@ describe(`Longstaff Schwartz MC engine tests ${version}`, () => {
         Settings.evaluationDate.set(todaysDate);
         const maturity = DateExt.UTC('16,May,2001');
         const dayCounter = new Actual365Fixed();
-        const americanExercise = new AmericanExercise().init1(settlementDate, maturity);
+        const americanExercise = new AmericanExercise().aeInit1(settlementDate, maturity);
         const flatTermStructure = new Handle(new FlatForward().ffInit2(settlementDate, riskFreeRate, dayCounter));
         const flatDividendTS = new Handle(new FlatForward().ffInit2(settlementDate, dividendYield, dayCounter));
         const flatVolTS = new Handle(new BlackConstantVol().bcvInit1(settlementDate, new NullCalendar(), volatility, dayCounter));

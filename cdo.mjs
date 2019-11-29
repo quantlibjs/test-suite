@@ -13,7 +13,7 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Actual360, ActualActual, Array1D, Basket, BusinessDayConvention, Compounding, EURCurrency, FlatForward, FlatHazardRate, GaussianConstantLossLM, GaussianCopulaPolicy, GaussianLHPLossModel, Handle, HomogGaussPoolLossModel, HomogTPoolLossModel, IHGaussPoolLossModel, IHStudentPoolLossModel, IntegralCDOEngine, Issuer, LatentModelIntegrationType, MakeSchedule, MidPointCDOEngine, NorthAmericaCorpDefaultKey, Period, Pool, Protection, RandomDefaultLM, SavedSettings, Seniority, Settings, SimpleQuote, SyntheticCDO, TARGET, TConstantLossLM, TCopulaPolicy, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, ActualActual, Array1D, Basket, BusinessDayConvention, Compounding, DateExt, EURCurrency, FlatForward, FlatHazardRate, GaussianConstantLossLM, GaussianCopulaPolicy, GaussianLHPLossModel, Handle, HomogGaussPoolLossModel, HomogTPoolLossModel, IHGaussPoolLossModel, IHStudentPoolLossModel, IntegralCDOEngine, Issuer, LatentModelIntegrationType, MakeSchedule, MidPointCDOEngine, NorthAmericaCorpDefaultKey, Period, Pool, Protection, RandomDefaultLM, SavedSettings, Seniority, Settings, SimpleQuote, SyntheticCDO, TARGET, TConstantLossLM, TCopulaPolicy, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 const hwAttachment = [0.00, 0.03, 0.06, 0.10];
 const hwDetachment = [0.03, 0.06, 0.10, 1.00];
@@ -54,12 +54,12 @@ describe(`CDO tests ${version}`, () => {
         const nominals = Array1D.fromSizeValue(poolSize, 100.0);
         const premium = 0.02;
         const schedule = new MakeSchedule()
-            .from(new Date('1-September-2006'))
-            .to(new Date('1-September-2011'))
+            .from(DateExt.UTC('1,September,2006'))
+            .to(DateExt.UTC('1,September,2011'))
             .withTenor(new Period().init1(3, TimeUnit.Months))
             .withCalendar(new TARGET())
             .f();
-        const asofDate = new Date('31-August-2006');
+        const asofDate = DateExt.UTC('31,August,2006');
         Settings.evaluationDate.set(asofDate);
         const yieldPtr = new FlatForward().ffInit2(asofDate, rate, daycount, cmp);
         const yieldHandle = new Handle(yieldPtr);

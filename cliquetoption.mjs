@@ -36,7 +36,7 @@ function testOptionGreeks(T) {
     const frequencies = [Frequency.Semiannual, Frequency.Quarterly];
     const vols = [0.11, 0.50, 1.20];
     const dc = new Actual360();
-    const today = new Date();
+    const today = DateExt.UTC();
     Settings.evaluationDate.set(today);
     const spot = new SimpleQuote(0.0);
     const qRate = new SimpleQuote(0.0);
@@ -138,7 +138,7 @@ function testOptionGreeks(T) {
 
 describe(`Cliquet option tests ${version}`, () => {
     it('Testing Cliquet option values...', () => {
-        const today = new Date();
+        const today = DateExt.UTC();
         const dc = new Actual360();
         const spot = new SimpleQuote(60.0);
         const qRate = new SimpleQuote(0.04);
@@ -164,12 +164,15 @@ describe(`Cliquet option tests ${version}`, () => {
         const tolerance = 1e-4;
         expect(error).toBeLessThan(tolerance);
     });
+
     it('Testing Cliquet option greeks...', () => {
         testOptionGreeks(new AnalyticCliquetEngine());
     });
+
     it('Testing performance option greeks...', () => {
         testOptionGreeks(new AnalyticPerformanceEngine());
     });
+
     it('Testing Monte Carlo performance engine against analytic results...', () => {
         const backup = new SavedSettings();
         const types = [Option.Type.Call, Option.Type.Put];
@@ -181,7 +184,7 @@ describe(`Cliquet option tests ${version}`, () => {
         const frequencies = [Frequency.Semiannual, Frequency.Quarterly];
         const vols = [0.10, 0.90];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         Settings.evaluationDate.set(today);
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);

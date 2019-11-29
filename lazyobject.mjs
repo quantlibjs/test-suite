@@ -16,7 +16,7 @@
 import { Handle, SimpleQuote, Stock, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { Flag } from '/test-suite/utilities.mjs';
 
-describe(`LazyObject tests ${version}`, () => {
+describe(`Lazy-object tests ${version}`, () => {
     it('Testing that lazy objects discard notifications after the first...', () => {
         const q = new SimpleQuote(0.0);
         const s = new Stock(new Handle(q));
@@ -33,7 +33,7 @@ describe(`LazyObject tests ${version}`, () => {
         q.setValue(3.0);
         expect(f.isUp()).toEqual(true);
     });
-    
+
     it('Testing that lazy objects forward all notifications when told...', () => {
         const q = new SimpleQuote(0.0);
         const s = new Stock(new Handle(q));

@@ -20,7 +20,7 @@ describe(`GJR-GARCH model tests ${version}`, () => {
     it('Testing Monte Carlo GJR-GARCH engine' +
         ' against analytic GJR-GARCH engine...', () => {
         const dayCounter = new ActualActual();
-        const today = new Date();
+        const today = DateExt.UTC();
         const riskFreeTS = new Handle(flatRate2(today, 0.05, dayCounter));
         const dividendTS = new Handle(flatRate2(today, 0.0, dayCounter));
         const s0 = 50.0;
@@ -155,9 +155,10 @@ describe(`GJR-GARCH model tests ${version}`, () => {
             }
         }
     });
+
     it('Testing GJR-GARCH model calibration using DAX volatility data...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('5-July-2002');
+        const settlementDate = DateExt.UTC('5,July,2002');
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new Actual365Fixed();
         const calendar = new TARGET();

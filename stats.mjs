@@ -13,9 +13,7 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Array1D, Comparison, ConvergenceStatistics, GenericSequenceStatistics, IncrementalStatistics, InverseCumulativeNormal, InverseCumulativeRng, MersenneTwisterUniformRng, RiskStatistics, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
-
-const first = 0, second = 1;
+import { Array1D, Comparison, ConvergenceStatistics, GenericSequenceStatistics, IncrementalStatistics, InverseCumulativeNormal, InverseCumulativeRng, MersenneTwisterUniformRng, RiskStatistics, first, second, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 const data = [3.0, 4.0, 5.0, 2.0, 3.0, 4.0, 5.0, 6.0, 4.0, 7.0];
 const weights = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
@@ -156,7 +154,7 @@ describe(`Statistics tests ${version}`, () => {
         checkConvergence(new IncrementalStatistics());
         checkConvergence(new RiskStatistics());
     });
-    
+
     it('Testing incremental statistics...', () => {
         const mt = new MersenneTwisterUniformRng().init1(42);
         const stat = new IncrementalStatistics();

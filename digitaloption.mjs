@@ -20,6 +20,7 @@ const first = 0;
 
 class DigitalOptionData {
     constructor(type, strike, s, q, r, t, v, result, tol, knockin) {
+        this.type = type;
         this.strike = strike;
         this.s = s;
         this.q = q;
@@ -31,13 +32,14 @@ class DigitalOptionData {
         this.knockin = knockin;
     }
 }
+
 describe(`Digital option tests ${version}`, () => {
     it('Testing European cash-or-nothing digital option...', () => {
         const values = [
             new DigitalOptionData(Option.Type.Put, 80.00, 100.0, 0.06, 0.06, 0.75, 0.35, 2.6710, 1e-4, true)
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
         const qTS = flatRate1(today, qRate, dc);
@@ -62,12 +64,13 @@ describe(`Digital option tests ${version}`, () => {
             expect(error).toBeLessThan(values[i].tol);
         }
     });
+
     it('Testing European asset-or-nothing digital option...', () => {
         const values = [
             new DigitalOptionData(Option.Type.Put, 65.00, 70.0, 0.05, 0.07, 0.50, 0.27, 20.2069, 1e-4, true)
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
         const qTS = flatRate1(today, qRate, dc);
@@ -92,12 +95,13 @@ describe(`Digital option tests ${version}`, () => {
             expect(error).toBeLessThan(values[i].tol);
         }
     });
+
     it('Testing European gap digital option...', () => {
         const values = [
             new DigitalOptionData(Option.Type.Call, 50.00, 50.0, 0.00, 0.09, 0.50, 0.20, -0.0053, 1e-4, true)
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
         const qTS = flatRate1(today, qRate, dc);
@@ -122,6 +126,7 @@ describe(`Digital option tests ${version}`, () => {
             expect(error).toBeLessThan(values[i].tol);
         }
     });
+
     it('Testing American cash-(at-hit)-or-nothing digital option...', () => {
         const values = [
             new DigitalOptionData(Option.Type.Put, 100.00, 105.00, 0.00, 0.10, 0.5, 0.20, 9.7264, 1e-4, true),
@@ -134,7 +139,7 @@ describe(`Digital option tests ${version}`, () => {
             new DigitalOptionData(Option.Type.Put, 100.00, 95.00, 0.20, 0.10, 0.5, 0.20, 15.0000, 1e-16, true)
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
         const qTS = flatRate1(today, qRate, dc);
@@ -145,7 +150,7 @@ describe(`Digital option tests ${version}`, () => {
         for (let i = 0; i < values.length; i++) {
             const payoff = new CashOrNothingPayoff(values[i].type, values[i].strike, 15.00);
             const exDate = DateExt.add(today, Math.floor(values[i].t * 360 + 0.5));
-            const amExercise = new AmericanExercise().init1(today, exDate);
+            const amExercise = new AmericanExercise().aeInit1(today, exDate);
             spot.setValue(values[i].s);
             qRate.setValue(values[i].q);
             rRate.setValue(values[i].r);
@@ -159,6 +164,7 @@ describe(`Digital option tests ${version}`, () => {
             expect(error).toBeLessThan(values[i].tol);
         }
     });
+
     it('Testing American asset-(at-hit)-or-nothing digital option...', () => {
         const values = [
             new DigitalOptionData(Option.Type.Put, 100.00, 105.00, 0.00, 0.10, 0.5, 0.20, 64.8426, 1e-04, true),
@@ -171,7 +177,7 @@ describe(`Digital option tests ${version}`, () => {
             new DigitalOptionData(Option.Type.Put, 100.00, 95.00, 0.01, 0.10, 0.5, 0.20, 95.0000, 1e-16, true)
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(100.0);
         const qRate = new SimpleQuote(0.04);
         const qTS = flatRate1(today, qRate, dc);
@@ -182,7 +188,7 @@ describe(`Digital option tests ${version}`, () => {
         for (let i = 0; i < values.length; i++) {
             const payoff = new AssetOrNothingPayoff(values[i].type, values[i].strike);
             const exDate = DateExt.add(today, Math.floor(values[i].t * 360 + 0.5));
-            const amExercise = new AmericanExercise().init1(today, exDate);
+            const amExercise = new AmericanExercise().aeInit1(today, exDate);
             spot.setValue(values[i].s);
             qRate.setValue(values[i].q);
             rRate.setValue(values[i].r);
@@ -196,6 +202,7 @@ describe(`Digital option tests ${version}`, () => {
             expect(error).toBeLessThan(values[i].tol);
         }
     });
+
     it('Testing American cash-(at-expiry)-or-nothing digital option...', () => {
         const values = [
             new DigitalOptionData(Option.Type.Put, 100.00, 105.00, 0.00, 0.10, 0.5, 0.20, 9.3604, 1e-4, true),
@@ -207,7 +214,7 @@ describe(`Digital option tests ${version}`, () => {
             new DigitalOptionData(Option.Type.Call, 2.37, 2.33, 0.07, 0.43, 0.19, 0.005, 0.0000, 1e-4, false)
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(100.0);
         const qRate = new SimpleQuote(0.04);
         const qTS = flatRate1(today, qRate, dc);
@@ -218,7 +225,7 @@ describe(`Digital option tests ${version}`, () => {
         for (let i = 0; i < values.length; i++) {
             const payoff = new CashOrNothingPayoff(values[i].type, values[i].strike, 15.0);
             const exDate = DateExt.add(today, Math.floor(values[i].t * 360 + 0.5));
-            const amExercise = new AmericanExercise().init1(today, exDate, true);
+            const amExercise = new AmericanExercise().aeInit1(today, exDate, true);
             spot.setValue(values[i].s);
             qRate.setValue(values[i].q);
             rRate.setValue(values[i].r);
@@ -238,6 +245,7 @@ describe(`Digital option tests ${version}`, () => {
             expect(error).toBeLessThan(values[i].tol);
         }
     });
+
     it('Testing American asset-(at-expiry)-or-nothing digital option...', () => {
         const values = [
             new DigitalOptionData(Option.Type.Put, 100.00, 105.00, 0.00, 0.10, 0.5, 0.20, 64.8426, 1e-04, true),
@@ -252,7 +260,7 @@ describe(`Digital option tests ${version}`, () => {
             new DigitalOptionData(Option.Type.Put, 100.00, 95.00, 0.01, 0.10, 0.5, 0.20, 95.0000 * Math.exp(-0.005), 1e-12, true)
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(100.0);
         const qRate = new SimpleQuote(0.04);
         const qTS = flatRate1(today, qRate, dc);
@@ -263,7 +271,7 @@ describe(`Digital option tests ${version}`, () => {
         for (let i = 0; i < values.length; i++) {
             const payoff = new AssetOrNothingPayoff(values[i].type, values[i].strike);
             const exDate = DateExt.add(today, Math.floor(values[i].t * 360 + 0.5));
-            const amExercise = new AmericanExercise().init1(today, exDate, true);
+            const amExercise = new AmericanExercise().aeInit1(today, exDate, true);
             spot.setValue(values[i].s);
             qRate.setValue(values[i].q);
             rRate.setValue(values[i].r);
@@ -283,6 +291,7 @@ describe(`Digital option tests ${version}`, () => {
             expect(error).toBeLessThan(values[i].tol);
         }
     });
+
     it('Testing American cash-(at-hit)-or-nothing digital option greeks...', () => {
         const backup = new SavedSettings();
         const calculated = new Map(), expected = new Map(), tolerance = new Map();
@@ -297,7 +306,7 @@ describe(`Digital option tests ${version}`, () => {
         const rRates = [0.01, 0.05, 0.15];
         const vols = [0.11, 0.5, 1.2];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         Settings.evaluationDate.set(today);
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
@@ -308,7 +317,7 @@ describe(`Digital option tests ${version}`, () => {
         const volTS = new Handle(flatVol3(vol, dc));
         const exDate = DateExt.add(today, 360);
         const exercise = new EuropeanExercise(exDate);
-        const amExercise = new AmericanExercise().init1(today, exDate, false);
+        const amExercise = new AmericanExercise().aeInit1(today, exDate, false);
         const exercises = [exercise, amExercise];
         const stochProcess = new BlackScholesMertonProcess(new Handle(spot), qTS, rTS, volTS);
         const euroEngine = new AnalyticEuropeanEngine().init1(stochProcess);
@@ -372,6 +381,7 @@ describe(`Digital option tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing Monte Carlo cash-(at-hit)-or-nothing American engine...', () => {
         const backup = new SavedSettings();
         const values = [
@@ -379,7 +389,7 @@ describe(`Digital option tests ${version}`, () => {
             new DigitalOptionData(Option.Type.Call, 100.00, 95.00, 0.20, 0.10, 0.5, 0.20, 8.9109, 1e-2, true)
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
         const qTS = flatRate1(today, qRate, dc);
@@ -393,7 +403,7 @@ describe(`Digital option tests ${version}`, () => {
         for (let i = 0; i < values.length; i++) {
             const payoff = new CashOrNothingPayoff(values[i].type, values[i].strike, 15.0);
             const exDate = DateExt.add(today, Math.floor(values[i].t * 360 + 0.5));
-            const amExercise = new AmericanExercise().init1(today, exDate);
+            const amExercise = new AmericanExercise().aeInit1(today, exDate);
             spot.setValue(values[i].s);
             qRate.setValue(values[i].q);
             rRate.setValue(values[i].r);

@@ -13,10 +13,8 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Actual360, AnalyticEuropeanEngine, BinomialVanillaEngine, BlackScholesMertonProcess, CoxRossRubinstein, DateExt, EuropeanExercise, ForwardPerformanceVanillaEngine, ForwardVanillaEngine, ForwardVanillaOption, Handle, Option, PlainVanillaPayoff, QL_NULL_REAL, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, AnalyticEuropeanEngine, BinomialVanillaEngine, BlackScholesMertonProcess, CoxRossRubinstein, DateExt, EuropeanExercise, ForwardPerformanceVanillaEngine, ForwardVanillaEngine, ForwardVanillaOption, Handle, Option, PlainVanillaPayoff, QL_NULL_REAL, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption, first, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatRate3, flatVol1, flatVol3, relativeError } from '/test-suite/utilities.mjs';
-
-const first = 0;
 
 class ForwardOptionData {
     constructor(type, moneyness, s, q, r, start, t, v, result, tol) {
@@ -50,7 +48,7 @@ function testForwardGreeks(Engine) {
     const startMonths = [6, 9];
     const vols = [0.11, 0.50, 1.20];
     const dc = new Actual360();
-    const today = new Date();
+    const today = DateExt.UTC();
     Settings.evaluationDate.set(today);
     const spot = new SimpleQuote(0.0);
     const qRate = new SimpleQuote(0.0);
@@ -161,7 +159,7 @@ describe(`Forward option tests ${version}`, () => {
             new ForwardOptionData(Option.Type.Put, 1.1, 60.0, 0.04, 0.08, 0.25, 1.0, 0.30, 8.2971, 1.0e-4)
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
         const qTS = flatRate1(today, qRate, dc);
@@ -189,13 +187,14 @@ describe(`Forward option tests ${version}`, () => {
             expect(error).toBeLessThan(tolerance);
         }
     });
+
     it('Testing forward performance option values...', () => {
         const values = [
             new ForwardOptionData(Option.Type.Call, 1.1, 60.0, 0.04, 0.08, 0.25, 1.0, 0.30, 4.4064 / 60 * Math.exp(-0.04 * 0.25), 1.0e-4),
             new ForwardOptionData(Option.Type.Put, 1.1, 60.0, 0.04, 0.08, 0.25, 1.0, 0.30, 8.2971 / 60 * Math.exp(-0.04 * 0.25), 1.0e-4)
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
         const qTS = new Handle(flatRate1(today, qRate, dc));
@@ -223,20 +222,23 @@ describe(`Forward option tests ${version}`, () => {
             expect(error).toBeLessThan(tolerance);
         }
     });
+
     it('Testing forward option greeks...', () => {
         const backup = new SavedSettings();
         testForwardGreeks(new ForwardVanillaEngine());
         backup.dispose();
     });
+
     it('Testing forward performance option greeks...', () => {
         const backup = new SavedSettings();
         testForwardGreeks(new ForwardPerformanceVanillaEngine());
         backup.dispose();
     });
+
     it('Testing forward option greeks initialization...', () => {
         const dc = new Actual360();
         const backup = new SavedSettings();
-        const today = new Date();
+        const today = DateExt.UTC();
         Settings.evaluationDate.set(today);
         const spot = new SimpleQuote(100.0);
         const qRate = new SimpleQuote(0.04);

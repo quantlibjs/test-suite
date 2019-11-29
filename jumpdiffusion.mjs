@@ -172,7 +172,7 @@ describe(`Jump-diffusion tests ${version}`, () => {
             new HaugMertonData(Option.Type.Call, 120.00, 100.00, 0.00, 0.08, 0.50, 0.25, 10.0, 0.75, 2.23, 1e-2)
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
         const qTS = flatRate1(today, qRate, dc);

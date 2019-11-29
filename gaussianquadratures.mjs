@@ -134,23 +134,23 @@ describe(`Gaussian quadratures tests ${version}`, () => {
 
 describe(`Gaussian quadratures experimental tests ${version}`, () => {
   it('Testing Gauss non-central chi-squared integration...', () => {
-        testSingle(new GaussianQuadrature(2, new GaussNonCentralChiSquaredPolynomial(4.0, 1.0)), 'f(x) = x^2 * nonCentralChiSquared(4, 1)(x)', x_x_nonCentralChiSquared, 37.0);
-        testSingle(new GaussianQuadrature(14, new GaussNonCentralChiSquaredPolynomial(1.0, 1.0)), 'f(x) = x * sin(0.1*x)*exp(0.3*x)*nonCentralChiSquared(1, 1)(x)', x_sin_exp_nonCentralChiSquared, 17.408092);
+      testSingle(new GaussianQuadrature(2, new GaussNonCentralChiSquaredPolynomial(4.0, 1.0)), 'f(x) = x^2 * nonCentralChiSquared(4, 1)(x)', x_x_nonCentralChiSquared, 37.0);
+      testSingle(new GaussianQuadrature(14, new GaussNonCentralChiSquaredPolynomial(1.0, 1.0)), 'f(x) = x * sin(0.1*x)*exp(0.3*x)*nonCentralChiSquared(1, 1)(x)', x_sin_exp_nonCentralChiSquared, 17.408092);
   });
 
   it('Testing Gauss non-central chi-squared sum of notes...', () => {
-        const expected = [
-            47.53491786730293, 70.6103295419633383, 98.0593406849441607,
-            129.853401537905341, 165.96963582663912, 206.389183233992043
-        ];
-        const nu = 4.0;
-        const lambda = 1.0;
-        const orthPoly = new GaussNonCentralChiSquaredPolynomial(nu, lambda);
-        const tol = 1e-5;
-        for (let n = 4; n < 10; ++n) {
-            const x = new GaussianQuadrature(n, orthPoly).x();
-            const calculated = x.reduce((p, c) => p + c, 0);
-            expect(Math.abs(calculated - expected[n - 4])).toBeLessThan(tol);
-        }
+      const expected = [
+          47.53491786730293, 70.6103295419633383, 98.0593406849441607,
+          129.853401537905341, 165.96963582663912, 206.389183233992043
+      ];
+      const nu = 4.0;
+      const lambda = 1.0;
+      const orthPoly = new GaussNonCentralChiSquaredPolynomial(nu, lambda);
+      const tol = 1e-5;
+      for (let n = 4; n < 10; ++n) {
+          const x = new GaussianQuadrature(n, orthPoly).x();
+          const calculated = x.reduce((p, c) => p + c, 0);
+          expect(Math.abs(calculated - expected[n - 4])).toBeLessThan(tol);
+      }
     });
 });

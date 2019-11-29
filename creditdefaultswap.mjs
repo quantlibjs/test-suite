@@ -18,7 +18,7 @@ import { Actual360, Actual365Fixed, BackwardFlat, BusinessDayConvention, CreditD
 describe(`Credit-default swap tests ${version}`, () => {
     it('Testing credit-default swap against cached values...', () => {
         const backup = new SavedSettings();
-        Settings.evaluationDate.set(new Date('9-June-2006'));
+        Settings.evaluationDate.set(DateExt.UTC('9,June,2006'));
         const today = Settings.evaluationDate.f();
         const calendar = new TARGET();
         const hazardRate = new Handle(new SimpleQuote(0.01234));
@@ -60,9 +60,10 @@ describe(`Credit-default swap tests ${version}`, () => {
         expect(Math.abs(calculatedFairRate - fairRate)).toBeLessThan(tolerance);
         backup.dispose();
     });
+
     it('Testing credit-default swap against cached market values...', () => {
         const backup = new SavedSettings();
-        Settings.evaluationDate.set(new Date('9-June-2006'));
+        Settings.evaluationDate.set(DateExt.UTC('9,June,2006'));
         const evalDate = Settings.evaluationDate.f();
         const calendar = new UnitedStates();
         const discountDates = [];
@@ -137,8 +138,8 @@ describe(`Credit-default swap tests ${version}`, () => {
         const piecewiseFlatHazardRate = new RelinkableHandle();
         piecewiseFlatHazardRate.linkTo(new InterpolatedHazardRateCurve(new BackwardFlat())
             .curveInit1(dates, hazardRates, new Thirty360()));
-        const issueDate = new Date('20-March-2006');
-        const maturity = new Date('20-June-2013');
+        const issueDate = DateExt.UTC('20,March,2006');
+        const maturity = DateExt.UTC('20,June,2013');
         const cdsFrequency = Frequency.Semiannual;
         const cdsConvention = BusinessDayConvention.ModifiedFollowing;
         const schedule = new Schedule().init2(issueDate, maturity, new Period().init2(cdsFrequency), calendar, cdsConvention, cdsConvention, DateGeneration.Rule.Forward, false);
@@ -157,10 +158,11 @@ describe(`Credit-default swap tests ${version}`, () => {
         expect(Math.abs(fairRate - calculatedFairRate)).toBeLessThan(tolerance);
         backup.dispose();
     });
+
     it('Testing implied hazard-rate for credit-default swaps...', () => {
         const backup = new SavedSettings();
         const calendar = new TARGET();
-        const today = calendar.adjust(new Date());
+        const today = calendar.adjust(DateExt.UTC());
         Settings.evaluationDate.set(today);
         const h1 = 0.30, h2 = 0.40;
         const dayCounter = new Actual365Fixed();
@@ -205,10 +207,11 @@ describe(`Credit-default swap tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing fair-spread calculation for credit-default swaps...', () => {
         const backup = new SavedSettings();
         const calendar = new TARGET();
-        const today = calendar.adjust(new Date());
+        const today = calendar.adjust(DateExt.UTC());
         Settings.evaluationDate.set(today);
         const hazardRate = new Handle(new SimpleQuote(0.01234));
         const probabilityCurve = new RelinkableHandle();
@@ -241,10 +244,11 @@ describe(`Credit-default swap tests ${version}`, () => {
         expect(Math.abs(fairNPV)).toBeLessThan(tolerance);
         backup.dispose();
     });
+
     it('Testing fair-upfront calculation for credit-default swaps...', () => {
         const backup = new SavedSettings();
         const calendar = new TARGET();
-        const today = calendar.adjust(new Date());
+        const today = calendar.adjust(DateExt.UTC());
         Settings.evaluationDate.set(today);
         const hazardRate = new Handle(new SimpleQuote(0.01234));
         const probabilityCurve = new RelinkableHandle();
@@ -286,9 +290,10 @@ describe(`Credit-default swap tests ${version}`, () => {
         expect(Math.abs(fairNPV)).toBeLessThan(tolerance);
         backup.dispose();
     });
+
     it('Testing ISDA engine calculations for credit-default swaps...', () => {
         const backup = new SavedSettings();
-        const tradeDate = new Date('21-May-2009');
+        const tradeDate = DateExt.UTC('21,May,2009');
         Settings.evaluationDate.set(tradeDate);
         const isdaRateHelpers = [];
         const dep_tenors = [1, 2, 3, 6, 9, 12];
@@ -310,9 +315,9 @@ describe(`Credit-default swap tests ${version}`, () => {
             .pwycInit4(0, new WeekendsOnly(), isdaRateHelpers, new Actual365Fixed()));
         const probabilityCurve = new RelinkableHandle();
         const termDates = [
-            new Date('20-June-2010'), new Date('20-June-2011'),
-            new Date('20-June-2012'), new Date('20-June-2016'),
-            new Date('20-June-2019')
+            DateExt.UTC('20,June,2010'), DateExt.UTC('20,June,2011'),
+            DateExt.UTC('20,June,2012'), DateExt.UTC('20,June,2016'),
+            DateExt.UTC('20,June,2019')
         ];
         const spreads = [0.001, 0.1];
         const recoveries = [0.2, 0.4];

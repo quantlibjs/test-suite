@@ -13,27 +13,27 @@
  * limitations under the License.
  * =============================================================================
  */
-import { IntervalPrice, Month, TimeSeries, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
-const second = 1;
+import { DateExt, IntervalPrice, TimeSeries, second, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
-describe(`time series tests ${version}`, () => {
+describe(`Time series tests ${version}`, () => {
     it('Testing time series construction...', () => {
         const ts = new TimeSeries();
-        ts.set(new Date(2005, Month.March - 1, 25), 1.2);
-        ts.set(new Date(2005, Month.March - 1, 29), 2.3);
-        ts.set(new Date(2005, Month.March - 1, 15), 0.3);
+        ts.set(DateExt.UTC('25,March,2005'), 1.2);
+        ts.set(DateExt.UTC('29,March,2005'), 2.3);
+        ts.set(DateExt.UTC('15,March,2005'), 0.3);
         ts.sort();
         expect(ts.firstDate().valueOf())
-            .toEqual(new Date(2005, Month.March - 1, 15).valueOf());
+            .toEqual(DateExt.UTC('15,March,2005').valueOf());
         expect(ts.first()[second]).toEqual(0.3);
-        ts.set(new Date(2005, Month.March - 1, 15), 3.5);
+        ts.set(DateExt.UTC('15,March,2005'), 3.5);
         expect(ts.first()[second]).toEqual(3.5);
     });
+
     it('Testing time series interval price...', () => {
         const date = [];
         const open = [], close = [], high = [], low = [];
-        date.push(new Date(2005, Month.March - 1, 25));
-        date.push(new Date(2005, Month.March - 1, 29));
+        date.push(DateExt.UTC('25,March,2005'));
+        date.push(DateExt.UTC('29,March,2005'));
         open.push(1.3);
         open.push(2.3);
         close.push(2.3);
@@ -44,8 +44,9 @@ describe(`time series tests ${version}`, () => {
         low.push(3.2);
         const tsiq = IntervalPrice.makeSeries(date, open, close, high, low);
         expect(tsiq.firstDate().valueOf())
-            .toEqual(new Date(2005, Month.March - 1, 25).valueOf());
+            .toEqual(DateExt.UTC('25,March,2005').valueOf());
     });
-    it('Testing time series iterators...', () => {
+
+    xit('Testing time series iterators...', () => {
     });
 });

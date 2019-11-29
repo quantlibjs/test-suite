@@ -13,7 +13,7 @@
  * limitations under the License.
  * =============================================================================
  */
-import { DateExt, Settings } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { DateExt, Settings, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 export function configure(evaluationDate = DateExt.UTC('16,September,2015')) {
     Settings.evaluationDate.set(evaluationDate);
 }

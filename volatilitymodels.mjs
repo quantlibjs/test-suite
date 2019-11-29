@@ -13,18 +13,18 @@
  * limitations under the License.
  * =============================================================================
  */
-import { ConstantEstimator, SimpleLocalEstimator, TimeSeries, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { ConstantEstimator, DateExt, SimpleLocalEstimator, TimeSeries, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 describe(`volatility models tests ${version}`, () => {
     it('Testing volatility model construction...', () => {
         const ts = new TimeSeries();
-        ts.set(new Date('25,March,2005'), 1.2);
-        ts.set(new Date('29,March,2005'), 2.3);
-        ts.set(new Date('15,March,2005'), 0.3);
+        ts.set(DateExt.UTC('25,March,2005'), 1.2);
+        ts.set(DateExt.UTC('29,March,2005'), 2.3);
+        ts.set(DateExt.UTC('15,March,2005'), 0.3);
         const sle = new SimpleLocalEstimator(1 / 360.0);
         const locale = sle.calculate1(ts);
         const ce = new ConstantEstimator(1);
         const sv = ce.calculate1(locale);
-        console.log(sv);
+        expect(()=>{}).not.toThrow();
     });
 });

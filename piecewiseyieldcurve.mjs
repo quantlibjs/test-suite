@@ -360,35 +360,58 @@ function testCurveConsistency(vars, t, i, b, tolerance = 1.0e-9, da, monotonic, 
 }
 
 function testBMACurveConsistency(vars, traits, interpolator = null, bootstrap = new IterativeBootstrap(traits, interpolator), tolerance = 1.0e-9) {
-    vars.calendar = new JointCalendar(new BMAIndex().fixingCalendar(), new USDLibor(new Period().init1(3, TimeUnit.Months)).fixingCalendar(), null, null, JointCalendar.JointCalendarRule.JoinHolidays);
+    // re-adjust settlement
+    vars.calendar = new JointCalendar(new BMAIndex().fixingCalendar(),
+                                      new USDLibor(new Period().init1(3, TimeUnit.Months)).fixingCalendar());
     vars.today = vars.calendar.adjust(DateExt.UTC());
     Settings.evaluationDate.set(vars.today);
     vars.settlement =
         vars.calendar.advance1(vars.today, vars.settlementDays, TimeUnit.Days);
-    const riskFreeCurve = new Handle(new FlatForward().ffInit2(vars.settlement, 0.04, new Actual360()));
+
+    const riskFreeCurve = new Handle(new FlatForward()
+                            .ffInit2(vars.settlement, 0.04, new Actual360()));
+
     const bmaIndex = new BMAIndex();
-    const liborIndex = new USDLibor(new Period().init1(3, TimeUnit.Months), riskFreeCurve);
+    const liborIndex = new USDLibor(new Period().init1(3, TimeUnit.Months),
+                                    riskFreeCurve);
     for (let i = 0; i < vars.bmas; ++i) {
         const f = new Handle(vars.fractions[i]);
-        vars.bmaHelpers[i] = new BMASwapRateHelper(f, new Period().init1(bmaData[i].n, bmaData[i].units), vars.settlementDays, vars.calendar, new Period().init2(vars.bmaFrequency), vars.bmaConvention, vars.bmaDayCounter, bmaIndex, liborIndex);
+        vars.bmaHelpers[i]
+          = new BMASwapRateHelper(f,
+                                  new Period().init1(bmaData[i].n, bmaData[i].units),
+                                  vars.settlementDays,
+                                  vars.calendar,
+                                  new Period().init2(vars.bmaFrequency),
+                                  vars.bmaConvention,
+                                  vars.bmaDayCounter,
+                                  bmaIndex,
+                                  liborIndex);
     }
+
     const w = DateExt.weekday(vars.today);
     const lastWednesday = (w >= 4) ? DateExt.sub(vars.today, (w - 4)) :
         DateExt.add(vars.today, (4 - w - 7));
     const lastFixing = bmaIndex.fixingCalendar().adjust(lastWednesday);
     bmaIndex.addFixing(lastFixing, 0.03);
+
     vars.termStructure =
         new PiecewiseYieldCurve(traits, interpolator, bootstrap)
-            .pwycInit2(vars.today, vars.bmaHelpers, new Actual360(), 1.0e-12);
+            .pwycInit2(vars.today, vars.bmaHelpers,
+                       new Actual360(), 1.0e-12);
+
     const curveHandle = new RelinkableHandle();
     curveHandle.linkTo(vars.termStructure);
+
+    // check BMA swaps
     const bma = new BMAIndex(curveHandle);
-    const libor3m = new USDLibor(new Period().init1(3, TimeUnit.Months), riskFreeCurve);
+    const libor3m = new USDLibor(new Period().init1(3, TimeUnit.Months),
+                                 riskFreeCurve);
     for (let i = 0; i < vars.bmas; i++) {
         const tenor = new Period().init1(bmaData[i].n, bmaData[i].units);
+
         const bmaSchedule = new MakeSchedule()
             .from(vars.settlement)
-            .to(DateExt.advance(vars.settlement, tenor.length(), tenor.units()))
+            .to(DateExt.addPeriod(vars.settlement, tenor))
             .withFrequency(vars.bmaFrequency)
             .withCalendar(bma.fixingCalendar())
             .withConvention(vars.bmaConvention)
@@ -396,16 +419,23 @@ function testBMACurveConsistency(vars, traits, interpolator = null, bootstrap = 
             .f();
         const liborSchedule = new MakeSchedule()
             .from(vars.settlement)
-            .to(DateExt.advance(vars.settlement, tenor.length(), tenor.units()))
+            .to(DateExt.addPeriod(vars.settlement, tenor))
             .withTenor(libor3m.tenor())
             .withCalendar(libor3m.fixingCalendar())
             .withConvention(libor3m.businessDayConvention())
             .endOfMonth(libor3m.endOfMonth())
             .backwards()
             .f();
-        const swap = new BMASwap(BMASwap.Type.Payer, 100.0, liborSchedule, 0.75, 0.0, libor3m, libor3m.dayCounter(), bmaSchedule, bma, vars.bmaDayCounter);
-        swap.setPricingEngine(new DiscountingSwapEngine(libor3m.forwardingTermStructure()));
-        const expectedFraction = bmaData[i].rate / 100, estimatedFraction = swap.fairLiborFraction();
+
+        const swap = new BMASwap(BMASwap.Type.Payer, 100.0,
+                                 liborSchedule, 0.75, 0.0,
+                                 libor3m, libor3m.dayCounter(),
+                                 bmaSchedule, bma, vars.bmaDayCounter);
+        swap.setPricingEngine(
+          new DiscountingSwapEngine(libor3m.forwardingTermStructure()));
+
+        const expectedFraction = bmaData[i].rate / 100,
+              estimatedFraction = swap.fairLiborFraction();
         const error = Math.abs(expectedFraction - estimatedFraction);
         if(error>tolerance) {
           fail(`fairLiborFraction ${i}`);
@@ -450,7 +480,7 @@ describe(`Piecewise yield curve tests ${version}`, () => {
     it('Testing consistency of piecewise-log-linear discount curve...', () => {
         const vars = new CommonVars();
         testCurveConsistency(vars, T.Discount, I.LogLinear, B.IterativeBootstrap);
-        //testBMACurveConsistency(vars, new Discount(), new LogLinear());
+        testBMACurveConsistency(vars, new Discount(), new LogLinear());
         vars.backup.dispose();
     });
 

@@ -19,18 +19,23 @@ import { Flag } from '/test-suite/utilities.mjs';
 function add10(x) {
     return x + 10;
 }
+
 function mul10(x) {
     return x * 10;
 }
+
 function sub10(x) {
     return x - 10;
 }
+
 function add(x, y) {
     return x + y;
 }
+
 function mul(x, y) {
     return x * y;
 }
+
 function sub(x, y) {
     return x - y;
 }
@@ -78,7 +83,7 @@ describe(`Quote tests ${version}`, () => {
             expect(Math.abs(x - y)).toBeLessThan(1.0e-10);
         }
     });
-    
+
     it('Testing forward-value and implied-standard-deviation quotes...', () => {
         const forwardRate = .05;
         const dc = new ActualActual();

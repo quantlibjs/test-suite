@@ -114,7 +114,7 @@ function createTestMatrix(n, m, theta) {
     return a;
 }
 
-describe(`linear operator tests ${version}`, () => {
+describe(`Linear operator tests ${version}`, () => {
     it('Testing indexing of a linear operator...', () => {
         const dims = [5, 7, 8];
         const dim = Array.from(dims);
@@ -181,7 +181,7 @@ describe(`linear operator tests ${version}`, () => {
         expect(Math.abs(dx3 - mesher.dplus(layout.begin(), 2))).toBeLessThan(tol);
     });
 
-    it('Testing application of first-derivatives map...', () => {
+    xit('Testing application of first-derivatives map...', () => {
         const dims = [400, 100, 50];
         const dim = Array.from(dims);
         const index = new FdmLinearOpLayout(dim);
@@ -224,7 +224,7 @@ describe(`linear operator tests ${version}`, () => {
         }
     });
 
-    it('Testing application of second-derivatives map...', () => {
+    xit('Testing application of second-derivatives map...', () => {
         const dims = [50, 50, 50];
         const dim = Array.from(dims);
         const index = new FdmLinearOpLayout(dim);
@@ -283,7 +283,7 @@ describe(`linear operator tests ${version}`, () => {
         }
     });
 
-    it('Testing finite differences coefficients...', () => {
+    xit('Testing finite differences coefficients...', () => {
         const mesherX = new Concentrating1dMesher().init1(-2.0, 3.0, 50, [0.5, 0.01]);
         const mesherY = new Concentrating1dMesher().init1(0.5, 5.0, 25, [0.5, 0.1]);
         const mesherZ = new Concentrating1dMesher().init1(-1.0, 2.0, 31, [1.5, 0.01]);
@@ -474,7 +474,7 @@ describe(`linear operator tests ${version}`, () => {
         const rTS = new Handle(flatRate4(0.05, new Actual365Fixed()));
         const qTS = new Handle(flatRate4(0.0, new Actual365Fixed()));
         const hestonProcess = new HestonProcess(rTS, qTS, s0, 0.04, 2.5, 0.04, 0.66, -0.8);
-        Settings.evaluationDate.set(new Date('28-March-2004'));
+        Settings.evaluationDate.set(DateExt.UTC('28,March,2004'));
         const hestonOp = new FdmHestonOp(mesher, hestonProcess);
         const rhs = new Array(mesher.layout().size());
         const endIter = mesher.layout().end();
@@ -534,7 +534,7 @@ describe(`linear operator tests ${version}`, () => {
         const rTS = new Handle(flatRate4(0.05, new Actual365Fixed()));
         const qTS = new Handle(flatRate4(0.0, new Actual365Fixed()));
         const hestonProcess = new HestonProcess(rTS, qTS, s0, 0.04, 2.5, 0.04, 0.66, -0.8);
-        Settings.evaluationDate.set(new Date('28-March-2004'));
+        Settings.evaluationDate.set(DateExt.UTC('28,March,2004'));
         const LinearOp = new FdmHestonOp(mesher, hestonProcess);
         const payoff = new PlainVanillaPayoff(Option.Type.Put, 100.0);
         const rhs = new Array(mesher.layout().size());
@@ -584,7 +584,7 @@ describe(`linear operator tests ${version}`, () => {
         const rTS = new Handle(flatRate4(0.05, new Actual365Fixed()));
         const qTS = new Handle(flatRate4(0.0, new Actual365Fixed()));
         const hestonProcess = new Handle(new HestonProcess(rTS, qTS, s0, 0.04, 2.5, 0.04, 0.66, -0.8));
-        const evaluationDate = new Date('28-March-2004');
+        const evaluationDate = DateExt.UTC('28,March,2004');
         Settings.evaluationDate.set(evaluationDate);
         const triggerLevels = new Array(2);
         triggerLevels[0] = triggerLevels[1] = 100.0;
@@ -620,11 +620,11 @@ describe(`linear operator tests ${version}`, () => {
         backup.dispose();
     });
 
-    it('Testing FDM with Heston Hull-White model...', () => {
+    xit('Testing FDM with Heston Hull-White model...', () => {
         const backup = new SavedSettings();
-        const today = new Date('28-March-2004');
+        const today = DateExt.UTC('28,March,2004');
         Settings.evaluationDate.set(today);
-        const exerciseDate = new Date('28-March-2012');
+        const exerciseDate = DateExt.UTC('28,March,2012');
         const maturity = new Actual365Fixed().yearFraction(today, exerciseDate);
         const dims = [51, 31, 31];
         const dim = Array.from(dims);
@@ -697,7 +697,7 @@ describe(`linear operator tests ${version}`, () => {
         backup.dispose();
     });
 
-    it('Testing bi-conjugated gradient stabilized algorithm...', () => {
+    xit('Testing bi-conjugated gradient stabilized algorithm...', () => {
         const n = 41, m = 21;
         const theta = 1.0;
         const a = createTestMatrix(n, m, theta);
@@ -742,7 +742,7 @@ describe(`linear operator tests ${version}`, () => {
         expect(error).toBeLessThan(tol);
     });
 
-    it('Testing GMRES algorithm...', () => {
+    xit('Testing GMRES algorithm...', () => {
         const n = 41, m = 21;
         const theta = 1.0;
         const a = createTestMatrix(n, m, theta);
@@ -781,7 +781,7 @@ describe(`linear operator tests ${version}`, () => {
         'for a digital option...', () => {
         const backup = new SavedSettings();
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(100.0);
         const qTS = flatRate2(today, 0.06, dc);
         const rTS = flatRate2(today, 0.06, dc);
@@ -825,7 +825,7 @@ describe(`linear operator tests ${version}`, () => {
         backup.dispose();
     });
 
-    it('Testing SparseMatrixReference type...', () => {
+    xit('Testing SparseMatrixReference type...', () => {
         const rows = 10;
         const columns = 10;
         const nMatrices = 5;
@@ -857,7 +857,7 @@ describe(`linear operator tests ${version}`, () => {
         }
     });
 
-    it('Testing assignment to zero in sparse matrix...', () => {
+    xit('Testing assignment to zero in sparse matrix...', () => {
         const m = new SparseMatrix().smInit1(5, 5);
         expect(m.filled_size()).toBeGreaterThan(0);
         m.set(0, 0, 0.0);
@@ -896,7 +896,7 @@ describe(`linear operator tests ${version}`, () => {
     it('Testing Black-Scholes mesher in a high interest rate scenario...', () => {
         const backup = new SavedSettings();
         const dc = new Actual365Fixed();
-        const today = new Date('11-February-2018');
+        const today = DateExt.UTC('11,February,2018');
         const spot = 100;
         const r = 0.21;
         const q = 0.02;
@@ -929,7 +929,7 @@ describe(`linear operator tests ${version}`, () => {
         'discrete dividend scenario...', () => {
         const backup = new SavedSettings();
         const dc = new Actual365Fixed();
-        const today = new Date('28-January-2018');
+        const today = DateExt.UTC('28,January,2018');
         const spot = new Handle(new SimpleQuote(100.0));
         const qTS = new Handle(flatRate2(today, 0.07, dc));
         const rTS = new Handle(flatRate2(today, 0.16, dc));

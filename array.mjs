@@ -19,7 +19,7 @@ function p2(x) {
     return x * x;
 }
 
-describe(`array tests ${version}`, () => {
+describe(`Array tests ${version}`, () => {
 
     it('Testing array construction...', () => {
         const a1 = new Array();

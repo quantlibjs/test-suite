@@ -387,7 +387,7 @@ describe(`Heston model tests ${version}`, () => {
         s0 = new Handle(new SimpleQuote(100.0));
         riskFreeTS = new Handle(flatRate4(0.05, dayCounter));
         dividendTS = new Handle(flatRate4(0.0, dayCounter));
-        exerciseDate = new Date('28-March-2006');
+        exerciseDate = DateExt.UTC('28,March,2006');
         exercise = new EuropeanExercise(exerciseDate);
         const dividendDates = [];
         const dividends = [];
@@ -408,7 +408,7 @@ describe(`Heston model tests ${version}`, () => {
         process = new HestonProcess(riskFreeTS, dividendTS, s0, 0.04, 1.0, 0.04, 0.001, 0.0);
         engine = new FdHestonVanillaEngine(new HestonModel(process), 200, 400, 100);
         payoff = new PlainVanillaPayoff(Option.Type.Put, 95.0);
-        exercise = new AmericanExercise().init1(settlementDate, exerciseDate);
+        exercise = new AmericanExercise().aeInit1(settlementDate, exerciseDate);
         option = new VanillaOption(payoff, exercise);
         option.setPricingEngine(engine);
         calculated = option.NPV();
@@ -1359,7 +1359,7 @@ describe(`Heston model experimental tests ${version}`, () => {
         const tol = 1e-6;
         const pdfEngine = new AnalyticPDFHestonEngine(model, tol);
         const analyticEngine = new AnalyticHestonEngine().aheInit2(model, 178);
-        const maturityDate = new Date('5-July-2014');
+        const maturityDate = DateExt.UTC('5,July,2014');
         const maturity = dayCounter.yearFraction(settlementDate, maturityDate);
         const exercise = new EuropeanExercise(maturityDate);
         for (let strike = 40; strike < 190; strike += 20) {

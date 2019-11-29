@@ -161,7 +161,7 @@ describe(`Integration tests ${version}`, () => {
         testSeveral(new DiscreteSimpsonIntegrator(300));
         testSeveral(new DiscreteTrapezoidIntegrator(3000));
     });
-    
+
     it('Testing piecewise integral...', () => {
         X = [1.0, 2.0, 3.0, 4.0, 5.0];
         Y = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0];

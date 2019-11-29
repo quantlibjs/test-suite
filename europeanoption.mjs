@@ -1083,7 +1083,7 @@ describe(`European option tests ${version}`, () => {
     });
 });
 
-describe('European option experimental tests', () => {
+describe(`European option experimental tests ${version}`, () => {
     it('Testing FFT European engines against analytic results...', () => {
         const backup = new SavedSettings();
         const engine = EngineType.FFT;

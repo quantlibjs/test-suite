@@ -13,11 +13,12 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Actual360, Actual365Fixed, AnalyticEuropeanEngine, AssetOrNothingPayoff, blackFormulaCashItmProbability1, BlackIborCouponPricer, BlackScholesMertonProcess, BusinessDayConvention, CashOrNothingPayoff, ConstantOptionletVolatility, CumulativeNormalDistribution, DigitalCoupon, DigitalReplication, Euribor6M, EuropeanExercise, Handle, IborCoupon, Option, Period, Position, QL_NULL_REAL, RelinkableHandle, Replication, Settings, SimpleQuote, TimeUnit, VanillaOption, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Actual365Fixed, AnalyticEuropeanEngine, AssetOrNothingPayoff, blackFormulaCashItmProbability1, BlackIborCouponPricer, BlackScholesMertonProcess, BusinessDayConvention, CashOrNothingPayoff, ConstantOptionletVolatility, CumulativeNormalDistribution, DigitalCoupon, DigitalReplication, Euribor6M, EuropeanExercise, Handle, IborCoupon, Option, Period, Position, QL_NULL_REAL, RelinkableHandle, Replication, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatRate2, flatVol2 } from '/test-suite/utilities.mjs';
 
 class CommonVars {
     constructor() {
+        this.backup = new SavedSettings();
         this.termStructure = new RelinkableHandle();
         this.fixingDays = 2;
         this.nominal = 1000000.0;
@@ -100,7 +101,9 @@ describe(`Digital coupon tests ${version}`, () => {
                 }
             }
         }
+        vars.backup.dispose();
     });
+
     it('Testing European deep in-the-money asset-or-nothing digital coupon...', () => {
         const vars = new CommonVars();
         const gearing = 1.0;
@@ -148,7 +151,9 @@ describe(`Digital coupon tests ${version}`, () => {
             optionTolerance = 2.5e-06;
             expect(error).toBeLessThan(optionTolerance);
         }
+        vars.backup.dispose();
     });
+
     it('Testing European deep out-the-money asset-or-nothing digital coupon...', () => {
         const vars = new CommonVars();
         const gearing = 1.0;
@@ -195,7 +200,9 @@ describe(`Digital coupon tests ${version}`, () => {
             error = Math.abs(targetOptionPrice - replicationOptionPrice);
             expect(error).toBeLessThan(optionTolerance);
         }
+        vars.backup.dispose();
     });
+
     it('Testing European cash-or-nothing digital coupon...', () => {
         const vars = new CommonVars();
         const vols = [0.05, 0.15, 0.30];
@@ -266,7 +273,9 @@ describe(`Digital coupon tests ${version}`, () => {
                 }
             }
         }
+        vars.backup.dispose();
     });
+
     it('Testing European deep in-the-money cash-or-nothing digital coupon...', () => {
         const vars = new CommonVars();
         const gearing = 1.0;
@@ -312,7 +321,9 @@ describe(`Digital coupon tests ${version}`, () => {
             error = Math.abs(targetOptionPrice - replicationOptionPrice);
             expect(error).toBeLessThan(optionTolerance);
         }
+        vars.backup.dispose();
     });
+
     it('Testing European deep out-the-money cash-or-nothing digital coupon...', () => {
         const vars = new CommonVars();
         const gearing = 1.0;
@@ -360,7 +371,9 @@ describe(`Digital coupon tests ${version}`, () => {
             error = Math.abs(targetOptionPrice - replicationOptionPrice);
             expect(error).toBeLessThan(optionTolerance);
         }
+        vars.backup.dispose();
     });
+
     it('Testing call/put parity for European digital coupon...', () => {
         const vars = new CommonVars();
         const vols = [0.05, 0.15, 0.30];
@@ -409,7 +422,9 @@ describe(`Digital coupon tests ${version}`, () => {
                 }
             }
         }
+        vars.backup.dispose();
     });
+
     it('Testing replication type for European digital coupon...', () => {
         const vars = new CommonVars();
         const vols = [0.05, 0.15, 0.30];
@@ -504,5 +519,6 @@ describe(`Digital coupon tests ${version}`, () => {
                 }
             }
         }
+        vars.backup.dispose();
     });
 });

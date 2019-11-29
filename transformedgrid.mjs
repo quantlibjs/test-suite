@@ -21,7 +21,7 @@ class PlusOne {
     }
 }
 
-describe(`transformed grid ${version}`, () => {
+describe(`Transformed grid tests ${version}`, () => {
     it('Testing transformed grid construction...', () => {
         const p1 = new PlusOne();
         const grid = BoundedGrid(0, 100, 100);

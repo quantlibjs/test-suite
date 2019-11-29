@@ -47,7 +47,7 @@ class HestonTestData {
 describe(`Finite Difference Heston tests ${version}`, () => {
     it('Testing FDM Heston variance mesher ...', () => {
         const backup = new SavedSettings();
-        const today = new Date('22-February-2018');
+        const today = DateExt.UTC('22,February,2018');
         const dc = new Actual365Fixed();
         Settings.evaluationDate.set(today);
         const process = new HestonProcess(new Handle(flatRate4(0.02, dc)), new Handle(flatRate4(0.02, dc)), new Handle(new SimpleQuote(100.0)), 0.09, 1.0, 0.09, 0.2, -0.5);
@@ -138,7 +138,7 @@ describe(`Finite Difference Heston tests ${version}`, () => {
             new NewBarrierOptionData(Barrier.Type.UpIn, 105.0, 3.0, Option.Type.Put, 110, 100.0, 0.04, 0.08, 0.50, 0.30)
         ];
         const dc = new Actual365Fixed();
-        const todaysDate = new Date('28-March-2004');
+        const todaysDate = DateExt.UTC('28,March,2004');
         Settings.evaluationDate.set(todaysDate);
         const spot = new Handle(new SimpleQuote(0.0));
         const qRate = new SimpleQuote(0.0);
@@ -177,8 +177,8 @@ describe(`Finite Difference Heston tests ${version}`, () => {
         const rTS = new Handle(flatRate4(0.05, new Actual365Fixed()));
         const qTS = new Handle(flatRate4(0.0, new Actual365Fixed()));
         const hestonProcess = new HestonProcess(rTS, qTS, s0, 0.04, 2.5, 0.04, 0.66, -0.8);
-        Settings.evaluationDate.set(new Date('28-March-2004'));
-        const exerciseDate = new Date('28-March-2005');
+        Settings.evaluationDate.set(DateExt.UTC('28,March,2004'));
+        const exerciseDate = DateExt.UTC('28,March,2005');
         const exercise = new EuropeanExercise(exerciseDate);
         const payoff = new PlainVanillaPayoff(Option.Type.Call, 100);
         const barrierOption = new BarrierOption(Barrier.Type.UpOut, 135, 0.0, payoff, exercise);
@@ -201,9 +201,9 @@ describe(`Finite Difference Heston tests ${version}`, () => {
         const rTS = new Handle(flatRate4(0.05, new Actual365Fixed()));
         const qTS = new Handle(flatRate4(0.0, new Actual365Fixed()));
         const hestonProcess = new HestonProcess(rTS, qTS, s0, 0.04, 2.5, 0.04, 0.66, -0.8);
-        Settings.evaluationDate.set(new Date('28-March-2004'));
-        const exerciseDate = new Date('28-March-2005');
-        const exercise = new AmericanExercise().init2(exerciseDate);
+        Settings.evaluationDate.set(DateExt.UTC('28,March,2004'));
+        const exerciseDate = DateExt.UTC('28,March,2005');
+        const exercise = new AmericanExercise().aeInit1(exerciseDate);
         const payoff = new PlainVanillaPayoff(Option.Type.Put, 100);
         const option = new VanillaOption(payoff, exercise);
         const engine = new FdHestonVanillaEngine(new HestonModel(hestonProcess), 200, 100, 50);
@@ -222,9 +222,9 @@ describe(`Finite Difference Heston tests ${version}`, () => {
         const backup = new SavedSettings();
         const rTS = new Handle(flatRate4(0.10, new Actual360()));
         const qTS = new Handle(flatRate4(0.0, new Actual360()));
-        Settings.evaluationDate.set(new Date('28-March-2004'));
-        const exerciseDate = new Date('26-June-2004');
-        const exercise = new AmericanExercise().init2(exerciseDate);
+        Settings.evaluationDate.set(DateExt.UTC('28,March,2004'));
+        const exerciseDate = DateExt.UTC('26,June,2004');
+        const exercise = new AmericanExercise().aeInit1(exerciseDate);
         const payoff = new PlainVanillaPayoff(Option.Type.Put, 10);
         const option = new VanillaOption(payoff, exercise);
         const strikes = [8, 9, 10, 11, 12];
@@ -243,8 +243,8 @@ describe(`Finite Difference Heston tests ${version}`, () => {
 
     it('Testing FDM Heston with Black Scholes model...', () => {
         const backup = new SavedSettings();
-        Settings.evaluationDate.set(new Date('28-March-2004'));
-        const exerciseDate = new Date('26-June-2004');
+        Settings.evaluationDate.set(DateExt.UTC('28,March,2004'));
+        const exerciseDate = DateExt.UTC('26,June,2004');
         const rTS = new Handle(flatRate4(0.10, new Actual360()));
         const qTS = new Handle(flatRate4(0.0, new Actual360()));
         const volTS = new Handle(flatVol2(rTS.currentLink().referenceDate(), 0.25, rTS.currentLink().dayCounter()));
@@ -275,12 +275,12 @@ describe(`Finite Difference Heston tests ${version}`, () => {
         const rTS = new Handle(flatRate4(0.05, new Actual365Fixed()));
         const qTS = new Handle(flatRate4(0.0, new Actual365Fixed()));
         const hestonProcess = new HestonProcess(rTS, qTS, s0, 0.04, 2.5, 0.04, 0.66, -0.8);
-        Settings.evaluationDate.set(new Date('28-March-2004'));
-        const exerciseDate = new Date('28-March-2005');
-        const exercise = new AmericanExercise().init2(exerciseDate);
+        Settings.evaluationDate.set(DateExt.UTC('28,March,2004'));
+        const exerciseDate = DateExt.UTC('28,March,2005');
+        const exercise = new AmericanExercise().aeInit1(exerciseDate);
         const payoff = new PlainVanillaPayoff(Option.Type.Put, 100);
         const dividends = [5];
-        const dividendDates = [new Date('28-September-2004')];
+        const dividendDates = [DateExt.UTC('28,September,2004')];
         const option = new DividendVanillaOption(payoff, exercise, dividendDates, dividends);
         const engine = new FdHestonVanillaEngine(new HestonModel(hestonProcess), 50, 100, 50);
         option.setPricingEngine(engine);
@@ -310,7 +310,7 @@ describe(`Finite Difference Heston tests ${version}`, () => {
         ];
         const tn = [60];
         const v0 = [0.04];
-        const todaysDate = new Date('28-March-2004');
+        const todaysDate = DateExt.UTC('28,March,2004');
         Settings.evaluationDate.set(todaysDate);
         const s0 = new Handle(new SimpleQuote(75.0));
         for (let l = 0; l < schemes.length; ++l) {
@@ -339,7 +339,7 @@ describe(`Finite Difference Heston tests ${version}`, () => {
         }
         backup.dispose();
     });
-    
+
     it('Testing FDM Heston intraday pricing ...', () => {
         const backup = new SavedSettings();
         const type = Option.Type.Put;
@@ -353,7 +353,7 @@ describe(`Finite Difference Heston tests ${version}`, () => {
         const sigma = 0.0065;
         const rho = -0.75;
         const dayCounter = new Actual365Fixed();
-        const maturity = new Date(2014, Month.May - 1, 17, 17, 30, 0);
+        const maturity = new Date(Date.UTC(2014, Month.May - 1, 17, 17, 30, 0));
         const europeanExercise = new EuropeanExercise(maturity);
         const payoff = new PlainVanillaPayoff(type, strike);
         const option = new VanillaOption(payoff, europeanExercise);
@@ -368,7 +368,7 @@ describe(`Finite Difference Heston tests ${version}`, () => {
             3.28164, 4.64096
         ];
         for (let i = 0; i < 10; ++i) {
-            const now = new Date(2014, Month.May - 1, 17, 15, i * 15, 0);
+            const now = new Date(Date.UTC(2014, Month.May - 1, 17, 15, i * 15, 0));
             Settings.evaluationDate.set(now);
             flatTermStructure.linkTo(new FlatForward().ffInit2(now, riskFreeRate, dayCounter));
             flatDividendTS.linkTo(new FlatForward().ffInit2(now, dividendYield, dayCounter));
@@ -381,7 +381,7 @@ describe(`Finite Difference Heston tests ${version}`, () => {
     it('Testing method of lines to solve Heston PDEs...', () => {
         const backup = new SavedSettings();
         const dc = new Actual365Fixed();
-        const today = new Date('21-February-2018');
+        const today = DateExt.UTC('21,February,2018');
         Settings.evaluationDate.set(today);
         const spot = new Handle(new SimpleQuote(100.0));
         const qTS = new Handle(flatRate2(today, 0.0, dc));
@@ -398,7 +398,7 @@ describe(`Finite Difference Heston tests ${version}`, () => {
         const fdmDefault = new FdHestonVanillaEngine(model, 10, xGrid, vGrid, 0);
         const fdmMol = new FdHestonVanillaEngine(model, 10, xGrid, vGrid, 0, FdmSchemeDesc.MethodOfLines());
         const payoff = new PlainVanillaPayoff(Option.Type.Put, spot.currentLink().value());
-        const option = new VanillaOption(payoff, new AmericanExercise().init2(maturity));
+        const option = new VanillaOption(payoff, new AmericanExercise().aeInit2(maturity));
         option.setPricingEngine(fdmMol);
         const calculated = option.NPV();
         option.setPricingEngine(fdmDefault);
@@ -416,11 +416,11 @@ describe(`Finite Difference Heston tests ${version}`, () => {
         expect(barrierDiff).toBeLessThan(barrierTol);
         backup.dispose();
     });
-    
+
     it('Testing for spurious oscillations when solving the Heston PDEs...', () => {
         const backup = new SavedSettings();
         const dc = new Actual365Fixed();
-        const today = new Date('7-June-2018');
+        const today = DateExt.UTC('7,June,2018');
         Settings.evaluationDate.set(today);
         const spot = new Handle(new SimpleQuote(100.0));
         const qTS = new Handle(flatRate2(today, 0.1, dc));

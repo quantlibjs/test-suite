@@ -40,8 +40,9 @@ describe(`Instrument tests ${version}`, () => {
         s.unfreeze();
         expect(f.isUp()).toEqual(true);
     });
+
     it('Testing reaction of composite instrument to date changes...', () => {
-        const today = new Date();
+        const today = DateExt.UTC();
         const dc = new Actual360();
         const payoff = new PlainVanillaPayoff(Option.Type.Call, 100.0);
         const exercise = new EuropeanExercise(DateExt.add(today, 30));

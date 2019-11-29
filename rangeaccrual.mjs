@@ -850,6 +850,7 @@ describe(`Range Accrual tests ${version}`, () => {
         }
         vars.backup.dispose();
     });
+
     it('Testing price monotonicity with respect to the lower strike...', () => {
         const vars = new CommonVars();
         for (let z = 0; z < vars.smilesOnPayment.length; z++) {
@@ -869,6 +870,7 @@ describe(`Range Accrual tests ${version}`, () => {
         }
         vars.backup.dispose();
     });
+
     it('Testing price monotonicity with respect to the upper strike...', () => {
         const vars = new CommonVars();
         for (let z = 0; z < vars.smilesOnPayment.length; z++) {

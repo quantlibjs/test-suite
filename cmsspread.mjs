@@ -17,7 +17,7 @@ import { Actual360, Actual365Fixed, Array1D, Array2D, BusinessDayConvention, Cap
 
 class TestData {
     constructor() {
-        this.refDate = new Date('23-February-2018');
+        this.refDate = DateExt.UTC('23,February,2018');
         Settings.evaluationDate.set(this.refDate);
         this.yts2 = new Handle(new FlatForward().ffInit2(this.refDate, 0.02, new Actual365Fixed()));
         this.swLn = new Handle(new ConstantSwaptionVolatility().csvInit4(this.refDate, new TARGET(), BusinessDayConvention.Following, 0.20, new Actual365Fixed(), VolatilityType.ShiftedLognormal, 0.0));
@@ -139,12 +139,12 @@ describe(`Cms spread tests ${version}`, () => {
         expect(Math.abs(cpn1.rate() - cpn1a.rate() + cpn1b.rate()))
             .toBeLessThan(eqTol);
         IndexManager.clearHistories();
-        const cpn2a = new CmsCoupon(new Date('23-February-2029'), 10000.0, new Date('23-February-2028'), new Date('23-February-2029'), 2, cms10y, 1.0, 0.0, null, null, new Actual360(), false);
-        const cpn2b = new CmsCoupon(new Date('23-February-2029'), 10000.0, new Date('23-February-2028'), new Date('23-February-2029'), 2, cms2y, 1.0, 0.0, null, null, new Actual360(), false);
-        const plainCpn = new CappedFlooredCmsSpreadCoupon(new Date('23-February-2029'), 10000.0, new Date('23-February-2028'), new Date('23-February-2029'), 2, cms10y2y, 1.0, 0.0, QL_NULL_REAL, QL_NULL_REAL, null, null, new Actual360(), false);
-        const cappedCpn = new CappedFlooredCmsSpreadCoupon(new Date('23-February-2029'), 10000.0, new Date('23-February-2028'), new Date('23-February-2029'), 2, cms10y2y, 1.0, 0.0, 0.03, QL_NULL_REAL, null, null, new Actual360(), false);
-        const flooredCpn = new CappedFlooredCmsSpreadCoupon(new Date('23-February-2029'), 10000.0, new Date('23-February-2028'), new Date('23-February-2029'), 2, cms10y2y, 1.0, 0.0, QL_NULL_REAL, 0.01, null, null, new Actual360(), false);
-        const collaredCpn = new CappedFlooredCmsSpreadCoupon(new Date('23-February-2029'), 10000.0, new Date('23-February-2028'), new Date('23-February-2029'), 2, cms10y2y, 1.0, 0.0, 0.03, 0.01, null, null, new Actual360(), false);
+        const cpn2a = new CmsCoupon(DateExt.UTC('23,February,2029'), 10000.0, DateExt.UTC('23,February,2028'), DateExt.UTC('23,February,2029'), 2, cms10y, 1.0, 0.0, null, null, new Actual360(), false);
+        const cpn2b = new CmsCoupon(DateExt.UTC('23,February,2029'), 10000.0, DateExt.UTC('23,February,2028'), DateExt.UTC('23,February,2029'), 2, cms2y, 1.0, 0.0, null, null, new Actual360(), false);
+        const plainCpn = new CappedFlooredCmsSpreadCoupon(DateExt.UTC('23,February,2029'), 10000.0, DateExt.UTC('23,February,2028'), DateExt.UTC('23,February,2029'), 2, cms10y2y, 1.0, 0.0, QL_NULL_REAL, QL_NULL_REAL, null, null, new Actual360(), false);
+        const cappedCpn = new CappedFlooredCmsSpreadCoupon(DateExt.UTC('23,February,2029'), 10000.0, DateExt.UTC('23,February,2028'), DateExt.UTC('23,February,2029'), 2, cms10y2y, 1.0, 0.0, 0.03, QL_NULL_REAL, null, null, new Actual360(), false);
+        const flooredCpn = new CappedFlooredCmsSpreadCoupon(DateExt.UTC('23,February,2029'), 10000.0, DateExt.UTC('23,February,2028'), DateExt.UTC('23,February,2029'), 2, cms10y2y, 1.0, 0.0, QL_NULL_REAL, 0.01, null, null, new Actual360(), false);
+        const collaredCpn = new CappedFlooredCmsSpreadCoupon(DateExt.UTC('23,February,2029'), 10000.0, DateExt.UTC('23,February,2028'), DateExt.UTC('23,February,2029'), 2, cms10y2y, 1.0, 0.0, 0.03, 0.01, null, null, new Actual360(), false);
         cpn2a.setPricer(d.cmsPricerLn);
         cpn2b.setPricer(d.cmsPricerLn);
         plainCpn.setPricer(d.cmsspPricerLn);

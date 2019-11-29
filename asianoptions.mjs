@@ -14,10 +14,8 @@
  * =============================================================================
  */
 import '/test-suite/quantlibtestsuite.mjs';
-import { Actual360, AnalyticContinuousGeometricAveragePriceAsianEngine, AnalyticDiscreteGeometricAveragePriceAsianEngine, AnalyticDiscreteGeometricAverageStrikeAsianEngine, Average, BlackScholesMertonProcess, Comparison, ContinuousArithmeticAsianLevyEngine, ContinuousArithmeticAsianVecerEngine, ContinuousAveragingAsianOption, DateExt, DiscreteAveragingAsianOption, EuropeanExercise, FdBlackScholesAsianEngine, Handle, LowDiscrepancy, MakeMCDiscreteArithmeticAPEngine, MakeMCDiscreteArithmeticASEngine, MakeMCDiscreteGeometricAPEngine, Option, PlainVanillaPayoff, QL_NULL_INTEGER, QL_NULL_REAL, SavedSettings, Settings, SimpleQuote, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, AnalyticContinuousGeometricAveragePriceAsianEngine, AnalyticDiscreteGeometricAveragePriceAsianEngine, AnalyticDiscreteGeometricAverageStrikeAsianEngine, Average, BlackScholesMertonProcess, Comparison, ContinuousArithmeticAsianLevyEngine, ContinuousArithmeticAsianVecerEngine, ContinuousAveragingAsianOption, DateExt, DiscreteAveragingAsianOption, EuropeanExercise, FdBlackScholesAsianEngine, Handle, LowDiscrepancy, MakeMCDiscreteArithmeticAPEngine, MakeMCDiscreteArithmeticASEngine, MakeMCDiscreteGeometricAPEngine, Option, PlainVanillaPayoff, QL_NULL_INTEGER, QL_NULL_REAL, SavedSettings, Settings, SimpleQuote, TimeUnit, first, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate1, flatRate2, flatRate3, flatVol1, flatVol2, flatVol3, relativeError } from '/test-suite/utilities.mjs';
-
-const first = 0;
 
 class DiscreteAverageData {
     constructor(type, underlying, strike, dividendYield, riskFreeRate, first, length, fixings, volatility, controlVariate, result) {
@@ -804,7 +802,7 @@ describe(`Asian option experimental tests ${version}`, () => {
             expect(error).toBeLessThan(tolerance);
         }
     });
-    
+
     it('Testing Vecer engine for Asian options...', () => {
         const cases = [
             new VecerData(1.9, 0.05, 0.5, 2.0, 1, 0.193174, 1.0e-5),

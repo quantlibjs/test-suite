@@ -44,7 +44,7 @@ function check_ts(x) {
     expect(error).toBeLessThan(tolerance);
 }
 
-describe(`GARCH model test ${version}`, () => {
+describe(`GARCH model tests ${version}`, () => {
     it('Testing GARCH model calibration...', () => {
         const start = DateExt.UTC('7,July,1962'), d = start;
         const ts = new TimeSeries();

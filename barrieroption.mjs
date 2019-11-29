@@ -82,7 +82,7 @@ describe(`Barrier option tests ${version}`, () => {
         const knockIn = new BarrierOption(Barrier.Type.DownIn, 90.0, 0.0, payoff, exercise);
         const knockOut = new BarrierOption(Barrier.Type.DownOut, 90.0, 0.0, payoff, exercise);
         const european = new EuropeanOption(payoff, exercise);
-        const barrierEngine = new AnalyticBarrierEngine(stochProcess);
+        const barrierEngine = new AnalyticBarrierEngine().init1(stochProcess);
         const europeanEngine = new AnalyticEuropeanEngine().init1(stochProcess);
         knockIn.setPricingEngine(barrierEngine);
         knockOut.setPricingEngine(barrierEngine);
@@ -200,7 +200,7 @@ describe(`Barrier option tests ${version}`, () => {
             new NewBarrierOptionData(Barrier.Type.UpIn, 105.0, 3.0, Option.Type.Call, american, 110, 100.0, 0.04, 0.08, 0.50, 0.25, 4.5900, 1.0e-4)
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
         const qTS = flatRate1(today, qRate, dc);
@@ -221,7 +221,7 @@ describe(`Barrier option tests ${version}`, () => {
                 exercise = new EuropeanExercise(exDate);
             }
             else {
-                exercise = new AmericanExercise().init2(exDate);
+                exercise = new AmericanExercise().aeInit2(exDate);
             }
             const barrierOption = new BarrierOption(values[i].barrierType, values[i].barrier, values[i].rebate, payoff, exercise);
             let engine;
@@ -229,7 +229,7 @@ describe(`Barrier option tests ${version}`, () => {
             let expected;
             let error;
             if (values[i].exType === Exercise.Type.European) {
-                engine = new AnalyticBarrierEngine(stochProcess);
+                engine = new AnalyticBarrierEngine().init1(stochProcess);
                 barrierOption.setPricingEngine(engine);
                 let calculated = barrierOption.NPV();
                 let expected = values[i].result;
@@ -280,7 +280,7 @@ describe(`Barrier option tests ${version}`, () => {
         const r = 0.05;
         const q = 0.02;
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const underlying = new SimpleQuote(underlyingPrice);
         const qH_SME = new SimpleQuote(q);
         const qTS = flatRate1(today, qH_SME, dc);
@@ -294,7 +294,7 @@ describe(`Barrier option tests ${version}`, () => {
             volatility.setValue(values[i].volatility);
             const callPayoff = new PlainVanillaPayoff(Option.Type.Call, values[i].strike);
             const stochProcess = new BlackScholesMertonProcess(new Handle(underlying), new Handle(qTS), new Handle(rTS), new Handle(volTS));
-            const engine = new AnalyticBarrierEngine(stochProcess);
+            const engine = new AnalyticBarrierEngine().init1(stochProcess);
             const barrierCallOption = new BarrierOption(values[i].type, values[i].barrier, rebate, callPayoff, exercise);
             barrierCallOption.setPricingEngine(engine);
             let calculated = barrierCallOption.NPV();
@@ -325,7 +325,7 @@ describe(`Barrier option tests ${version}`, () => {
         const r = Math.log(1.1);
         const q = 0.00;
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const underlying = new SimpleQuote(underlyingPrice);
         const qH_SME = new SimpleQuote(q);
         const qTS = flatRate1(today, qH_SME, dc);
@@ -339,7 +339,7 @@ describe(`Barrier option tests ${version}`, () => {
             volatility.setValue(values[i].volatility);
             const callPayoff = new PlainVanillaPayoff(Option.Type.Call, values[i].strike);
             const stochProcess = new BlackScholesMertonProcess(new Handle(underlying), new Handle(qTS), new Handle(rTS), new Handle(volTS));
-            const engine = new AnalyticBarrierEngine(stochProcess);
+            const engine = new AnalyticBarrierEngine().init1(stochProcess);
             const barrierCallOption = new BarrierOption(values[i].type, values[i].barrier, rebate, callPayoff, exercise);
             barrierCallOption.setPricingEngine(engine);
             let calculated = barrierCallOption.NPV();
@@ -365,7 +365,7 @@ describe(`Barrier option tests ${version}`, () => {
     it('Testing local volatility and Heston FD engines' +
         ' for barrier options...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('5-July-2002');
+        const settlementDate = DateExt.UTC('5,July,2002');
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new Actual365Fixed();
         const calendar = new TARGET();
@@ -452,7 +452,7 @@ describe(`Barrier option tests ${version}`, () => {
     it('Testing barrier option pricing with discrete dividends...', () => {
         const backup = new SavedSettings();
         const dc = new Actual365Fixed();
-        const today = new Date('11-February-2018');
+        const today = DateExt.UTC('11,February,2018');
         const maturity = DateExt.advance(today, 1, TimeUnit.Years);
         Settings.evaluationDate.set(today);
         const spot = 100.0;
@@ -508,7 +508,7 @@ describe(`Barrier option experimental tests ${version}`, () => {
         const r = 0.03;
         const q = 0.02;
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const underlying = new SimpleQuote(S);
         const qTS = flatRate2(today, q, dc);
         const rTS = flatRate2(today, r, dc);
@@ -542,7 +542,7 @@ describe(`Barrier option experimental tests ${version}`, () => {
         expected = 0.894374;
         expect(Math.abs(calculated - expected)).toBeLessThan(tolerance);
     });
-    
+
     it('Testing barrier FX options against Vanna/Volga values...', () => {
         const backup = new SavedSettings();
         const values = [
@@ -668,7 +668,7 @@ describe(`Barrier option experimental tests ${version}`, () => {
             new BarrierFxOptionData(Barrier.Type.DownIn, 1.3, 0, Option.Type.Put, 1.56345, 1.30265, 0.0009418, 0.0039788, 2, 0.10891, 0.09525, 0.09197, 0.09261, 0.25754, 1.0e-4)
         ];
         const dc = new Actual365Fixed();
-        const today = new Date('5-March-2013');
+        const today = DateExt.UTC('5,March,2013');
         Settings.evaluationDate.set(today);
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);

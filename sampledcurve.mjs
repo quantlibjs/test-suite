@@ -21,7 +21,7 @@ class FSquared {
     }
 }
 
-describe(`sampled curve tests ${version}`, () => {
+describe(`Sampled curve tests ${version}`, () => {
     it('Testing sampled curve construction...', () => {
         const curve = new SampledCurve().init2(BoundedGrid(-10.0, 10.0, 100));
         const f2 = new FSquared();

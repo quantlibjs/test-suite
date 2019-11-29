@@ -226,7 +226,7 @@ describe(`European option extended trees tests ${version}`, () => {
         testEngineConsistency(engine, steps, relativeTol);
         backup.dispose();
     });
-    
+
     it('Testing time-dependent Joshi binomial European engines ' +
         ' against analytic results...', () => {
         const backup = new SavedSettings();

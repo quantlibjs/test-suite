@@ -13,7 +13,7 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Actual365Fixed, Array2D, BusinessDayConvention, Handle, Period, SimpleQuote, TARGET, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual365Fixed, Array2D, BusinessDayConvention, Handle, Period, SimpleQuote, TARGET, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class SwaptionTenors {
 }

@@ -1,4 +1,4 @@
-describe('Tracing tests', () => {
+describe(`Tracing tests ${version}`, () => {
     it('Testing tracing...', () => {
     });
 });

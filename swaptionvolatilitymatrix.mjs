@@ -25,7 +25,7 @@ class CommonVars {
         this.backup = new SavedSettings();
         this.conventions.setConventions();
         this.atm.setMarketData();
-        Settings.evaluationDate.set(this.conventions.calendar.adjust(new Date()));
+        Settings.evaluationDate.set(this.conventions.calendar.adjust(DateExt.UTC()));
         this.atmVolMatrix = new RelinkableHandle(new SwaptionVolatilityMatrix().svmInit1(this.conventions.calendar, this.conventions.optionBdc, this.atm.tenors.options, this.atm.tenors.swaps, this.atm.volsHandle, this.conventions.dayCounter));
         this.termStructure.linkTo(new FlatForward().ffInit4(0, this.conventions.calendar, 0.05, new Actual365Fixed()));
     }

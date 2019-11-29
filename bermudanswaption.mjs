@@ -32,7 +32,7 @@ class CommonVars {
         this.fixedDayCount = new Thirty360();
         this.index = new Euribor6M(this.termStructure);
         this.calendar = this.index.fixingCalendar();
-        this.today = this.calendar.adjust(new Date());
+        this.today = this.calendar.adjust(DateExt.UTC());
         this.settlement =
             this.calendar.advance1(this.today, this.settlementDays, TimeUnit.Days);
     }
@@ -53,9 +53,9 @@ class CommonVars {
 describe(`Bermudan swaption tests ${version}`, () => {
     it('Testing Bermudan swaption with HW model against cached values...', () => {
         const vars = new CommonVars();
-        vars.today = new Date('15-February-2002');
+        vars.today = DateExt.UTC('15,February,2002');
         Settings.evaluationDate.set(vars.today);
-        vars.settlement = new Date('19-February-2002');
+        vars.settlement = DateExt.UTC('19,February,2002');
         vars.termStructure.linkTo(flatRate2(vars.settlement, 0.04875825, new Actual365Fixed()));
         const atmRate = vars.makeSwap(0.0).fairRate();
         const itmSwap = vars.makeSwap(0.8 * atmRate);
@@ -69,7 +69,7 @@ describe(`Bermudan swaption tests ${version}`, () => {
             const coupon = leg[i];
             exerciseDates.push(coupon.accrualStartDate());
         }
-        let exercise = new BermudanExercise(exerciseDates);
+        let exercise = new BermudanExercise().beInit(exerciseDates);
         const treeEngine = new TreeSwaptionEngine().tseInit1(model, 50);
         const fdmEngine = new FdHullWhiteSwaptionEngine(model);
         let itmValue = 42.2413, atmValue = 12.8789, otmValue = 2.4759;
@@ -94,7 +94,7 @@ describe(`Bermudan swaption tests ${version}`, () => {
             exerciseDates[j] =
                 vars.calendar.adjust(DateExt.sub(exerciseDates[j], 10));
         }
-        exercise = new BermudanExercise(exerciseDates);
+        exercise = new BermudanExercise().beInit(exerciseDates);
         itmValue = 42.1917;
         atmValue = 12.7788;
         otmValue = 2.4388;
@@ -112,9 +112,9 @@ describe(`Bermudan swaption tests ${version}`, () => {
 
     it('Testing Bermudan swaption with G2 model against cached values...', () => {
         const vars = new CommonVars();
-        vars.today = new Date('15-September-2016');
+        vars.today = DateExt.UTC('15,September,2016');
         Settings.evaluationDate.set(vars.today);
-        vars.settlement = new Date('19-September-2016');
+        vars.settlement = DateExt.UTC('19,September,2016');
         vars.termStructure.linkTo(flatRate2(vars.settlement, 0.04875825, new Actual365Fixed()));
         const atmRate = vars.makeSwap(0.0).fairRate();
         const swaptions = [];
@@ -124,7 +124,7 @@ describe(`Bermudan swaption tests ${version}`, () => {
             for (let i = 0; i < swap.fixedLeg().length; i++) {
                 exerciseDates.push(swap.fixedLeg()[i].accrualStartDate());
             }
-            swaptions.push(new Swaption(swap, new BermudanExercise(exerciseDates)));
+            swaptions.push(new Swaption(swap, new BermudanExercise().beInit(exerciseDates)));
         }
         const a = 0.1, sigma = 0.01, b = 0.2, eta = 0.013, rho = -0.5;
         const g2Model = new G2(vars.termStructure, a, sigma, b, eta, rho);

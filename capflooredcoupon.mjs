@@ -13,7 +13,7 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Actual365Fixed, ActualActual, Array1D, BlackCapFloorEngine, BlackIborCouponPricer, BusinessDayConvention, Cap, CapFloor, Collar, ConstantOptionletVolatility, DateGeneration, DiscountingSwapEngine, Euribor1Y, FixedRateLeg, Floor, Frequency, Handle, IborLeg, Period, RelinkableHandle, SavedSettings, Schedule, setCouponPricer, Settings, SimpleQuote, Swap, Thirty360, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual365Fixed, ActualActual, Array1D, BlackCapFloorEngine, BlackIborCouponPricer, BusinessDayConvention, Cap, CapFloor, Collar, ConstantOptionletVolatility, DateExt, DateGeneration, DiscountingSwapEngine, Euribor1Y, FixedRateLeg, Floor, Frequency, Handle, IborLeg, Period, RelinkableHandle, SavedSettings, Schedule, setCouponPricer, Settings, SimpleQuote, Swap, Thirty360, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2 } from '/test-suite/utilities.mjs';
 
 class CommonVars {
@@ -28,7 +28,7 @@ class CommonVars {
         this.index = new Euribor1Y(this.termStructure);
         this.calendar = this.index.fixingCalendar();
         this.convention = BusinessDayConvention.ModifiedFollowing;
-        this.today = this.calendar.adjust(new Date());
+        this.today = this.calendar.adjust(DateExt.UTC());
         Settings.evaluationDate.set(this.today);
         this.settlementDays = 2;
         this.fixingDays = 2;

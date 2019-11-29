@@ -17,7 +17,7 @@ import { Array1D, TqrEigenDecomposition, version } from 'https://cdn.jsdelivr.ne
 
 const tolerance = 1.0e-10;
 
-describe(`TQR eigendecomposition tests ${version}`, () => {
+describe(`TQR eigen decomposition tests ${version}`, () => {
     it('Testing TQR eigenvalue decomposition...', () => {
         const diag = [11, 7, 6, 2, 0];
         const sub = Array1D.fromSizeValue(4, 1);
@@ -32,6 +32,7 @@ describe(`TQR eigendecomposition tests ${version}`, () => {
             expect(Math.abs(expected - calculated)).toBeLessThan(tolerance);
         }
     });
+
     it('Testing TQR zero-off-diagonal eigenvalues...', () => {
         const diag = [12, 9, 6, 3, 0];
         const sub = Array1D.fromSizeValue(4, 1);
@@ -45,6 +46,7 @@ describe(`TQR eigendecomposition tests ${version}`, () => {
             expect(Math.abs(expected - calculated)).toBeLessThan(tolerance);
         }
     });
+
     it('Testing TQR eigenvector decomposition...', () => {
         const diag = Array1D.fromSizeValue(2, 1);
         const sub = Array1D.fromSizeValue(1, 1);

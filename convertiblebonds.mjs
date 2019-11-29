@@ -54,7 +54,7 @@ describe(`Convertible bond tests ${version}`, () => {
         const vars = new CommonVars();
         vars.conversionRatio = 1.0e-16;
         const euExercise = new EuropeanExercise(vars.maturityDate);
-        const amExercise = new AmericanExercise().init1(vars.issueDate, vars.maturityDate);
+        const amExercise = new AmericanExercise().aeInit1(vars.issueDate, vars.maturityDate);
         const timeSteps = 1001;
         const engine = new BinomialConvertibleEngine(new CoxRossRubinstein())
             .bceInit(vars.process, timeSteps);

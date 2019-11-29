@@ -15,7 +15,7 @@
  */
 import { Cubic, DateExt, ForwardRate, ForwardRateAgreement, FraRateHelper, Handle, Period, PiecewiseYieldCurve, Position, RelinkableHandle, Settings, SimpleQuote, TimeUnit, USDLibor, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
-describe(`forward rate agreement ${version}`, () => {
+describe(`forward rate agreement tests ${version}`, () => {
     it('Testing forward rate agreement construction...', () => {
         const spotDate = Settings.evaluationDate.f();
         const curveHandle = new RelinkableHandle();

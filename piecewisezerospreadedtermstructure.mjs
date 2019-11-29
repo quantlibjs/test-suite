@@ -13,7 +13,7 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Actual360, BackwardFlat, Compounding, Cubic, CubicInterpolation, DateExt, ForwardFlat, Frequency, Handle, InterpolatedPiecewiseZeroSpreadedTermStructure, Linear, PiecewiseZeroSpreadedTermStructure, SavedSettings, Settings, SimpleQuote, TARGET, TimeUnit, ZeroCurve } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, BackwardFlat, Compounding, Cubic, CubicInterpolation, DateExt, ForwardFlat, Frequency, Handle, InterpolatedPiecewiseZeroSpreadedTermStructure, Linear, PiecewiseZeroSpreadedTermStructure, SavedSettings, Settings, SimpleQuote, TARGET, TimeUnit, ZeroCurve, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class CommonVars {
     constructor() {
@@ -39,7 +39,7 @@ class CommonVars {
     }
 }
 
-describe('Interpolated piecewise zero spreaded yield curve tests', () => {
+describe(`Interpolated piecewise zero spreaded yield curve tests ${version}`, () => {
     it('Testing flat interpolation before the first spreaded date...', () => {
         const vars = new CommonVars();
         const spreads = [];

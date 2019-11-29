@@ -13,7 +13,7 @@
  * limitations under the License.
  * =============================================================================
  */
-import { BlackConstantVol, FlatForward, Handle, IndexManager, NullCalendar, Observer, SimpleQuote } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { BlackConstantVol, FlatForward, Handle, IndexManager, NullCalendar, Observer, SimpleQuote, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 export class Flag extends Observer {
     constructor() {

@@ -64,12 +64,12 @@ describe(`Nth-to-default tests ${version}`, () => {
         const lambda = Array1D.fromSizeValue(names, 0.01);
         const namesNotional = 100.0;
         const schedule = new MakeSchedule()
-            .from(new Date('1,September,2006'))
-            .to(new Date('1,September,2011'))
+            .from(DateExt.UTC('1,September,2006'))
+            .to(DateExt.UTC('1,September,2011'))
             .withTenor(new Period().init1(3, TimeUnit.Months))
             .withCalendar(new TARGET())
             .f();
-        const asofDate = new Date('31,August,2006');
+        const asofDate = DateExt.UTC('31,August,2006');
         Settings.evaluationDate.set(asofDate);
         const gridDates = [];
         gridDates.push(asofDate);
@@ -139,6 +139,7 @@ describe(`Nth-to-default tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing nth-to-default against Hull-White values' +
         ' with Gaussian and Student copula...', () => {
         const backup = new SavedSettings();
@@ -154,12 +155,12 @@ describe(`Nth-to-default tests ${version}`, () => {
         const recovery = 0.4;
         const lambda = Array1D.fromSizeValue(names, 0.01);
         const schedule = new MakeSchedule()
-            .from(new Date('1,September,2006'))
-            .to(new Date('1,September,2011'))
+            .from(DateExt.UTC('1,September,2006'))
+            .to(DateExt.UTC('1,September,2011'))
             .withTenor(new Period().init1(3, TimeUnit.Months))
             .withCalendar(new TARGET())
             .f();
-        const asofDate = new Date('31,August,2006');
+        const asofDate = DateExt.UTC('31,August,2006');
         Settings.evaluationDate.set(asofDate);
         const gridDates = [];
         gridDates.push(asofDate);

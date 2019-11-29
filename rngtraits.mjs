@@ -27,6 +27,7 @@ describe(`RNG traits tests ${version}`, () => {
         const tolerance = 1.0e-5;
         expect(Math.abs(sum - stored)).toBeLessThan(tolerance);
     });
+
     it('Testing Poisson pseudo-random number generation...', () => {
         const rsg = new PoissonPseudoRandom().make_sequence_generator(100, 1234);
         const values = rsg.nextSequence().value;
@@ -37,6 +38,7 @@ describe(`RNG traits tests ${version}`, () => {
         const stored = 108.0;
         expect(Comparison.close(sum, stored)).toBeTruthy();
     });
+
     it('Testing custom Poisson pseudo-random number generation...', () => {
         const g = new PoissonPseudoRandom();
         g.IC = new InverseCumulativePoisson(4.0);

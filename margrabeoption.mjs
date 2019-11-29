@@ -155,6 +155,7 @@ describe(`Exchange option tests ${version}`, () => {
             expect(error).toBeLessThan(tolerance);
         }
     });
+
     it('Testing analytic European exchange option greeks...', () => {
         const backup = new SavedSettings();
         const calculated = new Map(), expected = new Map(), tolerance = new Map();
@@ -173,7 +174,7 @@ describe(`Exchange option tests ${version}`, () => {
         const vols1 = [0.20];
         const vols2 = [0.15, 0.20, 0.25];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         Settings.evaluationDate.set(today);
         const spot1 = new SimpleQuote(0.0);
         const spot2 = new SimpleQuote(0.0);
@@ -275,6 +276,7 @@ describe(`Exchange option tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing American one-asset-for-another option...', () => {
         const values = [
             new MargrabeAmericanOptionTwoData(22.0, 20.0, 1, 1, 0.06, 0.04, 0.10, 0.10, 0.20, 0.15, -0.50, 2.1357, 1.0e-3),
@@ -312,7 +314,7 @@ describe(`Exchange option tests ${version}`, () => {
         const volTS2 = flatVol1(today, vol2, dc);
         for (let i = 0; i < values.length; i++) {
             const exDate = DateExt.add(today, Math.floor(values[i].t * 360 + 0.5));
-            const exercise = new AmericanExercise().init1(today, exDate);
+            const exercise = new AmericanExercise().aeInit1(today, exDate);
             spot1.setValue(values[i].s1);
             spot2.setValue(values[i].s2);
             qRate1.setValue(values[i].q1);

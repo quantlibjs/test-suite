@@ -37,6 +37,7 @@ describe(`Timegrid tests ${version}`, () => {
             expect(tg.at(i)).toEqual(expected_times[i]);
         }
     });
+
     it('TimeGrid constructor with only mandatory points...', () => {
         const test_times = [];
         test_times.push(0.0);
@@ -49,6 +50,7 @@ describe(`Timegrid tests ${version}`, () => {
             expect(tg.at(i)).toEqual(test_times[i]);
         }
     });
+
     it('Test TimeGrid construction with n evenly spaced points...', () => {
         const end_time = 10;
         const steps = 5;
@@ -65,10 +67,12 @@ describe(`Timegrid tests ${version}`, () => {
             expect(tg.at(i)).toEqual(expected_times[i]);
         }
     });
+
     it('Test if the constructor raises an error for empty iterators...', () => {
         expect(() => new TimeGrid().init2([], 0, 0))
             .toThrowError(/empty time sequence/);
     });
+
     it('Test if the constructor raises an error for negative time values...', () => {
         const times = [];
         times.push(-3.0);
@@ -78,6 +82,7 @@ describe(`Timegrid tests ${version}`, () => {
         expect(() => new TimeGrid().init2(times, 0, times.length))
             .toThrowError(/negative times not allowed/);
     });
+
     it('Test returned index is closest to the requested time...', () => {
         const test_times = [];
         test_times.push(1.0);
@@ -87,6 +92,7 @@ describe(`Timegrid tests ${version}`, () => {
         const expected_index = 3;
         expect(tg.closestIndex(4)).toEqual(expected_index);
     });
+
     it('Test returned time matches to the requested index...', () => {
         const test_times = [];
         test_times.push(1.0);
@@ -96,6 +102,7 @@ describe(`Timegrid tests ${version}`, () => {
         const expected_time = 5;
         expect(tg.closestTime(4)).toEqual(expected_time);
     });
+
     it('Test mandatory times are recalled correctly...', () => {
         const test_times = [];
         test_times.push(1.0);

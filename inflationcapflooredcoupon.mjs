@@ -306,7 +306,7 @@ describe(`YoY inflation capped and floored coupon tests ${version}`, () => {
         expect(error).toBeLessThan(tolerance);
         vars.hy.linkTo(new YoYInflationTermStructure());
     });
-    
+
     it('Testing inflation capped/floored coupon against' +
         ' inflation capfloor instrument...', () => {
         const vars = new CommonVars();

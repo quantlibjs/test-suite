@@ -39,6 +39,7 @@ describe(`Period tests ${version}`, () => {
         expect(NormalizedTwelveMonths.length()).toEqual(1);
         expect(NormalizedTwelveMonths.units()).toEqual(TimeUnit.Years);
     });
+
     it('Testing period algebra on weeks/days...', () => {
         const TwoWeeks = new Period().init1(2, TimeUnit.Weeks);
         const OneWeek = new Period().init1(1, TimeUnit.Weeks);
@@ -59,6 +60,7 @@ describe(`Period tests ${version}`, () => {
         expect(SevenDays.length()).toEqual(7);
         expect(SevenDays.units()).toEqual(TimeUnit.Days);
     });
+
     it('Testing period parsing...', () => {
         const p1 = PeriodParser.parseOnePeriod('3 M');
         const p2 = new Period().init1(3, TimeUnit.Months);

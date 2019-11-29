@@ -50,7 +50,7 @@ function vandermondeCoefficients(order, x, gridPoints) {
     return Array2D.mulVector(inv(m), b);
 }
 
-describe(`NumericalDifferentiation tests ${version}`, () => {
+describe(`Numerical differentiation tests ${version}`, () => {
     it('Testing numerical differentiation using the central scheme...', () => {
         const f = null;
         const central = NumericalDifferentiation.Scheme.Central;
@@ -65,6 +65,7 @@ describe(`NumericalDifferentiation tests ${version}`, () => {
         ]);
         checkTwoArraysAreTheSame(new NumericalDifferentiation().init2(f, 1, 0.5, 7, central).offsets(), [-1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5]);
     });
+
     it('Testing numerical differentiation using the backward scheme...', () => {
         const f = null;
         const backward = NumericalDifferentiation.Scheme.Backward;
@@ -73,6 +74,7 @@ describe(`NumericalDifferentiation tests ${version}`, () => {
         checkTwoArraysAreTheSame(new NumericalDifferentiation().init2(f, 4, 1.0, 6, backward).weights(), [3, -14, 26, -24, 11, -2]);
         checkTwoArraysAreTheSame(new NumericalDifferentiation().init2(f, 2, 0.5, 4, backward).offsets(), [0.0, -0.5, -1.0, -1.5]);
     });
+
     it('Testing numerical differentiation using the Forward scheme...', () => {
         const f = null;
         const forward = NumericalDifferentiation.Scheme.Forward;
@@ -81,6 +83,7 @@ describe(`NumericalDifferentiation tests ${version}`, () => {
         checkTwoArraysAreTheSame(new NumericalDifferentiation().init2(f, 1, 0.5, 7, forward).weights(), [-98 / 20.0, 12.0, -30 / 2.0, 40 / 3.0, -30 / 4.0, 12 / 5.0, -2 / 6.0]);
         checkTwoArraysAreTheSame(new NumericalDifferentiation().init2(f, 2, 0.5, 4, forward).offsets(), [0.0, 0.5, 1.0, 1.5]);
     });
+
     it('Testing numerical differentiation of first' +
         ' order using an irregular scheme...', () => {
         const f = null;
@@ -93,6 +96,7 @@ describe(`NumericalDifferentiation tests ${version}`, () => {
         const offsets = Array1D.clone(tmp);
         checkTwoArraysAreTheSame(new NumericalDifferentiation().init1(f, 1, offsets).weights(), [alpha, beta, gamma]);
     });
+
     it('Testing numerical differentiation of second order' +
         ' using an irregular scheme...', () => {
         const f = null;
@@ -105,6 +109,7 @@ describe(`NumericalDifferentiation tests ${version}`, () => {
         const offsets = Array1D.clone(tmp);
         checkTwoArraysAreTheSame(new NumericalDifferentiation().init1(f, 2, offsets).weights(), [alpha, beta, gamma]);
     });
+
     it('Testing numerical differentiation of sin function...', () => {
         const f = { f: Math.sin };
         const df_central = new NumericalDifferentiation().init2(f, 1, Math.sqrt(QL_EPSILON), 3, NumericalDifferentiation.Scheme.Central);
@@ -141,6 +146,7 @@ describe(`NumericalDifferentiation tests ${version}`, () => {
             singleValueTest('irregular 3th', calculatedIrregular, expected, 5e-5);
         }
     });
+
     it('Testing coefficients from numerical differentiation' +
         ' by comparison with results from Vandermonde matrix inversion...', () => {
         const f = null;

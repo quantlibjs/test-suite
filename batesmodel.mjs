@@ -48,7 +48,7 @@ const hestonModels = [
 describe(`Bates model tests ${version}`, () => {
     it('Testing analytic Bates engine against Black formula...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date();
+        const settlementDate = DateExt.UTC();
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new ActualActual();
         const exerciseDate = DateExt.advance(settlementDate, 6, TimeUnit.Months);
@@ -97,7 +97,7 @@ describe(`Bates model tests ${version}`, () => {
 
     it('Testing analytic Bates engine against Merton-76 engine...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date();
+        const settlementDate = DateExt.UTC();
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new ActualActual();
         const payoff = new PlainVanillaPayoff(Option.Type.Put, 95);
@@ -147,10 +147,10 @@ describe(`Bates model tests ${version}`, () => {
 
     it('Testing analytic Bates engine against Monte-Carlo engine...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('30-March-2007');
+        const settlementDate = DateExt.UTC('30,March,2007');
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new ActualActual();
-        const exerciseDate = new Date('30-March-2012');
+        const exerciseDate = DateExt.UTC('30,March,2012');
         const payoff = new PlainVanillaPayoff(Option.Type.Put, 100);
         const exercise = new EuropeanExercise(exerciseDate);
         for (let i = 0; i < hestonModels.length; ++i) {
@@ -183,10 +183,10 @@ describe(`Bates model tests ${version}`, () => {
         }
         backup.dispose();
     });
-    
+
     it('Testing Bates model calibration using DAX volatility data...', () => {
         const backup = new SavedSettings();
-        const settlementDate = new Date('5-July-2002');
+        const settlementDate = DateExt.UTC('5,July,2002');
         Settings.evaluationDate.set(settlementDate);
         const dayCounter = new Actual365Fixed();
         const calendar = new TARGET();

@@ -17,7 +17,7 @@ import { Actual360, Actual365Fixed, AmericanExercise, Array2D, BasketOption, Bla
 import { flatRate1, flatRate2, flatVol1, flatVol2, relativeError } from '/test-suite/utilities.mjs';
 
 // enum BasketType
-var BasketType; 
+var BasketType;
 (function (BasketType) {
     BasketType[BasketType["MinBasket"] = 0] = "MinBasket";
     BasketType[BasketType["MaxBasket"] = 1] = "MaxBasket";
@@ -182,7 +182,7 @@ describe(`Basket option tests ${version}`, () => {
             new BasketOptionTwoData(BasketType.SpreadBasket, Option.Type.Call, 3.0, 122.0, 120.0, 0.0, 0.0, 0.10, 0.5, 0.20, 0.25, 0.5, 6.9284, 1.0e-3)
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot1 = new SimpleQuote(0.0);
         const spot2 = new SimpleQuote(0.0);
         const qRate1 = new SimpleQuote(0.0);
@@ -267,7 +267,7 @@ describe(`Basket option tests ${version}`, () => {
             new BasketOptionThreeData(BasketType.MaxBasket, Option.Type.Put, 40.0, 40.0, 40.0, 40.0, 0.05, 7.00, 0.20, 0.30, 0.50, 0.5, 0.91, 1.19),
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot1 = new SimpleQuote(0.0);
         const spot2 = new SimpleQuote(0.0);
         const spot3 = new SimpleQuote(0.0);
@@ -285,7 +285,7 @@ describe(`Basket option tests ${version}`, () => {
             const payoff = new PlainVanillaPayoff(values[i].type, values[i].strike);
             const exDate = DateExt.add(today, Math.floor(values[i].t) * 30);
             const exercise = new EuropeanExercise(exDate);
-            const amExercise = new AmericanExercise().init1(today, exDate);
+            const amExercise = new AmericanExercise().aeInit1(today, exDate);
             spot1.setValue(values[i].s1);
             spot2.setValue(values[i].s2);
             spot3.setValue(values[i].s3);
@@ -344,7 +344,7 @@ describe(`Basket option tests ${version}`, () => {
             new BasketOptionThreeData(BasketType.MaxBasket, Option.Type.Call, 100, 100, 100, 100, 0.05, 3.00, 0.20, 0.20, 0.20, 0.0, -999, 18.082)
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot1 = new SimpleQuote(0.0);
         const spot2 = new SimpleQuote(0.0);
         const spot3 = new SimpleQuote(0.0);
@@ -364,7 +364,7 @@ describe(`Basket option tests ${version}`, () => {
         const seed = 0;
         const payoff = new PlainVanillaPayoff(values[0].type, values[0].strike);
         const exDate = DateExt.add(today, Math.floor(values[0].t * 360 + 0.5));
-        const exercise = new AmericanExercise().init1(today, exDate);
+        const exercise = new AmericanExercise().aeInit1(today, exDate);
         spot1.setValue(values[0].s1);
         spot2.setValue(values[0].s2);
         spot3.setValue(values[0].s3);
@@ -407,7 +407,7 @@ describe(`Basket option tests ${version}`, () => {
 
     it('Testing basket American options against 1-D case...', () => {
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot1 = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
         const qTS = flatRate1(today, qRate, dc);
@@ -434,7 +434,7 @@ describe(`Basket option tests ${version}`, () => {
         for (let i = 0; i < oneDataValues.length; i++) {
             const payoff = new PlainVanillaPayoff(oneDataValues[i].type, oneDataValues[i].strike);
             const exDate = DateExt.add(today, Math.floor(oneDataValues[i].t * 360 + 0.5));
-            const exercise = new AmericanExercise().init1(today, exDate);
+            const exercise = new AmericanExercise().aeInit1(today, exDate);
             spot1.setValue(oneDataValues[i].s);
             vol1.setValue(oneDataValues[i].v);
             rRate.setValue(oneDataValues[i].r);
@@ -455,7 +455,7 @@ describe(`Basket option tests ${version}`, () => {
             new BasketOptionOneData(Option.Type.Put, 100.00, 80.00, 0.0, 0.06, 0.5, 0.4, 21.6059, 1e-2)
         ];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         const spot1 = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
         const qTS = flatRate1(today, qRate, dc);
@@ -480,7 +480,7 @@ describe(`Basket option tests ${version}`, () => {
         for (let i = 0; i < values.length; i++) {
             const payoff = new PlainVanillaPayoff(values[i].type, values[i].strike);
             const exDate = DateExt.add(today, Math.floor(values[i].t * 360 + 0.5));
-            const exercise = new AmericanExercise().init1(today, exDate);
+            const exercise = new AmericanExercise().aeInit1(today, exDate);
             spot1.setValue(values[i].s);
             vol1.setValue(values[i].v);
             rRate.setValue(values[i].r);
@@ -496,7 +496,7 @@ describe(`Basket option tests ${version}`, () => {
 
     it('Testing 2D local-volatility spread-option pricing...', () => {
         const dc = new Actual360();
-        const today = new Date('21-September-2017');
+        const today = DateExt.UTC('21,September,2017');
         const maturity = DateExt.advance(today, 3, TimeUnit.Months);
         const riskFreeRate = new Handle(flatRate2(today, 0.07, dc));
         const dividendYield = new Handle(flatRate2(today, 0.03, dc));
@@ -526,7 +526,7 @@ describe(`Basket option tests ${version}`, () => {
         const strike = s1 - s2;
         const maturityInDays = 1095;
         const dc = new Actual365Fixed();
-        const today = new Date();
+        const today = DateExt.UTC();
         const maturity = DateExt.add(today, maturityInDays);
         const spot1 = new SimpleQuote(s1);
         const spot2 = new SimpleQuote(s2);

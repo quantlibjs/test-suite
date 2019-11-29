@@ -13,10 +13,8 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Actual360, AmericanExercise, AnalyticDividendEuropeanEngine, AnalyticEuropeanEngine, BlackScholesMertonProcess, CrankNicolson, DateExt, DividendVanillaOption, EuropeanExercise, FDDividendAmericanEngine, FDDividendEuropeanEngine, Handle, Option, PlainVanillaPayoff, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, AmericanExercise, AnalyticDividendEuropeanEngine, AnalyticEuropeanEngine, BlackScholesMertonProcess, CrankNicolson, DateExt, DividendVanillaOption, EuropeanExercise, FDDividendAmericanEngine, FDDividendEuropeanEngine, Handle, Option, PlainVanillaPayoff, SavedSettings, Settings, SimpleQuote, TimeUnit, VanillaOption, first, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate3, flatRate4, flatVol3, flatVol4, relativeError } from '/test-suite/utilities.mjs';
-
-const first = 0;
 
 function testFdGreeks(Engine, today, exercise) {
     const calculated = new Map(), expected = new Map(), tolerance = new Map();
@@ -128,7 +126,7 @@ describe(`Dividend European option tests ${version}`, () => {
         const lengths = [1, 2];
         const vols = [0.05, 0.20, 0.70];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         Settings.evaluationDate.set(today);
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
@@ -180,12 +178,13 @@ describe(`Dividend European option tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing dividend European option values with known value...', () => {
         const backup = new SavedSettings();
         const tolerance = 1.0e-2;
         const expected = 3.67;
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         Settings.evaluationDate.set(today);
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
@@ -219,6 +218,7 @@ describe(`Dividend European option tests ${version}`, () => {
         expect(error).toBeLessThan(tolerance);
         backup.dispose();
     });
+
     it('Testing dividend European option with a dividend on today\'s date...', () => {
         const backup = new SavedSettings();
         const tolerance = 1.0e-5;
@@ -231,7 +231,7 @@ describe(`Dividend European option tests ${version}`, () => {
         const lengths = [1, 2];
         const vols = [0.05, 0.20, 0.70];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         Settings.evaluationDate.set(today);
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
@@ -282,6 +282,7 @@ describe(`Dividend European option tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing dividend European option values with end limits...', () => {
         const backup = new SavedSettings();
         const tolerance = 1.0e-5;
@@ -294,7 +295,7 @@ describe(`Dividend European option tests ${version}`, () => {
         const lengths = [1, 2];
         const vols = [0.05, 0.20, 0.70];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         Settings.evaluationDate.set(today);
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
@@ -345,6 +346,7 @@ describe(`Dividend European option tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing dividend European option greeks...', () => {
         const backup = new SavedSettings();
         const calculated = new Map(), expected = new Map(), tolerance = new Map();
@@ -361,7 +363,7 @@ describe(`Dividend European option tests ${version}`, () => {
         const lengths = [1, 2];
         const vols = [0.05, 0.20, 0.40];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         Settings.evaluationDate.set(today);
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
@@ -453,6 +455,7 @@ describe(`Dividend European option tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing finite-difference dividend European option values...', () => {
         const backup = new SavedSettings();
         const gridPoints = 300;
@@ -465,7 +468,7 @@ describe(`Dividend European option tests ${version}`, () => {
         const lengths = [1, 2];
         const vols = [0.05, 0.20, 0.40];
         const dc = new Actual360();
-        const today = new Date();
+        const today = DateExt.UTC();
         Settings.evaluationDate.set(today);
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
@@ -516,9 +519,10 @@ describe(`Dividend European option tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing finite-differences dividend European option greeks...', () => {
         const backup = new SavedSettings();
-        const today = new Date();
+        const today = DateExt.UTC();
         Settings.evaluationDate.set(today);
         const lengths = [1, 2];
         for (let i = 0; i < lengths.length; i++) {
@@ -528,33 +532,36 @@ describe(`Dividend European option tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Testing finite-differences dividend American option greeks...', () => {
         const backup = new SavedSettings();
-        const today = new Date();
+        const today = DateExt.UTC();
         Settings.evaluationDate.set(today);
         const lengths = [1, 2];
         for (let i = 0; i < lengths.length; i++) {
             const exDate = DateExt.advance(today, lengths[i], TimeUnit.Years);
-            const exercise = new AmericanExercise().init1(today, exDate);
+            const exercise = new AmericanExercise().aeInit1(today, exDate);
             testFdGreeks(new FDDividendAmericanEngine(new CrankNicolson()), today, exercise);
         }
         backup.dispose();
     });
+
     it('Testing degenerate finite-differences dividend European option...', () => {
         const backup = new SavedSettings();
-        const today = new Date('27-February-2005');
+        const today = DateExt.UTC('27,February,2005');
         Settings.evaluationDate.set(today);
-        const exDate = new Date('13-April-2005');
+        const exDate = DateExt.UTC('13,April,2005');
         const exercise = new EuropeanExercise(exDate);
         testFdDegenerate(new FDDividendEuropeanEngine(new CrankNicolson()), today, exercise);
         backup.dispose();
     });
+
     it('Testing degenerate finite-differences dividend American option...', () => {
         const backup = new SavedSettings();
-        const today = new Date('27-February-2005');
+        const today = DateExt.UTC('27,February,2005');
         Settings.evaluationDate.set(today);
-        const exDate = new Date('13-April-2005');
-        const exercise = new AmericanExercise().init1(today, exDate);
+        const exDate = DateExt.UTC('13,April,2005');
+        const exercise = new AmericanExercise().aeInit1(today, exDate);
         testFdDegenerate(new FDDividendAmericanEngine(new CrankNicolson()), today, exercise);
         backup.dispose();
     });

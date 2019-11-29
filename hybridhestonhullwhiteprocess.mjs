@@ -21,7 +21,7 @@ describe(`Hybrid Heston-HullWhite tests ${version}`, () => {
         ' with one-factor Hull-White model...', () => {
         const backup = new SavedSettings();
         const dc = new Actual365Fixed();
-        const today = new Date();
+        const today = DateExt.UTC();
         const maturity = DateExt.advance(today, 20, TimeUnit.Years);
         Settings.evaluationDate.set(today);
         const spot = new Handle(new SimpleQuote(100.0));
@@ -64,15 +64,20 @@ describe(`Hybrid Heston-HullWhite tests ${version}`, () => {
         }
         backup.dispose();
     });
+
     it('Comparing European option pricing for a BSM process' +
         ' with one-factor Hull-White model...', () => {
     });
+
     it('Testing Monte-Carlo zero bond pricing...', () => {
     });
+
     it('Testing Monte-Carlo vanilla option pricing...', () => {
     });
+
     it('Testing Monte-Carlo Heston option pricing...', () => {
     });
+
     it('Testing analytic Heston Hull-White option pricing...', () => {
     });
 });
