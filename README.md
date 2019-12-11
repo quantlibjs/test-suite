@@ -997,3 +997,24 @@ Libor market model process tests
 - [ ] Testing caplet LMM process initialisation...
 - [ ] Testing caplet LMM lambda bootstrapping...
 - [ ] Testing caplet LMM Monte-Carlo caplet pricing...
+
+Examples:
+- [ ] Basket Losses
+- [ ] Bermudan Swaption
+- [X] Bonds
+- [ ] Callable bonds
+- [X] CDS
+- [ ] Convertable bonds
+- [ ] CVAIRS
+- [X] Discrete hedging
+- [ ] Equity Option
+- [X] Fitted bond curve
+- [X] FRA
+- [ ] Gaussian 1D models
+- [ ] Global Optimizer
+- [ ] Latent Model
+- [ ] Market models
+- [X] Multi-dim Integral
+- [X] Replication
+- [X] Repo
+- [X] Swap valuation
