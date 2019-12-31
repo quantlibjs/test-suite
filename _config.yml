@@ -1,6 +1,6 @@
 theme: jekyll-theme-cayman
 title: quantlib.js
-description: quantitative finance in javascript © 2019 Jin Yang
+description: quantitative finance in javascript © 2020 Jin Yang
 url: https://quantlib.js.org/test-suite/
 author: Jin Yang
 plugins:
