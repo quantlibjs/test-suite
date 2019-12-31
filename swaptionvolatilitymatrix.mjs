@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Jin Yang. All Rights Reserved.
+ * Copyright 2019 - 2020 Jin Yang. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,7 +13,7 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Actual365Fixed, BlackSwaptionEngine, Comparison, DateExt, EuriborSwapIsdaFixA, FlatForward, Handle, MakeSwaption, RelinkableHandle, SavedSettings, Settings, SwaptionVolatilityMatrix, TimeUnit, VolatilityType } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual365Fixed, BlackSwaptionEngine, Comparison, DateExt, EuriborSwapIsdaFixA, FlatForward, Handle, MakeSwaption, RelinkableHandle, SavedSettings, Settings, SwaptionVolatilityMatrix, TimeUnit, VolatilityType, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { AtmVolatility, SwaptionMarketConventions } from '/test-suite/swaptionvolstructuresutilities.mjs';
 
 class CommonVars {
@@ -104,7 +104,7 @@ class CommonVars {
     }
 }
 
-describe('Swaption Volatility Matrix tests', () => {
+describe(`Swaption Volatility Matrix tests ${version}`, () => {
     it('Testing swaption volatility matrix observability...', () => {
         const vars = new CommonVars();
         let vol;

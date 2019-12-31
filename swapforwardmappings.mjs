@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Jin Yang. All Rights Reserved.
+ * Copyright 2019 - 2020 Jin Yang. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,7 +13,7 @@
  * limitations under the License.
  * =============================================================================
  */
-import { AccountingEngine, Array1D, Array2D, BlackCalculator, BusinessDayConvention, CotSwapToFwdAdapter, DateExt, DateGeneration, exponentialCorrelations, FlatVol, Frequency, LMMCurveState, LogNormalFwdRatePc, MultiStepCoterminalSwaptions, MultiStepSwaption, NullCalendar, Option, Period, PlainVanillaPayoff, Schedule, SequenceStatisticsInc, Settings, SimpleDayCounter, SobolBrownianGenerator, SobolBrownianGeneratorFactory, SwapForwardMappings, TimeHomogeneousForwardCorrelation, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { AccountingEngine, Array1D, Array2D, BlackCalculator, BusinessDayConvention, CotSwapToFwdAdapter, DateExt, DateGeneration, exponentialCorrelations, FlatVol, Frequency, LMMCurveState, LogNormalFwdRatePc, MultiStepCoterminalSwaptions, MultiStepSwaption, NullCalendar, Option, Period, PlainVanillaPayoff, Schedule, SequenceStatisticsInc, Settings, SimpleDayCounter, SobolBrownianGenerator, SobolBrownianGeneratorFactory, SwapForwardMappings, TimeHomogeneousForwardCorrelation, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class MarketModelData {
     constructor() {
@@ -90,7 +90,7 @@ function makeMultiStepCoterminalSwaptions(rateTimes, strike) {
     return new MultiStepCoterminalSwaptions(rateTimes, paymentTimes, payoffs);
 }
 
-describe('swap-forward mappings tests', () => {
+describe(`swap-forward mappings tests ${version}`, () => {
     it('Testing forward-rate coinitial-swap Jacobian...', () => {
         const marketData = new MarketModelData();
         const rateTimes = marketData.rateTimes();
@@ -195,7 +195,7 @@ describe('swap-forward mappings tests', () => {
             expect(Math.abs(expectedSwaption - results[i])).toBeLessThan(0.0001);
         }
     });
-
+    
     it('Testing implied swaption vol in LMM using HW approximation...', () => {
         const marketData = new MarketModelData();
         const rateTimes = marketData.rateTimes();

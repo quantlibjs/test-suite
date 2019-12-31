@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Jin Yang. All Rights Reserved.
+ * Copyright 2019 - 2020 Jin Yang. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -30,7 +30,7 @@ describe(`Normal CLV Model tests ${version}`, () => {
       ' function with constant volatility...', () => {
       const backup = new SavedSettings();
       const dc = new Actual365Fixed();
-      const today = new Date(2016, Month.June - 1, 22);
+      const today = DateExt.UTC('22,June,2016');
       const maturity = DateExt.advance(today, 6, TimeUnit.Months);
       const s0 = 100;
       const rRate = 0.1;

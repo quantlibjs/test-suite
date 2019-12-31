@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Jin Yang. All Rights Reserved.
+ * Copyright 2019 - 2020 Jin Yang. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,7 +13,7 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Actual360, Actual365Fixed, Array1D, Basket, Compounding, ConstantLossModel, EURCurrency, FlatForward, FlatHazardRate, GaussianCopulaPolicy, Handle, IntegralNtdEngine, Issuer, LatentModelIntegrationType, MakeSchedule, NorthAmericaCorpDefaultKey, NthToDefault, Period, Pool, Protection, SavedSettings, Seniority, Settings, SimpleQuote, TARGET, TCopulaPolicy, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual360, Actual365Fixed, Array1D, Basket, Compounding, ConstantLossModel, DateExt, EURCurrency, FlatForward, FlatHazardRate, GaussianCopulaPolicy, Handle, IntegralNtdEngine, Issuer, LatentModelIntegrationType, MakeSchedule, NorthAmericaCorpDefaultKey, NthToDefault, Period, Pool, Protection, SavedSettings, Seniority, Settings, SimpleQuote, TARGET, TCopulaPolicy, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 
 class hwDatum {
     constructor(rank, spread) {

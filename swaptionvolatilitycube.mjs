@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Jin Yang. All Rights Reserved.
+ * Copyright 2019 - 2020 Jin Yang. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,7 +13,7 @@
  * limitations under the License.
  * =============================================================================
  */
-import { Actual365Fixed, Array1D, EuriborSwapIsdaFixA, Handle, Period, RelinkableHandle, SavedSettings, Settings, SimpleQuote, SpreadedSwaptionVolatility, SwaptionVolatilityMatrix, SwaptionVolCube1, SwaptionVolCube2, TimeUnit } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
+import { Actual365Fixed, Array1D, EuriborSwapIsdaFixA, Handle, Period, RelinkableHandle, SavedSettings, Settings, SimpleQuote, SpreadedSwaptionVolatility, SwaptionVolatilityMatrix, SwaptionVolCube1, SwaptionVolCube2, TimeUnit, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { Flag, flatRate4 } from '/test-suite/utilities.mjs';
 
 class CommonVars {
@@ -62,7 +62,7 @@ class CommonVars {
     }
 }
 
-describe('Swaption Volatility Cube tests', () => {
+describe(`Swaption Volatility Cube tests ${version}`, () => {
     it('Testing swaption volatility cube (atm vols)...', () => {
         const vars = new CommonVars();
         const volCube = new SwaptionVolCube2(vars.atmVolMatrix, vars.cube.tenors.options, vars.cube.tenors.swaps, vars.cube.strikeSpreads, vars.cube.volSpreadsHandle, vars.swapIndexBase, vars.shortSwapIndexBase, vars.vegaWeighedSmileFit);

@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Jin Yang. All Rights Reserved.
+ * Copyright 2019 - 2020 Jin Yang. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -38,7 +38,7 @@ class CommonVars {
     }
     makeSwap(fixedRate) {
         const start = this.calendar.advance1(this.settlement, this.startYears, TimeUnit.Years);
-        const maturity = this.calendar.advance1(start, length, TimeUnit.Years);
+        const maturity = this.calendar.advance1(start, this.length, TimeUnit.Years);
         const fixedSchedule = new Schedule().init2(start, maturity, new Period().init2(this.fixedFrequency), this.calendar, this.fixedConvention, this.fixedConvention, DateGeneration.Rule.Forward, false);
         const floatSchedule = new Schedule().init2(start, maturity, new Period().init2(this.floatingFrequency), this.calendar, this.floatingConvention, this.floatingConvention, DateGeneration.Rule.Forward, false);
         const swap = new VanillaSwap(this.type, this.nominal, fixedSchedule, fixedRate, this.fixedDayCount, floatSchedule, this.index, 0.0, this.index.dayCounter());
@@ -72,8 +72,15 @@ describe(`Bermudan swaption tests ${version}`, () => {
         let exercise = new BermudanExercise().beInit(exerciseDates);
         const treeEngine = new TreeSwaptionEngine().tseInit1(model, 50);
         const fdmEngine = new FdHullWhiteSwaptionEngine(model);
-        let itmValue = 42.2413, atmValue = 12.8789, otmValue = 2.4759;
-        const itmValueFdm = 42.2111, atmValueFdm = 12.8879, otmValueFdm = 2.44443;
+        let itmValue, atmValue, otmValue;
+        let itmValueFdm, atmValueFdm, otmValueFdm;
+        if(Settings.QL_USE_INDEXED_COUPON){
+          itmValue = 42.2413, atmValue = 12.8789, otmValue = 2.4759;
+          itmValueFdm = 42.2111, atmValueFdm = 12.8879, otmValueFdm = 2.44443;
+        }else{
+          itmValue = 42.2470, atmValue = 12.8826, otmValue = 2.4769;
+          itmValueFdm = 42.2091, atmValueFdm = 12.8864, otmValueFdm = 2.4437;
+        }
         const tolerance = 1.0e-4;
         let swaption = new Swaption(itmSwap, exercise);
         swaption.setPricingEngine(treeEngine);
@@ -95,9 +102,11 @@ describe(`Bermudan swaption tests ${version}`, () => {
                 vars.calendar.adjust(DateExt.sub(exerciseDates[j], 10));
         }
         exercise = new BermudanExercise().beInit(exerciseDates);
-        itmValue = 42.1917;
-        atmValue = 12.7788;
-        otmValue = 2.4388;
+        if(Settings.QL_USE_INDEXED_COUPON){
+          itmValue = 42.1917; atmValue = 12.7788; otmValue = 2.4388;
+        }else{
+          itmValue = 42.1974; atmValue = 12.7825; otmValue = 2.4399;
+        }
         swaption = new Swaption(itmSwap, exercise);
         swaption.setPricingEngine(treeEngine);
         expect(Math.abs(swaption.NPV() - itmValue)).toBeLessThan(tolerance);
@@ -130,8 +139,15 @@ describe(`Bermudan swaption tests ${version}`, () => {
         const g2Model = new G2(vars.termStructure, a, sigma, b, eta, rho);
         const fdmEngine = new FdG2SwaptionEngine(g2Model, 50, 75, 75, 0, 1e-3);
         const treeEngine = new TreeSwaptionEngine().tseInit1(g2Model, 50);
-        const expectedFdm = [103.231, 54.6519, 20.0475, 5.26941, 1.07097];
-        const expectedTree = [103.253, 54.6685, 20.1399, 5.40517, 1.10642];
+        let expectedFdm;
+        let expectedTree;
+        if(Settings.QL_USE_INDEXED_COUPON){
+          expectedFdm = [ 103.231, 54.6519, 20.0475, 5.26941, 1.07097 ];
+          expectedTree= [ 103.253, 54.6685, 20.1399, 5.40517, 1.10642 ];
+        }else{
+          expectedFdm = [ 103.227, 54.6502, 20.0469, 5.26924, 1.07093 ];
+          expectedTree = [ 103.256, 54.6726, 20.1429, 5.4064 , 1.10677 ];
+        }
         const tol = 0.005;
         for (let i = 0; i < swaptions.length; ++i) {
             swaptions[i].setPricingEngine(fdmEngine);

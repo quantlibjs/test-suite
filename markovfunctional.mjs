@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Jin Yang. All Rights Reserved.
+ * Copyright 2019 - 2020 Jin Yang. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -653,7 +653,7 @@ describe(`Markov functional model tests ${version}`, () => {
   it('Testing Markov functional calibration to one instrument set...', () => {
       const tol0 = 0.0001;
       const tol1 = 0.0001;
-      const referenceDate = new Date('14-November-2012');
+      const referenceDate = DateExt.UTC('14,November,2012');
       Settings.evaluationDate.set(referenceDate);
       const flatYts_ = flatYts();
       const flatSwaptionVts_ = flatSwaptionVts();

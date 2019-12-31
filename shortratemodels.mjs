@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Jin Yang. All Rights Reserved.
+ * Copyright 2019 - 2020 Jin Yang. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,6 +13,7 @@
  * limitations under the License.
  * =============================================================================
  */
+import '/test-suite/quantlibtestsuite.mjs';
 import { Actual360, Actual365Fixed, BusinessDayConvention, Constraint, DateExt, DateGeneration, DiscountCurve, DiscountingSwapEngine, EndCriteria, Euribor6M, ExtendedCoxIngersollRoss, Frequency, Handle, HullWhite, IborIndex, IndexManager, JamshidianSwaptionEngine, LevenbergMarquardt, Period, SavedSettings, Schedule, Settings, SimpleQuote, SwaptionHelper, TARGET, Thirty360, TimeSeries, TimeUnit, TreeVanillaSwapEngine, VanillaSwap, version } from 'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs';
 import { flatRate2, IndexHistoryCleaner } from '/test-suite/utilities.mjs';
 
@@ -51,29 +52,16 @@ describe(`Short-rate model tests ${version}`, () => {
         const optimizationMethod = new LevenbergMarquardt(1.0e-8, 1.0e-8, 1.0e-8);
         const endCriteria = new EndCriteria(10000, 100, 1e-6, 1e-8, 1e-8);
         model.calibrate2(swaptions, optimizationMethod, endCriteria);
-        const ecType = model.endCriteria();
-        const cachedA = 0.0463679, cachedSigma = 0.00579831;
+        let cachedA, cachedSigma;
+        if(Settings.QL_USE_INDEXED_COUPON){
+          cachedA = 0.0463679, cachedSigma = 0.00579831;
+        } else {
+          cachedA = 0.0464041, cachedSigma = 0.00579912;
+        }
         const tolerance = 1.0e-5;
         const xMinCalculated = model.params();
-        const yMinCalculated = model.value1(xMinCalculated, swaptions);
-        const xMinExpected = [cachedA, cachedSigma];
-        const yMinExpected = model.value1(xMinExpected, swaptions);
-        if (Math.abs(xMinCalculated[0] - cachedA) > tolerance &&
-            Math.abs(xMinCalculated[1] - cachedSigma) > tolerance) {
-            throw new Error(`
-        Failed to reproduce cached calibration results:
-        calculated: a = ${xMinCalculated[0]}
-        sigma = ${xMinCalculated[1]}
-        f(a) = ${yMinCalculated}
-        expected:   a = ${xMinExpected[0]}
-        sigma = ${xMinExpected[1]}
-        f(a) = ${yMinExpected}
-        difference: a = ${xMinCalculated[0] - xMinExpected[0]}
-        sigma = ${xMinCalculated[1] - xMinExpected[1]}
-        f(a) = ${yMinCalculated - yMinExpected}
-        end criteria = ${ecType}
-      `);
-        }
+        expect(Math.abs(xMinCalculated[0] - cachedA)).toBeLessThan(tolerance);
+        expect(Math.abs(xMinCalculated[1] - cachedSigma)).toBeLessThan(tolerance);
         backup.dispose();
         cleaner.dispose();
     });

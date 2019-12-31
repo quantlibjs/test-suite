@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Jin Yang. All Rights Reserved.
+ * Copyright 2019 - 2020 Jin Yang. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -41,7 +41,7 @@ function reset() {
 }
 
 function setup() {
-    const evalDate = new Date(Date.UTC(2007, 11 - 1, 23));
+    const evalDate = DateExt.UTC('23,Nov,2007');
     Settings.evaluationDate.set(evalDate);
     yoyIndexEU = new YYEUHICPr(true, yoyEU);
     const timesEUR = [

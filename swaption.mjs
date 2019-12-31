@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Jin Yang. All Rights Reserved.
+ * Copyright 2019 - 2020 Jin Yang. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -212,7 +212,7 @@ describe(`Swaption tests ${version}`, () => {
             .f();
         const swaption = vars.makeSwaption(swap, exerciseDate, 0.20);
         let cachedNPV;
-        if (Settings.QL_USE_INDEXED_COUPON) {
+        if (!Settings.QL_USE_INDEXED_COUPON) {
             cachedNPV = 0.036418158579;
         }
         else {
