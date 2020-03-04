@@ -122,11 +122,11 @@ describe(`Asian option tests ${version}`, () => {
         Settings.evaluationDate.set(today);
         const spot = new SimpleQuote(0.0);
         const qRate = new SimpleQuote(0.0);
-        const qTS = new Handle(flatRate1(today, qRate, dc));
+        const qTS = new Handle(flatRate3(qRate, dc));
         const rRate = new SimpleQuote(0.0);
-        const rTS = new Handle(flatRate1(today, rRate, dc));
+        const rTS = new Handle(flatRate3(rRate, dc));
         const vol = new SimpleQuote(0.0);
-        const volTS = new Handle(flatVol1(today, vol, dc));
+        const volTS = new Handle(flatVol3(vol, dc));
         const process = new BlackScholesMertonProcess(new Handle(spot), qTS, rTS, volTS);
         for (let i = 0; i < types.length; i++) {
             for (let j = 0; j < strikes.length; j++) {
@@ -470,7 +470,8 @@ describe(`Asian option tests ${version}`, () => {
             rRate.setValue(cases5[l].riskFreeRate);
             vol.setValue(cases5[l].volatility);
             const stochProcess = new BlackScholesMertonProcess(new Handle(spot), new Handle(qTS), new Handle(rTS), new Handle(volTS));
-            const engine = new MakeMCDiscreteArithmeticASEngine(new LowDiscrepancy(), stochProcess)
+            const engine = new MakeMCDiscreteArithmeticASEngine(new LowDiscrepancy())
+                .init(stochProcess)
                 .withSeed(3456789)
                 .withSamples(1023)
                 .f();
@@ -626,7 +627,8 @@ describe(`Asian option tests ${version}`, () => {
             fixingDates2.push(DateExt.advance(today, i, TimeUnit.Months));
         }
         const option2 = new DiscreteAveragingAsianOption(Average.Type.Arithmetic, runningSum, pastFixings, fixingDates2, payoff, exercise);
-        let engine = new MakeMCDiscreteArithmeticAPEngine(new LowDiscrepancy(), stochProcess)
+        let engine = new MakeMCDiscreteArithmeticAPEngine(new LowDiscrepancy())
+            .init(stochProcess)
             .withSamples(2047)
             .f();
         option1.setPricingEngine(engine);
@@ -635,7 +637,8 @@ describe(`Asian option tests ${version}`, () => {
         let price2 = option2.NPV();
         expect(Comparison.close(price1, price2)).toBeFalsy();
         engine =
-            new MakeMCDiscreteArithmeticASEngine(new LowDiscrepancy(), stochProcess)
+            new MakeMCDiscreteArithmeticASEngine(new LowDiscrepancy())
+                .init(stochProcess)
                 .withSamples(2047)
                 .f();
         option1.setPricingEngine(engine);
@@ -656,7 +659,8 @@ describe(`Asian option tests ${version}`, () => {
         let price4 = option4.NPV();
         expect(Comparison.close(price3, price4)).toBeFalsy();
         engine =
-            new MakeMCDiscreteGeometricAPEngine(new LowDiscrepancy(), stochProcess)
+            new MakeMCDiscreteGeometricAPEngine(new LowDiscrepancy())
+                .init(stochProcess)
                 .withSamples(2047)
                 .f();
         option3.setPricingEngine(engine);
@@ -688,16 +692,19 @@ describe(`Asian option tests ${version}`, () => {
         const exercise = new EuropeanExercise(exerciseDate);
         const runningSum = pastFixings * spot.value();
         const option1 = new DiscreteAveragingAsianOption(Average.Type.Arithmetic, runningSum, pastFixings, fixingDates, payoff, exercise);
-        option1.setPricingEngine(new MakeMCDiscreteArithmeticAPEngine(new LowDiscrepancy(), stochProcess)
+        option1.setPricingEngine(new MakeMCDiscreteArithmeticAPEngine(new LowDiscrepancy())
+            .init(stochProcess)
             .withSamples(2047)
             .f());
         const option2 = new DiscreteAveragingAsianOption(Average.Type.Arithmetic, runningSum, pastFixings, fixingDates, payoff, exercise);
-        option2.setPricingEngine(new MakeMCDiscreteArithmeticASEngine(new LowDiscrepancy(), stochProcess)
+        option2.setPricingEngine(new MakeMCDiscreteArithmeticASEngine(new LowDiscrepancy())
+            .init(stochProcess)
             .withSamples(2047)
             .f());
         const runningProduct = Math.pow(spot.value(), Math.floor(pastFixings));
         const option3 = new DiscreteAveragingAsianOption(Average.Type.Geometric, runningProduct, pastFixings, fixingDates, payoff, exercise);
-        option3.setPricingEngine(new MakeMCDiscreteGeometricAPEngine(new LowDiscrepancy(), stochProcess)
+        option3.setPricingEngine(new MakeMCDiscreteGeometricAPEngine(new LowDiscrepancy())
+            .init(stochProcess)
             .withSamples(2047)
             .f());
         let raised = false;

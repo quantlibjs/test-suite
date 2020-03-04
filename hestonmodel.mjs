@@ -1233,7 +1233,7 @@ describe(`Heston model tests ${version}`, () => {
         expect(Math.abs(calculatedGatheral - calculatedAndersenPiterbarg))
             .toBeLessThan(1e-10);
         const firstPartProcess = new HestonProcess(rTS, qTS, s0, v0, 1.0, 0.1, 0.30, -0.75, HestonProcess.Discretization.QuadraticExponentialMartingale);
-        const firstPathGen = new MultiPathGenerator(firstPartProcess, new TimeGrid().init1(pTimes[0], 6), new PseudoRandom().make_sequence_generator(12, 1234));
+        const firstPathGen = new MultiPathGenerator().init2(firstPartProcess, new TimeGrid().init1(pTimes[0], 6), new PseudoRandom().make_sequence_generator(12, 1234));
         const urng = new MersenneTwisterUniformRng().init1(5678);
         const stat = new RiskStatistics();
         const df = rTS.currentLink().discount1(maturityDate);
@@ -1244,11 +1244,11 @@ describe(`Heston model tests ${version}`, () => {
                 const path1 = (j & 1) ? firstPathGen.antithetic() : firstPathGen.next();
                 const spot1 = path1.value.at(0).back;
                 const v1 = path1.value.at(1).back;
-                const secondPathGen = new MultiPathGenerator(new HestonProcess(rTS, qTS, new Handle(new SimpleQuote(spot1)), v1, 1.0, 0.1, 0.15, -0.75, HestonProcess.Discretization.QuadraticExponentialMartingale), new TimeGrid().init1(pTimes[1] - pTimes[0], 12), new PseudoRandom().make_sequence_generator(24, urng.nextInt32()));
+                const secondPathGen = new MultiPathGenerator().init2(new HestonProcess(rTS, qTS, new Handle(new SimpleQuote(spot1)), v1, 1.0, 0.1, 0.15, -0.75, HestonProcess.Discretization.QuadraticExponentialMartingale), new TimeGrid().init1(pTimes[1] - pTimes[0], 12), new PseudoRandom().make_sequence_generator(24, urng.nextInt32()));
                 const path2 = secondPathGen.next();
                 const spot2 = path2.value.at(0).back;
                 const v2 = path2.value.at(1).back;
-                const thirdPathGen = new MultiPathGenerator(new HestonProcess(rTS, qTS, new Handle(new SimpleQuote(spot2)), v2, 1.0, 0.1, 1.25, -0.75, HestonProcess.Discretization.QuadraticExponentialMartingale), new TimeGrid().init1(maturity - pTimes[1], 6), new PseudoRandom().make_sequence_generator(12, urng.nextInt32()));
+                const thirdPathGen = new MultiPathGenerator().init2(new HestonProcess(rTS, qTS, new Handle(new SimpleQuote(spot2)), v2, 1.0, 0.1, 1.25, -0.75, HestonProcess.Discretization.QuadraticExponentialMartingale), new TimeGrid().init1(maturity - pTimes[1], 6), new PseudoRandom().make_sequence_generator(12, urng.nextInt32()));
                 const path3 = thirdPathGen.next();
                 const spot3 = path3.value.at(0).back;
                 priceS += 0.5 * option.payoff().f(spot3);

@@ -296,7 +296,7 @@ describe(`Square-root CLV Model tests ${version}`, () => {
         const fdmSlvProcess = new HestonSLVProcess(hestonProcess4slv, leverageFctFDM);
         const slvStats = Array2D.newMatrix(calibrationDates.length - 2, strikes.length);
         const factors = fdmSlvProcess.factors();
-        const pathGen = new MultiPathGenerator(fdmSlvProcess, grid, new SobolBrownianBridgeRsg(factors, grid.size() - 1), false);
+        const pathGen = new MultiPathGenerator().init2(fdmSlvProcess, grid, new SobolBrownianBridgeRsg(factors, grid.size() - 1), false);
         for (let k = 0; k < nScenarios; ++k) {
             const path = pathGen.next();
             for (let i = 0, n = resetIndices.length; i < n; ++i) {

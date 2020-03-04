@@ -1209,8 +1209,8 @@ describe(`Heston Stochastic Local Volatility tests ${version}`, () => {
         const resetIndex = grid.closestIndex(resetTime);
         const factors = mcSlvProcess.factors();
         const pathGen = [];
-        pathGen.push(new MultiPathGenerator(mcSlvProcess, grid, new SobolBrownianBridgeRsg(factors, tSteps), false));
-        pathGen.push(new MultiPathGenerator(fdmSlvProcess, grid, new SobolBrownianBridgeRsg(factors, tSteps), false));
+        pathGen.push(new MultiPathGenerator().init2(mcSlvProcess, grid, new SobolBrownianBridgeRsg(factors, tSteps), false));
+        pathGen.push(new MultiPathGenerator().init2(fdmSlvProcess, grid, new SobolBrownianBridgeRsg(factors, tSteps), false));
         const strikes = [0.5, 0.7, 0.8, 0.9, 1.0, 1.1, 1.25, 1.5, 1.75, 2.0];
         const stats = new Array(2);
         for (let i = 0; i < 2; i++) {

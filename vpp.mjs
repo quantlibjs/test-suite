@@ -189,7 +189,7 @@ describe(`VPP tests ${version}`, () => {
         const grid = new TimeGrid().init1(T, steps);
         const rsg = new PseudoRandom().make_sequence_generator(pArray.size() * (grid.size() - 1), 421);
         const npv = new GeneralStatistics(), onTime = new GeneralStatistics();
-        const generator = new MultiPathGenerator(pArray, grid, rsg, false);
+        const generator = new MultiPathGenerator().init2(pArray, grid, rsg, false);
         const heatRate = 8.0;
         const nrTrails = 250;
         for (let n = 0; n < nrTrails; ++n) {
@@ -275,7 +275,7 @@ describe(`VPP tests ${version}`, () => {
         option.setPricingEngine(new FdKlugeExtOUSpreadEngine(klugeOUProcess, rTS, 5, 200, 50, 20));
         const grid = new TimeGrid().init1(maturity, 50);
         const rsg = new PseudoRandom().make_sequence_generator(klugeOUProcess.factors() * (grid.size() - 1), 1234);
-        const generator = new MultiPathGenerator(klugeOUProcess, grid, rsg, false);
+        const generator = new MultiPathGenerator().init2(klugeOUProcess, grid, rsg, false);
         const npv = new GeneralStatistics();
         const nTrails = 20000;
         for (let i = 0; i < nTrails; ++i) {
@@ -382,7 +382,7 @@ describe(`VPP tests ${version}`, () => {
         const vppMesh = new FdmVPPStepConditionMesher(0, oneDimMesher);
         const grid = new TimeGrid().init1(dc.yearFraction(today, DateExt.add(exercise.lastDate(), 1)), exercise.dates().length);
         const rsg = new PseudoRandom().make_sequence_generator(klugeOUProcess.factors() * (grid.size() - 1), 1234);
-        const generator = new MultiPathGenerator(klugeOUProcess, grid, rsg, false);
+        const generator = new MultiPathGenerator().init2(klugeOUProcess, grid, rsg, false);
         const npv = new GeneralStatistics();
         const nTrails = 2500;
         for (let i = 0; i < nTrails; ++i) {

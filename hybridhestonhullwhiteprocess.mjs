@@ -240,7 +240,7 @@ describe(`Hybrid Heston-HullWhite tests ${version}`, () => {
         const factors = jointProcess.factors();
         const steps = grid.size() - 1;
         const rsg = new SobolBrownianBridgeRsg(factors, steps);
-        const generator = new MultiPathGenerator(jointProcess, grid, rsg, false);
+        const generator = new MultiPathGenerator().init2(jointProcess, grid, rsg, false);
         const m = 90;
         const zeroStat = new Array(m);
         const optionStat = new Array(m);
@@ -460,7 +460,7 @@ describe(`Hybrid Heston-HullWhite tests ${version}`, () => {
         }
         const seed = 42;
         const rsg = new PseudoRandom().make_sequence_generator(jointProcess.factors() * (grid.size() - 1), seed);
-        const generator = new MultiPathGenerator(jointProcess, grid, rsg, false);
+        const generator = new MultiPathGenerator().init2(jointProcess, grid, rsg, false);
         const stat = new GeneralStatistics();
         let antitheticPayoff = 0;
         const nrTrails = 40000;

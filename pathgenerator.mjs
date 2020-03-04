@@ -44,7 +44,7 @@ function testMultiple(process, tag, expected, antithetic) {
     const timeSteps = 12;
     const assets = process.size();
     const rsg = new PseudoRandom().make_sequence_generator(timeSteps * assets, seed);
-    const generator = new MultiPathGenerator(process, new TimeGrid().init1(length, timeSteps), rsg, false);
+    const generator = new MultiPathGenerator().init2(process, new TimeGrid().init1(length, timeSteps), rsg, false);
     let i, j;
     for (i = 0; i < 100; i++) {
         generator.next();
