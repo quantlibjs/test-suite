@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="quantitative finance in javascript">
+    <meta name="author" content="Jin Yang">
+    <meta name="keywords" content="quantlib, quantlib.js, test-suite, math, javascript, quant, quantitative, finance, quantitative finance, mathematical finance, calculus, linear algebra, statistcs, probability, fast fourier transform, interpolation, extrapolation, ode, cashflow, libor, eurlibor, usdlibor, instrument, capfloor, bond, option, swap, swaption, future, monte carlo, finite difference, lattice, equity, market model, short rate, volatility, stochastic process, term structure">
+    <meta name="google-site-verification" content="4IrXoRzLpuCL684J3Y19wWtY9W5KqlvwLH5EQuZh1-Q" />
+    <title>quantlib.js test-suite © 2020 Jin Yang</title>
+    <link rel="shortcut icon" type="image/jpg" href="/made-in-china.jpg">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.10/build/styles/default.min.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-87290595-3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-87290595-3');
+    </script>
+    <style>
+      .navbar-nav li:hover > ul.dropdown-menu {
+            display: block;
+      }
+      .dropdown-submenu {
+          position:relative;
+      }
+      .dropdown-submenu>.dropdown-menu {
+          top:0;
+          left:100%;
+          margin-top:-6px;
+      }
+      .caret-right {
+          border-bottom: 4px solid transparent;
+          border-top: 4px solid transparent;
+          border-left: 4px solid;
+          display: inline-block;
+          height: 0;
+          opacity: 0.6;
+          vertical-align: center;
+          width: 0;
+      }
+      h1 {
+          font-size: 2em;
+          padding-bottom: .3em;
+          border-bottom: 1px solid #eaecef;
+      }
+      h2 {
+          font-size: 1.5em;
+          padding-bottom: .3em;
+          border-bottom: 1px solid #eaecef;
+      }
+      h4 {
+          font-size: 16px;
+      }
+      .pl-k {
+          color: #d73a49;
+      }
+      .pl-c {
+          color: #6a737d;
+      }
+      .pl-ent {
+          color: #22863a;
+      }
+      .pl-c1, .pl-s .pl-v {
+          color: #005cc5;
+      }
+      .pl-s .pl-s1, .pl-smi {
+          color: #24292e;
+      }
+      .pl-e, .pl-en {
+          color: #6f42c1;
+      }
+      pre {
+          padding: 8px;
+          overflow: auto;
+          font-size: 85%;
+          line-height: 1.45;
+          background-color: #f6f8fa;
+          border-radius: 3px;
+      }
+      code {
+          padding: .2em .4em;
+          margin: 0;
+          font-size: 85%;
+          background-color: #f6f8fa;
+          border-radius: 3px;
+      }
+      iframe {
+        padding: 8px;
+      }
+      #report {
+        border-radius: 3px;
+        background-color: #f6f8fa;
+      }
+      table {
+          display: block;
+          width: 100%;
+          overflow: auto;
+          border-spacing: 0;
+          border-collapse: collapse;
+          margin-top: 0;
+          margin-bottom: 16px;
+          border-color: grey;
+      }
+      thead {
+          display: table-header-group;
+          vertical-align: middle;
+          border-color: inherit;
+      }
+      tr {
+          background-color: #fff;
+          border-top: 1px solid #c6cbd1;
+          display: table-row;
+          vertical-align: inherit;
+          border-color: inherit;
+      }
+      th {
+          padding: 6px 13px;
+          border: 1px solid #dfe2e5;
+          font-weight: 600;
+      }
+      tbody {
+          display: table-row-group;
+          vertical-align: middle;
+          border-color: inherit;
+      }
+      table td, table th {
+          padding: 6px 13px;
+          border: 1px solid #dfe2e5;
+      }
+      td {
+          display: table-cell;
+          vertical-align: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="/">quantlib.js</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" target="_blank" href="/docs"><b>docs</b></a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="specDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <b>spec</b>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li class="dropdown-submenu">
+                  <a class="dropdown-item" tabindex="-1" href="#">pattern <b class="caret-right"></b></a>
+                  <ul class="dropdown-menu">
+                    <a class="dropdown-item" onclick="load('/test-suite/lazyobject.mjs');">lazy object</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/observable.mjs');">observable</a>
+                  </ul>
+              </li>
+              <li class="dropdown-submenu">
+                <a class="dropdown-item" tabindex="-1" href="#">currency & fx <b class="caret-right"></b></a>
+                <ul class="dropdown-menu">
+                  <a class="dropdown-item" onclick="load('/test-suite/blackdeltacalculator.mjs');">black delta calculator</a>
+                  <a class="dropdown-item" onclick="load('/test-suite/exchangerate.mjs');">exchange rate</a>
+                  <a class="dropdown-item" onclick="load('/test-suite/money.mjs');">money</a>
+                  <a class="dropdown-item" onclick="load('/test-suite/rounding.mjs');">rounding</a>
+                </ul>
+              </li>
+              <li class="dropdown-submenu">
+                  <a class="dropdown-item" tabindex="-1" href="#">date & time <b class="caret-right"></b></a>
+                  <ul class="dropdown-menu">
+                    <a class="dropdown-item" onclick="load('/test-suite/businessdayconventions.mjs');">business day conventions</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/calendars.mjs');">calendars</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/dates.mjs');">dates</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/daycounters.mjs');">day counters</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/period.mjs');">period</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/schedule.mjs');">schedule</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/timegrid.mjs');">time grid</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/timeseries.mjs');">time series</a>
+                  </ul>
+              </li>
+              <li class="dropdown-submenu">
+                <a class="dropdown-item" tabindex="-1" href="#">math <b class="caret-right"></b></a>
+                <ul class="dropdown-menu">
+                  <li class="dropdown-submenu">
+                      <a class="dropdown-item" tabindex="-1" href="#">calculus <b class="caret-right"></b></a>
+                      <ul class="dropdown-menu">
+                        <a class="dropdown-item" onclick="load('/test-suite/gaussianquadratures.mjs');">gaussian quadratures</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/integrals.mjs');">integrals</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/numericaldifferentiation.mjs');">numerical differentiation</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/ode.mjs');">ode</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/solvers.mjs');">solvers</a>
+                      </ul>
+                  </li>
+                  <li class="dropdown-submenu">
+                      <a class="dropdown-item" tabindex="-1" href="#">linear algebra <b class="caret-right"></b></a>
+                      <ul class="dropdown-menu">
+                        <a class="dropdown-item" onclick="load('/test-suite/array.mjs');">array</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/covariance.mjs');">covariance</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/matrices.mjs');">matrices</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/tqreigendecomposition.mjs');">tqr eigen decomposition</a>
+                      </ul>
+                  </li>
+                  <li class="dropdown-submenu">
+                      <a class="dropdown-item" tabindex="-1" href="#">statistics & probability <b class="caret-right"></b></a>
+                      <ul class="dropdown-menu">
+                        <a class="dropdown-item" onclick="load('/test-suite/autocovariances.mjs');">auto covariances</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/distributions.mjs');">distributions</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/linearleastsquaresregression.mjs');">linear least squares regression</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/optimizers.mjs');">optimizers</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/riskstats.mjs');">risk stats</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/stats.mjs');">stats</a>
+                      </ul>
+                  </li>
+                  <li class="dropdown-submenu">
+                      <a class="dropdown-item" tabindex="-1" href="#">random numbers <b class="caret-right"></b></a>
+                      <ul class="dropdown-menu">
+                        <a class="dropdown-item" onclick="load('/test-suite/lowdiscrepancysequences.mjs');">low discrepancy sequences</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/rngtraits.mjs');">rng traits</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/mersennetwister.mjs');">mersenne twister</a>
+                      </ul>
+                  </li>
+                  <li class="dropdown-submenu">
+                      <a class="dropdown-item" tabindex="-1" href="#">numerical method <b class="caret-right"></b></a>
+                      <ul class="dropdown-menu">
+                        <a class="dropdown-item" onclick="load('/test-suite/fastfouriertransform.mjs');">fast fourier transform</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/functions.mjs');">functions</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/interpolations.mjs');">interpolations</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/sampledcurve.mjs');">sampled curve</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/transformedgrid.mjs');">transformed grid</a>
+                      </ul>
+                  </li>
+                </ul>
+              </li>
+              <li class="dropdown-submenu">
+                  <a class="dropdown-item" tabindex="-1" href="#">cashflow <b class="caret-right"></b></a>
+                  <ul class="dropdown-menu">
+                    <a class="dropdown-item" onclick="load('/test-suite/cashflows.mjs');">cashflow</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/capflooredcoupon.mjs');">capfloored coupon</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/digitalcoupon.mjs');">digital coupon</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/inflationcapflooredcoupon.mjs');">inflation capfloored coupon</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/interestrates.mjs');">interest rates</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/rangeaccrual.mjs');">range accrual</a>
+                  </ul>
+              </li>
+              <li class="dropdown-submenu">
+                  <a class="dropdown-item" tabindex="-1" href="#">stochastic process <b class="caret-right"></b></a>
+                  <ul class="dropdown-menu">
+                    <a class="dropdown-item" onclick="load('/test-suite/hybridhestonhullwhiteprocess.mjs');">hybrid heston hullwhilte process</a>
+                  </ul>
+              </li>
+              <li class="dropdown-submenu">
+                  <a class="dropdown-item" tabindex="-1" href="#">method <b class="caret-right"></b></a>
+                  <ul class="dropdown-menu">
+                      <li class="dropdown-submenu">
+                          <a class="dropdown-item" tabindex="-1" href="#">monte carlo <b class="caret-right"></b></a>
+                          <ul class="dropdown-menu">
+                            <a class="dropdown-item" onclick="load('/test-suite/brownianbridge.mjs');">brownian bridge</a>
+                            <a class="dropdown-item" onclick="load('/test-suite/pathgenerator.mjs');">path generator</a>
+                            <a class="dropdown-item" onclick="load('/test-suite/mclongstaffschwartzengine.mjs');">longstaff schwart engine</a>
+                          </ul>
+                      </li>
+                      <li class="dropdown-submenu">
+                          <a class="dropdown-item" tabindex="-1" href="#">finite difference <b class="caret-right"></b></a>
+                          <ul class="dropdown-menu">
+                            <a class="dropdown-item" onclick="load('/test-suite/curvestates.mjs');">curve states</a>
+                            <a class="dropdown-item" onclick="load('/test-suite/fdheston.mjs');">fd heston</a>
+                            <a class="dropdown-item" onclick="load('/test-suite/fdmlinearop.mjs');">fdm linear op</a>
+                            <!-- <a class="dropdown-item" onclick="load('/test-suite/nthorderderivativeop.mjs');">nth-order derivative op</a> -->
+                            <a class="dropdown-item" onclick="load('/test-suite/operators.mjs');">operators</a>
+                          </ul>
+                      </li>
+                      <li class="dropdown-submenu">
+                          <a class="dropdown-item" tabindex="-1" href="#">lattice <b class="caret-right"></b></a>
+                          <ul class="dropdown-menu">
+                            <a class="dropdown-item" onclick="load('/test-suite/extendedtrees.mjs');">extended trees</a>
+                          </ul>
+                      </li>
+                  </ul>
+              </li>
+              <li class="dropdown-submenu">
+                <a class="dropdown-item" tabindex="-1" href="#">instrument pricing <b class="caret-right"></b></a>
+                <ul class="dropdown-menu">
+                  <a class="dropdown-item" onclick="load('/test-suite/blackformula.mjs');">black formula</a>
+                  <li class="dropdown-submenu">
+                    <a class="dropdown-item" tabindex="-1" href="#">bond <b class="caret-right"></b></a>
+                    <ul class="dropdown-menu">
+                      <a class="dropdown-item" onclick="load('/test-suite/amortizingbond.mjs');">amortizing bond</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/bonds.mjs');">bonds</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/catbonds.mjs');">cat bonds</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/convertiblebonds.mjs');">convertible bonds</a>
+                    </ul>
+                  </li>
+                  <li class="dropdown-submenu">
+                    <a class="dropdown-item" tabindex="-1" href="#">capfloor <b class="caret-right"></b></a>
+                    <ul class="dropdown-menu">
+                      <a class="dropdown-item" onclick="load('/test-suite/capfloor.mjs');">capfloor</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/inflationcapfloor.mjs');">inflation capfloor</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/inflationcpicapfloor.mjs');">inflation cpi capfloor</a>
+                    </ul>
+                  </li>
+                  <a class="dropdown-item" onclick="load('/test-suite/forwardrateagreement.mjs');">forward rate agreement</a>
+                  <a class="dropdown-item" onclick="load('/test-suite/instruments.mjs');">instruments</a>
+                  <li class="dropdown-submenu">
+                    <a class="dropdown-item" tabindex="-1" href="#">option <b class="caret-right"></b></a>
+                    <ul class="dropdown-menu">
+                      <a class="dropdown-item" onclick="load('/test-suite/americanoption.mjs');">american option</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/asianoptions.mjs');">asian option</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/barrieroption.mjs');">barrier option</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/basketoption.mjs');">basket option</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/cliquetoption.mjs');">cliquet option</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/dividendoption.mjs');">dividend option</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/europeanoption.mjs');">european option</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/forwardoption.mjs');">forward option</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/quantooption.mjs');">quanto option</a>
+                    </ul>
+                  </li>
+                  <a class="dropdown-item" onclick="load('/test-suite/quotes.mjs');">quotes</a>
+                  <li class="dropdown-submenu">
+                    <a class="dropdown-item" tabindex="-1" href="#">swap <b class="caret-right"></b></a>
+                    <ul class="dropdown-menu">
+                      <a class="dropdown-item" onclick="load('/test-suite/assetswap.mjs');">asset swap</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/cms.mjs');">cms</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/cmsspread.mjs');">cms spread</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/overnightindexedswap.mjs');">overnight indexed swap</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/swap.mjs');">swap</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/swapforwardmappings.mjs');">swap forward mappings</a>
+                    </ul>
+                  </li>
+                  <li class="dropdown-submenu">
+                      <a class="dropdown-item" tabindex="-1" href="#">swaption <b class="caret-right"></b></a>
+                      <ul class="dropdown-menu">
+                        <a class="dropdown-item" onclick="load('/test-suite/bermudanswaption.mjs');">bermudan swaption</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/swaption.mjs');">swaption</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/swaptionvolatilitycube.mjs');">swaption volatility cube</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/swaptionvolatilitymatrix.mjs');">swaption volatility matrix</a>
+                      </ul>
+                  </li>
+                </ul>
+              </li>
+              <li class="dropdown-submenu">
+                  <a class="dropdown-item" tabindex="-1" href="#">model <b class="caret-right"></b></a>
+                  <ul class="dropdown-menu">
+                    <a class="dropdown-item" onclick="load('/test-suite/batesmodel.mjs');">bates model</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/garch.mjs');">garch</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/gjrgarchmodel.mjs');">gjr garch model</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/gsr.mjs');">gsr</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/hestonmodel.mjs');">heston model</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/hestonslvmodel.mjs');">heston slv model</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/jumpdiffusion.mjs');">jump diffusion</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/markovfunctional.mjs');">markov functional</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/normalclvmodel.mjs');">normal clv model</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/shortratemodels.mjs');">short rate models</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/squarerootclvmodel.mjs');">square root clv model</a>
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-item" tabindex="-1" href="#">market model <b class="caret-right"></b></a>
+                        <ul class="dropdown-menu">
+                          <a class="dropdown-item" onclick="load('/test-suite/marketmodel.mjs');">market model</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/marketmodel_cms.mjs');">market model cms</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/marketmodel_smm.mjs');">market model smm</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/marketmodel_smmcapletalphacalibration.mjs');">market model smm caplet alpha calibration</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/marketmodel_smmcapletcalibration.mjs');">market model smm caplet calibration</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/marketmodel_smmcaplethomocalibration.mjs');">market model smm caplet homo calibration</a>
+                        </ul>
+                      </li>
+                      <a class="dropdown-item" onclick="load('/test-suite/volatilitymodels.mjs');">volatility model</a>
+                  </ul>
+              </li>
+              <li class="dropdown-submenu">
+                <a class="dropdown-item" tabindex="-1" href="#">term structure <b class="caret-right"></b></a>
+                <ul class="dropdown-menu">
+                  <li class="dropdown-submenu">
+                      <a class="dropdown-item" tabindex="-1" href="#">credit <b class="caret-right"></b></a>
+                      <ul class="dropdown-menu">
+                        <a class="dropdown-item" onclick="load('/test-suite/defaultprobabilitycurves.mjs');">default probability curves</a>
+                      </ul>
+                  </li>
+                  <li class="dropdown-submenu">
+                    <a class="dropdown-item" tabindex="-1" href="#">inflation <b class="caret-right"></b></a>
+                    <ul class="dropdown-menu">
+                      <a class="dropdown-item" onclick="load('/test-suite/inflation.mjs');">inflation</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/inflationcpibond.mjs');">inflation cpi bond</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/inflationcpiswap.mjs');">inflation cpi swap</a>
+                    </ul>
+                  </li>
+                  <a class="dropdown-item" onclick="load('/test-suite/termstructures.mjs');">term structures</a>
+                  <li class="dropdown-submenu">
+                    <a class="dropdown-item" tabindex="-1" href="#">volatility <b class="caret-right"></b></a>
+                    <ul class="dropdown-menu">
+                      <a class="dropdown-item" onclick="load('/test-suite/andreasenhugevolatilityinterpl.mjs');">andreasen huge volatility interpl</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/inflationvolatility.mjs');">inflation volatility</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/optionletstripper.mjs');">optionlet stripper</a>
+                    </ul>
+                  </li>
+                  <li class="dropdown-submenu">
+                    <a class="dropdown-item" tabindex="-1" href="#">yield <b class="caret-right"></b></a>
+                    <ul class="dropdown-menu">
+                      <a class="dropdown-item" onclick="load('/test-suite/piecewiseyieldcurve.mjs');">piecewise yield curve</a>
+                      <a class="dropdown-item" onclick="load('/test-suite/piecewisezerospreadedtermstructure.mjs');">piecewise zerio spread term structure</a>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li class="dropdown-submenu">
+                  <a class="dropdown-item" tabindex="-1" href="#">experimental <b class="caret-right"></b></a>
+                  <ul class="dropdown-menu">
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-item" tabindex="-1" href="#">credit <b class="caret-right"></b></a>
+                        <ul class="dropdown-menu">
+                          <a class="dropdown-item" onclick="load('/test-suite/cdo.mjs');">cdo</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/cdsoption.mjs');">cds option</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/creditdefaultswap.mjs');">credit default swap</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/nthtodefault.mjs');">nth to default</a>
+                        </ul>
+                    </li>
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-item" tabindex="-1" href="#">commodity <b class="caret-right"></b></a>
+                        <ul class="dropdown-menu">
+                          <a class="dropdown-item" onclick="load('/test-suite/commodityunitofmeasure.mjs');">unit of measure</a>
+                        </ul>
+                    </li>
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-item" tabindex="-1" href="#">exotic options <b class="caret-right"></b></a>
+                        <ul class="dropdown-menu">
+                          <a class="dropdown-item" onclick="load('/test-suite/binaryoption.mjs');">binary option</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/chooseroption.mjs');">chooser option</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/compoundoption.mjs');">compound option</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/doublebarrieroption.mjs');">double barrier option</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/doublebinaryoption.mjs');">double binary option</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/digitaloption.mjs');">digital option</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/extensibleoptions.mjs');">extensible options</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/everestoption.mjs');">everest option</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/himalayaoption.mjs');">himalaya option</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/lookbackoptions.mjs');">lookback options</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/margrabeoption.mjs');">margrabe option</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/pagodaoption.mjs');">pagoda option</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/partialtimebarrieroption.mjs');">partial time barrier option</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/spreadoption.mjs');">spread option</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/swingoption.mjs');">swing option</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/twoassetbarrieroption.mjs');">two asset barrier option</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/twoassetcorrelationoption.mjs');">two asset correlation option</a>
+                        </ul>
+                    </li>
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-item" tabindex="-1" href="#">risk <b class="caret-right"></b></a>
+                        <ul class="dropdown-menu">
+                          <a class="dropdown-item" onclick="load('/test-suite/creditriskplus.mjs');">credit risk plus</a>
+                          <a class="dropdown-item" onclick="load('/test-suite/riskneutraldensitycalculator.mjs');">risk neutral density calculator</a>
+                        </ul>
+                    </li>
+                    <li class="dropdown-submenu">
+                      <a class="dropdown-item" tabindex="-1" href="#">variance <b class="caret-right"></b></a>
+                      <ul class="dropdown-menu">
+                        <a class="dropdown-item" onclick="load('/test-suite/variancegamma.mjs');">variance gamma</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/varianceoption.mjs');">variance optoin</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/varianceswaps.mjs');">variance swaps</a>
+                      </ul>
+                    </li>
+                    <li class="dropdown-submenu">
+                      <a class="dropdown-item" tabindex="-1" href="#">volatility <b class="caret-right"></b></a>
+                      <ul class="dropdown-menu">
+                        <a class="dropdown-item" onclick="load('/test-suite/vpp.mjs');">vpp</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/zabr.mjs');">zabr</a>
+                        <a class="dropdown-item" onclick="load('/test-suite/noarbsabr.mjs');">noarbsabr</a>
+                      </ul>
+                    </li>
+                  </ul>
+              </li>
+              <li class="dropdown-submenu">
+                  <a class="dropdown-item" tabindex="-1" href="#">legacy <b class="caret-right"></b></a>
+                  <ul class="dropdown-menu">
+                    <a class="dropdown-item" onclick="load('/test-suite/libormarketmodel.mjs');">libor market model</a>
+                    <a class="dropdown-item" onclick="load('/test-suite/libormarketmodelprocess.mjs');">libor market model process</a>
+                  </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="exampleDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <b>example</b>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <a class="dropdown-item" onclick="load('/examples/basketlosses.mjs');">basket losses</a>
+                <a class="dropdown-item" onclick="load('/examples/bermudanswaption.mjs');">bermudan swaption</a>
+                <a class="dropdown-item" onclick="load('/examples/bonds.mjs');">bonds</a>
+                <a class="dropdown-item" onclick="load('/examples/callablebonds.mjs');">callable bonds</a>
+                <a class="dropdown-item" onclick="load('/examples/cds.mjs');">cds</a>
+                <a class="dropdown-item" onclick="load('/examples/convertiblebonds.mjs');">convertible bonds</a>
+                <a class="dropdown-item" onclick="load('/examples/cvairs.mjs');">cvairs</a>
+                <a class="dropdown-item" onclick="load('/examples/discretehedging.mjs');">discrete hedging</a>
+                <a class="dropdown-item" onclick="load('/examples/equityoption.mjs');">equity option</a>
+                <a class="dropdown-item" onclick="load('/examples/fittedbondcurve.mjs');">fitted bond curve</a>
+                <a class="dropdown-item" onclick="load('/examples/fra.mjs');">fra</a>
+                <a class="dropdown-item" onclick="load('/examples/gaussian1dmodels.mjs');">gaussian 1d models</a>
+                <a class="dropdown-item" onclick="load('/examples/globaloptimizer.mjs');">global optimizer</a>
+                <a class="dropdown-item" onclick="load('/examples/latentmodel.mjs');">latent model</a>
+                <a class="dropdown-item" onclick="load('/examples/marketmodels.mjs');">market models</a>
+                <a class="dropdown-item" onclick="load('/examples/multidimintegral.mjs');">multi dim integral</a>
+                <a class="dropdown-item" onclick="load('/examples/replication.mjs');">replication</a>
+                <a class="dropdown-item" onclick="load('/examples/repo.mjs');">repo</a>
+                <a class="dropdown-item" onclick="load('/examples/swapvaluation.mjs');">swap valuation</a>
+              </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" target="_blank" href="/notebook"><b>notebook</b></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.npmjs.com/package/@quantlib/ql"><img src="https://img.shields.io/npm/v/@quantlib/ql.svg?style=flat" alt="npm version"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.jsdelivr.com/package/npm/@quantlib/ql"><img src="https://data.jsdelivr.com/v1/package/npm/@quantlib/ql/badge?style=rounded" alt="CDN"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://github.com/quantlibjs/ql"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" target="_blank" href="/blog"><img src="https://img.shields.io/badge/%C2%A9%202020-Jin%20Yang-brightgreen" alt="Copyright"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/quantlibjs"><img src="https://img.shields.io/twitter/follow/quantlibjs.svg?style=social&maxAge=3600" alt="Twitter Follow"></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="containter">
+      <div class="row no-gutters">
+        <div class="col-md-6 mx-auto order-md-1">
+          <main class="col-12" role="main">
+            <div id="landing">
+<h1>quantitative finance in javascript</h1>
+<ol>
+<li><a href="#user-content-introduction">introduction</a></li>
+<li><a href="#user-content-get-started">get started</a></li>
+<li><a href="#user-content-usage">how to use</a></li>
+<li><a href="#user-content-release-note">release note</a></li>
+<li><a href="#user-content-docs">api document</a></li>
+<li><a href="#user-content-test-suite--example">test suite &amp; example</a></li>
+<li><a href="#user-content-credit">credit</a></li>
+<li><a href="#user-content-resource">resource</a></li>
+</ol>
+<h2><a id="user-content-introduction" class="anchor" aria-hidden="true" href="#introduction"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>introduction</h2>
+<p><code>quantlib.js</code> aims to be a <strong>COMPLETE</strong> re-implementation of <code>C++</code> <a href="https://quantlib.org" rel="nofollow">QuantLib</a> in <code>javascript</code> language, <a href="https://emscripten.org/" rel="nofollow">emscripten</a> is <strong>NOT</strong> used. it can be used in web browser or node.js environment.</p>
+<h2><a id="user-content-get-started" class="anchor" aria-hidden="true" href="#get-started"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>get started</h2>
+<ol>
+<li>
+<p>open <a href="https://quantlib.js.org" rel="nofollow">https://quantlib.js.org</a> with morden web browser, like chrome, firefox, etc...</p>
+</li>
+<li>
+<p>select a <code>spec</code> or <code>example</code> from menu. <code>spec</code> source will be displayed on left panel, <code>spec</code> will be run with <a href="https://github.com/jasmine/jasmine">jasmine</a> by your web browser, and test result will be displayed on right panel</p>
+</li>
+</ol>
+<h2><a id="user-content-usage" class="anchor" aria-hidden="true" href="#usage"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>usage</h2>
+<h4><a id="user-content-load-from-cdn" class="anchor" aria-hidden="true" href="#load-from-cdn"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>load from CDN</h4>
+<ul>
+<li>latest version: <a href="https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs" rel="nofollow">https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs</a>
+or <a href="https://unpkg.com/@quantlib/ql@latest/ql.mjs" rel="nofollow">https://unpkg.com/@quantlib/ql@latest/ql.mjs</a></li>
+<li>version <code>x.y.z</code> : <a href="https://cdn.jsdelivr.net/npm/@quantlib/ql@x.y.z/ql.mjs" rel="nofollow">https://cdn.jsdelivr.net/npm/@quantlib/ql@x.y.z/ql.mjs</a>
+or <a href="https://unpkg.com/@quantlib/ql@x.y.z/ql.mjs" rel="nofollow">https://unpkg.com/@quantlib/ql@x.y.z/ql.mjs</a></li>
+</ul>
+<h4><a id="user-content-install-from-npm" class="anchor" aria-hidden="true" href="#install-from-npm"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>install from npm</h4>
+<pre><code>npm i @quantlib/ql
+</code></pre>
+<h4><a id="user-content-use-in-web-page" class="anchor" aria-hidden="true" href="#use-in-web-page"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>use in web page</h4>
+<p><code>ql.mjs</code> is <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules" rel="nofollow">ESM format</a>, when using in html script tag, make sure to have script type set to "module"</p>
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>module<span class="pl-pds">"</span></span>&gt;<span class="pl-s1"></span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">import</span> { <span class="pl-smi">Actual360</span>, <span class="pl-smi">AnalyticEuropeanEngine</span>, <span class="pl-smi">BlackConstantVol</span>, <span class="pl-smi">BlackScholesProcess</span>, <span class="pl-smi">DateExt</span>, <span class="pl-smi">EuropeanExercise</span>, <span class="pl-smi">EuropeanOption</span>, <span class="pl-smi">FlatForward</span>, <span class="pl-smi">Handle</span>, <span class="pl-smi">Option</span>, <span class="pl-smi">PlainVanillaPayoff</span>, <span class="pl-smi">Settings</span>, <span class="pl-smi">SimpleQuote</span>, <span class="pl-smi">TARGET</span> } <span class="pl-k">from</span> <span class="pl-s"><span class="pl-pds">'</span>https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">const</span> <span class="pl-c1">today</span> <span class="pl-k">=</span> <span class="pl-smi">DateExt</span>.<span class="pl-c1">UTC</span>(<span class="pl-s"><span class="pl-pds">'</span>7,March,2014<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"><span class="pl-smi">Settings</span>.<span class="pl-smi">evaluationDate</span>.<span class="pl-c1">set</span>(today);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">const</span> <span class="pl-c1">payoff</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">PlainVanillaPayoff</span>(<span class="pl-smi">Option</span>.<span class="pl-smi">Type</span>.<span class="pl-smi">Call</span>, <span class="pl-c1">100.0</span>);</span>
+<span class="pl-s1"><span class="pl-k">const</span> <span class="pl-c1">exercise</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">EuropeanExercise</span>(<span class="pl-smi">DateExt</span>.<span class="pl-c1">UTC</span>(<span class="pl-s"><span class="pl-pds">'</span>7,June,2014<span class="pl-pds">'</span></span>));</span>
+<span class="pl-s1"><span class="pl-k">const</span> <span class="pl-c1">option</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">EuropeanOption</span>(payoff, exercise);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">const</span> <span class="pl-c1">u</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">SimpleQuote</span>(<span class="pl-c1">100.0</span>);</span>
+<span class="pl-s1"><span class="pl-k">const</span> <span class="pl-c1">r</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">SimpleQuote</span>(<span class="pl-c1">0.01</span>);</span>
+<span class="pl-s1"><span class="pl-k">const</span> <span class="pl-c1">s</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">SimpleQuote</span>(<span class="pl-c1">0.2</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">const</span> <span class="pl-c1">riskFreeCurve</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">FlatForward</span>().<span class="pl-en">ffInit3</span>(<span class="pl-c1">0</span>, <span class="pl-k">new</span> <span class="pl-en">TARGET</span>(), <span class="pl-k">new</span> <span class="pl-en">Handle</span>(r), <span class="pl-k">new</span> <span class="pl-en">Actual360</span>());</span>
+<span class="pl-s1"><span class="pl-k">const</span> <span class="pl-c1">volatility</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">BlackConstantVol</span>().<span class="pl-en">bcvInit4</span>(<span class="pl-c1">0</span>, <span class="pl-k">new</span> <span class="pl-en">TARGET</span>(), <span class="pl-k">new</span> <span class="pl-en">Handle</span>(s), <span class="pl-k">new</span> <span class="pl-en">Actual360</span>());</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">const</span> <span class="pl-c1">process</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">BlackScholesProcess</span>(<span class="pl-k">new</span> <span class="pl-en">Handle</span>(u), <span class="pl-k">new</span> <span class="pl-en">Handle</span>(riskFreeCurve), <span class="pl-k">new</span> <span class="pl-en">Handle</span>(volatility));</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">const</span> <span class="pl-c1">engine</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">AnalyticEuropeanEngine</span>().<span class="pl-en">init1</span>(<span class="pl-c1">process</span>);</span>
+<span class="pl-s1"><span class="pl-smi">option</span>.<span class="pl-en">setPricingEngine</span>(engine);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">const</span> <span class="pl-c1">npv</span> <span class="pl-k">=</span> <span class="pl-smi">option</span>.<span class="pl-en">NPV</span>();</span>
+<span class="pl-s1"><span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">`</span>NPV = <span class="pl-s1"><span class="pl-pse">${</span>npv<span class="pl-pse">}</span></span><span class="pl-pds">`</span></span>);  <span class="pl-c"><span class="pl-c">//</span> 4.155543462156206</span></span>
+<span class="pl-s1"></span>
+
+<span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span></pre></div>
+<h4><a id="user-content-what-about-umd-formatstyle-javascript" class="anchor" aria-hidden="true" href="#what-about-umd-formatstyle-javascript"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>what about <code>UMD</code> format/style javascript?</h4>
+<p>You may use javascript dynamic <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#Dynamic_Import" rel="nofollow">import</a></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+
+<span class="pl-k">import</span><span class="pl-kos">(</span><span class="pl-s">'https://cdn.jsdelivr.net/npm/@quantlib/ql@latest/ql.mjs'</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">then</span><span class="pl-kos">(</span><span class="pl-smi">module</span><span class="pl-c1">=&gt;</span><span class="pl-kos">{</span>
+<span class="pl-smi">window</span><span class="pl-kos">.</span><span class="pl-c1">ql</span> <span class="pl-c1">=</span> <span class="pl-smi">module</span><span class="pl-kos">;</span>
+<span class="pl-en">test</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-kos">}</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+
+<span class="pl-k">function</span> <span class="pl-en">test</span><span class="pl-kos">(</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+<span class="pl-k">const</span> <span class="pl-s1">today</span> <span class="pl-c1">=</span> <span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">DateExt</span><span class="pl-kos">.</span><span class="pl-en">UTC</span><span class="pl-kos">(</span><span class="pl-s">'7,March,2014'</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">Settings</span><span class="pl-kos">.</span><span class="pl-c1">evaluationDate</span><span class="pl-kos">.</span><span class="pl-en">set</span><span class="pl-kos">(</span><span class="pl-s1">today</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+
+<span class="pl-k">const</span> <span class="pl-s1">payoff</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">PlainVanillaPayoff</span><span class="pl-kos">(</span><span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">Option</span><span class="pl-kos">.</span><span class="pl-c1">Type</span><span class="pl-kos">.</span><span class="pl-c1">Call</span><span class="pl-kos">,</span> <span class="pl-c1">100.0</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-k">const</span> <span class="pl-s1">exercise</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">EuropeanExercise</span><span class="pl-kos">(</span><span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">DateExt</span><span class="pl-kos">.</span><span class="pl-en">UTC</span><span class="pl-kos">(</span><span class="pl-s">'7,June,2014'</span><span class="pl-kos">)</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-k">const</span> <span class="pl-s1">option</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">EuropeanOption</span><span class="pl-kos">(</span><span class="pl-s1">payoff</span><span class="pl-kos">,</span> <span class="pl-s1">exercise</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+
+<span class="pl-k">const</span> <span class="pl-s1">u</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">SimpleQuote</span><span class="pl-kos">(</span><span class="pl-c1">100.0</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-k">const</span> <span class="pl-s1">r</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">SimpleQuote</span><span class="pl-kos">(</span><span class="pl-c1">0.01</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-k">const</span> <span class="pl-s1">s</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">SimpleQuote</span><span class="pl-kos">(</span><span class="pl-c1">0.2</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+
+<span class="pl-k">const</span> <span class="pl-s1">riskFreeCurve</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">FlatForward</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">ffInit3</span><span class="pl-kos">(</span><span class="pl-c1">0</span><span class="pl-kos">,</span> <span class="pl-k">new</span> <span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">TARGET</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">,</span> <span class="pl-k">new</span> <span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">Handle</span><span class="pl-kos">(</span><span class="pl-s1">r</span><span class="pl-kos">)</span><span class="pl-kos">,</span> <span class="pl-k">new</span> <span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">Actual360</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-k">const</span> <span class="pl-s1">volatility</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">BlackConstantVol</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">bcvInit4</span><span class="pl-kos">(</span><span class="pl-c1">0</span><span class="pl-kos">,</span> <span class="pl-k">new</span> <span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">TARGET</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">,</span> <span class="pl-k">new</span> <span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">Handle</span><span class="pl-kos">(</span><span class="pl-s1">s</span><span class="pl-kos">)</span><span class="pl-kos">,</span> <span class="pl-k">new</span> <span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">Actual360</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+
+<span class="pl-k">const</span> <span class="pl-s1">process</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">BlackScholesProcess</span><span class="pl-kos">(</span><span class="pl-k">new</span> <span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">Handle</span><span class="pl-kos">(</span><span class="pl-s1">u</span><span class="pl-kos">)</span><span class="pl-kos">,</span> <span class="pl-k">new</span> <span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">Handle</span><span class="pl-kos">(</span><span class="pl-s1">riskFreeCurve</span><span class="pl-kos">)</span><span class="pl-kos">,</span> <span class="pl-k">new</span> <span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">Handle</span><span class="pl-kos">(</span><span class="pl-s1">volatility</span><span class="pl-kos">)</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+
+<span class="pl-k">const</span> <span class="pl-s1">engine</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-s1">ql</span><span class="pl-kos">.</span><span class="pl-c1">AnalyticEuropeanEngine</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">init1</span><span class="pl-kos">(</span><span class="pl-s1">process</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-s1">option</span><span class="pl-kos">.</span><span class="pl-en">setPricingEngine</span><span class="pl-kos">(</span><span class="pl-s1">engine</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+
+<span class="pl-k">const</span> <span class="pl-s1">npv</span> <span class="pl-c1">=</span> <span class="pl-s1">option</span><span class="pl-kos">.</span><span class="pl-en">NPV</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s">`NPV = <span class="pl-s1"><span class="pl-kos">${</span><span class="pl-s1">npv</span><span class="pl-kos">}</span></span>`</span><span class="pl-kos">)</span><span class="pl-kos">;</span>  <span class="pl-c">// 4.155543462156206</span>
+<span class="pl-kos">}</span>
+
+<span class="pl-s1"></span>&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+<h4><a id="user-content-use-in-nodejs" class="anchor" aria-hidden="true" href="#use-in-nodejs"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>use in node.js</h4>
+<p><code>quantlib.js</code> works in <code>node.js</code> environment. after installing with <code>npm</code>, pass <code>--experimental-modules</code> to <code>node</code> to use ESM javascript file</p>
+<div class="highlight highlight-source-shell"><pre>node --experimental-modules test.mjs</pre></div>
+<p>in <code>test.mjs</code></p>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">import</span> { <span class="pl-smi">Actual360</span>, <span class="pl-smi">AnalyticEuropeanEngine</span>, <span class="pl-smi">BlackConstantVol</span>, <span class="pl-smi">BlackScholesProcess</span>, <span class="pl-smi">DateExt</span>, <span class="pl-smi">EuropeanExercise</span>, <span class="pl-smi">EuropeanOption</span>, <span class="pl-smi">FlatForward</span>, <span class="pl-smi">Handle</span>, <span class="pl-smi">Option</span>, <span class="pl-smi">PlainVanillaPayoff</span>, <span class="pl-smi">Settings</span>, <span class="pl-smi">SimpleQuote</span>, <span class="pl-smi">TARGET</span> } <span class="pl-k">from</span> <span class="pl-s"><span class="pl-pds">'</span>@quantlib/ql<span class="pl-pds">'</span></span>;
+
+<span class="pl-k">const</span> <span class="pl-c1">today</span> <span class="pl-k">=</span> <span class="pl-smi">DateExt</span>.<span class="pl-c1">UTC</span>(<span class="pl-s"><span class="pl-pds">'</span>7,March,2014<span class="pl-pds">'</span></span>);
+<span class="pl-smi">Settings</span>.<span class="pl-smi">evaluationDate</span>.<span class="pl-c1">set</span>(today);
+
+<span class="pl-k">const</span> <span class="pl-c1">payoff</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">PlainVanillaPayoff</span>(<span class="pl-smi">Option</span>.<span class="pl-smi">Type</span>.<span class="pl-smi">Call</span>, <span class="pl-c1">100.0</span>);
+<span class="pl-k">const</span> <span class="pl-c1">exercise</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">EuropeanExercise</span>(<span class="pl-smi">DateExt</span>.<span class="pl-c1">UTC</span>(<span class="pl-s"><span class="pl-pds">'</span>7,June,2014<span class="pl-pds">'</span></span>));
+<span class="pl-k">const</span> <span class="pl-c1">option</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">EuropeanOption</span>(payoff, exercise);
+
+<span class="pl-k">const</span> <span class="pl-c1">u</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">SimpleQuote</span>(<span class="pl-c1">100.0</span>);
+<span class="pl-k">const</span> <span class="pl-c1">r</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">SimpleQuote</span>(<span class="pl-c1">0.01</span>);
+<span class="pl-k">const</span> <span class="pl-c1">s</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">SimpleQuote</span>(<span class="pl-c1">0.2</span>);
+
+<span class="pl-k">const</span> <span class="pl-c1">riskFreeCurve</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">FlatForward</span>().<span class="pl-en">ffInit3</span>(<span class="pl-c1">0</span>, <span class="pl-k">new</span> <span class="pl-en">TARGET</span>(), <span class="pl-k">new</span> <span class="pl-en">Handle</span>(r), <span class="pl-k">new</span> <span class="pl-en">Actual360</span>());
+<span class="pl-k">const</span> <span class="pl-c1">volatility</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">BlackConstantVol</span>().<span class="pl-en">bcvInit4</span>(<span class="pl-c1">0</span>, <span class="pl-k">new</span> <span class="pl-en">TARGET</span>(), <span class="pl-k">new</span> <span class="pl-en">Handle</span>(s), <span class="pl-k">new</span> <span class="pl-en">Actual360</span>());
+
+<span class="pl-k">const</span> <span class="pl-c1">process</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">BlackScholesProcess</span>(<span class="pl-k">new</span> <span class="pl-en">Handle</span>(u), <span class="pl-k">new</span> <span class="pl-en">Handle</span>(riskFreeCurve), <span class="pl-k">new</span> <span class="pl-en">Handle</span>(volatility));
+
+<span class="pl-k">const</span> <span class="pl-c1">engine</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">AnalyticEuropeanEngine</span>().<span class="pl-en">init1</span>(<span class="pl-c1">process</span>);
+<span class="pl-smi">option</span>.<span class="pl-en">setPricingEngine</span>(engine);
+
+<span class="pl-k">const</span> <span class="pl-c1">npv</span> <span class="pl-k">=</span> <span class="pl-smi">option</span>.<span class="pl-en">NPV</span>();
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">`</span>NPV = <span class="pl-s1"><span class="pl-pse">${</span>npv<span class="pl-pse">}</span></span><span class="pl-pds">`</span></span>);  <span class="pl-c"><span class="pl-c">//</span> 4.155543462156206</span></pre></div>
+<h4><a id="user-content-typescript" class="anchor" aria-hidden="true" href="#typescript"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>typescript</h4>
+<p><code>ql.d.ts</code> is published along with <code>ql.mjs</code></p>
+<p>write code in typescript, then compile with <code>tsc</code> or run with <code>ts-node</code></p>
+<p>in <code>test.ts</code></p>
+<div class="highlight highlight-source-ts"><pre><span class="pl-k">import</span> {<span class="pl-smi">Actual360</span>, <span class="pl-smi">AnalyticEuropeanEngine</span>, <span class="pl-smi">BlackConstantVol</span>, <span class="pl-smi">BlackScholesProcess</span>, <span class="pl-smi">BlackVolTermStructure</span>, <span class="pl-smi">DateExt</span>, <span class="pl-smi">EuropeanExercise</span>, <span class="pl-smi">EuropeanOption</span>, <span class="pl-smi">Exercise</span>, <span class="pl-smi">FlatForward</span>, <span class="pl-smi">GeneralizedBlackScholesProcess</span>, <span class="pl-smi">Handle</span>, <span class="pl-smi">Option</span>, <span class="pl-smi">PlainVanillaPayoff</span>, <span class="pl-smi">PricingEngine</span>, <span class="pl-smi">Quote</span>, <span class="pl-smi">Real</span>, <span class="pl-smi">Settings</span>, <span class="pl-smi">SimpleQuote</span>, <span class="pl-smi">StrikedTypePayoff</span>, <span class="pl-smi">TARGET</span>, <span class="pl-smi">YieldTermStructure</span>} <span class="pl-k">from</span> <span class="pl-s"><span class="pl-pds">'</span>@quantlib/ql<span class="pl-pds">'</span></span>;
+
+<span class="pl-k"><span class="pl-k">const</span></span> today<span class="pl-k">:</span> <span class="pl-en">Date</span> <span class="pl-k">=</span> <span class="pl-smi">DateExt</span>.<span class="pl-c1">UTC</span>(<span class="pl-s"><span class="pl-pds">'</span>7,March,2014<span class="pl-pds">'</span></span>);
+<span class="pl-smi">Settings</span>.<span class="pl-smi">evaluationDate</span>.<span class="pl-c1">set</span>(<span class="pl-smi">today</span>);
+
+<span class="pl-k"><span class="pl-k">const</span></span> payoff<span class="pl-k">:</span> <span class="pl-en">StrikedTypePayoff</span> <span class="pl-k">=</span>
+    <span class="pl-k">new</span> <span class="pl-en">PlainVanillaPayoff</span>(<span class="pl-smi">Option</span>.<span class="pl-smi">Type</span>.<span class="pl-smi">Call</span>, <span class="pl-c1">100.0</span>);
+<span class="pl-k"><span class="pl-k">const</span></span> exercise<span class="pl-k">:</span> <span class="pl-en">Exercise</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">EuropeanExercise</span>(<span class="pl-smi">DateExt</span>.<span class="pl-c1">UTC</span>(<span class="pl-s"><span class="pl-pds">'</span>7,June,2014<span class="pl-pds">'</span></span>));
+<span class="pl-k"><span class="pl-k">const</span></span> option<span class="pl-k">:</span> <span class="pl-en">EuropeanOption</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">EuropeanOption</span>(<span class="pl-smi">payoff</span>, <span class="pl-smi">exercise</span>);
+
+<span class="pl-k"><span class="pl-k">const</span></span> u<span class="pl-k">:</span> <span class="pl-en">Quote</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">SimpleQuote</span>(<span class="pl-c1">100.0</span>);
+<span class="pl-k"><span class="pl-k">const</span></span> r<span class="pl-k">:</span> <span class="pl-en">Quote</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">SimpleQuote</span>(<span class="pl-c1">0.01</span>);
+<span class="pl-k"><span class="pl-k">const</span></span> s<span class="pl-k">:</span> <span class="pl-en">Quote</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">SimpleQuote</span>(<span class="pl-c1">0.2</span>);
+
+<span class="pl-k"><span class="pl-k">const</span></span> riskFreeCurve<span class="pl-k">:</span> <span class="pl-en">YieldTermStructure</span> <span class="pl-k">=</span>
+    <span class="pl-k">new</span> <span class="pl-en">FlatForward</span>().<span class="pl-en">ffInit3</span>(<span class="pl-c1">0</span>, <span class="pl-k">new</span> <span class="pl-en">TARGET</span>(), <span class="pl-k">new</span> <span class="pl-en">Handle</span>(<span class="pl-smi">r</span>), <span class="pl-k">new</span> <span class="pl-en">Actual360</span>());
+<span class="pl-k"><span class="pl-k">const</span></span> volatility<span class="pl-k">:</span> <span class="pl-en">BlackVolTermStructure</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">BlackConstantVol</span>().<span class="pl-en">bcvInit4</span>(
+    <span class="pl-c1">0</span>, <span class="pl-k">new</span> <span class="pl-en">TARGET</span>(), <span class="pl-k">new</span> <span class="pl-en">Handle</span>(<span class="pl-smi">s</span>), <span class="pl-k">new</span> <span class="pl-en">Actual360</span>());
+
+<span class="pl-k"><span class="pl-k">const</span></span> process<span class="pl-k">:</span> <span class="pl-en">GeneralizedBlackScholesProcess</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">BlackScholesProcess</span>(
+    <span class="pl-k">new</span> <span class="pl-en">Handle</span>(<span class="pl-smi">u</span>), <span class="pl-k">new</span> <span class="pl-en">Handle</span>(<span class="pl-smi">riskFreeCurve</span>), <span class="pl-k">new</span> <span class="pl-en">Handle</span>(<span class="pl-smi">volatility</span>));
+
+<span class="pl-k"><span class="pl-k">const</span></span> engine<span class="pl-k">:</span> <span class="pl-en">PricingEngine</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">AnalyticEuropeanEngine</span>().<span class="pl-en">init1</span>(<span class="pl-c1">process</span>);
+<span class="pl-smi">option</span>.<span class="pl-en">setPricingEngine</span>(<span class="pl-smi">engine</span>);
+
+<span class="pl-k"><span class="pl-k">const</span></span> npv<span class="pl-k">:</span> <span class="pl-en">Real</span> <span class="pl-k">=</span> <span class="pl-smi">option</span>.<span class="pl-en">NPV</span>();
+<span class="pl-c1">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">`</span>NPV = ${<span class="pl-smi">npv</span>}<span class="pl-pds">`</span></span>); <span class="pl-c"><span class="pl-c">//</span> 4.155543462156206</span></pre></div>
+<h2><a id="user-content-release-note" class="anchor" aria-hidden="true" href="#release-note"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>release note</h2>
+<table>
+<thead>
+<tr>
+<th>version</th>
+<th>notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.3.3</td>
+<td>fixed most <code>asianoption</code> specs</td>
+</tr>
+<tr>
+<td>0.3.2</td>
+<td>fixed <code>swaption</code>, most of <code>short-rate models</code> specs and some other pricing specs, and part of <code>bermudanswaption</code> example</td>
+</tr>
+<tr>
+<td>0.3.1</td>
+<td>examples code cleanup, fixed 4 examples, <code>global optimizers</code> example DE tests passed</td>
+</tr>
+<tr>
+<td>0.3.0</td>
+<td>fixed 40+ pricing specs, started working on model tests</td>
+</tr>
+<tr>
+<td>0.2.7</td>
+<td>fixed <code>default probability curves</code> specs</td>
+</tr>
+<tr>
+<td>0.2.6</td>
+<td>fixed most <code>european option</code> test, tree engine cleanup</td>
+</tr>
+<tr>
+<td>0.2.5</td>
+<td>fixed <code>piecewise zero spreaded</code> term structure, <code>brownian bridge</code>, 4 <code>american options</code> specs, FD engine cleanup</td>
+</tr>
+<tr>
+<td>0.2.4</td>
+<td>fixed <code>risk statistics</code>, <code>brownian bridge</code> some <code>piecewise yield curve</code> specs</td>
+</tr>
+<tr>
+<td>0.2.3</td>
+<td>fixed <code>termstructure</code> spec, <code>experimental Gaussian quadratures</code> specs</td>
+</tr>
+<tr>
+<td>0.2.2</td>
+<td>termstructure constructor cleanup, fixed a few simple ts specs</td>
+</tr>
+<tr>
+<td>0.2.1</td>
+<td>add <code>halley</code>, <code>halleysafe</code>, <code>inverseIncompleteGammaFunction</code> from QuantLib-noBoost, fixed <code>blackdeltacalculator</code></td>
+</tr>
+<tr>
+<td>0.2.0</td>
+<td>started working on instrument pricing specs, fixed some old test that passed before</td>
+</tr>
+<tr>
+<td>0.1.x</td>
+<td>most math specs passed</td>
+</tr>
+<tr>
+<td>0.0.x</td>
+<td>date&amp;time, patterns, currency, misc specs passed</td>
+</tr>
+</tbody>
+</table>
+<h2><a id="user-content-docs" class="anchor" aria-hidden="true" href="#docs"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>docs</h2>
+<ul>
+<li><a href="https://quantlib.js.org/docs" rel="nofollow">https://quantlib.js.org/docs</a></li>
+<li>official c++ quantlib doc: <a href="https://www.quantlib.org/reference/" rel="nofollow">https://www.quantlib.org/reference/</a></li>
+</ul>
+<h2><a id="user-content-test-suite--example" class="anchor" aria-hidden="true" href="#test-suite--example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test-suite &amp; example</h2>
+<p>A static <a href="https://quantlib.js.org/test-suite/" rel="nofollow">report</a> is updated regularly, so you could see the overall test status. C++ <a href="https://quantlib.js.org/examples/" rel="nofollow">example output</a> for reference</p>
+<p>source code in ESM <code>javascript</code>:</p>
+<ul>
+<li><a href="https://github.com/quantlibjs/test-suite">https://github.com/quantlibjs/test-suite</a></li>
+<li><a href="https://github.com/quantlibjs/examples">https://github.com/quantlibjs/examples</a></li>
+</ul>
+<p>converted from the <code>c++</code> <a href="https://www.quantlib.org/" rel="nofollow">quantlib</a> <a href="https://github.com/lballabio/QuantLib/tree/master/test-suite">test-suite</a> &amp; <a href="https://github.com/lballabio/QuantLib/tree/master/Examples">Examples</a></p>
+<p>these are the code loaded and executed in <a href="https://quantlib.js.org" rel="nofollow">https://quantlib.js.org</a></p>
+<h2><a id="user-content-credit" class="anchor" aria-hidden="true" href="#credit"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>credit</h2>
+<ul>
+<li>C++ QuantLib project: <a href="https://quantlib.org" rel="nofollow">https://quantlib.org</a></li>
+<li>C++ QuantLib-noboost: <a href="https://github.com/haozhangphd/QuantLib-noBoost">https://github.com/haozhangphd/QuantLib-noBoost</a></li>
+<li>mathjs: <a href="https://mathjs.org" rel="nofollow">https://mathjs.org</a></li>
+<li>phosphor: <a href="https://github.com/phosphorjs/phosphor">https://github.com/phosphorjs/phosphor</a></li>
+<li>js.org: <a href="https://github.com/js-org/js.org">https://github.com/js-org/js.org</a></li>
+</ul>
+<h2><a id="user-content-resource" class="anchor" aria-hidden="true" href="#resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>resource</h2>
+<ul>
+<li>Google group: <a href="https://groups.google.com/d/forum/quantlibjs/" rel="nofollow">https://groups.google.com/d/forum/quantlibjs/</a></li>
+<li>Follow us on Twitter: <a href="https://twitter.com/quantlibjs" rel="nofollow">@quantlibjs</a></li>
+<li>Facebook page: <a href="https://www.facebook.com/quantlibjs/" rel="nofollow">https://www.facebook.com/quantlibjs/</a></li>
+<li>blog: <a href="https://quantlib.js.org/blog/" rel="nofollow">https://quantlib.js.org/blog/</a></li>
+<li>notebook: <a href="https://observablehq.com/@quantlib" rel="nofollow">https://observablehq.com/@quantlib</a></li>
+</ul>
+            </div>
+          </main>
+          <pre><code></code></pre>
+        </div>
+        <div id="report" class="col-md-6 mx-auto order-md-2 embed-responsive embed-responsive-1by1">
+            <iframe src="/test-suite/jasmine.html"></iframe>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.10/build/highlight.min.js"></script>
+    <script>
+      function load(spec){
+        fetch(spec).then(response=>{
+          return response.text();
+        }).then(code=>{
+          $('#landing').remove();
+          $('code').remove();
+          $('pre').append('<code class="javascript"></code>');
+          $('code').html(code);
+          $('pre code:not(.hljs)').each((i, block) => {
+            hljs.highlightBlock(block);
+          });
+          $('#report').empty();
+          $('#report').append('<iframe sandbox="allow-same-origin allow-scripts" class="embed-responsive-item"></iframe>');
+        }).then(()=>{
+          fetch('https://cdn.jsdelivr.net/npm/@quantlib/misc@latest/report.html').then(response=>{
+            return response.text();
+          }).then(html=>{
+            html = html.replace(/<!---->/,
+            `<script type=\"module\" src=\"${spec}\"><\/script>`);
+            const doc = document.getElementsByTagName('iframe')[0].contentWindow.document;
+            doc.write(html);
+            doc.close();
+          });
+        }).catch(error=>{
+          console.log(`load error: ${error.message}`);
+        });
+      }
+    </script>
+  </body>
+</html>
